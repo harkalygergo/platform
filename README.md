@@ -13,7 +13,8 @@ Platform is a multisite and multilingual compatible Symfony-based web applicatio
 ### Install
 
 1. Download the source code. (E.g.: `git clone ...`)
-2. Install dependencies: `composer install`
+2. Copy `.env.dist` to `.env` and modify it's content if it's necessary.
+3. Install dependencies: `composer install`
 
 ---
 ## Main components
