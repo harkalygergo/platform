@@ -2,12 +2,20 @@
 Platform is a multisite and multilingual compatible Symfony-based web application for growing any business online. Free and open-source, and always will be.
 
 ---
-
 ## Requirements
 
 - PHP 8.2
 - MySQL 7
 
+---
+## Usage
+
+### Install
+
+1. Download the source code. (E.g.: `git clone ...`)
+2. Install dependencies: `composer install`
+
+---
 ## Main components
 In ABC sort, mainly always the latest stable version.
 
@@ -17,9 +25,7 @@ In ABC sort, mainly always the latest stable version.
 - Symfony (https://symfony.com/)
 - Twig (https://twig.symfony.com/)
 
-## Usage
+---
+## About
 
-### Install
-
-1. Download the source code. (E.g.: `git clone ...`)
-2. Install dependencies: `composer install`
+Platform created by `harkalygergo` (https://github.com/harkalygergo) from Budapest with `symfony new platform` script and `README.md` file added and modified. Also added `.editorconfig` file for PhpStorm.
