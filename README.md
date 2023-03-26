@@ -3,6 +3,11 @@ Platform is a multisite and multilingual compatible Symfony-based web applicatio
 
 ---
 
+## Requirements
+
+- PHP 8.2
+- MySQL 7
+
 ## Main components
 In ABC sort, mainly always the latest stable version.
 
