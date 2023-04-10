@@ -1,0 +1,40 @@
+{% block head %}
+<!DOCTYPE html>
+<html lang="hu" class="">
+<head>
+    <!--
+    Ha itt jársz, mindenképpen küljd e-mailt!
+    -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="robots" content="index,follow">
+    <!-- Facebook OpenGraph | https://developers.facebook.com/docs/sharing/best-practices -->
+    <meta property="og:title" content="Karrier | Medior / senior full stack webfejlesztő">
+    <meta property="og:site_name" content="Karrier">
+    <meta property="og:url" content="https://www.harkalygergo.hu/karrier/">
+    <meta property="og:description" content="Medior / senior full-stack webfejlesztőt keres egy kreatív stúdió, amelynek a sokoldalú dizájn és az izgalmas illusztrációk tervezése a hivatása. Fontos célunk a szépség, az egyedi grafikai megoldások, valamint a minőség megteremtése és megóvása.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="hu_HU">
+    <meta property="og:image" content="https://www.paperstories.hu/wp-content/uploads/2022/10/paper-stories-karrier-webfejleszto_pexelscom-lukas-574071.jpg">
+    <!--meta property="article:author" content="https://www.facebook.com/paperstories.hu">
+    <meta property="article:publisher" content="https://www.facebook.com/paperstories.hu"-->
+    <!-- /Facebook OpenGraph -->
+
+    <title>Karrier | Medior / senior full stack webfejlesztő</title>
+    <style>
+        body {
+            font-family: 'Josefin Sans', sans-serif;
+        }
+    </style>
+</head>
+<body>
+{% endblock %}
+
+{% block content %}
+    {{ content|raw }}
+{% endblock %}
+
+{% block footer %}
+</body>
+</html>
+{% endblock %}
