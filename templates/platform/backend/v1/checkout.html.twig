@@ -42,7 +42,7 @@
                                                     {{ attribute(td, thKey) ? '&#9989;' : '&#10060;' }}
                                                 {% else %}
                                                     {% set variable = attribute(td, thKey) %}
-                                                    {{ variable }}
+                                                    {{ variable|trans }}
                                                 {% endif %}
                                             </td>
                                         {% endfor %}
@@ -89,7 +89,7 @@
                                                     {{ attribute(td, thKey) ? '&#9989;' : '&#10060;' }}
                                                 {% else %}
                                                     {% set variable = attribute(td, thKey) %}
-                                                    {{ variable }}
+                                                    {{ variable|trans }}
                                                 {% endif %}
                                             </td>
                                         {% endfor %}
