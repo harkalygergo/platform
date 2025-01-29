@@ -3,6 +3,7 @@
 namespace App\Controller\Platform;
 
 use App\Controller\Platform\Backend\SidebarController;
+use App\Entity\Platform\Instance;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -13,12 +14,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PlatformController extends AbstractController
 {
     protected ?SidebarController $sidebarController = null;
+    protected ?Instance $currentInstance;
     public function __construct(
         protected RequestStack $requestStack,
         protected \Doctrine\Persistence\ManagerRegistry $doctrine,
         protected TranslatorInterface $translator,
         protected KernelInterface $kernel
     ) {
+        $instance = $this->doctrine->getRepository(Instance::class)->find($_COOKIE['currentInstance'] ?? null);
+        $this->currentInstance = $instance ?? null;
     }
 
     public function getPlatformBasicEnviroments()

@@ -32,7 +32,7 @@ class ClientController extends PlatformController
                 'email' => 'E-mail',
                 'comment' => $this->translator->trans('global.comment'),
             ],
-            'tableBody' => $clientRepository->findBy(['instance' => $this->getUser()->getInstances()->first()]),
+            'tableBody' => $clientRepository->findBy(['instance' => $this->currentInstance]),
             'actions' => [
                 'edit',
             ],
