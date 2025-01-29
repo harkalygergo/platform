@@ -79,6 +79,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Instance::class, mappedBy: 'owner', orphanRemoval: true, cascade: ['persist'])]
     private Collection $ownInstances;
 
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    private ?Instance $defaultInstance;
+
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Cart $cart = null;
 
@@ -336,6 +339,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /*
     public function getDefaultInstance()
     {
         return $this->instances->first();
@@ -345,6 +349,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->instances->add($instance);
     }
+    */
 
     public function getOwnInstances(): Collection
     {
@@ -354,6 +359,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setOwnInstances(Collection $ownInstances): void
     {
         $this->ownInstances = $ownInstances;
+    }
+
+    public function addOwnInstance(Instance $instance): self
+    {
+        if (!$this->ownInstances->contains($instance)) {
+            $this->ownInstances->add($instance);
+            $instance->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnInstance(Instance $instance): self
+    {
+        if ($this->ownInstances->removeElement($instance)) {
+            // set the owning side to null (unless already changed)
+            if ($instance->getOwner() === $this) {
+                $instance->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDefaultInstance(): ?Instance
+    {
+        return $this->defaultInstance;
+    }
+
+    public function setDefaultInstance(?Instance $defaultInstance): self
+    {
+        $this->defaultInstance = $defaultInstance;
+
+        return $this;
     }
 
     public function getSalt(): ?string

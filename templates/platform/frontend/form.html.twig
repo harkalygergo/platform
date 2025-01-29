@@ -10,6 +10,11 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            {% for message in app.flashes('warning') %}
+                <div class="alert alert-warning">
+                    {{ message }}
+                </div>
+            {% endfor %}
 
             <h1 class="fs-5 fw-bold text-uppercase">{{ title }}</h1>
             <hr>

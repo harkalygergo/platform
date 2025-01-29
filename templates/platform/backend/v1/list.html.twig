@@ -11,6 +11,11 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            {% for message in app.flashes('danger') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
 
         </div>
         <div class="card">
@@ -96,13 +101,25 @@
                                 </td>
                                 <td class="text-end">
                                     {% if actions is defined %}
+                                        {% if 'switch' in actions %}
+                                            {% if app.user.defaultInstance.id == td.id %}
+                                                <span class="badge bg-secondary">
+                                                    alapértelmezett
+                                                </span>
+                                            {% endif %}
+                                            {% if app.request.cookies.get('currentInstance') != td.id %}
+                                                <a class="btn btn-sm btn-success" title="{{ 'action.view'|trans }}" href="{{ path('admin_v1_instances_switch',  { instance: td.id }) }}">
+                                                    <i class="bi bi-briefcase"></i> <span class="d-none d-sm-inline-block">átváltás</span>
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
                                         {% if 'view' in actions %}
                                             <a class="btn btn-sm btn-primary" title="{{ 'action.view'|trans }}" href="#{{ td.id}}">
                                                 <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
                                             </a>
                                         {% endif %}
                                         {% if 'edit' in actions %}
-                                            <a class="btn btn-sm btn-warning text-nowrap" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
+                                            <a class="btn btn-sm btn-outline-primary text-nowrap" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
                                                 <i class="bi bi-pen"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
                                             </a>
                                         {% endif %}

@@ -70,7 +70,7 @@
 {% block body %}
 
 
-    <nav class="navbar navbar-expand navbar-dark bg-black p-0 m-0" style="border-bottom:1px solid gray;" aria-label="Second navbar example">
+    <nav class="navbar navbar-expand navbar-dark bg-dark border-bottom border-dark-subtle p-0 m-0" aria-label="Second navbar example">
         <div class="container-fluid">
             <a class="navbar-brand fs-6 text-warning p-0 m-0" href="{{ path('admin_v1_dashboard') }}">
 
@@ -85,7 +85,7 @@
                                 Platform
                             </b>
                             {% if app.user %}
-                                <br>{{ app.user.instances.first.name }}
+                                <br>{{ currentInstance.name }}
                             {% endif %}
                         </td>
                     </tr>

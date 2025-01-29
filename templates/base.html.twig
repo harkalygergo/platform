@@ -2,6 +2,13 @@
     {% set cart = app.user.cart %}
 {% endif %}
 
+{% set currentInstance = app.request.cookies.get('currentInstance') %}
+{% for userInstance in app.user.instances %}
+    {% if userInstance.id == app.request.cookies.get('currentInstance') %}
+        {% set currentInstance = userInstance %}
+    {% endif %}
+{% endfor %}
+
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}" data-bs-theme="{% if app.user is null %}dark{% else %}auto{% endif %}">
     <head>

@@ -36,8 +36,6 @@ class LoginController extends PlatformController
     #[Route('/{_locale}/admin/v1', name: 'login')]
     public function index(Request $request, Security $security): Response
     {
-        //dump($_POST);
-        //dd($request->getMethod());
         // if i is a posted request, redirect to the dashboard
         if ($request->isMethod('POST')) {
             $postedData = $request->request->all();
@@ -54,6 +52,12 @@ class LoginController extends PlatformController
 
                     $user->setLastLogin(new \DateTimeImmutable());
                     $this->doctrine->getManager()->flush();
+
+                    // set user's defaultInstance to cookie
+                    $defaultInstance = $user->getDefaultInstance();
+                    if ($defaultInstance) {
+                        setcookie('currentInstance', $defaultInstance->getId(), time() + 60 * 60 * 24 * 30, '/');
+                    }
 
                     return $this->redirectToRoute('admin_v1_dashboard');
                 }
@@ -102,7 +106,7 @@ class LoginController extends PlatformController
 
                 $this->sendMail($mailer, $logger, $toAddresses,
                     $this->translator->trans('account.reset password'),
-                    $email."\n\n".$newPassword
+                    date('Y-m-d H:i:s')."\n\n".$email."\n\n".$newPassword
                 );
             }
 
