@@ -21,7 +21,10 @@ class PlatformController extends AbstractController
         protected TranslatorInterface $translator,
         protected KernelInterface $kernel
     ) {
-        $instance = $this->doctrine->getRepository(Instance::class)->find($_COOKIE['currentInstance'] ?? null);
+        if (isset($_COOKIE['currentInstance'])) {
+            $instance = $this->doctrine->getRepository(Instance::class)->find($_COOKIE['currentInstance'] ?? null);
+        }
+
         $this->currentInstance = $instance ?? null;
     }
 
