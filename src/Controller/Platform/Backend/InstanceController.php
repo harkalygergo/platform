@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_USER)]
 class InstanceController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/instances', name: 'admin_v1_instances')]
+    #[Route('/{_locale}/admin/v1/instances/', name: 'admin_v1_instances')]
     public function index(Request $request): Response
     {
         $user = $this->getUser();
@@ -29,9 +29,6 @@ class InstanceController extends PlatformController
             'tableBody' => $instances,
             'actions' => [
                 'switch',
-                'view',
-                'edit',
-                'delete',
             ],
         ]);
     }

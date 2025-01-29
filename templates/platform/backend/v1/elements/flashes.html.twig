@@ -1,0 +1,7 @@
+{% for flashesKey, flashesValue in app.flashes %}
+    {% for message in flashesValue %}
+        <div class="alert alert-{{ flashesKey }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
