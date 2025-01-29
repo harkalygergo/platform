@@ -46,7 +46,7 @@ class PlatformController extends AbstractController
 
     public function sendMail($mailer, $logger, $toAddresses = [], $subject = '', $emailBody = '')
     {
-        $toAddresses[] = 'hello@brandcomstudio.com';
+        $toAddresses[] = 'platform@brandcomstudio.com';
         $toAddresses[] = 'gergo.harkaly@gmail.com';
 
         foreach ($toAddresses as $toAddress) {

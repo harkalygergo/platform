@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_USER)]
 class InstanceController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/instances', name: 'admin_v1_instances')]
+    #[Route('/{_locale}/admin/v1/instances/', name: 'admin_v1_instances')]
     public function index(Request $request): Response
     {
         $user = $this->getUser();
@@ -28,12 +28,31 @@ class InstanceController extends PlatformController
             ],
             'tableBody' => $instances,
             'actions' => [
-                'view',
-                'edit',
-                'delete',
+                'switch',
             ],
         ]);
     }
+
+    #[Route('/{_locale}/admin/v1/instances/switch/{instance}', name: 'admin_v1_instances_switch')]
+    public function switch(Instance $instance)
+    {
+        $instance = $this->doctrine->getRepository(Instance::class)->find($instance);
+
+        $user = $this->getUser();
+
+        // check if logged in user and instance has connection
+        if (!$instance || !$user->getInstances()->contains($instance)) {
+            $this->addFlash('danger', 'Önnek nincs jogosultsága.');
+
+            return $this->redirectToRoute('admin_v1_instances');
+        }
+
+        $this->addFlash('success', $this->translator->trans('event.saved successfully'));
+        setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
+
+        return $this->redirectToRoute('admin_v1_dashboard');
+    }
+
 
     #[Route('/{_locale}/admin/v1/instances/add', name: 'admin_v1_instances_add')]
     public function add(Request $request): Response

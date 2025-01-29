@@ -2,7 +2,11 @@
 
 namespace App\Form\Platform;
 
+use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -12,8 +16,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
+    private $entityManager;
+    private $security;
+
+    public function __construct(EntityManagerInterface $entityManager, Security $security)
+    {
+        $this->entityManager = $entityManager;
+        $this->security = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $this->security->getUser();
+        $userInstances = $user->getInstances();
+
         $builder
             ->add('namePrefix', TextType::class, [
                 'label' => 'Name prefix',
@@ -65,6 +81,14 @@ class UserType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
+            ->add('defaultInstance', EntityType::class, [
+                'class' => Instance::class,
+                'choices' => $userInstances,
+                'choice_label' => 'name',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ]);
         ;
     }
 

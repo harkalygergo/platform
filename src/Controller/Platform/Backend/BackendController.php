@@ -3,7 +3,9 @@
 namespace App\Controller\Platform\Backend;
 
 use App\Controller\Platform\PlatformController;
+use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
+use App\Repository\Platform\InstanceRepository;
 use App\Repository\Platform\ServiceRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -60,7 +62,8 @@ class BackendController extends PlatformController
             return $this->redirectToRoute('login');
         }
 
-        $instance = $this->getUser()->getInstances()->first();
+        $instance = $_COOKIE['currentInstance'];
+        $instance = (new InstanceRepository($this->doctrine))->find($instance);
         $instanceUsers = $instance->getUsers();
         $services = (new ServiceRepository($this->doctrine))->findBy(['instance' => $instance]);
 
