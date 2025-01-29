@@ -48,7 +48,7 @@ class LoginController extends PlatformController
                 $password = $postedData['password'];
                 if (password_verify($password, $user->getPassword())) {
                     // if the password is correct, redirect to the dashboard
-                    $security->login($user, 'debug.security.authenticator.form_login.main', 'main');
+                    $security->login($user, 'security.authenticator.form_login.main', 'main');
 
                     $user->setLastLogin(new \DateTimeImmutable());
                     $this->doctrine->getManager()->flush();
