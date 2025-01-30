@@ -72,11 +72,11 @@
                                     </tr>
                                     <tr>
                                         <td>Hírlevél-feliratkozók:</td>
-                                        <td class="fw-bold">? fő</td>
+                                        <td><small>[hamarosan]</small></td>
                                     </tr>
                                     <tr>
                                         <td>Éves forgalom:</td>
-                                        <td class="fw-bold">?,- HUF</td>
+                                        <td><small>[hamarosan]</small></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -94,8 +94,16 @@
                             <table class="table table-sm">
                                 <tbody>
                                 <tr>
+                                    <td>Vállalkozások és szervezetek:</td>
+                                    <td class="fw-bold">
+                                        <a class="text-black" href="{{ path('admin_v1_instances') }}">
+                                            {{ app.user.instances|length }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>Személyes tárhely:</td>
-                                    <td class="fw-bold">? MB</td>
+                                    <td class="fw-bold">0 MB</td>
                                 </tr>
                                 <tr>
                                     <td>Ajánlott felhasználók:</td>
