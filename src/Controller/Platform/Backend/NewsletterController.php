@@ -3,7 +3,7 @@
 namespace App\Controller\Platform\Backend;
 
 use App\Controller\Platform\PlatformController;
-use App\Entity\Platform\Newsletter;
+use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\User;
 use App\Form\Platform\NewsletterType;
 use Symfony\Component\HttpFoundation\Response;

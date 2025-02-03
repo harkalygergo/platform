@@ -11,6 +11,13 @@
                             <h2 class="fw-bold text-uppercase"><i class="bi bi-stack"></i> Platform</h2>
                             <p class="text-white-50 fs-5">Management System</p>
                             <form name="form" method="post">
+
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
+                                {% if error is defined %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
                                 <div class="text-start">
                                     <div id="form">
                                         <div>
@@ -37,7 +44,6 @@
                                                 Bejelentkezés
                                             </button>
                                         </div>
-                                        <input type="hidden" id="form__token" name="_token" value="04afe8aafa8bfd7464b26341433dc00b.P6vrt6epU8RVMMUSiZxG4kz7087tYSPtYboywNqKVxU.Bvqqmun4fp0EQYpBws8VtiPLv52YUXrVKJdks4LbA2xL6aOElcs4kxxFqg" />
                                     </div>
                                 </div>
                             </form>
