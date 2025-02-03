@@ -2,7 +2,7 @@
 
 namespace App\Repository\Platform;
 
-use App\Entity\Platform\Newsletter;
+use App\Entity\Platform\Newsletter\Newsletter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
