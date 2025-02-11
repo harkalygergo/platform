@@ -47,7 +47,7 @@ class CheckoutController extends PlatformController
             }
         }
 
-        $instance = $this->getUser()->getInstances()->first();
+        $instance = $this->currentInstance;
         $services = (new ServiceRepository($this->doctrine))->findBy(['instance' => $instance]);
 
         return $this->render('platform/backend/v1/checkout.html.twig', [

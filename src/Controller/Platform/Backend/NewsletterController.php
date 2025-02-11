@@ -36,8 +36,8 @@ class NewsletterController extends PlatformController
         ]);
     }
 
-    #[Route('/add/', name: 'admin_v1_newsletter_add')]
-    public function add(): Response
+    #[Route('/new/', name: 'admin_v1_newsletter_add')]
+    public function new(): Response
     {
         $newsletter = new Newsletter();
         $form = $this->createForm(NewsletterType::class, $newsletter);

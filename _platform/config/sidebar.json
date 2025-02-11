@@ -35,12 +35,19 @@
                     "route": "admin_v1_newsletter",
                     "children": []
                 },
+                "popups": {
+                    "icon": "bi bi-arrow-up-square",
+                    "title": "Felugró ablakok",
+                    "route": "admin_v1_popup_index",
+                    "children": []
+                },
                 "form": {
                     "icon": "bi bi-cart4",
                     "title": "Űrlapok",
                     "route": "",
                     "children": []
                 },
+
                 "automatics": {
                     "icon": "bi bi-file-earmark-text",
                     "title": "Automatizmusok",

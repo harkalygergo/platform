@@ -30,12 +30,19 @@
                                     <td>Domain:</td>
                                     <td class="fw-bold">
                                         {% set domainCount = 0 %}
-                                        {% for s in app.user.instances.first.services %}
+                                        {% for s in currentInstance.services %}
                                             {% if s.type == "domain" %}
                                                 {% set domainCount = domainCount + 1 %}
                                             {% endif %}
                                         {% endfor %}
-                                        {{ domainCount }}</td>
+                                        <a class="text-black" href="{{ path('admin_v1_domains') }}">
+                                            {{ domainCount }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Aldomain:</td>
+                                    <td class="fw-bold">?</td>
                                 </tr>
                                 <tr>
                                     <td>Honlap:</td>

@@ -94,7 +94,7 @@ class OrderController extends PlatformController
         $order->setTotal($request->request->get('total'));
         $order->setCreatedAt(new \DateTimeImmutable());
         $order->setCreatedBy($this->getUser());
-        $order->setInstance($this->getUser()->getInstances()->first());
+        $order->setInstance($this->currentInstance);
         $order->setItems($this->getUser()->getCart()->getItems());
         $order->setComment($request->request->get('comment'));
 

@@ -22,7 +22,7 @@ class ServiceDomainController extends PlatformController
         }
 
         // get user's first instance
-        $instance = $this->getUser()->getInstances()->first();
+        $instance = $this->currentInstance;
 
         // get instances services where type is domain
         $services = (new ServiceRepository($this->doctrine))->findBy(['instance' => $instance, 'type' => 'domain']);

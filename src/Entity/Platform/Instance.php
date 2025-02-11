@@ -3,6 +3,7 @@
 namespace App\Entity\Platform;
 
 use App\Entity\Platform\Newsletter\Newsletter;
+use App\Entity\Platform\Popup\Popup;
 use App\Repository\Platform\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -64,6 +65,9 @@ class Instance
     #[ORM\OneToMany(targetEntity: Client::class, mappedBy: 'instance')]
     private Collection $clients;
 
+    #[ORM\OneToMany(targetEntity: Popup::class, mappedBy: 'instance')]
+    private Collection $popups;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -73,6 +77,7 @@ class Instance
         $this->orders = new ArrayCollection();
         $this->newsletters = new ArrayCollection();
         $this->clients = new ArrayCollection();
+        $this->popups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -331,5 +336,37 @@ class Instance
         }
 
         return $this;
+    }
+
+    public function getPopups(): Collection
+    {
+        return $this->popups;
+    }
+
+    public function addPopup(Popup $popup): self
+    {
+        if (!$this->popups->contains($popup)) {
+            $this->popups->add($popup);
+            $popup->setInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removePopup(Popup $popup): self
+    {
+        if ($this->popups->removeElement($popup)) {
+            // set the owning side to null (unless already changed)
+            if ($popup->getInstance() === $this) {
+                //$popup->setInstance(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setPopups(Collection $popups): void
+    {
+        $this->popups = $popups;
     }
 }

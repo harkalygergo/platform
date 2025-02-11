@@ -39,7 +39,7 @@ class ClientController extends PlatformController
         ]);
     }
 
-    #[Route('/add', name: 'admin_v1_client_new', methods: ['GET', 'POST'])]
+    #[Route('/new/', name: 'admin_v1_client_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $client = new Client();
@@ -48,7 +48,7 @@ class ClientController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $client->setInstance($this->getUser()->getInstances()->first());
+            $client->setInstance($this->currentInstance);
 
             $this->doctrine->getManager()->persist($client);
             $this->doctrine->getManager()->flush();
