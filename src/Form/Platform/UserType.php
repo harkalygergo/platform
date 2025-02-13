@@ -27,9 +27,6 @@ class UserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $user = $this->security->getUser();
-        $userInstances = $user->getInstances();
-
         $builder
             ->add('namePrefix', TextType::class, [
                 'label' => 'Name prefix',
@@ -81,7 +78,13 @@ class UserType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('defaultInstance', EntityType::class, [
+        ;
+
+        if ($this->security->getUser()) {
+            $user = $this->security->getUser();
+            $userInstances = $user->getInstances();
+
+            $builder->add('defaultInstance', EntityType::class, [
                 'class' => Instance::class,
                 'choices' => $userInstances,
                 'choice_label' => 'name',
@@ -89,7 +92,7 @@ class UserType extends AbstractType
                     'class' => 'form-control'
                 ],
             ]);
-        ;
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -75,7 +75,11 @@
                                 <tbody>
                                     <tr>
                                         <td>Felhasználók száma:</td>
-                                        <td class="fw-bold">{{ instanceUsers|length }}</td>
+                                        <td class="fw-bold">
+                                            <a class="text-black" href="{{ path('admin_v1_instances_users', {"instance": currentInstance.id}) }}">
+                                                {{ instanceUsers|length }}
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Hírlevél-feliratkozók:</td>

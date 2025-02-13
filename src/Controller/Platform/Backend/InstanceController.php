@@ -11,9 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_USER)]
+#[Route('/{_locale}/admin/v1/instances')]
 class InstanceController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/instances/', name: 'admin_v1_instances')]
+    #[Route('/', name: 'admin_v1_instances')]
     public function index(Request $request): Response
     {
         $user = $this->getUser();
@@ -33,7 +34,7 @@ class InstanceController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/instances/switch/{instance}', name: 'admin_v1_instances_switch')]
+    #[Route('/switch/{instance}', name: 'admin_v1_instances_switch')]
     public function switch(Instance $instance)
     {
         $instance = $this->doctrine->getRepository(Instance::class)->find($instance);
@@ -54,7 +55,7 @@ class InstanceController extends PlatformController
     }
 
 
-    #[Route('/{_locale}/admin/v1/instances/add', name: 'admin_v1_instances_add')]
+    #[Route('/add', name: 'admin_v1_instances_add')]
     public function add(Request $request): Response
     {
         $instance = new Instance();
@@ -73,6 +74,51 @@ class InstanceController extends PlatformController
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => 'Add instance',
             'form' => $form->createView(),
+        ]);
+    }
+
+    // show instance users
+    #[Route('/{instance}/users', name: 'admin_v1_instances_users')]
+    public function showUsers(Instance $instance): Response
+    {
+        $instance = $this->doctrine->getRepository(Instance::class)->find($instance);
+
+        if (!$instance) {
+            $this->addFlash('danger', 'Az oldal nem található.');
+
+            return $this->redirectToRoute('admin_v1_instances');
+        }
+
+        // check if logged in user and instance has connection
+        $user = $this->getUser();
+        if (!$user->getInstances()->contains($instance)) {
+            $this->addFlash('danger', 'Önnek nincs jogosultsága.');
+
+            return $this->redirectToRoute('admin_v1_dashboard');
+        }
+
+        $users = $instance->getUsers();
+
+        return $this->render('platform/backend/v1/list.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Vállalkozás és szervezet felhasználói',
+            'tableHead' => [
+                'namePrefix' => 'Előtag',
+                'lastName' => $this->translator->trans('user.lastName'),
+                'firstName' => $this->translator->trans('user.firstName'),
+                'nickName' => 'Becenév',
+                'position' => 'Beosztás',
+                'birthDate' => 'Születési dátum',
+                'phone' => $this->translator->trans('user.phone'),
+                'email' => 'E-mail',
+                'status' => $this->translator->trans('global.status'),
+                'roles' => 'Szerepkörök',
+                'lastLogin' => 'Utolsó belépés',
+                'lastActivation' => 'Utolsó aktivitás',
+            ],
+            'tableBody' => $users,
+            'actions' => [
+            ],
         ]);
     }
 }
