@@ -58,6 +58,7 @@ Platform based on:
 - latest Twig template engine (https://twig.symfony.com/)
 - latest Bootstrap (https://getbootstrap.com)
 - latest chart.js (https://www.chartjs.org/)
+- latest Summernote (https://summernote.org/)
 
 ---
 
