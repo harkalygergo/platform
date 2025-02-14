@@ -29,11 +29,30 @@
                     "route": "admin_v1_client_index",
                     "children": []
                 },
-                "products": {
-                    "icon": "bi bi-send",
+                "newsletter": {
+                    "icon": "bi bi-envelope-at",
                     "title": "Hírlevél",
-                    "route": "admin_v1_newsletter",
-                    "children": []
+                    "route": "",
+                    "children": {
+                        "beallitasok": {
+                            "icon": "bi bi-send",
+                            "title": "Hírlevelek",
+                            "route": "admin_v1_newsletter",
+                            "children": []
+                        },
+                        "feliratkozok": {
+                            "icon": "bi bi-people-fill",
+                            "title": "Feliratkozók",
+                            "route": "",
+                            "children": []
+                        },
+                        "hirlevelek": {
+                            "icon": "bi bi-gear-fill",
+                            "title": "Beállítások",
+                            "route": "",
+                            "children": []
+                        }
+                    }
                 },
                 "popups": {
                     "icon": "bi bi-arrow-up-square",

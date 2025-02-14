@@ -24,19 +24,50 @@
                 {% if sidebarMenuValue['children'] is defined and sidebarMenuValue['children'] is not empty %}
                     <ul class="nav flex-column mb-auto px-1">
                         {% for sidebarMenuChildKey, sidebarMenuChildValue in sidebarMenuValue['children'] %}
-                            <li class="nav-item">
-                                {% if sidebarMenuChildValue['route'] != '' %}
-                                    <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path(sidebarMenuChildValue['route']) }}">
+
+                            {% if sidebarMenuChildValue['children'] is defined and sidebarMenuChildValue['children'] is not empty %}
+                                <li class="nav-item">
+                                    <button class="nav-link d-flex align-items-center gap-2 text-white collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
                                         <i class="{{ sidebarMenuChildValue['icon'] }}"></i>
-                                        {{ sidebarMenuChildValue['title'] }}
-                                    </a>
-                                {% else %}
-                                    <span class="nav-link d-flex align-items-center gap-2 text-white-50">
-                                        <i class="{{ sidebarMenuChildValue['icon'] }}"></i>
-                                        {{ sidebarMenuChildValue['title'] }}
-                                    </span>
-                                {% endif %}
-                            </li>
+                                        {{ sidebarMenuChildValue['title'] }} ⏷
+                                    </button>
+                                    <div class="collapse" id="dashboard-collapse" style="">
+                                        <ul class="btn-toggle-nav list-unstyled fw-normal px-3 small">
+
+                                            {% for subSidebarMenuChildKey, subSidebarMenuChildValue in sidebarMenuChildValue['children'] %}
+
+                                                {% if subSidebarMenuChildValue['route'] != '' %}
+                                                    <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path(subSidebarMenuChildValue['route']) }}">
+                                                        <i class="{{ subSidebarMenuChildValue['icon'] }}"></i>
+                                                        {{ subSidebarMenuChildValue['title'] }}
+                                                    </a>
+                                                {% else %}
+                                                    <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                                                        <i class="{{ subSidebarMenuChildValue['icon'] }}"></i>
+                                                        {{ subSidebarMenuChildValue['title'] }}
+                                                    </span>
+                                                {% endif %}
+
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    {% if sidebarMenuChildValue['route'] != '' %}
+                                        <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path(sidebarMenuChildValue['route']) }}">
+                                            <i class="{{ sidebarMenuChildValue['icon'] }}"></i>
+                                            {{ sidebarMenuChildValue['title'] }}
+                                        </a>
+                                    {% else %}
+                                        <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                                            <i class="{{ sidebarMenuChildValue['icon'] }}"></i>
+                                            {{ sidebarMenuChildValue['title'] }}
+                                        </span>
+                                    {% endif %}
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 {% endif %}
