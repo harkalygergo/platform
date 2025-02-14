@@ -23,6 +23,7 @@
         <link rel="shortcut icon" href="/favicon.png">
         <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/node_modules/summernote/dist/summernote.min.css">
 
         {% block stylesheets %}
         {% endblock %}
@@ -40,8 +41,19 @@
         {% block footer %}{% endblock %}
 
         {% block javascripts %}
-            <script src="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="https://cdn.brandcomstudio.com/vendor/components/jquery/jquery.min.js"></script>
+            <!--script src="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script-->
             <script src="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/summernote.min.js"></script>
+            <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/lang/summernote-hu-HU.min.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    $('.summernote').summernote({
+                        lang: 'hu-HU',
+                        height: 300,
+                    });
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

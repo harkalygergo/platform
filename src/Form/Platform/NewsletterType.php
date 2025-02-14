@@ -29,7 +29,7 @@ class NewsletterType extends AbstractType
             ->add('htmlContent', TextareaType::class, [
                 'label' => 'HTML content',
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control summernote',
                 ],
             ])
             /*
@@ -40,12 +40,13 @@ class NewsletterType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            */
             ->add('submit', SubmitType::class, [
                 'label' => 'Save',
                 'attr' => [
                     'class' => 'btn btn-primary',
                 ],
-            ]);
+            ])
+            */
+        ;
     }
 }

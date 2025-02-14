@@ -29,9 +29,6 @@ class NewsletterController extends PlatformController
             ],
             'tableBody' => $newsletters,
             'actions' => [
-                'view',
-                'edit',
-                'delete',
             ],
         ]);
     }
