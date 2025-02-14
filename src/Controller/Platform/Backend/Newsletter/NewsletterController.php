@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Platform\Backend;
+namespace App\Controller\Platform\Backend\Newsletter;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Newsletter\Newsletter;
@@ -41,7 +41,7 @@ class NewsletterController extends PlatformController
         $form->handleRequest($this->requestStack->getCurrentRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $newsletter->setInstance($this->getUser()->getInstances()[0]);
+            $newsletter->setInstance($this->currentInstance);
             $this->doctrine->getManager()->persist($newsletter);
             $this->doctrine->getManager()->flush();
 

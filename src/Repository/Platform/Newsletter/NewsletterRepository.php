@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Platform;
+namespace App\Repository\Platform\Newsletter;
 
 use App\Entity\Platform\Newsletter\Newsletter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

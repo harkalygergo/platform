@@ -78,10 +78,10 @@ class InstanceController extends PlatformController
     }
 
     // show instance users
-    #[Route('/{instance}/users', name: 'admin_v1_instances_users')]
-    public function showUsers(Instance $instance): Response
+    #[Route('/users', name: 'admin_v1_instances_users')]
+    public function showUsers(): Response
     {
-        $instance = $this->doctrine->getRepository(Instance::class)->find($instance);
+        $instance = $this->doctrine->getRepository(Instance::class)->find($this->currentInstance);
 
         if (!$instance) {
             $this->addFlash('danger', 'Az oldal nem található.');

@@ -76,14 +76,18 @@
                                     <tr>
                                         <td>Felhasználók száma:</td>
                                         <td class="fw-bold">
-                                            <a class="text-black" href="{{ path('admin_v1_instances_users', {"instance": currentInstance.id}) }}">
+                                            <a class="text-black" href="{{ path('admin_v1_instances_users') }}">
                                                 {{ instanceUsers|length }}
                                             </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Hírlevél-feliratkozók:</td>
-                                        <td><small>[hamarosan]</small></td>
+                                        <td class="fw-bold">
+                                            <a class="text-black" href="{{ path('admin_v1_newsletter_subscriber') }}">
+                                                {{ newsletterSubscriberCount }}
+                                            </a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Éves forgalom:</td>

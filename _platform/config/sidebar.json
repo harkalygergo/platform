@@ -43,7 +43,7 @@
                         "feliratkozok": {
                             "icon": "bi bi-people-fill",
                             "title": "Feliratkozók",
-                            "route": "",
+                            "route": "admin_v1_newsletter_subscriber",
                             "children": []
                         },
                         "hirlevelek": {
@@ -326,7 +326,7 @@
                 "system_users": {
                     "icon": "bi bi-people",
                     "title": "Felhasználók",
-                    "route": "",
+                    "route": "admin_v1_instances_users",
                     "children": []
                 },
                 "system_log": {

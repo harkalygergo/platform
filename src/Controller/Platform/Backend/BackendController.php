@@ -3,9 +3,9 @@
 namespace App\Controller\Platform\Backend;
 
 use App\Controller\Platform\PlatformController;
-use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
 use App\Repository\Platform\InstanceRepository;
+use App\Repository\Platform\Newsletter\NewsletterSubscriberRepository;
 use App\Repository\Platform\ServiceRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -54,7 +54,7 @@ class BackendController extends PlatformController
     }
 
     #[Route('/{_locale}/admin/v1/dashboard', name: 'admin_v1_dashboard')]
-    public function index(): Response
+    public function index(NewsletterSubscriberRepository $newsletterSubscriberRepository): Response
     {
         $this->init();
 
@@ -97,6 +97,7 @@ class BackendController extends PlatformController
 
             'instanceUsers' => $instanceUsers,
             'registerUrl' => $registerUrl,
+            'newsletterSubscriberCount' => $newsletterSubscriberRepository->countByInstance($instance),
         ]);
     }
 }

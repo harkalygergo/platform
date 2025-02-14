@@ -106,6 +106,11 @@ class Client
         return $this;
     }
 
+    public function getFullName(): string
+    {
+        return trim($this->namePrefix . ' ' . $this->lastName . ' ' . $this->middleName . ' ' . $this->firstName);
+    }
+
     public function getBirthDate(): ?\DateTimeInterface
     {
         return $this->birthDate;

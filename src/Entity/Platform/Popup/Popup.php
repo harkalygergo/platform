@@ -18,7 +18,7 @@ class Popup
     #[ORM\Column(type: 'boolean')]
     private bool $status;
 
-    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'popups')]
     private Instance $instance;
 
     #[ORM\ManyToOne(targetEntity: User::class)]

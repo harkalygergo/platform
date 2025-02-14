@@ -3,7 +3,7 @@
 namespace App\Entity\Platform\Newsletter;
 
 use App\Entity\Platform\Instance;
-use App\Repository\Platform\NewsletterRepository;
+use App\Repository\Platform\Newsletter\NewsletterRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
