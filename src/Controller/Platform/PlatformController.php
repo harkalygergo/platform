@@ -53,20 +53,26 @@ class PlatformController extends AbstractController
 
     public function sendMail($mailer, $logger, $toAddresses = [], $subject = '', $emailBody = '')
     {
-        $toAddresses[] = 'platform@brandcomstudio.com';
-        $toAddresses[] = 'gergo.harkaly@gmail.com';
+        foreach (explode(',', $_ENV['MAIL_COPY']) as $toAddress) {
+            $toAddresses[] = $toAddress;
+        }
 
         foreach ($toAddresses as $toAddress) {
+            $emailUniqueBody = '';
+            $emailUniqueBody .= "\n \n \n ============= \n\n";
+            $emailUniqueBody .= "\n TO: ". $toAddress;
+            $emailUniqueBody .= "\n DATETIME: ". date('Y-m-d H:i:s');
+            $emailUniqueBody .= "\n EMAIL_ID: ". time()."-".uniqid();
+
             $email = (new Email())
-                ->from(Address::create('⫹⫺ PLATFORM <smtp@platform.brandcomstudio.com>'))
+                ->from(Address::create($_ENV['EMAIL_FROM']))
                 ->to($toAddress)
-                //->bcc('test-e75btfj0o@srv1.mail-tester.com')
-                ->replyTo('hello@brandcomstudio.com')
+                ->replyTo($_ENV['EMAIL_REPLY_TO'])
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject($subject)
-                ->text($emailBody);
+                ->text($emailBody.$emailUniqueBody);
 
-            $logger->info('Sending email', ['email' => $emailBody]);
+            $logger->info('Sending email', ['email' => $emailBody.$emailUniqueBody]);
             $mailer->send($email);
         }
     }

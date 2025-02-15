@@ -106,7 +106,7 @@ class LoginController extends PlatformController
 
                 $this->sendMail($mailer, $logger, $toAddresses,
                     $this->translator->trans('account.reset password'),
-                    date('Y-m-d H:i:s')."\n\n".$email."\n\n".$newPassword
+                    $email."\n\n".$newPassword
                 );
             }
 
