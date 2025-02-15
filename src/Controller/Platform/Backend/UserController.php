@@ -6,7 +6,10 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
 use App\Form\Platform\UserPasswordType;
 use App\Form\Platform\UserType;
+use App\Repository\Platform\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,5 +92,15 @@ class UserController extends PlatformController
             'title' => $this->translator->trans('account.change password'),
             'form' => $form->createView(),
         ]);
+    }
+
+    // this function needs to be available for users to let switch back to superadmin
+    #[Route('/{_locale}/admin/v1/superadmin/switch-user/{id}', name: 'admin_v1_superadmin_switch_user')]
+    function switchUser(Security $security, int $id): RedirectResponse
+    {
+        $user = (new UserRepository($this->doctrine))->find($id);
+        $security->login($user, 'security.authenticator.form_login.main', 'main');
+
+        return $this->redirectToRoute('admin_v1_instances_switch', ['instance' => $user->getDefaultInstance()->getId()]);
     }
 }

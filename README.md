@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM Management System
-###### Version: 2025.02.15.1
+###### Version: 2025.02.15.2
 
 Platform is a multisite and multilingual compatibility Management System based on Symfony PHP Framework by @harkalygergo. It's ideal for managing any company or organization.
 
