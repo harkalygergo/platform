@@ -11,6 +11,60 @@
                 <i class="bi bi-speedometer2 mx-3"></i> Vezérlőpult
             </h1>
             <hr>
+            <div class="row row-cols-1 row-cols-md-4 py-2">
+                <div class="col">
+                    <div class="card h-100 text-bg-primary">
+                        <div class="card-body row">
+                            <div class="col-3 display-3">
+                                <i class="bi bi-person-fill px-2"></i>
+                            </div>
+                            <div class="col fw-bold text-uppercase">
+                                Felhasználók
+                                <br><span class="display-6">{{ instanceUsers|length }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 text-bg-success">
+                        <div class="card-body row">
+                            <div class="col-3 display-3">
+                                <i class="bi bi-send px-2"></i>
+                            </div>
+                            <div class="col fw-bold text-uppercase">
+                                Hírlevél-feliratkozók
+                                <br><span class="display-6">{{ newsletterSubscriberCount }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 text-bg-secondary">
+                        <div class="card-body row">
+                            <div class="col-3 display-3">
+                                <i class="bi bi-piggy-bank px-2"></i>
+                            </div>
+                            <div class="col fw-bold text-uppercase">
+                                Előző napi forgalom
+                                <br><span class="display-6">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 text-bg-danger">
+                        <div class="card-body row">
+                            <div class="col-3 display-3">
+                                <i class="bi bi-piggy-bank px-2"></i>
+                            </div>
+                            <div class="col fw-bold text-uppercase">
+                                Előző napi látogatószám
+                                <br><span class="display-6">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row row-cols-1 row-cols-md-3 py-2">
                 <!-- Card 1 -->
