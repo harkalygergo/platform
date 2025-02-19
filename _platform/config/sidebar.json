@@ -34,22 +34,22 @@
                     "title": "Hírlevél",
                     "route": "",
                     "children": {
-                        "beallitasok": {
+                        "newsletters": {
                             "icon": "bi bi-send",
                             "title": "Hírlevelek",
                             "route": "admin_v1_newsletter",
                             "children": []
                         },
-                        "feliratkozok": {
+                        "subscribers": {
                             "icon": "bi bi-people-fill",
                             "title": "Feliratkozók",
                             "route": "admin_v1_newsletter_subscriber",
                             "children": []
                         },
-                        "hirlevelek": {
+                        "settings": {
                             "icon": "bi bi-gear-fill",
                             "title": "Beállítások",
-                            "route": "",
+                            "route": "admin_v1_newsletter_settings",
                             "children": []
                         }
                     }

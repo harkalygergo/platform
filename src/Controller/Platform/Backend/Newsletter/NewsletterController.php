@@ -17,9 +17,7 @@ class NewsletterController extends PlatformController
     #[Route('/', name: 'admin_v1_newsletter')]
     public function index(): Response
     {
-        $user = $this->getUser();
-        $instances = $user->getInstances();
-        $newsletters = $this->doctrine->getRepository(Newsletter::class)->findByUserInstances($instances);
+        $newsletters = $this->doctrine->getRepository(Newsletter::class)->findBy(['instance' => $this->currentInstance]);
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
@@ -29,6 +27,7 @@ class NewsletterController extends PlatformController
             ],
             'tableBody' => $newsletters,
             'actions' => [
+                'edit'
             ],
         ]);
     }
@@ -45,6 +44,8 @@ class NewsletterController extends PlatformController
             $this->doctrine->getManager()->persist($newsletter);
             $this->doctrine->getManager()->flush();
 
+            $this->addFlash('success', $this->translator->trans('action.saved'));
+
             return $this->redirectToRoute('admin_v1_newsletter');
         }
 
@@ -55,4 +56,27 @@ class NewsletterController extends PlatformController
         ]);
     }
 
+    #[Route('/edit/{newsletter}', name: 'admin_v1_newsletter_edit')]
+    public function edit(Newsletter $newsletter): Response
+    {
+        $form = $this->createForm(NewsletterType::class, $newsletter);
+        $form->handleRequest($this->requestStack->getCurrentRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->doctrine->getManager()->persist($newsletter);
+            $this->doctrine->getManager()->flush();
+
+            $this->addFlash('success', $this->translator->trans('action.updated'));
+
+            return $this->redirectToRoute('admin_v1_newsletter_edit', [
+                'newsletter' => $newsletter->getId(),
+            ]);
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Hírlevél szerkesztése',
+            'form' => $form->createView(),
+        ]);
+    }
 }
