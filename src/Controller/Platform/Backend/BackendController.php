@@ -78,7 +78,7 @@ class BackendController extends PlatformController
 
         return $this->render('platform/backend/v1/dashboard.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
-            'title' => 'Szolgáltatások',
+            'title' => $this->translator->trans('aside.dashboard'),
             'tableHead' => [
                 'name' => 'Megnevezés',
                 'description' => $this->translator->trans('data.description'),
@@ -97,6 +97,7 @@ class BackendController extends PlatformController
 
             'instanceUsers' => $instanceUsers,
             'registerUrl' => $registerUrl,
+            'clientsCount' => count($instance->getClients()),
             'newsletterSubscriberCount' => $newsletterSubscriberRepository->countByInstance($instance),
         ]);
     }

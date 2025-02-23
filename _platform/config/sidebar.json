@@ -356,13 +356,19 @@
                 },
                 "support_log": {
                     "icon": "bi bi-person-badge",
-                    "title": "Felhasználói dokumentáció",
+                    "title": "Felhasználói kézikönyv",
                     "route": "admin_v1_support",
                     "children": []
                 },
                 "support_codebook": {
                     "icon": "bi bi-file-code",
-                    "title": "Fejlesztői specifikáció",
+                    "title": "Fejlesztői dokumentáció",
+                    "route": "",
+                    "children": []
+                },
+                "support_devopsspec": {
+                    "icon": "bi bi-file-code",
+                    "title": "Üzemeltetői specifikáció",
                     "route": "",
                     "children": []
                 }
