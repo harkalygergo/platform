@@ -102,7 +102,7 @@
                 "website": {
                     "icon": "bi bi-globe",
                     "title": "Honlap",
-                    "route": "",
+                    "route": "admin_v1_website_index",
                     "children": []
                 },
                 "webshop": {
