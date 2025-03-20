@@ -26,59 +26,42 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('description', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('theme', TextType::class, [
-                'label' => 'FTP password',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('FTPHost', TextType::class, [
-                'label' => 'FTP host',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('FTPUser', TextType::class, [
-                'label' => 'FTP user',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('FTPPassword', PasswordType::class, [
-                'label' => 'FTP password',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('FTPPath', TextType::class, [
-                'label' => 'FTP password',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            // add meta title, description, keywords
             ->add('title', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
             ])
+            ->add('description', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('language', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'choices' => [
+                    'English' => 'en',
+                    'Hungarian' => 'hu',
+                    'German' => 'de',
+                    'French' => 'fr',
+                    'Spanish' => 'es',
+                ],
+            ])
             ->add('metaDescription', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                 ],
             ])
             ->add('metaKeywords', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                 ],
             ])
-            // add meta author, robots
             ->add('metaAuthor', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -104,7 +87,34 @@ class WebsiteType extends AbstractType
                     'gamma' => 'gamma',
                 ],
             ])
-
+            ->add('FTPHost', TextType::class, [
+                'label' => 'FTP host',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('FTPUser', TextType::class, [
+                'label' => 'FTP user',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('FTPPassword', PasswordType::class, [
+                'label' => 'FTP password',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('FTPPath', TextType::class, [
+                'label' => 'FTP path',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('status', CheckboxType::class, [
                 'label' => 'Status',
                 'required' => false,
@@ -112,19 +122,7 @@ class WebsiteType extends AbstractType
                     'class' => 'form-check-input',
                 ],
             ])
-            // add language as choicetype, options are: en, hu, de, fr, es
-            ->add('language', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'choices' => [
-                    'English' => 'en',
-                    'Hungarian' => 'hu',
-                    'German' => 'de',
-                    'French' => 'fr',
-                    'Spanish' => 'es',
-                ],
-            ])
+
         ;
     }
 

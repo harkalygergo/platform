@@ -4,6 +4,7 @@ namespace App\Controller\Platform\Backend\Website;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
+use App\Entity\Platform\Website\Website;
 use App\Form\Platform\Website\WebsiteType;
 use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,6 @@ class WebsiteController extends PlatformController
         ]);
     }
 
-    // new function
     #[Route('/new', name: 'admin_v1_website_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -52,6 +52,25 @@ class WebsiteController extends PlatformController
 
         return $this->render('platform/backend/v1/form.html.twig', [
             'title' => 'Új honlap',
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/edit/{id}', name: 'admin_v1_website_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Website $website): Response
+    {
+        $form = $this->createForm(WebsiteType::class, $website);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->doctrine->getManager()->flush();
+
+            return $this->redirectToRoute('admin_v1_website_index');
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'title' => 'Szerkesztés',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'form' => $form->createView(),
         ]);

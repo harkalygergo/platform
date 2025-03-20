@@ -34,49 +34,49 @@ class Website
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(length: 64, nullable: true)]
-    private string $FTPHost;
+    private ?string $FTPHost;
 
     #[ORM\Column(length: 64, nullable: true)]
-    private string $FTPUser;
+    private ?string $FTPUser;
 
     #[ORM\Column(length: 64, nullable: true)]
-    private string $FTPPassword;
+    private ?string $FTPPassword;
 
     #[ORM\Column(length: 128, nullable: true)]
-    private string $FTPPath;
+    private ?string $FTPPath;
 
     #[ORM\Column(length: 64, nullable: false)]
     private string $domain;
 
     #[ORM\Column(length: 320, nullable: true)]
-    private string $name;
+    private ?string $name;
 
     #[ORM\Column(length: 320, nullable: true)]
-    private string $description;
+    private ?string $description;
 
     #[ORM\Column(length: 16, nullable: true)]
-    private string $theme;
+    private ?string $theme;
 
     #[ORM\Column(length: 8, nullable: true)]
-    private string $language;
+    private ?string $language;
 
     #[ORM\Column(length: 16, nullable: true, options: ['default' => 'utf-8'])]
-    private string $charset;
+    private ?string $charset;
 
     #[ORM\Column(length: 128, nullable: true)]
-    private string $title;
+    private ?string $title;
 
     #[ORM\Column(length: 320, nullable: true)]
-    private string $metaDescription;
+    private ?string $metaDescription;
 
     #[ORM\Column(length: 320, nullable: true)]
-    private string $metaKeywords;
+    private ?string $metaKeywords;
 
     #[ORM\Column(length: 64, nullable: true)]
-    private string $metaAuthor;
+    private ?string $metaAuthor;
 
     #[ORM\Column(length: 16, nullable: true)]
-    private string $metaRobots;
+    private ?string $metaRobots;
 
     public function __construct()
     {
@@ -161,48 +161,48 @@ class Website
         return $this;
     }
 
-    public function getFTPHost(): string
+    public function getFTPHost(): ?string
     {
         return $this->FTPHost;
     }
 
-    public function setFTPHost(string $FTPHost): self
+    public function setFTPHost(?string $FTPHost): self
     {
         $this->FTPHost = $FTPHost;
 
         return $this;
     }
 
-    public function getFTPUser(): string
+    public function getFTPUser(): ?string
     {
         return $this->FTPUser;
     }
 
-    public function setFTPUser(string $FTPUser): self
+    public function setFTPUser(?string $FTPUser): self
     {
         $this->FTPUser = $FTPUser;
 
         return $this;
     }
 
-    public function getFTPPassword(): string
+    public function getFTPPassword(): ?string
     {
         return $this->FTPPassword;
     }
 
-    public function setFTPPassword(string $FTPPassword): self
+    public function setFTPPassword(?string $FTPPassword): self
     {
         $this->FTPPassword = $FTPPassword;
 
         return $this;
     }
 
-    public function getFTPPath(): string
+    public function getFTPPath(): ?string
     {
         return $this->FTPPath;
     }
 
-    public function setFTPPath(string $FTPPath): self
+    public function setFTPPath(?string $FTPPath): self
     {
         $this->FTPPath = $FTPPath;
 
@@ -221,120 +221,120 @@ class Website
         return $this;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getTheme(): string
+    public function getTheme(): ?string
     {
         return $this->theme;
     }
 
-    public function setTheme(string $theme): self
+    public function setTheme(?string $theme): self
     {
         $this->theme = $theme;
 
         return $this;
     }
 
-    public function getLanguage(): string
+    public function getLanguage(): ?string
     {
         return $this->language;
     }
 
-    public function setLanguage(string $language): self
+    public function setLanguage(?string $language): self
     {
         $this->language = $language;
 
         return $this;
     }
 
-    public function getCharset(): string
+    public function getCharset(): ?string
     {
         return $this->charset;
     }
 
-    public function setCharset(string $charset): self
+    public function setCharset(?string $charset): self
     {
         $this->charset = $charset;
 
         return $this;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getMetaDescription(): string
+    public function getMetaDescription(): ?string
     {
         return $this->metaDescription;
     }
 
-    public function setMetaDescription(string $metaDescription): self
+    public function setMetaDescription(?string $metaDescription): self
     {
         $this->metaDescription = $metaDescription;
 
         return $this;
     }
 
-    public function getMetaKeywords(): string
+    public function getMetaKeywords(): ?string
     {
         return $this->metaKeywords;
     }
 
-    public function setMetaKeywords(string $metaKeywords): self
+    public function setMetaKeywords(?string $metaKeywords): self
     {
         $this->metaKeywords = $metaKeywords;
 
         return $this;
     }
 
-    public function getMetaAuthor(): string
+    public function getMetaAuthor(): ?string
     {
         return $this->metaAuthor;
     }
 
-    public function setMetaAuthor(string $metaAuthor): self
+    public function setMetaAuthor(?string $metaAuthor): self
     {
         $this->metaAuthor = $metaAuthor;
 
         return $this;
     }
 
-    public function getMetaRobots(): string
+    public function getMetaRobots(): ?string
     {
         return $this->metaRobots;
     }
 
-    public function setMetaRobots(string $metaRobots): self
+    public function setMetaRobots(?string $metaRobots): self
     {
         $this->metaRobots = $metaRobots;
 
