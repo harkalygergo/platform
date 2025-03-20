@@ -31,6 +31,16 @@ class WebsiteController extends PlatformController
             'actions' => [
                 'edit',
             ],
+            'extraActions' => [
+                'deploy' => [
+                    'route' => 'admin_v1_website_deploy',
+                    'label' => 'Deploy',
+                ],
+                'pages' => [
+                    'route' => 'admin_v1_website_pages',
+                    'label' => 'Pages',
+                ],
+            ],
         ]);
     }
 
@@ -73,6 +83,73 @@ class WebsiteController extends PlatformController
             'title' => 'Szerkesztés',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/deploy/{website}', name: 'admin_v1_website_deploy')]
+    public function deploy(Website $website): Response
+    {
+        $content = 'banán';
+
+        $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
+            'charset' => $website->getCharset(),
+            'language' => $website->getLanguage(),
+            'title' => $website->getTitle(),
+            'keywords' => $website->getMetaKeywords(),
+            'description' => $website->getMetaDescription(),
+            'content' => $content,
+        ]);
+
+        // Save the generated HTML content to a temporary file
+        $random = uniqid();
+        $tempFilePath = '/tmp/' . $random . '.html';
+        file_put_contents($tempFilePath, $htmlContent);
+        echo $htmlContent;
+        exit;
+
+
+
+
+
+
+
+        $content = "alma";
+        // get templates/themes/cv/index.php file and replace CONTENT with $content
+        $file = $this->kernel->getProjectDir() . '/templates/themes/cv/index.php';
+        $fileContent = file_get_contents($file);
+        $fileContent = str_replace('CONTENT', $content, $fileContent);
+
+        $random = uniqid();
+        ob_start();
+        eval('?>' . $fileContent);
+        $fileContent = ob_get_clean();
+        ob_flush();
+        file_put_contents('/tmp/'.$random.'.html', $fileContent);
+
+
+        // push HTML result to FTP server
+        $ftp = ftp_connect('harkalygergo.hu');
+        ftp_login($ftp, 'harkalygergo_ftp', '%gQ_?9%9OHDtqN7^');
+        ftp_pasv($ftp, true);
+        ftp_put($ftp, 'public_html/index.html', '/tmp/'.$random.'.html', FTP_ASCII);
+        ftp_close($ftp);
+        print_r(error_get_last());
+
+
+
+
+
+        return new Response($fileContent);
+    }
+
+    #[Route('/pages/{website}', name: 'admin_v1_website_pages')]
+    public function pages(Website $website): Response
+    {
+        return $this->render('platform/backend/v1/list.html.twig', [
+            'title' => 'Oldalak',
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'tableHead' => [],
+            'tableBody' => [],
         ]);
     }
 }

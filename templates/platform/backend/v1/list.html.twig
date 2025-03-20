@@ -127,6 +127,13 @@
                                                 </a>
                                             {% endif %}
                                         {% endif %}
+                                        {% if extraActions is defined %}
+                                            {% for extraAction in extraActions %}
+                                                <a class="btn btn-sm btn-outline-secondary" title="{{ extraAction.label }}" href="{{ path(extraAction.route, {"website": td.id}) }}">
+                                                    <span class="d-none d-sm-inline-block">{{ extraAction.label }}</span>
+                                                </a>
+                                            {% endfor %}
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}

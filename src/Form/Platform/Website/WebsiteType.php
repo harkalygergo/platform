@@ -82,8 +82,8 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'choices' => [
-                    'alpha' => 'alpha (onepager)',
-                    'beta' => 'beta (CV)',
+                    'alpha (onepager)' => 'alpha',
+                    'beta (CV)' => 'beta',
                     'gamma' => 'gamma',
                 ],
             ])
