@@ -1,6 +1,8 @@
 global:
     comment: 'Comment'
+    name: 'Name'
     status: Status
+    title: 'Title'
 action:
     view: view
     edit: edit

@@ -2,10 +2,11 @@
 
 namespace App\Controller\Platform\Backend\Website;
 
-use App\Controller\Platform\Backend\BackendController;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
+use App\Form\Platform\Website\WebsiteType;
 use App\Repository\Platform\Website\WebsiteRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -21,13 +22,38 @@ class WebsiteController extends PlatformController
             'title' => 'Honlapok',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
-                'domain' => $this->translator->trans('user.namePrefix'),
-                'name' => $this->translator->trans('user.lastName'),
+                'domain' => 'Domain',
+                'name' => $this->translator->trans('global.name'),
+                'title' => $this->translator->trans('global.title'),
             ],
             'tableBody' => $websiteRepository->findBy(['instance' => $this->currentInstance]),
             'actions' => [
                 'edit',
             ],
+        ]);
+    }
+
+    // new function
+    #[Route('/new', name: 'admin_v1_website_new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
+    {
+        // handle form submission
+        $form = $this->createForm(WebsiteType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $website = $form->getData();
+            $website->setInstance($this->currentInstance);
+            $this->doctrine->getManager()->persist($website);
+            $this->doctrine->getManager()->flush();
+
+            return $this->redirectToRoute('admin_v1_website_index');
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'title' => 'Új honlap',
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'form' => $form->createView(),
         ]);
     }
 }

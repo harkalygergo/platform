@@ -1,6 +1,8 @@
 global:
     comment: 'Megjegyzés'
+    name: 'Név'
     status: Státusz
+    title: 'Megnevezés'
 action:
     view: megtekintés
     edit: szerkesztés

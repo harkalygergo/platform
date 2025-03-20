@@ -33,49 +33,49 @@ class Website
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 64, nullable: true)]
     private string $FTPHost;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 64, nullable: true)]
     private string $FTPUser;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 64, nullable: true)]
     private string $FTPPassword;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 128, nullable: true)]
     private string $FTPPath;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 64, nullable: false)]
     private string $domain;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 320, nullable: true)]
     private string $name;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 320, nullable: true)]
     private string $description;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 16, nullable: true)]
     private string $theme;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 8, nullable: true)]
     private string $language;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 16, nullable: true, options: ['default' => 'utf-8'])]
     private string $charset;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 128, nullable: true)]
     private string $title;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 320, nullable: true)]
     private string $metaDescription;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 320, nullable: true)]
     private string $metaKeywords;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 64, nullable: true)]
     private string $metaAuthor;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(length: 16, nullable: true)]
     private string $metaRobots;
 
     public function __construct()

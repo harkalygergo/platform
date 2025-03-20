@@ -30,28 +30,43 @@ jobs:
                     script: |
                         printf "\n\n *** change directory to the project path *** \n\n"
                         cd ${{ vars.PATH }}
+
                         printf "\n\n *** git status *** \n\n"
                         git status
+
                         printf "\n\n *** git diff *** \n\n"
                         git diff
                         git checkout -- composer.lock
                         git checkout -- package-lock.json
+
                         printf "\n\n *** git pull *** \n\n"
                         git pull
                         chown -R ${{ vars.USER }}:www-data ./*
                         chown -R ${{ vars.USER }}:www-data ./.[^.]*
+
                         printf "\n\n *** composer update *** \n\n"
                         composer update
+
                         printf "\n\n *** npm update *** \n\n"
                         npm update
+
                         printf "\n\n *** composer dump-autoload *** \n\n"
                         composer dump-autoload -o
+
                         printf "\n\n *** clear cache *** \n\n"
                         php bin/console cache:pool:clear --all
                         php bin/console cache:clear
                         chown -R ${{ vars.USER }}:www-data ./*
                         chown -R ${{ vars.USER }}:www-data ./.[^.]*
+
                         printf "\n\n *** migration *** \n\n"
+                        php bin/console doctrine:schema:validate
+                        php bin/console doctrine:migrations:status
+                        php bin/console doctrine:migrations:diff --no-interaction
                         php bin/console doctrine:migrations:migrate --no-interaction --verbose
                         php bin/console doctrine:migrations:diff --no-interaction
+                        php bin/console doctrine:schema:validate
+                        php bin/console doctrine:migrations:status
+
+                        printf "\n\n *** git status *** \n\n"
                         git status
