@@ -90,7 +90,7 @@
                                     </td>
                                     <td class="text-end">
                                         {% if actions is defined %}
-                                            {% if 'switch' in actions %}
+                                            {% if 'switchInstance' in actions %}
                                                 {% if app.user.defaultInstance.id == td.id %}
                                                     <span class="badge bg-secondary">
                                                         alapértelmezett
@@ -129,7 +129,7 @@
                                         {% endif %}
                                         {% if extraActions is defined %}
                                             {% for extraAction in extraActions %}
-                                                <a class="btn btn-sm btn-outline-secondary" title="{{ extraAction.label }}" href="{{ path(extraAction.route, {"website": td.id}) }}">
+                                                <a class="btn btn-sm btn-outline-secondary" title="{{ extraAction.label }}" href="{{ path(extraAction.route, {"id": td.id}) }}">
                                                     <span class="d-none d-sm-inline-block">{{ extraAction.label }}</span>
                                                 </a>
                                             {% endfor %}

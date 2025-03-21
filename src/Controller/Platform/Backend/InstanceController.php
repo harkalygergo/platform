@@ -29,7 +29,7 @@ class InstanceController extends PlatformController
             ],
             'tableBody' => $instances,
             'actions' => [
-                'switch',
+                'switchInstance',
             ],
         ]);
     }

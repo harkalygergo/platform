@@ -1,9 +1,16 @@
 # ⫹⫺ PLATFORM Online Management System
-###### Version: 2025.03.21.2
+###### Version: 2025.03.21.3
 
 Platform is a multisite and multilingual compatibility Online Management System based on Symfony PHP Framework by @harkalygergo. It's ideal for managing any company or organization.
 
 ![PLATFORM dashboard](/_platform/documentation/platform-dashboard.png?raw=true "PLATFORM dashboard")
+
+---
+
+## Requirements
+
+- PHP 8.2
+- MySQL 7
 
 ---
 
@@ -55,6 +62,7 @@ php bin/console doctrine:schema:drop --force && php bin/console doctrine:schema:
 Platform based on:
 
 - latest Symfony PHP Framework (https://symfony.com)
+- latest jQuery JavaScript framework (https://jquery.com/)
 - latest Twig template engine (https://twig.symfony.com/)
 - latest Bootstrap (https://getbootstrap.com)
 - latest chart.js (https://www.chartjs.org/)
@@ -65,3 +73,77 @@ Platform based on:
 ## Copyright
 
 Platform made with 💚 in Hungary by Gergő Harkály (https://www.harkalygergo.hu).
+
+------------------------------------------
+------------------------------------------
+
+## Tervezett menüpontok, funciók
+
+- Profile
+    - Rendszerüzenetek
+    - Értesítések
+- Content Management System (CMS)
+    - honlapok
+    - bejegyzés
+    - kategóriák
+    - oldal
+    - megjelenés
+    - menüpontok
+    - popup
+    - galéria / slideshow
+    - médiatár
+    - blokkok
+    - hozzászólások
+- Customer Relationship Management (CRM)
+    - ügyféllista
+    - űrlapok
+    - hirlevél
+    - automatizmusok
+    - webes gombok
+    - chat
+- Enterprise Resource Planning (ERP)
+    - rendszerfelhasználók
+    - feladatkezelő
+    - analitika
+    - időpontfoglaló
+    - ingatlan adatbázis
+    - számlázás
+    - könyvelés
+    - raktár
+    - beszerzés
+    - értékesítés
+    - CRM
+    - HRM
+    - projektmenedzsment
+    - dokumentumkezelés
+    - szállítás
+    - szerviz
+    - gyártás
+    - minőségügy
+    - szabályozás
+    - szállítói kapcsolatok
+    - vevői kapcsolatok
+    - pénzügyek
+- System (SYS)
+    - instance megnevezése, létrehozás időpontja, fő fiók
+    - számlázási fiókok
+    - aktuális szolgáltatások
+    - fizetendő szolgáltatások
+    - integrációk
+    - export / import
+    - URL átirányítások
+    - linkrövidítés
+- Account
+    - saját adatok
+    - jelenléti ív
+    - jegyzet
+    - naptár
+    - webmail
+    - tárhely
+    - jelszómódosítás
+    - kijelentkezés
+- Support
+    - ticket
+    - névjegy
+    - súgó
+    - felhasználói dokumentáció

@@ -86,17 +86,17 @@ class WebsiteController extends PlatformController
         ]);
     }
 
-    #[Route('/deploy/{website}', name: 'admin_v1_website_deploy')]
-    public function deploy(Website $website): Response
+    #[Route('/deploy/{id}', name: 'admin_v1_website_deploy')]
+    public function deploy(Website $id): Response
     {
         $content = 'banán';
 
-        $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
-            'charset' => $website->getCharset(),
-            'language' => $website->getLanguage(),
-            'title' => $website->getTitle(),
-            'keywords' => $website->getMetaKeywords(),
-            'description' => $website->getMetaDescription(),
+        $htmlContent = $this->renderView('themes/'. $id->getTheme() .'/index.html.twig', [
+            'charset' => $id->getCharset(),
+            'language' => $id->getLanguage(),
+            'title' => $id->getTitle(),
+            'keywords' => $id->getMetaKeywords(),
+            'description' => $id->getMetaDescription(),
             'content' => $content,
         ]);
 
@@ -142,8 +142,8 @@ class WebsiteController extends PlatformController
         return new Response($fileContent);
     }
 
-    #[Route('/pages/{website}', name: 'admin_v1_website_pages')]
-    public function pages(Website $website): Response
+    #[Route('/pages/{id}', name: 'admin_v1_website_pages')]
+    public function pages(Website $id): Response
     {
         return $this->render('platform/backend/v1/list.html.twig', [
             'title' => 'Oldalak',

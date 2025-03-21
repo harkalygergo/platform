@@ -45,6 +45,12 @@ class SuperAdminController extends PlatformController
                 'edit' => 'Szerkesztés',
                 'delete' => 'Törlés',
             ],
+            'extraActions' => [
+                'switch' => [
+                    'label' => 'Váltás',
+                    'route' => 'admin_v1_superadmin_switch_user',
+                ],
+            ],
         ]);
     }
 
