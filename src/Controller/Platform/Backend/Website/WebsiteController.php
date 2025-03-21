@@ -141,15 +141,4 @@ class WebsiteController extends PlatformController
 
         return new Response($fileContent);
     }
-
-    #[Route('/pages/{id}', name: 'admin_v1_website_pages')]
-    public function pages(Website $id): Response
-    {
-        return $this->render('platform/backend/v1/list.html.twig', [
-            'title' => 'Oldalak',
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
-            'tableHead' => [],
-            'tableBody' => [],
-        ]);
-    }
 }
