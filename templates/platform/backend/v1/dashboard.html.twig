@@ -149,7 +149,10 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <p class="card-text">Szervezeti meghívó link:<br><code>{{ registerUrl }}</code></p>
+                            <p class="card-text">
+                                Szervezeti meghívó link: <span onclick="copyToClipboard('{{ registerUrl }}')" class="badge badge-sm text-bg-secondary"><i class="bi bi-copy"></i> másolás</span>
+                                <br><code>{{ registerUrl }}</code>
+                            </p>
                         </div>
                     </div>
                 </div>
