@@ -67,6 +67,9 @@ class WebsitePage
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $metaCanonical = null;
 
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $homepage = false;
+
     public function __construct()
     {
         $this->status = true;
@@ -240,6 +243,18 @@ class WebsitePage
     public function setMetaCanonical(?string $metaCanonical): self
     {
         $this->metaCanonical = $metaCanonical;
+
+        return $this;
+    }
+
+    public function isHomepage(): ?bool
+    {
+        return $this->homepage;
+    }
+
+    public function setHomepage(?bool $homepage): self
+    {
+        $this->homepage = $homepage;
 
         return $this;
     }

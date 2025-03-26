@@ -35,6 +35,7 @@ class WebsitePageController extends PlatformController
                 'title' => 'Cím',
                 'slug' => 'Slug',
                 'status' => 'Státusz',
+                'homepage' => 'Főoldal'
             ],
             'tableBody' => $pagesByWebsite,
             'actions' => [

@@ -136,7 +136,7 @@ class WebsiteController extends PlatformController
                 $slug.'.html'
             );
 
-            $this->addFlash('success', $page->getTitle(). ' deploy OK.');
+            $this->addFlash('success', $page->getTitle(). ' FTP OK.');
         }
 
         $this->createHtaccessFile($website, $urls, $filenames);
@@ -176,6 +176,7 @@ RewriteRule ^(.*)$ /$1/ [L,R=301]
             '.htaccess'
         );
 
+        $this->addFlash('success', '.htaccess FTP OK.');
     }
 
     private function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename)
