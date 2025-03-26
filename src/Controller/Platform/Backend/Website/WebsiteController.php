@@ -5,12 +5,14 @@ namespace App\Controller\Platform\Backend\Website;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\Website;
+use App\Entity\Platform\Website\WebsitePage;
 use App\Form\Platform\Website\WebsiteType;
 use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[IsGranted(User::ROLE_USER)]
 #[Route('/{_locale}/admin/v1/website')]
@@ -89,56 +91,99 @@ class WebsiteController extends PlatformController
     #[Route('/deploy/{id}', name: 'admin_v1_website_deploy')]
     public function deploy(Website $id): Response
     {
-        $content = 'banán';
+        $website = $id;
 
-        $htmlContent = $this->renderView('themes/'. $id->getTheme() .'/index.html.twig', [
-            'charset' => $id->getCharset(),
-            'language' => $id->getLanguage(),
-            'title' => $id->getTitle(),
-            'keywords' => $id->getMetaKeywords(),
-            'description' => $id->getMetaDescription(),
-            'content' => $content,
-        ]);
+        // check if website has FTP credentials
+        if (!$website->getFTPHost() || !$website->getFTPUser() || !$website->getFTPPassword() || !$website->getFTPPath()) {
+            $this->addFlash('danger', 'FTP adatok hiányoznak.');
 
-        // Save the generated HTML content to a temporary file
-        $random = uniqid();
-        $tempFilePath = '/tmp/' . $random . '.html';
-        file_put_contents($tempFilePath, $htmlContent);
-        echo $htmlContent;
-        exit;
+            return $this->redirectToRoute('admin_v1_website_index');
+        }
 
+        $slugger = new AsciiSlugger();
+        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $id, 'status' => true]);
+        $urls = [];
+        $filenames = [];
 
+        foreach ($pages as $page) {
+            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
+                'charset' => $website->getCharset(),
+                'language' => $website->getLanguage(),
+                'title' => $page->getTitle(),
+                'keywords' => $website->getMetaKeywords(),
+                'description' => $website->getMetaDescription(),
+                'content' => $page->getContent(),
+            ]);
 
+            if ($page->getSlug() === '') {
+                $slug = $slugger->slug($page->getTitle());
+            } else {
+                $slug = $page->getSlug();
+            }
+            $urls[] = $slug;
+            $filenames[] = $slug.'.html';
 
+            // Save the generated HTML content to a temporary file
+            $tempFilePath = '/tmp/' . $website->getId() .'/'. $slug . '.html';
+            file_put_contents($tempFilePath, $htmlContent);
 
+            $this->pushToFTP(
+                $website->getFTPHost(),
+                $website->getFTPUser(),
+                $website->getFTPPassword(),
+                $website->getFTPPath(),
+                $tempFilePath,
+                $slug.'.html'
+            );
 
+            $this->addFlash('success', $page->getTitle(). ' deploy OK.');
+        }
 
-        $content = "alma";
-        // get templates/themes/cv/index.php file and replace CONTENT with $content
-        $file = $this->kernel->getProjectDir() . '/templates/themes/cv/index.php';
-        $fileContent = file_get_contents($file);
-        $fileContent = str_replace('CONTENT', $content, $fileContent);
+        $this->createHtaccessFile($website, $urls, $filenames, $htmlContent);
 
-        $random = uniqid();
-        ob_start();
-        eval('?>' . $fileContent);
-        $fileContent = ob_get_clean();
-        ob_flush();
-        file_put_contents('/tmp/'.$random.'.html', $fileContent);
+        return $this->redirectToRoute('admin_v1_website_index');
+    }
 
+    private function createHtaccessFile(Website $website, array $urls=[], array $filenames=[], string $htmlContent='')
+    {
+        $content = 'RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$ [NC]
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.*)$ /$1/ [L,R=301]
+';
 
-        // push HTML result to FTP server
-        $ftp = ftp_connect('harkalygergo.hu');
-        ftp_login($ftp, 'harkalygergo_ftp', '%gQ_?9%9OHDtqN7^');
+        // check if the directory exists
+        if (!is_dir('/tmp/' . $website->getId())) {
+            mkdir('/tmp/' . $website->getId());
+        }
+
+        $i = 0;
+        foreach ($urls as $url) {
+            $content .= 'RewriteRule ^' . $url . '/$ ' . $filenames[$i] . ' [L,NC]'."\n";
+            $i++;
+        }
+
+        $tempFilePath = '/tmp/' . $website->getId() . '/.htaccess';
+        file_put_contents($tempFilePath, $content);
+
+        $this->pushToFTP(
+            $website->getFTPHost(),
+            $website->getFTPUser(),
+            $website->getFTPPassword(),
+            $website->getFTPPath(),
+            $tempFilePath,
+            '.htaccess'
+        );
+
+    }
+
+    private function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename)
+    {
+        $ftp = ftp_connect($FTPhost);
+        ftp_login($ftp, $FTPuser, $FTPpassword);
         ftp_pasv($ftp, true);
-        ftp_put($ftp, 'public_html/index.html', '/tmp/'.$random.'.html', FTP_ASCII);
+        ftp_put($ftp, $FTPpath.$filename, $content, FTP_ASCII);
         ftp_close($ftp);
-        print_r(error_get_last());
-
-
-
-
-
-        return new Response($fileContent);
     }
 }
