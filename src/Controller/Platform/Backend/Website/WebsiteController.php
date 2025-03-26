@@ -139,12 +139,12 @@ class WebsiteController extends PlatformController
             $this->addFlash('success', $page->getTitle(). ' deploy OK.');
         }
 
-        $this->createHtaccessFile($website, $urls, $filenames, $htmlContent);
+        $this->createHtaccessFile($website, $urls, $filenames);
 
         return $this->redirectToRoute('admin_v1_website_index');
     }
 
-    private function createHtaccessFile(Website $website, array $urls=[], array $filenames=[], string $htmlContent='')
+    private function createHtaccessFile(Website $website, array $urls=[], array $filenames=[])
     {
         $content = 'RewriteEngine On
 RewriteBase /
