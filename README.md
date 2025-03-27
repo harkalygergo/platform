@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM Online Management System
-###### Version: 2025.03.26.3
+###### Version: 2025.03.27.1
 
 Platform is a multisite and multilingual compatibility Online Management System based on Symfony PHP Framework by @harkalygergo. It's ideal for managing any company or organization.
 
@@ -61,14 +61,49 @@ php bin/console doctrine:schema:drop --force && php bin/console doctrine:schema:
 
 Platform based on:
 
-- latest Symfony PHP Framework (https://symfony.com)
-- latest jQuery JavaScript framework (https://jquery.com/)
-- latest Twig template engine (https://twig.symfony.com/)
-- latest Bootstrap (https://getbootstrap.com)
-- latest chart.js (https://www.chartjs.org/)
-- latest Summernote (https://summernote.org/)
+## Main components
+
+In ABC sort, mainly always the latest stable version.
+
+- Bootstrap (https://getbootstrap.com)
+- chart.js (https://www.chartjs.org/)
+- Composer (https://getcomposer.org/)
+- jQuery JavaScript framework (https://jquery.com/)
+- Summernote (https://summernote.org/)
+- Symfony PHP Framework (https://symfony.com)
+- Twig template engine (https://twig.symfony.com/)
 
 ---
+
+## Useful scripts
+```shell
+# update composer related files 
+composer update
+# update composer related files and optimize autoloader
+composer dump-autoload -o
+# update composer related files and optimize autoloader and update dependencies
+composer update -o
+# update composer related files and optimize autoloader and update dependencies and remove unused packages
+composer update -o --no-dev
+# update composer related files and optimize autoloader and update dependencies and remove unused packages and update composer.lock file
+composer update -o --no-dev --lock
+# update composer related files and optimize autoloader and update dependencies and remove unused packages and update composer.lock file and update dependencies
+composer update -o --no-dev --lock --with-dependencies
+# update composer related files and optimize autoloader and update dependencies and remove unused packages and update composer.lock file and update dependencies and update composer.json file
+composer update -o --no-dev --lock --with-dependencies --with-all-dependencies
+# update composer related files and optimize autoloader and update dependencies and remove unused packages and update composer.lock file and update dependencies and update composer.json file and remove unused packages
+composer update -o --no-dev --lock --with-dependencies --with-all-dependencies --remove-unused
+# update composer related files and optimize autoloader and update dependencies and remove unused packages and update composer.lock file and update dependencies and update composer.json file and remove unused packages and update composer.lock file
+composer update -o --no-dev --lock --with-dependencies --with-all-dependencies --remove-unused --lock
+# update composer related files and optimize autoloader and update dependencies and remove unused packages and update composer.lock file and update dependencies and update composer.json file and remove unused packages and update composer.lock file and update dependencies
+composer update -o --no-dev --lock --with-dependencies --with-all-dependencies --remove-unused --lock --with-dependencies
+# clear cache
+php bin/console cache:clear
+# create database
+php bin/console doctrine:database:create
+# install database tables
+php bin/console doctrine:migrations:migrate
+```
 
 ## Copyright
 

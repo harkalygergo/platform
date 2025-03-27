@@ -83,7 +83,7 @@
                 "task": {
                     "icon": "bi bi-list-task",
                     "title": "Feladatkezelő",
-                    "route": "",
+                    "route": "admin_v1_task_index",
                     "children": []
                 }
             }
