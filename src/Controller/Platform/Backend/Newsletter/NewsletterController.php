@@ -24,6 +24,7 @@ class NewsletterController extends PlatformController
             'title' => 'Hírlevelek',
             'tableHead' => [
                 'subject' => 'Tárgy',
+                'sendAt' => 'Küldés ideje',
             ],
             'tableBody' => $newsletters,
             'actions' => [

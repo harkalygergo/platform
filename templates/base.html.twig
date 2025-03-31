@@ -24,6 +24,7 @@
         <link rel="stylesheet" type="text/css" href="//cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="//cdn.brandcomstudio.com/vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
         <link rel="stylesheet" type="text/css" href="//cdn.brandcomstudio.com/node_modules/summernote/dist/summernote.min.css">
+        <link rel="stylesheet" type="text/css" href="/style.css">
 
         {% block stylesheets %}
         {% endblock %}
@@ -62,6 +63,13 @@
                     jQuery('.summernote').summernote({
                         lang: 'hu-HU',
                         height: 300,
+                    });
+                });
+            </script>
+            <script src="/script.js"></script>
+            <script>
+                $(document).ready(function(){
+                    $('.datetimepicker').datetimepicker({
                     });
                 });
             </script>

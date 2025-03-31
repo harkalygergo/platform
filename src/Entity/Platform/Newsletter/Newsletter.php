@@ -28,6 +28,9 @@ class Newsletter
     #[ORM\JoinColumn(nullable: false)]
     private Instance $instance;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $sendAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +80,97 @@ class Newsletter
     public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
+
+        return $this;
+    }
+
+    public function getSendAt(): ?\DateTimeInterface
+    {
+        return $this->sendAt;
+    }
+
+    public function setSendAt(?\DateTimeInterface $sendAt): static
+    {
+        $this->sendAt = $sendAt;
+
+        return $this;
+    }
+
+    public function isSent(): bool
+    {
+        return $this->sendAt !== null;
+    }
+
+    public function isScheduled(): bool
+    {
+        return $this->sendAt !== null && $this->sendAt > new \DateTime();
+    }
+
+    public function isReadyToSend(): bool
+    {
+        return $this->sendAt !== null && $this->sendAt <= new \DateTime();
+    }
+
+    public function getSendAtFormatted(): ?string
+    {
+        return $this->sendAt ? $this->sendAt->format('Y-m-d H:i:s') : null;
+    }
+
+    public function setSendAtFormatted(?string $sendAt): static
+    {
+        if ($sendAt) {
+            $this->sendAt = \DateTime::createFromFormat('Y-m-d H:i:s', $sendAt);
+        } else {
+            $this->sendAt = null;
+        }
+
+        return $this;
+    }
+
+    public function getSendAtFormattedForForm(): ?string
+    {
+        return $this->sendAt ? $this->sendAt->format('Y-m-d\TH:i') : null;
+    }
+
+    public function setSendAtFormattedForForm(?string $sendAt): static
+    {
+        if ($sendAt) {
+            $this->sendAt = \DateTime::createFromFormat('Y-m-d\TH:i', $sendAt);
+        } else {
+            $this->sendAt = null;
+        }
+
+        return $this;
+    }
+
+    public function getSendAtFormattedForDisplay(): ?string
+    {
+        return $this->sendAt ? $this->sendAt->format('d/m/Y H:i') : null;
+    }
+
+    public function setSendAtFormattedForDisplay(?string $sendAt): static
+    {
+        if ($sendAt) {
+            $this->sendAt = \DateTime::createFromFormat('d/m/Y H:i', $sendAt);
+        } else {
+            $this->sendAt = null;
+        }
+
+        return $this;
+    }
+
+    public function getSendAtFormattedForDisplayWithTimezone(): ?string
+    {
+        return $this->sendAt ? $this->sendAt->setTimezone(new \DateTimeZone('Europe/Paris'))->format('d/m/Y H:i') : null;
+    }
+
+    public function setSendAtFormattedForDisplayWithTimezone(?string $sendAt): static
+    {
+        if ($sendAt) {
+            $this->sendAt = \DateTime::createFromFormat('d/m/Y H:i', $sendAt, new \DateTimeZone('Europe/Paris'));
+        } else {
+            $this->sendAt = null;
+        }
 
         return $this;
     }

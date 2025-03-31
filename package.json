@@ -7,7 +7,11 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build3": "uglifyjs bootstrap3/js/bootstrap-datetimepicker.js --comments -o bootstrap3/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap3/css/bootstrap-datetimepicker.min.css bootstrap3/css/bootstrap-datetimepicker.css",
+    "build4": "uglifyjs bootstrap4/js/bootstrap-datetimepicker.js --comments -o bootstrap4/js/bootstrap-datetimepicker.min.js && cleancss -o bootstrap4/css/bootstrap-datetimepicker.min.css bootstrap4/css/bootstrap-datetimepicker.css",
+    "build5": "uglifyjs node_modules/simplicite-bootstrap-datetimepicker/bootstrap5/js/bootstrap-datetimepicker.js --comments -o node_modules/simplicite-bootstrap-datetimepicker/bootstrap5/js/bootstrap-datetimepicker.min.js && cleancss -o node_modules/simplicite-bootstrap-datetimepicker/bootstrap5/css/bootstrap-datetimepicker.min.css node_modules/simplicite-bootstrap-datetimepicker/bootstrap5/css/bootstrap-datetimepicker.css",
+    "ncu": "ncu",
+    "build": "cp node_modules/simplicite-bootstrap-datetimepicker/bootstrap5/js/bootstrap-datetimepicker.min.js public/script.js && cp node_modules/simplicite-bootstrap-datetimepicker/bootstrap5/css/bootstrap-datetimepicker.min.css public/style.css"
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,14 @@
   "bugs": {
     "url": "https://github.com/harkalygergo/platform/issues"
   },
-  "homepage": "https://github.com/harkalygergo/platform#readme"
+  "homepage": "https://github.com/harkalygergo/platform#readme",
+  "devDependencies": {
+    "clean-css-cli": "^5.6.3",
+    "npm-check-updates": "^17.1.3",
+    "uglify-js": "^3.19.3",
+    "simplicite-bootstrap-datetimepicker": "^1.2.0"
+  },
+  "dependencies": {
+    "bootstrap-datetimepicker": "0.0.7"
+  }
 }
