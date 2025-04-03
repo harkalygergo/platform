@@ -74,9 +74,7 @@ class BackendController extends PlatformController
             return $this->redirectToRoute('login');
         }
 
-        (new NewsletterCron($this->requestStack, $this->doctrine, $this->translator, $this->kernel, $this->mailer, $this->logger, $entityManager, $newsletterRepository))->__invoke();
-        //exit;
-
+        //(new NewsletterCron($this->requestStack, $this->doctrine, $this->translator, $this->kernel, $this->mailer, $this->logger, $entityManager, $newsletterRepository))->__invoke();
 
         $instance = $_COOKIE['currentInstance'];
         $instance = (new InstanceRepository($this->doctrine))->find($instance);

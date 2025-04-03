@@ -62,7 +62,7 @@ jobs:
                         printf "\n\n *** migration *** \n\n"
                         php bin/console doctrine:schema:validate
                         php bin/console doctrine:migrations:status
-                        php bin/console doctrine:migrations:diff --no-interaction
+                        #php bin/console doctrine:migrations:diff --no-interaction
                         php bin/console doctrine:migrations:migrate --no-interaction --verbose
                         php bin/console doctrine:migrations:diff --no-interaction
                         php bin/console doctrine:schema:validate
