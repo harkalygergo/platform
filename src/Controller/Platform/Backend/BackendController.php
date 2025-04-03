@@ -65,16 +65,22 @@ class BackendController extends PlatformController
         ]);
     }
 
+    #[Route('/{_locale}/admin/v1/dashboard/cron', name: 'admin_v1_cron')]
+    public function cron(EntityManagerInterface $entityManager, NewsletterRepository $newsletterRepository)
+    {
+        (new NewsletterCron($this->requestStack, $this->doctrine, $this->translator, $this->kernel, $this->mailer, $this->logger, $entityManager, $newsletterRepository))->__invoke();
+
+        return new Response('Kiküldve');
+    }
+
     #[Route('/{_locale}/admin/v1/dashboard', name: 'admin_v1_dashboard')]
-    public function index(newsletterSubscriberRepository $newsletterSubscriberRepository, EntityManagerInterface $entityManager, NewsletterRepository $newsletterRepository): Response
+    public function index(newsletterSubscriberRepository $newsletterSubscriberRepository): Response
     {
         $this->init();
 
         if (!$this->getUser()) {
             return $this->redirectToRoute('login');
         }
-
-        //(new NewsletterCron($this->requestStack, $this->doctrine, $this->translator, $this->kernel, $this->mailer, $this->logger, $entityManager, $newsletterRepository))->__invoke();
 
         $instance = $_COOKIE['currentInstance'];
         $instance = (new InstanceRepository($this->doctrine))->find($instance);
