@@ -3,6 +3,7 @@
 namespace App\Entity\Platform\Newsletter;
 
 use App\Entity\Platform\Instance;
+use App\Enum\NewsletterStatusEnum;
 use App\Repository\Platform\Newsletter\NewsletterRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,6 +31,9 @@ class Newsletter
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $sendAt = null;
+
+    #[ORM\Column(type: 'string', enumType: NewsletterStatusEnum::class)]
+    private NewsletterStatusEnum $status = NewsletterStatusEnum::DRAFT;
 
     public function getId(): ?int
     {
@@ -96,87 +100,70 @@ class Newsletter
         return $this;
     }
 
+    public function getStatus(): NewsletterStatusEnum|string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(NewsletterStatusEnum $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function isSent(): bool
     {
-        return $this->sendAt !== null;
+        return $this->status === NewsletterStatusEnum::SENT;
     }
 
     public function isScheduled(): bool
     {
-        return $this->sendAt !== null && $this->sendAt > new \DateTime();
+        return $this->status === NewsletterStatusEnum::SCHEDULED;
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === NewsletterStatusEnum::DRAFT;
     }
 
     public function isReadyToSend(): bool
     {
-        return $this->sendAt !== null && $this->sendAt <= new \DateTime();
+        return $this->status === NewsletterStatusEnum::SCHEDULED && $this->sendAt <= new \DateTime();
     }
 
-    public function getSendAtFormatted(): ?string
+    public function isReadyToSendAt(\DateTimeInterface $date): bool
     {
-        return $this->sendAt ? $this->sendAt->format('Y-m-d H:i:s') : null;
+        return $this->status === NewsletterStatusEnum::SCHEDULED && $this->sendAt <= $date;
     }
 
-    public function setSendAtFormatted(?string $sendAt): static
+    public function isReadyToSendNow(): bool
     {
-        if ($sendAt) {
-            $this->sendAt = \DateTime::createFromFormat('Y-m-d H:i:s', $sendAt);
-        } else {
-            $this->sendAt = null;
-        }
-
-        return $this;
+        return $this->status === NewsletterStatusEnum::SCHEDULED && $this->sendAt <= new \DateTime();
     }
 
-    public function getSendAtFormattedForForm(): ?string
+    public function isReadyToSendAtNow(): bool
     {
-        return $this->sendAt ? $this->sendAt->format('Y-m-d\TH:i') : null;
+        return $this->status === NewsletterStatusEnum::SCHEDULED && $this->sendAt <= new \DateTime();
     }
 
-    public function setSendAtFormattedForForm(?string $sendAt): static
+    public function isReadyToSendAtDate(\DateTimeInterface $date): bool
     {
-        if ($sendAt) {
-            $this->sendAt = \DateTime::createFromFormat('Y-m-d\TH:i', $sendAt);
-        } else {
-            $this->sendAt = null;
-        }
-
-        return $this;
+        return $this->status === NewsletterStatusEnum::SCHEDULED && $this->sendAt <= $date;
     }
 
-    public function getSendAtFormattedForDisplay(): ?string
+    public function isReadyToSendAtDateTime(\DateTimeInterface $date): bool
     {
-        return $this->sendAt ? $this->sendAt->format('d/m/Y H:i') : null;
+        return $this->status === NewsletterStatusEnum::SCHEDULED && $this->sendAt <= $date;
     }
 
-    public function setSendAtFormattedForDisplay(?string $sendAt): static
+    public function isReadyToSendAtDateTimeNow(): bool
     {
-        if ($sendAt) {
-            $this->sendAt = \DateTime::createFromFormat('d/m/Y H:i', $sendAt);
-        } else {
-            $this->sendAt = null;
-        }
-
-        return $this;
+        return $this->status === NewsletterStatusEnum::SCHEDULED && $this->sendAt <= new \DateTime();
     }
 
-    public function getSendAtFormattedForDisplayWithTimezone(): ?string
+    public function isReadyToSendAtDateTimeNowOrLater(): bool
     {
-        return $this->sendAt ? $this->sendAt->setTimezone(new \DateTimeZone('Europe/Paris'))->format('d/m/Y H:i') : null;
-    }
-
-    public function setSendAtFormattedForDisplayWithTimezone(?string $sendAt): static
-    {
-        if ($sendAt) {
-            $this->sendAt = \DateTime::createFromFormat('d/m/Y H:i', $sendAt, new \DateTimeZone('Europe/Paris'));
-        } else {
-            $this->sendAt = null;
-        }
-
-        return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->subject;
+        return $this->status === NewsletterStatusEnum::SCHEDULED && $this->sendAt >= new \DateTime();
     }
 }

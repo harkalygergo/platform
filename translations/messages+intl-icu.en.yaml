@@ -17,6 +17,7 @@ action:
     remove: remove
 account:
     change password: 'Password change'
+    password created: 'Password created'
     reset password: 'Reset password'
 data:
     description: Description

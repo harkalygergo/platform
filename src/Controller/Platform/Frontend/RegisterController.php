@@ -37,9 +37,16 @@ class RegisterController extends PlatformController
                 $this->doctrine->getManager()->persist($user);
                 $this->doctrine->getManager()->flush();
 
-                $this->sendMail($mailer, $logger, [$user->getEmail()],
-                    $this->translator->trans('account.reset password'),
-                    $newPassword
+                $emailBody = "
+                    Új felhasználói profil a(z) {$instance->getName()} fiókban! \n
+                    Azonosító: {$user->getEmail()} \n
+                    Jelszó: {$newPassword}
+                ";
+
+                $this->sendMail(
+                    [$user->getEmail()],
+                    $this->translator->trans('account.password created'),
+                    $emailBody
                 );
 
                 return $this->redirectToRoute('login');

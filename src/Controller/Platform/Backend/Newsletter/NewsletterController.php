@@ -5,7 +5,9 @@ namespace App\Controller\Platform\Backend\Newsletter;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\User;
+use App\Enum\NewsletterStatusEnum;
 use App\Form\Platform\NewsletterType;
+use App\Repository\Platform\Newsletter\NewsletterRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -24,12 +26,19 @@ class NewsletterController extends PlatformController
             'title' => 'Hírlevelek',
             'tableHead' => [
                 'subject' => 'Tárgy',
+                'status' => 'Státusz',
                 'sendAt' => 'Küldés ideje',
             ],
             'tableBody' => $newsletters,
             'actions' => [
                 'edit'
             ],
+            'extraActions' => [
+                'send' => [
+                    'route' => 'admin_v1_newsletter_send',
+                    'label' => 'Küldés',
+                ],
+            ]
         ]);
     }
 
@@ -60,6 +69,23 @@ class NewsletterController extends PlatformController
     #[Route('/edit/{newsletter}', name: 'admin_v1_newsletter_edit')]
     public function edit(Newsletter $newsletter): Response
     {
+        // if newsletter is not found, redirect to index
+        if (!$newsletter) {
+            $this->addFlash('danger', 'Hírlevél nem található!');
+            return $this->redirectToRoute('admin_v1_newsletter');
+        }
+
+        // if newsletter instance is not the current instance, redirect to index
+        if ($newsletter->getInstance() !== $this->currentInstance) {
+            $this->addFlash('danger', 'Hírlevél nem található!');
+            return $this->redirectToRoute('admin_v1_newsletter');
+        }
+
+        if ($newsletter->isSent()) {
+            $this->addFlash('danger', 'Hírlevél már elküldve!');
+            return $this->redirectToRoute('admin_v1_newsletter');
+        }
+
         $form = $this->createForm(NewsletterType::class, $newsletter);
         $form->handleRequest($this->requestStack->getCurrentRequest());
 
@@ -79,5 +105,29 @@ class NewsletterController extends PlatformController
             'title' => 'Hírlevél szerkesztése',
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/send/{id}', name: 'admin_v1_newsletter_send')]
+    public function sendNewsletter(Newsletter $id, NewsletterRepository $newsletterRepository): Response
+    {
+        $newsletter = $id;
+        $newsletter->setStatus(NewsletterStatusEnum::SCHEDULED);
+        // save
+        $this->doctrine->getManager()->persist($newsletter);
+        $this->doctrine->getManager()->flush();
+        $this->addFlash('success', 'Hírlevél időzítve!');
+
+        /*
+        $newsletter = $newsletterRepository->find($id);
+
+        if ($newsletter) {
+            $this->sendMail($this->mailer, $this->logger, [$newsletter->getInstance()->getEmail()], $newsletter->getSubject(), $newsletter->getHtmlContent());
+            $this->addFlash('success', 'Hírlevél elküldve!');
+        } else {
+            $this->addFlash('error', 'Hírlevél nem található!');
+        }
+        */
+
+        return $this->redirectToRoute('admin_v1_newsletter');
     }
 }

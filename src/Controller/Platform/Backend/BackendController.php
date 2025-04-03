@@ -2,15 +2,20 @@
 
 namespace App\Controller\Platform\Backend;
 
+use App\Controller\Platform\Backend\Newsletter\NewsletterCron;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
 use App\Repository\Platform\InstanceRepository;
+use App\Repository\Platform\Newsletter\NewsletterRepository;
 use App\Repository\Platform\Newsletter\NewsletterSubscriberRepository;
 use App\Repository\Platform\ServiceRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -19,9 +24,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[IsGranted(User::ROLE_USER)]
 class BackendController extends PlatformController
 {
-    public function __construct(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, TranslatorInterface $translator, KernelInterface $kernel)
+    public function __construct(
+        RequestStack $requestStack,
+        \Doctrine\Persistence\ManagerRegistry $doctrine,
+        TranslatorInterface $translator,
+        KernelInterface $kernel,
+        MailerInterface $mailer,
+        LoggerInterface $logger
+    )
     {
-        parent::__construct($requestStack, $doctrine, $translator, $kernel);
+        parent::__construct($requestStack, $doctrine, $translator, $kernel, $mailer, $logger);
     }
 
     protected function init(): ?RedirectResponse
@@ -54,13 +66,17 @@ class BackendController extends PlatformController
     }
 
     #[Route('/{_locale}/admin/v1/dashboard', name: 'admin_v1_dashboard')]
-    public function index(NewsletterSubscriberRepository $newsletterSubscriberRepository): Response
+    public function index(newsletterSubscriberRepository $newsletterSubscriberRepository, EntityManagerInterface $entityManager, NewsletterRepository $newsletterRepository): Response
     {
         $this->init();
 
         if (!$this->getUser()) {
             return $this->redirectToRoute('login');
         }
+
+        (new NewsletterCron($this->requestStack, $this->doctrine, $this->translator, $this->kernel, $this->mailer, $this->logger, $entityManager, $newsletterRepository))->__invoke();
+        //exit;
+
 
         $instance = $_COOKIE['currentInstance'];
         $instance = (new InstanceRepository($this->doctrine))->find($instance);

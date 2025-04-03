@@ -27,6 +27,19 @@ class NewsletterRepository extends ServiceEntityRepository
         ;
     }
 
+    // find newsletter where status is scheduled and sendAt is less than now
+    public function findScheduledNewsletters()
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.status = :status')
+            ->andWhere('n.sendAt < :now')
+            ->setParameter('status', 'scheduled')
+            ->setParameter('now', new \DateTime())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return Newsletter[] Returns an array of Newsletter objects
     //     */

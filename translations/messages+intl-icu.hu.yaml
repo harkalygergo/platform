@@ -1,3 +1,7 @@
+newsletter:
+    draft: vázlat
+    scheduled: időzítve
+    sent: elküldve
 global:
     comment: 'Megjegyzés'
     name: 'Név'
@@ -17,6 +21,7 @@ action:
     remove: eltávolítás
 account:
     change password: 'Jelszó módosítása'
+    password created: 'Jelszó létrehozva'
     reset password: 'Jelszó visszaállítása'
 data:
     description: Leírás

@@ -82,7 +82,7 @@ class OrderController extends PlatformController
     }
 
     #[Route('/{_locale}/admin/v1/orders/create', name: 'admin_v1_orders_create')]
-    public function create(Request $request, MailerInterface $mailer, LoggerInterface $logger, SerializerInterface $serializer): Response
+    public function create(Request $request, SerializerInterface $serializer): Response
     {
         // get billing profile object based on posted integer id
         $billingProfile = $this->doctrine->getRepository(BillingProfile::class)->find($request->request->get('billingProfile'));
@@ -125,7 +125,7 @@ class OrderController extends PlatformController
             $this->getUser()->getEmail(),
         ];
 
-        $this->sendMail($mailer, $logger, $toAddresses, 'Új megrendelés: #'. $order->getId(), $emailBody);
+        $this->sendMail($toAddresses, 'Új megrendelés: #'. $order->getId(), $emailBody);
 
         // empty the cart
         $cart = $this->getUser()->getCart();

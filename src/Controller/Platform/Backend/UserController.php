@@ -23,10 +23,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[IsGranted(User::ROLE_USER)]
 class UserController extends PlatformController
 {
+    /*
     public function __construct(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, TranslatorInterface $translator, KernelInterface $kernel)
     {
         parent::__construct($requestStack, $doctrine, $translator, $kernel);
     }
+    */
 
     #[Route('/{_locale}/admin/v1/account/edit', name: 'admin_v1_account_edit')]
     public function editAccount(

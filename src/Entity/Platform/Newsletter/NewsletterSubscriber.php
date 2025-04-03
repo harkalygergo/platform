@@ -163,6 +163,10 @@ class NewsletterSubscriber
 
     public function getClientFullName(): string
     {
+        if ($this->client === null) {
+            return $this->name;
+        }
+
         return $this->client->getFullName();
     }
 }

@@ -59,6 +59,7 @@
                                     <th scope="row">{{ loop.index }}.</th>
                                     {% for thKey, thValue in tableHead %}
                                         <td>
+                                            {% set variable = attribute(td, thKey) %}
                                             {# is array #}
                                             {% if is_array(attribute(td, thKey)) %}
                                                 {% for key, value in attribute(td, thKey) %}
@@ -74,8 +75,10 @@
                                             {# is datetime #}
                                             {% elseif attribute(td, thKey) is instanceof('DateTime') or attribute(td, thKey) is instanceof('DateTimeImmutable') %}
                                                 {{ attribute(td, thKey).format('Y-m-d') }}
+                                            {# is object #}
+                                            {% elseif variable is instanceof('App\\Enum\\NewsletterStatusEnum') %}
+                                                {{ variable.toString()|trans }}
                                             {% else %}
-                                                {% set variable = attribute(td, thKey) %}
                                                 {{ variable|trans }}
                                             {% endif %}
                                         </td>

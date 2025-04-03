@@ -2,7 +2,9 @@
 
 namespace App\Form\Platform;
 
+use App\Enum\NewsletterStatusEnum;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -10,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NewsletterType extends AbstractType
 {
@@ -47,6 +50,18 @@ class NewsletterType extends AbstractType
                     'class' => 'form-control summernote',
                 ],
             ])
+            ->add('status', ChoiceType::class, [
+                'label' => 'Status',
+                'choices' => array_combine(
+                    array_map(fn($status) => $status->label(), NewsletterStatusEnum::cases()),
+                    NewsletterStatusEnum::cases()
+                ),
+                'choice_label' => fn($choice) => $choice->label(),
+                'choice_value' => fn($choice) => $choice?->value,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ]);
             /*
             ->add('instance', EntityType::class, [
                 'class' => Instance::class,
