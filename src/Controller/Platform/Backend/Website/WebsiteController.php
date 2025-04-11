@@ -118,8 +118,13 @@ class WebsiteController extends PlatformController
             if ($page->getSlug() === '') {
                 $slug = $slugger->slug($page->getTitle());
             } else {
-                $slug = $page->getSlug();
+                if ($page->getSlug() === '/') {
+                    $slug = 'index';
+                } else {
+                    $slug = $page->getSlug();
+                }
             }
+
             $urls[] = $slug;
             $filenames[] = $slug.'.html';
 
@@ -181,10 +186,12 @@ RewriteRule ^(.*)$ /$1/ [L,R=301]
 
     private function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename)
     {
-        $ftp = ftp_connect($FTPhost);
-        ftp_login($ftp, $FTPuser, $FTPpassword);
-        ftp_pasv($ftp, true);
-        ftp_put($ftp, $FTPpath.$filename, $content, FTP_ASCII);
-        ftp_close($ftp);
+        if ($FTPhost !== 'localhost') {
+            $ftp = ftp_connect($FTPhost);
+            ftp_login($ftp, $FTPuser, $FTPpassword);
+            ftp_pasv($ftp, true);
+            ftp_put($ftp, $FTPpath.$filename, $content, FTP_ASCII);
+            ftp_close($ftp);
+        }
     }
 }
