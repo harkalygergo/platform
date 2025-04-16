@@ -93,6 +93,11 @@ class WebsiteController extends PlatformController
     {
         $website = $id;
 
+        // check if the directory exists
+        if (!is_dir('/tmp/' . $website->getId())) {
+            mkdir('/tmp/' . $website->getId());
+        }
+
         // check if website has FTP credentials
         if (!$website->getFTPHost() || !$website->getFTPUser() || !$website->getFTPPassword() || !$website->getFTPPath()) {
             $this->addFlash('danger', 'FTP adatok hiányoznak.');
@@ -157,11 +162,6 @@ RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$ [NC]
 RewriteCond %{REQUEST_URI} !/$
 RewriteRule ^(.*)$ /$1/ [L,R=301]
 ';
-
-        // check if the directory exists
-        if (!is_dir('/tmp/' . $website->getId())) {
-            mkdir('/tmp/' . $website->getId());
-        }
 
         $i = 0;
         foreach ($urls as $url) {

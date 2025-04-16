@@ -93,6 +93,12 @@
             "title": "CMS | Tartalomkezelés",
             "route": "",
             "children": {
+                "block": {
+                    "icon": "bi bi-bricks",
+                    "title": "Block",
+                    "route": "admin_v1_block_index",
+                    "children": []
+                },
                 "domain": {
                     "icon": "bi bi-link-45deg",
                     "title": "Domain",
