@@ -8,6 +8,7 @@ use App\Entity\Platform\User;
 use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsitePage;
 use App\Form\Platform\Website\WebsiteType;
+use App\Repository\Platform\BlockRepository;
 use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -116,12 +117,16 @@ class WebsiteController extends PlatformController
             $pageContent = $page->getContent();
             preg_match_all('/\[block id="(\d+)"\]/', $pageContent, $matches);
             foreach ($matches[1] as $blockId) {
-                $block = $this->doctrine->getRepository(Block::class)->find($blockId);
+                $blockRepository = $this->doctrine->getRepository(Block::class);
+                $block = $blockRepository->findOneBy([
+                    'id' => $blockId,
+                    'instance' => $this->currentInstance,
+                    'status' => true
+                ]);
                 if ($block) {
                     $pageContent = str_replace('[block id="'.$blockId.'"]', $block->getContent(), $pageContent);
                 }
             }
-
 
             $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
                 'charset' => $website->getCharset(),
