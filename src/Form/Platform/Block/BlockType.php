@@ -24,7 +24,7 @@ class BlockType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Tartalom',
                 'attr' => [
-                    'class' => 'form-control summernote',
+                    'class' => 'form-control',
                 ],
             ])
             ->add('status', CheckboxType::class, [

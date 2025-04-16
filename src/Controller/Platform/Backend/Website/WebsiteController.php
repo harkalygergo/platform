@@ -3,6 +3,7 @@
 namespace App\Controller\Platform\Backend\Website;
 
 use App\Controller\Platform\PlatformController;
+use App\Entity\Platform\Block;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsitePage;
@@ -111,13 +112,24 @@ class WebsiteController extends PlatformController
         $filenames = [];
 
         foreach ($pages as $page) {
+
+            $pageContent = $page->getContent();
+            preg_match_all('/\[block id="(\d+)"\]/', $pageContent, $matches);
+            foreach ($matches[1] as $blockId) {
+                $block = $this->doctrine->getRepository(Block::class)->find($blockId);
+                if ($block) {
+                    $pageContent = str_replace('[block id="'.$blockId.'"]', $block->getContent(), $pageContent);
+                }
+            }
+
+
             $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
                 'title' => $page->getTitle(),
                 'keywords' => $website->getMetaKeywords(),
                 'description' => $website->getMetaDescription(),
-                'content' => $page->getContent(),
+                'content' => $pageContent,
             ]);
 
             if ($page->getSlug() === '') {
