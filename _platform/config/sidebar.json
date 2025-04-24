@@ -128,6 +128,12 @@
                     "title": "Mobilalkalmazás",
                     "route": "",
                     "children": []
+                },
+                "api": {
+                    "icon": "bi bi-code-slash",
+                    "title": "API",
+                    "route": "admin_v1_api_index",
+                    "children": []
                 }
             }
         },
