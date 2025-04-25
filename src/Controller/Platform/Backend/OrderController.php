@@ -21,26 +21,31 @@ class OrderController extends PlatformController
     #[Route('/{_locale}/admin/v1/orders', name: 'admin_v1_orders')]
     public function index(Request $request): Response
     {
-        $orders = $this->doctrine->getRepository(Order::class)->findAll();
+        $orders = $this->doctrine->getRepository(Order::class)->findBy([
+            'instance' => $this->currentInstance,
+        ]);
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => 'Rendelések',
             'tableHead' => [
-                'createdAt' => 'Rendelés dátuma',
-                'createdBy' => 'Rendelő',
-                'instance' => 'Intézmény',
+                'id' => 'Azonosító',
+                'createdAt' => 'Dátum',
+                'lastName' => 'Vezetéknév',
+                'firstName' => 'Keresztnév',
+                'phone' => 'Telefonszám',
+                'email' => 'E-mail',
+                'shippingMethod' => 'Szállítási mód',
+                'shippingAddress' => 'Szállítási cím',
+                'paymentMethod' => 'Fizetési mód',
+                'paymentStatus' => 'Fizetési státusz',
+                'comment' => 'Megjegyzés',
                 'total' => 'Összeg',
                 'currency' => 'Pénznem',
                 'items' => 'Tételek',
-                'billingProfile' => 'Számlázási profil',
-                'paymentStatus' => 'Fizetési státusz',
             ],
             'tableBody' => $orders,
             'actions' => [
-                'view',
-                'edit',
-                'delete',
             ],
         ]);
     }

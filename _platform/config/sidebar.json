@@ -18,6 +18,98 @@
                 }
             }
         },
+        "cms": {
+            "icon": "",
+            "title": "CMS | Tartalomkezelés",
+            "route": "",
+            "children": {
+                "block": {
+                    "icon": "bi bi-bricks",
+                    "title": "Block",
+                    "route": "admin_v1_block_index",
+                    "children": []
+                },
+                "domain": {
+                    "icon": "bi bi-link-45deg",
+                    "title": "Domain",
+                    "route": "admin_v1_domains",
+                    "children": []
+                },
+                "website": {
+                    "icon": "bi bi-globe",
+                    "title": "Honlap",
+                    "route": "admin_v1_website_index",
+                    "children": []
+                },
+                "webshop": {
+                    "icon": "bi bi-cart",
+                    "title": "Webshop",
+                    "route": "",
+                    "children": []
+                },
+                "webapp": {
+                    "icon": "bi bi-window",
+                    "title": "Webalkalmazás",
+                    "route": "",
+                    "children": []
+                },
+                "mobilapp": {
+                    "icon": "bi bi-phone",
+                    "title": "Mobilalkalmazás",
+                    "route": "",
+                    "children": []
+                },
+                "api": {
+                    "icon": "bi bi-code-slash",
+                    "title": "API",
+                    "route": "admin_v1_api_index",
+                    "children": []
+                }
+            }
+        },
+        "ecom": {
+            "icon": "",
+            "title": "ECOM | Értékesítés",
+            "route": "",
+            "children": {
+                "webshop": {
+                    "icon": "bi bi-basket",
+                    "title": "Rendelések",
+                    "route": "admin_v1_orders",
+                    "children": []
+                },
+                "domain": {
+                    "icon": "bi bi-shop",
+                    "title": "Termékek",
+                    "route": "",
+                    "children": []
+                },
+                "website": {
+                    "icon": "bi bi-bag-x",
+                    "title": "Elhagyott kosarak",
+                    "route": "",
+                    "children": []
+                },
+                "payment": {
+                    "icon": "bi bi-credit-card",
+                    "title": "Fizetési módok",
+                    "route": "",
+                    "children": []
+                },
+                "shipping": {
+                    "icon": "bi bi-truck",
+                    "title": "Szállítási módok",
+                    "route": "",
+                    "children": []
+                },
+                "analytics": {
+                    "icon": "bi bi-bar-chart",
+                    "title": "Analitika",
+                    "route": "",
+                    "children": []
+                }
+            }
+        },
         "crm": {
             "icon": "",
             "title": "CRM | Ügyfélkapcsolatok",
@@ -84,98 +176,6 @@
                     "icon": "bi bi-list-task",
                     "title": "Feladatkezelő",
                     "route": "admin_v1_task_index",
-                    "children": []
-                }
-            }
-        },
-        "cms": {
-            "icon": "",
-            "title": "CMS | Tartalomkezelés",
-            "route": "",
-            "children": {
-                "block": {
-                    "icon": "bi bi-bricks",
-                    "title": "Block",
-                    "route": "admin_v1_block_index",
-                    "children": []
-                },
-                "domain": {
-                    "icon": "bi bi-link-45deg",
-                    "title": "Domain",
-                    "route": "admin_v1_domains",
-                    "children": []
-                },
-                "website": {
-                    "icon": "bi bi-globe",
-                    "title": "Honlap",
-                    "route": "admin_v1_website_index",
-                    "children": []
-                },
-                "webshop": {
-                    "icon": "bi bi-cart",
-                    "title": "Webshop",
-                    "route": "",
-                    "children": []
-                },
-                "webapp": {
-                    "icon": "bi bi-window",
-                    "title": "Webalkalmazás",
-                    "route": "",
-                    "children": []
-                },
-                "mobilapp": {
-                    "icon": "bi bi-phone",
-                    "title": "Mobilalkalmazás",
-                    "route": "",
-                    "children": []
-                },
-                "api": {
-                    "icon": "bi bi-code-slash",
-                    "title": "API",
-                    "route": "admin_v1_api_index",
-                    "children": []
-                }
-            }
-        },
-        "ecom": {
-            "icon": "",
-            "title": "ECOM | Értékesítés",
-            "route": "",
-            "children": {
-                "domain": {
-                    "icon": "bi bi-shop",
-                    "title": "Termékek",
-                    "route": "",
-                    "children": []
-                },
-                "website": {
-                    "icon": "bi bi-bag-x",
-                    "title": "Elhagyott kosarak",
-                    "route": "",
-                    "children": []
-                },
-                "webshop": {
-                    "icon": "bi bi-basket",
-                    "title": "Vásárlások",
-                    "route": "",
-                    "children": []
-                },
-                "payment": {
-                    "icon": "bi bi-credit-card",
-                    "title": "Fizetési módok",
-                    "route": "",
-                    "children": []
-                },
-                "shipping": {
-                    "icon": "bi bi-truck",
-                    "title": "Szállítási módok",
-                    "route": "",
-                    "children": []
-                },
-                "analytics": {
-                    "icon": "bi bi-bar-chart",
-                    "title": "Analitika",
-                    "route": "",
                     "children": []
                 }
             }

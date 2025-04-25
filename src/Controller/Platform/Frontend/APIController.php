@@ -69,7 +69,6 @@ class APIController extends PlatformController
                     ]);
                 }
 
-                // create new order
                 $order = new Order();
                 $order->setInstance($instance);
                 $order->setComment($parameters['message']);
@@ -79,6 +78,10 @@ class APIController extends PlatformController
                 $order->setShippingMethod($parameters['shippingMethod']);
                 $order->setFirstName($parameters['firstName']);
                 $order->setLastName($parameters['lastName']);
+                $order->setPhone($parameters['phone']);
+                $order->setEmail($parameters['email']);
+                $order->setTotal($parameters['total']);
+                $order->setCurrency($parameters['currency']);
 
                 // save order
                 $em = $doctrine->getManager();

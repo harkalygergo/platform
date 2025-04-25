@@ -8,7 +8,7 @@
         <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
 
             {% for sidebarMenuKey, sidebarMenuValue in sidebarMenu %}
-                <h6 id="{{ sidebarMenuKey }}" class="sidebar-heading d-flex px-3 mt-3 mb-1 text-white text-uppercase fw-bold">
+                <h6 id="{{ sidebarMenuKey }}" class="sidebar-heading d-flex px-2 text-white text-uppercase fw-bold">
                     {% if sidebarMenuValue['icon'] is defined and sidebarMenuValue['icon'] is not empty %}
                         <i class="{{ sidebarMenuValue['icon'] }}"></i>
                     {% endif %}
