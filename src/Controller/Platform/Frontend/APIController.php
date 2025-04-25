@@ -91,11 +91,17 @@ class APIController extends PlatformController
                     $instance->getOwner()->getEmail(),
                 ];
 
-                $emailBody = "Rendelés azonosító: #" . $order->getId() . "\n";
+                $emailBody =  "Rendelés: #" . $order->getId() . "\n";
                 $emailBody .= "Név: " . $order->getFirstName() . " " . $order->getLastName() . "\n";
+                $emailBody .= 'Telefonszám: ' . $parameters['phone'] . "\n";
+                $emailBody .= 'E-mail cím: ' . $parameters['email'] . "\n";
+                $emailBody .= 'Mennyiség : ' . $parameters['quantity'] . "\n";
+                $emailBody .= 'Fizetési mód: ' . $parameters['paymentMethod'] . "\n";
+                $emailBody .= 'Szállítási mód: ' . $parameters['shippingMethod'] . "\n";
+                $emailBody .= 'Megjegyzés: ' . $parameters['message'] . "\n";
 
                 // send email
-                $this->sendMail($toAddresses, 'Új megrendelés: #'. $order->getId(), $emailBody);
+                $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody);
 
                 // return to /
                 $response = new Response();
