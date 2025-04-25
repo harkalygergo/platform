@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Platform\API;
+namespace App\Controller\Platform\Backend\API;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
@@ -13,7 +13,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_USER)]
 class APIController extends PlatformController
 {
-
     #[Route('/', name: 'admin_v1_api_index')]
     public function index()
     {
@@ -59,7 +58,6 @@ class APIController extends PlatformController
         ]);
     }
 
-    // edit
     #[Route('/edit/{id}', name: 'admin_v1_api_edit')]
     public function edit(API $api)
     {
@@ -80,7 +78,6 @@ class APIController extends PlatformController
         ]);
     }
 
-    // delete
     #[Route('/delete/{id}', name: 'admin_v1_api_delete')]
     public function delete(API $api)
     {

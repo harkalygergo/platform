@@ -32,6 +32,26 @@ class Order
     #[ORM\Column(nullable: true)]
     private ?array $items = null;
 
+    // add firstName as string, but nullable and default null
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstName = null;
+
+    // add lastName as string, but nullable and default null
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastName = null;
+
+    // add shipping method as string, but nullable and default null
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $shippingMethod = null;
+
+    // add shipping address as string, but nullable and default null
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $shippingAddress = null;
+
+    // add payment method as string, but nullable and default null
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $paymentMethod = null;
+
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?BillingProfile $billingProfile = null;
 
@@ -114,6 +134,66 @@ class Order
     public function setItems(?array $items): static
     {
         $this->items = $items;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getShippingMethod(): ?string
+    {
+        return $this->shippingMethod;
+    }
+
+    public function setShippingMethod(?string $shippingMethod): static
+    {
+        $this->shippingMethod = $shippingMethod;
+
+        return $this;
+    }
+
+    public function getShippingAddress(): ?string
+    {
+        return $this->shippingAddress;
+    }
+
+    public function setShippingAddress(?string $shippingAddress): static
+    {
+        $this->shippingAddress = $shippingAddress;
+
+        return $this;
+    }
+
+    public function getPaymentMethod(): ?string
+    {
+        return $this->paymentMethod;
+    }
+
+    public function setPaymentMethod(?string $paymentMethod): static
+    {
+        $this->paymentMethod = $paymentMethod;
 
         return $this;
     }
