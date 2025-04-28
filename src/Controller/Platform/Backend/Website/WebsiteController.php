@@ -33,6 +33,7 @@ class WebsiteController extends PlatformController
             ],
             'tableBody' => $websiteRepository->findBy(['instance' => $this->currentInstance]),
             'actions' => [
+                'new',
                 'edit',
             ],
             'extraActions' => [

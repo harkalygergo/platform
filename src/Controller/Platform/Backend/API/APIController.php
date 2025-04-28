@@ -29,6 +29,7 @@ class APIController extends PlatformController
             ],
             'tableBody' => $apis,
             'actions' => [
+                'new',
                 'edit',
                 'delete',
             ],

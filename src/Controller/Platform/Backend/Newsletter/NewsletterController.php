@@ -31,6 +31,7 @@ class NewsletterController extends PlatformController
             ],
             'tableBody' => $newsletters,
             'actions' => [
+                'new',
                 'edit'
             ],
             'extraActions' => [

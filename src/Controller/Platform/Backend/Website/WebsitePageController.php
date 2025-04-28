@@ -39,6 +39,7 @@ class WebsitePageController extends PlatformController
             ],
             'tableBody' => $pagesByWebsite,
             'actions' => [
+                'new',
                 'edit',
             ],
         ]);

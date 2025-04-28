@@ -34,6 +34,7 @@ class PopupController extends PlatformController
             ],
             'tableBody' => $repository->findBy(['instance' => $this->currentInstance]),
             'actions' => [
+                'new',
                 'edit',
             ],
         ]);

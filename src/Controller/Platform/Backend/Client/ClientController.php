@@ -34,6 +34,7 @@ class ClientController extends PlatformController
             ],
             'tableBody' => $clientRepository->findBy(['instance' => $this->currentInstance]),
             'actions' => [
+                'new',
                 'edit',
             ],
         ]);

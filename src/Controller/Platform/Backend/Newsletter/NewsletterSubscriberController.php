@@ -30,6 +30,7 @@ class NewsletterSubscriberController extends PlatformController
             ],
             'tableBody' => $newsletters,
             'actions' => [
+                'new',
             ],
         ]);
     }

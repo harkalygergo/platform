@@ -15,9 +15,14 @@
                     <div>
                         <div class="btn-toolbar mb-2 mb-md-0">
                             <div class="btn-group me-2">
-                                <a href="new/" type="button" class="btn btn-sm btn-outline-success">
-                                    <i class="bi bi-plus-circle"></i> <span class="d-none d-md-inline-block">új hozzáadása</span>
-                                </a>
+
+                                {% if actions is defined %}
+                                    {% if 'new' in actions %}
+                                        <a href="new/" type="button" class="btn btn-sm btn-outline-success">
+                                            <i class="bi bi-plus-circle"></i> <span class="d-none d-md-inline-block">új hozzáadása</span>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
                                 <button type="button" class="btn btn-sm btn-outline-danger">
                                     <i class="bi bi-heart"></i> <span class="d-none d-md-inline-block">kedvencekhez</span>
                                 </button>

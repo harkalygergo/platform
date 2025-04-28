@@ -30,6 +30,7 @@ class BlockController extends PlatformController
                 'instance' => $this->currentInstance,
             ]),
             'actions' => [
+                'new',
                 'edit',
             ],
         ]);
