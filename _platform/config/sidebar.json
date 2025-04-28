@@ -1,10 +1,5 @@
 {
     "main": {
-        "dashboard": {
-            "icon": "bi bi-speedometer2",
-            "title": "aside.dashboard",
-            "route": "admin_v1_dashboard"
-        },
         "favourites": {
             "icon": "bi bi-star",
             "title": "aside.favourites",

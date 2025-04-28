@@ -18,6 +18,14 @@ class APIController extends PlatformController
         $request = $requestStack->getCurrentRequest();
         $parameters = $request->request->all();
 
+        // if the honeypot is filled, return error
+        if ($parameters['honeypot'] && $parameters['honeypot'] !== '') {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Invalid request',
+            ]);
+        }
+
         switch ($parameters['action']) {
             case 'order':
             {
@@ -82,6 +90,9 @@ class APIController extends PlatformController
                 $order->setEmail($parameters['email']);
                 $order->setTotal($parameters['total']);
                 $order->setCurrency($parameters['currency']);
+                $order->setBillingZip($parameters['billingZip']);
+                $order->setBillingCity($parameters['billingCity']);
+                $order->setBillingAddress($parameters['billingAddress']);
 
                 // save order
                 $em = $doctrine->getManager();
@@ -98,20 +109,32 @@ class APIController extends PlatformController
                 $emailBody .= "Név: " . $order->getFirstName() . " " . $order->getLastName() . "\n";
                 $emailBody .= 'Telefonszám: ' . $parameters['phone'] . "\n";
                 $emailBody .= 'E-mail cím: ' . $parameters['email'] . "\n";
-                $emailBody .= 'Mennyiség : ' . $parameters['quantity'] . "\n";
+                $emailBody .= 'Számlázás irányítószám: ' . $parameters['billingZip'] . "\n";
+                $emailBody .= 'Számlázás település: ' . $parameters['billingCity'] . "\n";
+                $emailBody .= 'Számlázás cím: ' . $parameters['billingAddress'] . "\n";
+                $emailBody .= 'Mennyiség: ' . $parameters['quantity'] . "\n";
                 $emailBody .= 'Fizetési mód: ' . $parameters['paymentMethod'] . "\n";
                 $emailBody .= 'Szállítási mód: ' . $parameters['shippingMethod'] . "\n";
+                $emailBody .= 'Végösszeg: ' . $parameters['total'] . "\n";
                 $emailBody .= 'Megjegyzés: ' . $parameters['message'] . "\n";
 
                 // send email
                 $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody);
 
                 // return to /
+                return $this->render(
+                    'platform/frontend/index.html.twig',
+                    ['body' => 'Sikeres rendelés, hamarosan visszairányítjuk a webáruházba.'],
+                    $this->redirectAway($HTTP_ORIGIN)
+                );
+
+                /*
                 $response = new Response();
                 $response->headers->set('Location', $HTTP_ORIGIN);
                 $response->setStatusCode(302);
                 $response->send();
                 return $response;
+                */
 
                 break;
             }
@@ -171,5 +194,15 @@ class APIController extends PlatformController
 
 
         dd('API');
+    }
+
+    public function redirectAway($url)
+    {
+        $response = new Response();
+        $response->setStatusCode(200);
+        $response->headers->set('Refresh', '5; url=' . $url);
+        $response->send();
+
+        return $response;
     }
 }

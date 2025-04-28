@@ -61,6 +61,18 @@ class Order
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?BillingProfile $billingProfile = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $billingCountry = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $billingZip = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $billingCity = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $billingAddress = null;
+
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $paymentStatus = null;
 
@@ -224,6 +236,54 @@ class Order
     public function setPaymentMethod(?string $paymentMethod): static
     {
         $this->paymentMethod = $paymentMethod;
+
+        return $this;
+    }
+
+    public function getBillingCountry(): ?string
+    {
+        return $this->billingCountry;
+    }
+
+    public function setBillingCountry(?string $billingCountry): static
+    {
+        $this->billingCountry = $billingCountry;
+
+        return $this;
+    }
+
+    public function getBillingZip(): ?string
+    {
+        return $this->billingZip;
+    }
+
+    public function setBillingZip(?string $billingZip): static
+    {
+        $this->billingZip = $billingZip;
+
+        return $this;
+    }
+
+    public function getBillingCity(): ?string
+    {
+        return $this->billingCity;
+    }
+
+    public function setBillingCity(?string $billingCity): static
+    {
+        $this->billingCity = $billingCity;
+
+        return $this;
+    }
+
+    public function getBillingAddress(): ?string
+    {
+        return $this->billingAddress;
+    }
+
+    public function setBillingAddress(?string $billingAddress): static
+    {
+        $this->billingAddress = $billingAddress;
 
         return $this;
     }
