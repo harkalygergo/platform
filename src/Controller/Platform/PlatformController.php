@@ -56,8 +56,12 @@ class PlatformController extends AbstractController
         return $this->sidebarController;
     }
 
-    public function sendMail($toAddresses = [], $subject = '', $emailBody = '')
+    public function sendMail($toAddresses = [], $subject = '', $emailBody = '', $fromAddress = null)
     {
+        if (empty($fromAddress)) {
+            $fromAddress = $_ENV['EMAIL_FROM'];
+        }
+
         foreach (explode(',', $_ENV['MAIL_COPY']) as $toAddress) {
             $toAddresses[] = $toAddress;
         }
@@ -70,7 +74,7 @@ class PlatformController extends AbstractController
             $emailUniqueBody .= "\n EMAIL_ID: ". time()."-".uniqid();
 
             $email = (new Email())
-                ->from(Address::create($_ENV['EMAIL_FROM']))
+                ->from(Address::create($fromAddress))
                 ->to($toAddress)
                 ->replyTo($_ENV['EMAIL_REPLY_TO'])
                 //->priority(Email::PRIORITY_HIGH)

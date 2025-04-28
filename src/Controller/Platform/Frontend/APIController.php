@@ -119,7 +119,8 @@ class APIController extends PlatformController
                 $emailBody .= 'Megjegyzés: ' . $parameters['message'] . "\n";
 
                 // send email
-                $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody);
+                $fromAddress = $instance->getName() . ' <' . $instance->getOwner()->getEmail() . '>';
+                $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody, $fromAddress);
 
                 // return to /
                 return $this->render(
