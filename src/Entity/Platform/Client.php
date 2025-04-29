@@ -35,6 +35,18 @@ class Client
     #[ORM\Column(length: 128, nullable: true)]
     private ?string $email = null;
 
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $country = null;
+
+    #[ORM\Column(length: 16, nullable: true)]
+    private ?string $zip = null;
+
+    #[ORM\Column(length: 128, nullable: true)]
+    private ?string $settlement = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $address = null;
+
     #[ORM\ManyToOne(inversedBy: 'clients')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Instance $instance = null;
@@ -143,6 +155,54 @@ class Client
     public function setEmail(?string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): static
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getZip(): ?string
+    {
+        return $this->zip;
+    }
+
+    public function setZip(?string $zip): static
+    {
+        $this->zip = $zip;
+
+        return $this;
+    }
+
+    public function getSettlement(): ?string
+    {
+        return $this->settlement;
+    }
+
+    public function setSettlement(?string $settlement): static
+    {
+        $this->settlement = $settlement;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): static
+    {
+        $this->address = $address;
 
         return $this;
     }
