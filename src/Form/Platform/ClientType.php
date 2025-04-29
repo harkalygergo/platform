@@ -59,6 +59,26 @@ class ClientType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
+            ->add('country', TextType::class, [
+                'label' => $this->translator->trans('address.country'),
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('zip', TextType::class, [
+                'label' => $this->translator->trans('address.zip'),
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('settlement', TextType::class, [
+                'label' => $this->translator->trans('address.settlement'),
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('address', TextType::class, [
+                'label' => $this->translator->trans('address.address'),
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('comment', TextareaType::class, [
                 'label' => $this->translator->trans('global.comment'),
                 'required' => false,

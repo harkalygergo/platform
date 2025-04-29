@@ -1,3 +1,12 @@
+address:
+    zip: 'Zip'
+    city: 'City'
+    settlement: 'Settlement'
+    street: 'Street'
+    houseNumber: 'House number'
+    country: 'Country'
+    state: 'State'
+    address: 'Address'
 global:
     comment: 'Comment'
     name: 'Name'
