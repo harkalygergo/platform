@@ -26,57 +26,80 @@ class APIController extends PlatformController
             ]);
         }
 
+
+        $key = $parameters['key'];
+        $HTTP_ORIGIN = $request->server->get('HTTP_ORIGIN');
+        // cut https:// or http:// from domain
+        if (str_starts_with($HTTP_ORIGIN, 'https://')) {
+            $domain = substr($HTTP_ORIGIN, 8);
+        } elseif (str_starts_with($HTTP_ORIGIN, 'http://')) {
+            $domain = substr($HTTP_ORIGIN, 7);
+        }
+
+        // find API by domain and key
+        $api = $doctrine->getRepository(API::class)->findOneBy([
+            'domain' => $domain,
+            'publicKey' => $key
+        ]);
+
+        if (!$api) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Invalid API key',
+            ]);
+        }
+
+        // check if API is active
+        if (!$api->getStatus()) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'API is inactive',
+            ]);
+        }
+
+        // check if an instance is valid
+        $instance = $doctrine->getRepository(Instance::class)->findOneBy(['id' => $api->getInstance()->getId()]);
+
+        if (!$instance) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Invalid instance',
+            ]);
+        }
+
+        // check if instance is active
+        if (!$api->getInstance()->getStatus()) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Instance is inactive',
+            ]);
+        }
+
         switch ($parameters['action']) {
+            case 'contact': {
+                $name = $parameters['name'] ?? null;
+                $email = $parameters['email'] ?? null;
+                $message = $parameters['message'] ?? null;
+                $phone = $parameters['phone'] ?? null;
+                $subject = $parameters['subject'] ?? null;
+                $toAddresses = [
+                    $instance->getOwner()->getEmail(),
+                ];
+
+                // send email
+                $emailBody =  "Név: " . $name . "\n";
+                $emailBody .= 'Telefonszám: ' . $phone . "\n";
+                $emailBody .= 'E-mail cím: ' . $email . "\n";
+                $emailBody .= 'Tárgy: ' . $subject . "\n";
+                $emailBody .= 'Üzenet: ' . $message . "\n";
+                $fromAddress = $name . ' <' . $email . '>';
+                $this->sendMail($toAddresses, $domain. ' új üzenet: '. $subject, $emailBody, $fromAddress);
+
+                break;
+            }
+
             case 'order':
             {
-                $key = $parameters['key'];
-                $HTTP_ORIGIN = $request->server->get('HTTP_ORIGIN');
-                // cut https:// or http:// from domain
-                if (str_starts_with($HTTP_ORIGIN, 'https://')) {
-                    $domain = substr($HTTP_ORIGIN, 8);
-                } elseif (str_starts_with($HTTP_ORIGIN, 'http://')) {
-                    $domain = substr($HTTP_ORIGIN, 7);
-                }
-
-                // find API by domain and key
-                $api = $doctrine->getRepository(API::class)->findOneBy([
-                    'domain' => $domain,
-                    'publicKey' => $key
-                ]);
-
-                if (!$api) {
-                    return $this->json([
-                        'status' => 'error',
-                        'message' => 'Invalid API key',
-                    ]);
-                }
-
-                // check if API is active
-                if (!$api->getStatus()) {
-                    return $this->json([
-                        'status' => 'error',
-                        'message' => 'API is inactive',
-                    ]);
-                }
-
-                // check if instance is valid
-                $instance = $doctrine->getRepository(Instance::class)->findOneBy(['id' => $api->getInstance()->getId()]);
-
-                if (!$instance) {
-                    return $this->json([
-                        'status' => 'error',
-                        'message' => 'Invalid instance',
-                    ]);
-                }
-
-                // check if instance is active
-                if (!$api->getInstance()->getStatus()) {
-                    return $this->json([
-                        'status' => 'error',
-                        'message' => 'Instance is inactive',
-                    ]);
-                }
-
                 $order = new Order();
                 $order->setInstance($instance);
                 $order->setComment($parameters['message']);
@@ -122,79 +145,15 @@ class APIController extends PlatformController
                 $fromAddress = $instance->getName() . ' <' . $instance->getOwner()->getEmail() . '>';
                 $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody, $fromAddress);
 
-                // return to /
-                return $this->render(
-                    'platform/frontend/index.html.twig',
-                    ['body' => 'Sikeres rendelés, hamarosan visszairányítjuk a webáruházba.'],
-                    $this->redirectAway($HTTP_ORIGIN)
-                );
-
-                /*
-                $response = new Response();
-                $response->headers->set('Location', $HTTP_ORIGIN);
-                $response->setStatusCode(302);
-                $response->send();
-                return $response;
-                */
-
                 break;
             }
         }
 
-
-
-        dump($parameters);
-
-        // get HTTP_ORIGIN
-
-        dump($request);
-        // get request body
-        $body = $request->getContent();
-        // content is a string, like parameter=value&parameter2=value2
-
-        dump($body);
-        // decode json
-        $data = json_decode($body, true);
-        dd($data);
-        // check if json is valid
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return $this->json([
-                'status' => 'error',
-                'message' => 'Invalid JSON',
-            ]);
-        }
-        // check if request is valid
-        if (!isset($data['action'])) {
-            return $this->json([
-                'status' => 'error',
-                'message' => 'Invalid request',
-            ]);
-        }
-        // check if action is valid
-        if (!in_array($data['action'], ['get', 'post', 'put', 'delete'])) {
-            return $this->json([
-                'status' => 'error',
-                'message' => 'Invalid action',
-            ]);
-        }
-        // check if instance is valid
-        if (!isset($data['instance'])) {
-            return $this->json([
-                'status' => 'error',
-                'message' => 'Invalid instance',
-            ]);
-        }
-        // check if instance is valid
-        $instance = $this->doctrine->getRepository(Instance::class)->findOneBy(['id' => $data['instance']]);
-        if (!$instance) {
-            return $this->json([
-                'status' => 'error',
-                'message' => 'Invalid instance',
-            ]);
-        }
-
-
-        dd('API');
+        return $this->render(
+            'platform/frontend/index.html.twig',
+            ['body' => 'Sikeres rendelés, hamarosan visszairányítjuk a webáruházba.'],
+            $this->redirectAway($HTTP_ORIGIN)
+        );
     }
 
     public function redirectAway($url)
