@@ -92,7 +92,7 @@ class APIController extends PlatformController
                 $emailBody .= 'E-mail cím: ' . $email . "\n";
                 $emailBody .= 'Tárgy: ' . $subject . "\n";
                 $emailBody .= 'Üzenet: ' . $message . "\n";
-                $fromAddress = $name . ' <' . $email . '>';
+                $fromAddress = $instance->getName() . ' <' . $instance->getOwner()->getEmail() . '>';
                 $this->sendMail($toAddresses, $domain. ' új üzenet: '. $subject, $emailBody, $fromAddress);
 
                 break;
