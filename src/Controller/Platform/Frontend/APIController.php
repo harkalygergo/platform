@@ -83,6 +83,7 @@ class APIController extends PlatformController
                 $phone = $parameters['phone'] ?? null;
                 $subject = $parameters['subject'] ?? null;
                 $toAddresses = [
+                    $parameters['email'],
                     $instance->getOwner()->getEmail(),
                 ];
 
@@ -151,7 +152,7 @@ class APIController extends PlatformController
 
         return $this->render(
             'platform/frontend/index.html.twig',
-            ['body' => 'Sikeres rendelés, hamarosan visszairányítjuk a webáruházba.'],
+            ['content' => 'Sikeres rendelés, hamarosan visszairányítjuk a webáruházba.'],
             $this->redirectAway($HTTP_ORIGIN)
         );
     }
@@ -160,7 +161,7 @@ class APIController extends PlatformController
     {
         $response = new Response();
         $response->setStatusCode(200);
-        $response->headers->set('Refresh', '5; url=' . $url);
+        $response->headers->set('Refresh', '1; url=' . $url);
         $response->send();
 
         return $response;
