@@ -57,4 +57,9 @@ aside:
     settings: 'Beállítások'
     logout: 'Kijelentkezés'
     users: 'Felhasználók'
-    
+web:
+    application: 'Webalkalmazás'
+    block: 'Blokk'
+    blocks: 'Blokkok'
+    website: 'Honlap'
+    webshop: 'Webáruház'

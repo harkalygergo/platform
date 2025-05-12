@@ -21,7 +21,7 @@ final class Version20250508125551 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE instance ADD type VARCHAR(255) DEFAULT 'platform'
+            ALTER TABLE instance ADD type VARCHAR(255) DEFAULT 'Platform'
         SQL);
     }
 

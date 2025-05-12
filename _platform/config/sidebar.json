@@ -12,7 +12,7 @@
             "children": {
                 "block": {
                     "icon": "bi bi-bricks",
-                    "title": "Block",
+                    "title": "web.block",
                     "route": "admin_v1_block_index",
                     "children": []
                 },
@@ -24,7 +24,7 @@
                 },
                 "website": {
                     "icon": "bi bi-globe",
-                    "title": "Honlap",
+                    "title": "web.website",
                     "route": "admin_v1_website_index",
                     "children": []
                 }
@@ -67,6 +67,73 @@
                     }
                 }
             }
+        },
+        "wedding":{
+            "icon": "",
+            "title": "Esküvőszervezés",
+            "route": "",
+            "children": {
+                "wedding_savethedate": {
+                    "icon": "bi bi-calendar-week",
+                    "title": "Digitális save the date",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_weddingcard": {
+                    "icon": "bi bi-card-text",
+                    "title": "Digitális esküvői meghívó",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_launchcard": {
+                    "icon": "bi bi-fork-knife",
+                    "title": "Digitális vacsora meghívó",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_rsvp": {
+                    "icon": "bi bi-check2-circle",
+                    "title": "Digitális RSVP",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_table_food": {
+                    "icon": "bi bi-egg-fried",
+                    "title": "Digitális menükártya",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_table_program": {
+                    "icon": "bi bi-postcard",
+                    "title": "Digitális programfüzet",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_thankyou": {
+                    "icon": "bi bi-heart",
+                    "title": "Digitális köszönetkártya",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_sitting_card": {
+                    "icon": "bi bi-card-text",
+                    "title": "Nyomtatható ültetőkártya",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_table_number": {
+                    "icon": "bi bi-123",
+                    "title": "Nyomtatható asztalszám",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_table_numbers": {
+                    "icon": "bi bi-people",
+                    "title": "Nyomtatható ültetési rend",
+                    "route": "",
+                    "children": []
+                }
+            }
         }
     },
     "Platform": {
@@ -90,7 +157,7 @@
             "children": {
                 "block": {
                     "icon": "bi bi-bricks",
-                    "title": "Block",
+                    "title": "web.block",
                     "route": "admin_v1_block_index",
                     "children": []
                 },
@@ -102,19 +169,19 @@
                 },
                 "website": {
                     "icon": "bi bi-globe",
-                    "title": "Honlap",
+                    "title": "web.website",
                     "route": "admin_v1_website_index",
                     "children": []
                 },
                 "webshop": {
                     "icon": "bi bi-cart",
-                    "title": "Webshop",
+                    "title": "web.webshop",
                     "route": "",
                     "children": []
                 },
                 "webapp": {
                     "icon": "bi bi-window",
-                    "title": "Webalkalmazás",
+                    "title": "web.application",
                     "route": "",
                     "children": []
                 },

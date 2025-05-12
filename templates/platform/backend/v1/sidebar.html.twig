@@ -58,12 +58,12 @@
                                     {% if sidebarMenuChildValue['route'] != '' %}
                                         <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path(sidebarMenuChildValue['route']) }}">
                                             <i class="{{ sidebarMenuChildValue['icon'] }}"></i>
-                                            {{ sidebarMenuChildValue['title'] }}
+                                            {{ sidebarMenuChildValue['title']|trans }}
                                         </a>
                                     {% else %}
                                         <span class="nav-link d-flex align-items-center gap-2 text-white-50">
                                             <i class="{{ sidebarMenuChildValue['icon'] }}"></i>
-                                            {{ sidebarMenuChildValue['title'] }}
+                                            {{ sidebarMenuChildValue['title']|trans }}
                                         </span>
                                     {% endif %}
                                 </li>

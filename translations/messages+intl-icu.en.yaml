@@ -54,4 +54,10 @@ aside:
     settings: 'Settings'
     logout: 'Logout'
     users: 'Users'
+web:
+    application: 'Web application'
+    block: 'Block'
+    blocks: 'Blocks'
+    website: 'Website'
+    webshop: 'Webshop'
 
