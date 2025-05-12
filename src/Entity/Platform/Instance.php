@@ -21,11 +21,14 @@ class Instance
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 8)]
-    private int $status = 0;
+    #[ORM\Column(type: 'boolean')]
+    private int $status;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $intranet = null;
+
+    #[ORM\Column(length: 255, nullable: true, options: ['default' => 'Platform'])]
+    private ?string $type = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $createdAt;
@@ -70,6 +73,7 @@ class Instance
 
     public function __construct()
     {
+        $this->status = true;
         $this->createdAt = new \DateTimeImmutable();
         $this->users = new ArrayCollection();
         $this->services = new ArrayCollection();
@@ -105,6 +109,18 @@ class Instance
     public function setIntranet(?string $intranet): static
     {
         $this->intranet = $intranet;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

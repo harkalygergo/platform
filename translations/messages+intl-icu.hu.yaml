@@ -39,6 +39,9 @@ date:
     updatedAt: 'Frissítve'
 event:
     saved successfully: 'Sikeres mentés.'
+page:
+    page: 'Oldal'
+    pages: 'Oldalak'
 payment:
     annual: éves
 user:

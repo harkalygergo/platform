@@ -38,6 +38,9 @@ date:
     updatedAt: 'Updated'
 payment:
     yearly: yearly
+page:
+    page: 'Page'
+    pages: 'Pages'
 user:
     namePrefix: 'Name prefix'
     firstName: 'First name'

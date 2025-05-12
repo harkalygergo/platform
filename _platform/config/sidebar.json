@@ -1,5 +1,75 @@
 {
-    "main": {
+    "WebCard": {
+        "dashboard": {
+            "icon": "bi bi-speedometer2",
+            "title": "aside.dashboard",
+            "route": "admin_v1_dashboard"
+        },
+        "cms": {
+            "icon": "",
+            "title": "Tartalomkezelés",
+            "route": "",
+            "children": {
+                "block": {
+                    "icon": "bi bi-bricks",
+                    "title": "Block",
+                    "route": "admin_v1_block_index",
+                    "children": []
+                },
+                "domain": {
+                    "icon": "bi bi-link-45deg",
+                    "title": "Domain",
+                    "route": "admin_v1_domains",
+                    "children": []
+                },
+                "website": {
+                    "icon": "bi bi-globe",
+                    "title": "Honlap",
+                    "route": "admin_v1_website_index",
+                    "children": []
+                }
+            }
+        },
+        "crm": {
+            "icon": "",
+            "title": "Kapcsolatok",
+            "route": "",
+            "children": {
+                "customers": {
+                    "icon": "bi bi-people",
+                    "title": "Ügyféllista",
+                    "route": "admin_v1_client_index",
+                    "children": []
+                },
+                "newsletter": {
+                    "icon": "bi bi-envelope-at",
+                    "title": "Hírlevél",
+                    "route": "",
+                    "children": {
+                        "newsletters": {
+                            "icon": "bi bi-send",
+                            "title": "Hírlevelek",
+                            "route": "admin_v1_newsletter",
+                            "children": []
+                        },
+                        "subscribers": {
+                            "icon": "bi bi-people-fill",
+                            "title": "Feliratkozók",
+                            "route": "admin_v1_newsletter_subscriber",
+                            "children": []
+                        },
+                        "settings": {
+                            "icon": "bi bi-gear-fill",
+                            "title": "Beállítások",
+                            "route": "admin_v1_newsletter_settings",
+                            "children": []
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "Platform": {
         "favourites": {
             "icon": "bi bi-star",
             "title": "aside.favourites",

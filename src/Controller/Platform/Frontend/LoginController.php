@@ -23,7 +23,7 @@ class LoginController extends PlatformController
     #[Route('/{_locale}/admin', name: 'locale_admin')]
     public function honeypot(): Response
     {
-        // if user is logged in, redirect to the dashboard
+        // if a user is logged in, redirect to the dashboard
         if ($this->getUser()) {
             return $this->redirectToRoute('admin_v1_dashboard');
         }
@@ -36,7 +36,7 @@ class LoginController extends PlatformController
     #[Route('/{_locale}/admin/v1', name: 'login')]
     public function index(Request $request, Security $security): Response
     {
-        // if i is a posted request, redirect to the dashboard
+        // if it is a posted request, redirect to the dashboard
         if ($request->isMethod('POST')) {
             $postedData = $request->request->all();
             $username = $postedData['username'];
@@ -73,14 +73,17 @@ class LoginController extends PlatformController
             return $this->redirectToRoute('admin_v1_dashboard');
         }
 
-        return $this->render('platform/frontend/login.html.twig');
+        $queryParams = $request->query->all();
+
+        return $this->render('platform/frontend/login.html.twig', [
+            'title' => $queryParams['project'] ?? 'Platform',
+        ]);
     }
 
     #[Route('/{_locale}/admin/logout', name: 'admin_logout')]
     public function logout(Security $security): Response
     {
-        $user = $this->getUser();
-        if ($user) {
+        if ($this->getUser()) {
             $security->logout();
         }
 

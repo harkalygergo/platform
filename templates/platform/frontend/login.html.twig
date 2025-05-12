@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    {{ title }}
+{% endblock %}
+
 {% block body %}
     <section class="vh-100 gradient-custom">
         <div class="container py-5 h-100">
@@ -8,7 +12,7 @@
                     <div class="card shadow-lg bg-dark text-white">
                         <div class="card-body p-lg-5 text-center">
 
-                            <h2 class="fw-bold text-uppercase"><i class="bi bi-stack"></i> Platform</h2>
+                            <h2 class="fw-bold text-uppercase"><i class="bi bi-stack"></i> {{ title }}</h2>
                             <p class="text-white-50 fs-6">Online Management System</p>
                             <form name="form" method="post">
 

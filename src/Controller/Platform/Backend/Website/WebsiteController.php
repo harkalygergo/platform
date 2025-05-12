@@ -43,7 +43,7 @@ class WebsiteController extends PlatformController
                 ],
                 'pages' => [
                     'route' => 'admin_v1_website_pages',
-                    'label' => 'Pages',
+                    'label' => $this->translator->trans('page.pages'),
                 ],
             ],
         ]);
@@ -174,7 +174,8 @@ class WebsiteController extends PlatformController
 
     private function createHtaccessFile(Website $website, array $urls=[], array $filenames=[])
     {
-        $content = 'RewriteEngine On
+        $content = 'FallbackResource /index.html
+RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$ [NC]
 RewriteCond %{REQUEST_URI} !/$

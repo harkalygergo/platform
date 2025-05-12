@@ -82,7 +82,7 @@
                         </td>
                         <td class="col d-none d-sm-block pt-1" style="font-size:12px;">
                             <b class="text-uppercase p-0">
-                                Platform
+                                {{ currentInstance.type|default('platform')|capitalize }}
                             </b>
                             {% if app.user %}
                                 <br>{{ currentInstance.name }}
@@ -125,8 +125,8 @@
                         <i class="bi bi-translate text-white"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark" style="position: absolute; inset: 0 0 auto auto; margin: 0; transform: translate(0px, 40px);" data-popper-placement="bottom-end">
-                        <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href='/en/admin/v1/dashboard/'">english</a></span></li>
-                        <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href='/hu/admin/v1/dashboard/'">magyar</a></span></li>
+                        <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href=window.location.href.replace('/hu/', '/en/')">english</a></span></li>
+                        <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href=window.location.href.replace('/en/', '/hu/')">magyar</a></span></li>
                     </ul>
                 </div>
 

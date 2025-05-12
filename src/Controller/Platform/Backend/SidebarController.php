@@ -32,7 +32,7 @@ class SidebarController extends BackendController
         $sidebar = json_decode($sidebar, true);
 
         if ($sidebar) {
-            return $sidebar[$type];
+            return $sidebar[$this->currentInstance->getType()];
         }
 
         return null;

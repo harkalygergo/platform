@@ -25,6 +25,7 @@ class InstanceController extends PlatformController
             'title' => 'Instances',
             'tableHead' => [
                 'name' => 'Name',
+                'type' => 'Type',
                 'status' => 'Status',
             ],
             'tableBody' => $instances,
