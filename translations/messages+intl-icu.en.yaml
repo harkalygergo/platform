@@ -9,6 +9,7 @@ address:
     address: 'Address'
 global:
     comment: 'Comment'
+    message: 'Message'
     name: 'Name'
     status: Status
     title: 'Title'

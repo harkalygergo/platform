@@ -13,6 +13,7 @@ newsletter:
     sent: elküldve
 global:
     comment: 'Megjegyzés'
+    message: 'Üzenet'
     name: 'Név'
     status: Státusz
     title: 'Megnevezés'

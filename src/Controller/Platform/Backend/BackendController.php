@@ -4,7 +4,9 @@ namespace App\Controller\Platform\Backend;
 
 use App\Controller\Platform\Backend\Newsletter\NewsletterCron;
 use App\Controller\Platform\PlatformController;
+use App\Entity\Platform\Instance\InstanceFeed;
 use App\Entity\Platform\User;
+use App\Form\Platform\Instance\InstanceFeedType;
 use App\Repository\Platform\InstanceRepository;
 use App\Repository\Platform\Newsletter\NewsletterRepository;
 use App\Repository\Platform\Newsletter\NewsletterSubscriberRepository;
@@ -96,6 +98,14 @@ class BackendController extends PlatformController
             ]
         );
 
+        $feed = new InstanceFeed();
+
+        $form = $this->createForm(InstanceFeedType::class, $feed, [
+            'action' => $this->generateUrl('admin_v1_instance_feed_add'),
+            'method' => 'POST',
+        ]);
+
+
         return $this->render('platform/backend/v1/dashboard.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => $this->translator->trans('aside.dashboard'),
@@ -114,11 +124,13 @@ class BackendController extends PlatformController
             'actions' => [
                 'cart',
             ],
+            'form' => $form->createView(),
 
             'instanceUsers' => $instanceUsers,
             'registerUrl' => $registerUrl,
             'clientsCount' => count($instance->getClients()),
             'newsletterSubscriberCount' => $newsletterSubscriberRepository->countByInstance($instance),
+            'feed' => $this->doctrine->getRepository(InstanceFeed::class)->findBy(['instance' => $instance], ['createdAt' => 'DESC']),
         ]);
     }
 }
