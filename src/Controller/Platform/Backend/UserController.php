@@ -101,6 +101,17 @@ class UserController extends PlatformController
     function switchUser(Security $security, int $id): RedirectResponse
     {
         $user = (new UserRepository($this->doctrine))->find($id);
+
+        // change currentInstance cookie to the user's default instance
+        $instance = $user->getDefaultInstance();
+        if ($instance) {
+            setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
+        } else {
+            $this->addFlash('danger', 'Nincs alapértelmezett instance.');
+            return $this->redirectToRoute('admin_v1_dashboard');
+        }
+
+
         $security->login($user, 'security.authenticator.form_login.main', 'main');
 
         return $this->redirectToRoute('admin_v1_instances_switch', ['instance' => $user->getDefaultInstance()->getId()]);

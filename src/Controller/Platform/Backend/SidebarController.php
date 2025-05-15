@@ -26,13 +26,13 @@ class SidebarController extends BackendController
         parent::__construct($requestStack, $doctrine, $translator, $kernel, $mailer, $logger);
     }
 
-    public function getSidebarMenu(string $type = 'main'): ?array
+    public function getSidebarMenu(string $type = 'Platform'): ?array
     {
         $sidebar = file_get_contents($this->kernel->getProjectDir() . '/_platform/config/sidebar.json');
         $sidebar = json_decode($sidebar, true);
 
         if ($sidebar) {
-            return $sidebar[$this->currentInstance->getType()];
+            return $sidebar[$type];
         }
 
         return null;

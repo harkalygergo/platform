@@ -18,6 +18,9 @@ class BillingProfileType extends AbstractType
             ->add('address')
             ->add('vat')
             ->add('euVat')
+            ->add('billingRegistrationNumber')
+            ->add('phoneNumber')
+            ->add('faxNumber')
             ->add('email')
         ;
     }

@@ -33,6 +33,15 @@ class BillingProfile
     #[ORM\Column(length: 16, nullable: true)]
     private ?string $euVat = null;
 
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $billingRegistrationNumber = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $phoneNumber = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $faxNumber = null;
+
     #[ORM\Column(length: 128, nullable: true)]
     private ?string $email = null;
 
@@ -125,6 +134,42 @@ class BillingProfile
     public function setEuVat(?string $euVat): static
     {
         $this->euVat = $euVat;
+
+        return $this;
+    }
+
+    public function getBillingRegistrationNumber(): ?string
+    {
+        return $this->billingRegistrationNumber;
+    }
+
+    public function setBillingRegistrationNumber(?string $billingRegistrationNumber): static
+    {
+        $this->billingRegistrationNumber = $billingRegistrationNumber;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): static
+    {
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getFaxNumber(): ?string
+    {
+        return $this->faxNumber;
+    }
+
+    public function setFaxNumber(?string $faxNumber): static
+    {
+        $this->faxNumber = $faxNumber;
 
         return $this;
     }

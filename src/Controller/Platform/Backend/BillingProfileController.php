@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_USER)]
 class BillingProfileController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/billing-profiles', name: 'admin_v1_billing_profiles')]
+    #[Route('/{_locale}/admin/v1/billing-profiles/', name: 'admin_v1_billing_profiles')]
     public function index(Request $request): Response
     {
         $user = $this->getUser();
@@ -29,12 +29,12 @@ class BillingProfileController extends PlatformController
                 'zip' => 'Irányítószám',
                 'settlement' => 'Település',
                 'address' => 'Cím',
+                'vat' => 'Adószám',
+                'euVat' => 'Közösségi adószám',
+                'billingRegistrationNumber' => 'Nyilvántartási szám',
             ],
             'tableBody' => $billingProfiles,
             'actions' => [
-                'view',
-                'edit',
-                'delete',
             ],
         ]);
     }
