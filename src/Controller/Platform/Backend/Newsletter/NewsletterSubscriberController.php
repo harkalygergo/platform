@@ -31,6 +31,7 @@ class NewsletterSubscriberController extends PlatformController
             'tableBody' => $newsletters,
             'actions' => [
                 'new',
+                'edit',
             ],
         ]);
     }
@@ -53,6 +54,29 @@ class NewsletterSubscriberController extends PlatformController
         return $this->render('platform/backend/v1/form.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => 'Hírlevél feliratkozó hozzáadása',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/edit/{id}', name: 'admin_v1_newsletter_subscriber_edit')]
+    public function edit(NewsletterSubscriber $newsletterSubscriber): Response
+    {
+        $form = $this->createForm(NewsletterSubscriberType::class, $newsletterSubscriber);
+        $form->handleRequest($this->requestStack->getCurrentRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->doctrine->getManager()->flush();
+            // update updatedAt field
+            $newsletterSubscriber->setUpdatedAt(new \DateTimeImmutable());
+            $this->doctrine->getManager()->persist($newsletterSubscriber);
+            $this->doctrine->getManager()->flush();
+
+            return $this->redirectToRoute('admin_v1_newsletter_subscriber');
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Hírlevél feliratkozó szerkesztése',
             'form' => $form->createView(),
         ]);
     }

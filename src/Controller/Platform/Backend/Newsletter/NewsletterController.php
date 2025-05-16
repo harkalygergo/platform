@@ -4,6 +4,8 @@ namespace App\Controller\Platform\Backend\Newsletter;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Newsletter\Newsletter;
+use App\Entity\Platform\Newsletter\NewsletterSettings;
+use App\Entity\Platform\Newsletter\NewsletterSubscriber;
 use App\Entity\Platform\User;
 use App\Enum\NewsletterStatusEnum;
 use App\Form\Platform\NewsletterType;
@@ -55,7 +57,7 @@ class NewsletterController extends PlatformController
             $this->doctrine->getManager()->persist($newsletter);
             $this->doctrine->getManager()->flush();
 
-            $this->addFlash('success', $this->translator->trans('action.saved'));
+            $this->addFlash('success', $this->translator->trans('event.saved successfully'));
 
             return $this->redirectToRoute('admin_v1_newsletter');
         }
@@ -112,6 +114,28 @@ class NewsletterController extends PlatformController
     public function sendNewsletter(Newsletter $id, NewsletterRepository $newsletterRepository): Response
     {
         $newsletter = $id;
+
+        // get all active newsletterSubscribers
+        $newsletterSubscribers = $this->doctrine->getRepository(NewsletterSubscriber::class)->findBy(['instance' => $this->currentInstance, 'status' => 1]);
+
+        // check if a newsletter is not sent
+        if ($newsletter->isSent()) {
+            $this->addFlash('danger', 'Hírlevél már elküldve!');
+            return $this->redirectToRoute('admin_v1_newsletter');
+        }
+
+        // get newsletter settings for instance
+        $newsletterSettings = $this->doctrine->getRepository(NewsletterSettings::class)->findOneBy(['instance' => $this->currentInstance]);
+
+        $newsletterSettingFromEmail = $newsletterSettings->getFromName() .' <'. $newsletterSettings->getFromEmail().'>';
+
+        // loop through newsletterSubscribers and send email
+        foreach ($newsletterSubscribers as $newsletterSubscriber) {
+            $this->sendMail([$newsletterSubscriber->getEmail()], $newsletter->getSubject(), $newsletter->getPlainTextContent(),
+                $newsletterSettingFromEmail, $newsletter->getHtmlContent());
+        }
+
+
         $newsletter->setStatus(NewsletterStatusEnum::SCHEDULED);
         // save
         $this->doctrine->getManager()->persist($newsletter);

@@ -107,7 +107,7 @@ class BackendController extends PlatformController
 
 
         return $this->render('platform/backend/v1/dashboard.html.twig', [
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu($instance->getType()),
             'title' => $this->translator->trans('aside.dashboard'),
             'tableHead' => [
                 'name' => 'Megnevezés',

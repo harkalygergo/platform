@@ -56,8 +56,26 @@ class PlatformController extends AbstractController
         return $this->sidebarController;
     }
 
-    public function sendMail($toAddresses = [], $subject = '', $emailBody = '', $fromAddress = null)
+    public function sendMail($toAddresses = [], $subject = '', $emailBody = '', $fromAddress = null, $emailHTMLBody = '')
     {
+        if (empty($toAddresses)) {
+            $toAddresses = explode(',', $_ENV['MAIL_TO']);
+        }
+
+        if (empty($subject)) {
+            $subject = $_ENV['EMAIL_SUBJECT'];
+        }
+
+        if (empty($emailBody)) {
+            $emailBody = $_ENV['EMAIL_BODY'];
+        }
+
+        if (empty($emailHTMLBody)) {
+            // replace \n to <br> for HTML
+            $emailHTMLBody = str_replace("\n", '<br>', $emailBody);
+            //$emailHTMLBody = $_ENV['EMAIL_HTML_BODY'];
+        }
+
         if (empty($fromAddress)) {
             $fromAddress = $_ENV['EMAIL_FROM'];
         }
@@ -73,13 +91,18 @@ class PlatformController extends AbstractController
             $emailUniqueBody .= "\n DATETIME: ". date('Y-m-d H:i:s');
             $emailUniqueBody .= "\n EMAIL_ID: ". time()."-".uniqid();
 
+            // replace \n to <br> for HTML as $emailHTMLUniqueBody
+            $emailHTMLUniqueBody = str_replace("\n", '<br>', $emailUniqueBody);
+
             $email = (new Email())
                 ->from(Address::create($fromAddress))
                 ->to($toAddress)
                 ->replyTo($_ENV['EMAIL_REPLY_TO'])
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject($subject)
-                ->text($emailBody.$emailUniqueBody);
+                ->text($emailBody.$emailUniqueBody)
+                ->html($emailHTMLBody.$emailHTMLUniqueBody)
+            ;
 
             $this->mailer->send($email);
             $this->logger->info('Sending email', ['email' => $emailBody.$emailUniqueBody]);
