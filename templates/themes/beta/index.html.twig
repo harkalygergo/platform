@@ -1,0 +1,18 @@
+{% extends 'themes/base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>oldalsáv</h2>
+                <h1>Welcome to the Beta Theme</h1>
+                <p>This is a custom theme for your application.</p>
+            </div>
+            <div class="col-md-8">
+                {{ content|raw }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

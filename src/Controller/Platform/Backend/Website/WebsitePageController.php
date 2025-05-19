@@ -41,6 +41,7 @@ class WebsitePageController extends PlatformController
             'actions' => [
                 'new',
                 'edit',
+                'delete',
             ],
         ]);
     }
@@ -88,6 +89,29 @@ class WebsitePageController extends PlatformController
             'title' => 'Oldal szerkesztése',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}/delete/{page}', name: 'admin_v1_website_page_delete')]
+    public function delete(Request $request, \App\Entity\Platform\Website\Website $id, WebsitePage $page): Response
+    {
+        // check if page's website is the same as the current website
+        if ($page->getWebsite() !== $id) {
+            throw $this->createAccessDeniedException('You do not have permission to delete this page.');
+        }
+
+        // check if website's instance is the same as the current instance
+        if ($page->getWebsite()->getInstance() !== $this->currentInstance) {
+            throw $this->createAccessDeniedException('You do not have permission to delete this page.');
+        }
+
+        //if ($request->isMethod('POST')) {
+            $this->doctrine->getManager()->remove($page);
+            $this->doctrine->getManager()->flush();
+        //}
+
+        return $this->redirectToRoute('admin_v1_website_pages', [
+            'id' => $id->getId(),
         ]);
     }
 

@@ -317,6 +317,12 @@
             "title": "Eszközök",
             "route": "",
             "children": {
+                "exportimport": {
+                    "icon": "bi bi-arrow-down-up",
+                    "title": "Export\/import",
+                    "route": "admin_v1_wordpress_import",
+                    "children": []
+                },
                 "storage": {
                     "icon": "bi bi-hdd",
                     "title": "Tárhely",
@@ -326,12 +332,6 @@
                 "link": {
                     "icon": "bi bi-link-45deg",
                     "title": "Link rövidítés",
-                    "route": "",
-                    "children": []
-                },
-                "exportimport": {
-                    "icon": "bi bi-arrow-down-up",
-                    "title": "Export\/import",
                     "route": "",
                     "children": []
                 }
