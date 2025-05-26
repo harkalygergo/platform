@@ -35,6 +35,7 @@ class WebsiteController extends PlatformController
             'actions' => [
                 'new',
                 'edit',
+                'delete',
             ],
             'extraActions' => [
                 'deploy' => [
@@ -89,6 +90,30 @@ class WebsiteController extends PlatformController
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'form' => $form->createView(),
         ]);
+    }
+
+    // delete
+    #[Route('/delete/{id}', name: 'admin_v1_website_delete')]
+    public function delete(Request $request, Website $website): Response
+    {
+        // delete all pages of the website
+        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website]);
+        foreach ($pages as $page) {
+            $this->doctrine->getManager()->remove($page);
+        }
+        $this->doctrine->getManager()->flush();
+
+        //if ($this->isCsrfTokenValid('delete' . $website->getId(), $request->request->get('_token'))) {
+            $em = $this->doctrine->getManager();
+            $em->remove($website);
+            $em->flush();
+
+            $this->addFlash('success', 'A honlap sikeresen törölve.');
+        //} else {
+        //    $this->addFlash('danger', 'A honlap törlése sikertelen.');
+        //}
+
+        return $this->redirectToRoute('admin_v1_website_index');
     }
 
     #[Route('/deploy/{id}', name: 'admin_v1_website_deploy')]

@@ -125,7 +125,7 @@
                                                 </a>
                                             {% endif %}
                                             {% if 'delete' in actions %}
-                                                <a class="btn btn-sm btn-danger" title="{{ 'action.delete'|trans }}" href="delete/{{ td.id}}">
+                                                <a class="btn btn-sm btn-outline-danger" title="{{ 'action.delete'|trans }}" href="delete/{{ td.id}}">
                                                     <i class="bi bi-trash"></i> <span class="d-none d-sm-inline-block">{{ 'action.delete'|trans }}</span>
                                                 </a>
                                             {% endif %}
@@ -160,5 +160,17 @@
         </div>
 
     </main>
+
+    <script>
+        // create a popup question for delete action
+        document.querySelectorAll('a.btn-outline-danger').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                if (confirm('Biztosan törölni szeretné?')) {
+                    window.location.href = this.href;
+                }
+            });
+        });
+    </script>
 
 {% endblock %}
