@@ -93,8 +93,8 @@ class ImportWordPressController extends PlatformController
             $website = $data['website'];
 
             $this->importPagesFromWordPress($domain, $website);
-            $this->importPostsFromWordPress($domain, $website);
             $this->importCategoriesFromWordPress($domain, $website);
+            $this->importPostsFromWordPress($domain, $website);
 
             return $this->redirectToRoute('admin_v1_website_index', [
                 'id' => $website->getId(),
@@ -126,6 +126,26 @@ class ImportWordPressController extends PlatformController
             $page->setWebsite($this->doctrine->getRepository('App\Entity\Platform\Website\Website')->find($website));
 
             $this->doctrine->getManager()->persist($page);
+        }
+        $this->doctrine->getManager()->flush();
+    }
+
+    private function importCategoriesFromWordPress($domain, $website = null): void
+    {
+        $json = file_get_contents($domain . $this->categoryURL);
+        if ($json === false) {
+            throw new \Exception('Could not get JSON from ' . $domain . $this->categoryURL);
+        }
+        $json = json_decode($json, true);
+
+        foreach ($json as $categoryData) {
+            $category = new WebsiteCategory();
+            $category->setTitle($categoryData['name']);
+            $category->setSlug($categoryData['slug']);
+            $category->setContent($categoryData['description'] ?? '');
+            $category->setInstance($this->currentInstance);
+            $category->setWebsite($this->doctrine->getRepository('App\Entity\Platform\Website\Website')->find($website));
+            $this->doctrine->getManager()->persist($category);
         }
         $this->doctrine->getManager()->flush();
     }
@@ -168,26 +188,6 @@ class ImportWordPressController extends PlatformController
             }
             */
             $this->doctrine->getManager()->persist($post);
-        }
-        $this->doctrine->getManager()->flush();
-    }
-
-    private function importCategoriesFromWordPress($domain, $website = null): void
-    {
-        $json = file_get_contents($domain . $this->categoryURL);
-        if ($json === false) {
-            throw new \Exception('Could not get JSON from ' . $domain . $this->categoryURL);
-        }
-        $json = json_decode($json, true);
-
-        foreach ($json as $categoryData) {
-            $category = new WebsiteCategory();
-            $category->setTitle($categoryData['name']);
-            $category->setSlug($categoryData['slug']);
-            $category->setContent($categoryData['description'] ?? '');
-            $category->setInstance($this->currentInstance);
-            $category->setWebsite($this->doctrine->getRepository('App\Entity\Platform\Website\Website')->find($website));
-            $this->doctrine->getManager()->persist($category);
         }
         $this->doctrine->getManager()->flush();
     }

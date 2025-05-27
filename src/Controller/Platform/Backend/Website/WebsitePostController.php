@@ -41,7 +41,11 @@ class WebsitePostController extends PlatformController
     #[Route('/{id}/new/', name: 'admin_v1_website_post_new')]
     public function new(Request $request, \App\Entity\Platform\Website\Website $id): Response
     {
-        $form = $this->createForm(WebsitePostType::class);
+        $entity = new WebsitePost();
+        $form = $this->createForm(WebsitePostType::class, $entity, [
+            'website' => $id,
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,7 +70,9 @@ class WebsitePostController extends PlatformController
     #[Route('/{id}/edit/{page}', name: 'admin_v1_website_post_edit')]
     public function edit(Request $request, \App\Entity\Platform\Website\Website $id, WebsitePost $page): Response
     {
-        $form = $this->createForm(WebsitePostType::class, $page);
+        $form = $this->createForm(WebsitePostType::class, $page, [
+            'website' => $id,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

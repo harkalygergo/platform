@@ -5,6 +5,8 @@ namespace App\Entity\Platform\Website;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
 use App\Repository\Platform\Website\WebsiteCategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -67,10 +69,14 @@ class WebsiteCategory
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $metaCanonical = null;
 
+    #[ORM\ManyToMany(targetEntity: WebsitePost::class, mappedBy: 'categories')]
+    private Collection $posts;
+
     public function __construct()
     {
         $this->status = true;
         $this->createdAt = new \DateTimeImmutable();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -240,6 +246,30 @@ class WebsiteCategory
     public function setMetaCanonical(?string $metaCanonical): self
     {
         $this->metaCanonical = $metaCanonical;
+
+        return $this;
+    }
+
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(WebsitePost $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(WebsitePost $post): self
+    {
+        if ($this->posts->removeElement($post)) {
+            $post->removeCategory($this);
+        }
 
         return $this;
     }

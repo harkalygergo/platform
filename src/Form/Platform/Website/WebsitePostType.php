@@ -3,7 +3,12 @@
 
 namespace App\Form\Platform\Website;
 
+use App\Entity\Platform\User;
+use App\Entity\Platform\Website\WebsiteCategory;
 use App\Entity\Platform\Website\WebsitePost;
+use App\Repository\Platform\UserRepository;
+use App\Repository\Platform\Website\WebsiteCategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -13,8 +18,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class WebsitePostType extends AbstractType
 {
+    private $website;
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $this->website = $options['website'];
+
+
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
@@ -49,6 +59,28 @@ class WebsitePostType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('categories', EntityType::class, [
+                'class' => WebsiteCategory::class,
+                /**
+                 * @var WebsiteCategory $category
+                 */
+                'choice_label' => function ($category) {
+                    return $category->getTitle() . ' (' . $category->getSlug() . ')';
+                },
+
+                'query_builder' => function (WebsiteCategoryRepository $repository) use ($options) {
+                    $qb = $repository->createQueryBuilder('c')
+                        ->where('c.website = :website')
+                        ->setParameter('website', $this->website);
+                    return $qb->orderBy('c.title', 'ASC');
+                },
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                //'placeholder' => 'Choose an assignee',
+                'required' => true
+            ])
             ->add('status', CheckboxType::class, [
                 'label' => 'Status',
                 'required' => false,
@@ -56,62 +88,6 @@ class WebsitePostType extends AbstractType
                     'class' => 'form-check-input',
                 ],
             ])
-
-            /*
-            ->add('slug', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('website', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'choices' => [
-                    'English' => 'en',
-                    'Hungarian' => 'hu',
-                    'German' => 'de',
-                    'French' => 'fr',
-                    'Spanish' => 'es',
-                ],
-            ])
-            ->add('isPublished', CheckboxType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
-            ->add('isHomepage', CheckboxType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
-            ->add('isMenu', CheckboxType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
-            ->add('isFooter', CheckboxType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
-            ->add('isSidebar', CheckboxType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
-            ->add('isSearchable', CheckboxType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
-            */
         ;
     }
 
@@ -119,6 +95,7 @@ class WebsitePostType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => WebsitePost::class,
+            'website' => null,
         ]);
     }
 
