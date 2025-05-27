@@ -4,7 +4,9 @@ namespace App\Controller\Platform\Backend;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Instance;
+use App\Entity\Platform\Instance\InstanceFeed;
 use App\Entity\Platform\User;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -101,7 +103,7 @@ class InstanceController extends PlatformController
         $users = $instance->getUsers();
 
         return $this->render('platform/backend/v1/list.html.twig', [
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('system'),
             'title' => 'Vállalkozás és szervezet felhasználói',
             'tableHead' => [
                 'namePrefix' => 'Előtag',
@@ -121,5 +123,95 @@ class InstanceController extends PlatformController
             'actions' => [
             ],
         ]);
+    }
+
+    // create a function to edit instance Intranet content with WYSIWYG editor
+    #[Route('/edit-intranet', name: 'admin_v1_instances_edit_intranet')]
+    public function editIntranet(Request $request): Response
+    {
+        $instance = $this->doctrine->getRepository(Instance::class)->find($this->currentInstance);
+
+        if (!$instance) {
+            $this->addFlash('danger', 'Az oldal nem található.');
+
+            return $this->redirectToRoute('admin_v1_instances');
+        }
+
+        // check if logged in user and instance has connection
+        $user = $this->getUser();
+        if (!$user->getInstances()->contains($instance)) {
+            $this->addFlash('danger', 'Önnek nincs jogosultsága.');
+
+            return $this->redirectToRoute('admin_v1_dashboard');
+        }
+
+        // use formBuilder to create a form for editing the intranet content
+        $form = $this->createFormBuilder($instance)
+            ->add('intranet', TextareaType::class, [
+                'label' => 'Intranet tartalom',
+                'attr' => [
+                    'class' => 'form-control summernote',
+                    'rows' => 10,
+                ],
+                'required' => false,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->doctrine->getManager()->persist($instance);
+            $this->doctrine->getManager()->flush();
+
+            $this->addFlash('success', 'Az intranet tartalom sikeresen frissítve lett.');
+
+            // add info to instance feed
+            $instanceFeed = new InstanceFeed();
+            $instanceFeed->setInstance($instance);
+            $instanceFeed->setMessage('Intranet updated.');
+            $instanceFeed->setCreatedBy($this->getUser());
+            $this->doctrine->getManager()->persist($instanceFeed);
+            $this->doctrine->getManager()->flush();
+
+            //return $this->redirectToRoute('admin_v1_instances');
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('system'),
+            'title' => 'Intranet tartalom szerkesztése',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    // show current instance intranet content with content.html.twig template
+    #[Route('/intranet', name: 'admin_v1_instances_intranet')]
+    public function intranet(): Response
+    {
+        $instance = $this->doctrine->getRepository(Instance::class)->find($this->currentInstance);
+
+        if (!$instance) {
+            $this->addFlash('danger', 'Az oldal nem található.');
+
+            return $this->redirectToRoute('admin_v1_instances');
+        }
+
+        // check if logged in user and instance has connection
+        $user = $this->getUser();
+        if (!$user->getInstances()->contains($instance)) {
+            $this->addFlash('danger', 'Önnek nincs jogosultsága.');
+
+            return $this->redirectToRoute('admin_v1_dashboard');
+        }
+
+        return $this->render('platform/backend/v1/content.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Intranet',
+            'content' => $instance->getIntranet(),
+        ]);
+    }
+
+    private function getFeedController()
+    {
+        return $this->container->get('App\Controller\Platform\Backend\Instance\InstanceFeedController');
     }
 }

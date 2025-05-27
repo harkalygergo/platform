@@ -30,6 +30,7 @@ class WebsiteController extends PlatformController
                 'domain' => 'Domain',
                 'name' => $this->translator->trans('global.name'),
                 'title' => $this->translator->trans('global.title'),
+                'theme' => 'Téma',
             ],
             'tableBody' => $websiteRepository->findBy(['instance' => $this->currentInstance]),
             'actions' => [
@@ -76,10 +77,17 @@ class WebsiteController extends PlatformController
     #[Route('/edit/{id}', name: 'admin_v1_website_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Website $website): Response
     {
+        $existingWebsite = $this->doctrine->getRepository(Website::class)->find($website->getId());
+        $existingWebsitePassword = $existingWebsite->getFTPPassword();
+
         $form = $this->createForm(WebsiteType::class, $website);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($website->getFTPPassword() === '' || $website->getFTPPassword() === null) {
+                $website->setFTPPassword($existingWebsitePassword);
+            }
+
             $this->doctrine->getManager()->flush();
 
             return $this->redirectToRoute('admin_v1_website_index');

@@ -145,7 +145,7 @@
                 "intranet": {
                     "icon": "bi bi-info-square",
                     "title": "Intranet",
-                    "route": "",
+                    "route": "admin_v1_instances_intranet",
                     "children": []
                 }
             }
@@ -463,8 +463,8 @@
             "children": {
                 "system_settings": {
                     "icon": "bi bi-gear",
-                    "title": "Rendszerbeállítások",
-                    "route": "",
+                    "title": "Intranet szerkesztése",
+                    "route": "admin_v1_instances_edit_intranet",
                     "children": []
                 },
                 "system_users": {
