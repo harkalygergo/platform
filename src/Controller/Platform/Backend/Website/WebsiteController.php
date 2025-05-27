@@ -43,6 +43,10 @@ class WebsiteController extends PlatformController
                     'route' => 'admin_v1_website_deploy',
                     'label' => 'Deploy',
                 ],
+                'posts' => [
+                    'route' => 'admin_v1_website_posts',
+                    'label' => $this->translator->trans('page.posts'),
+                ],
                 'pages' => [
                     'route' => 'admin_v1_website_pages',
                     'label' => $this->translator->trans('page.pages'),

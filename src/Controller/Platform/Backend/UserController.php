@@ -49,7 +49,7 @@ class UserController extends PlatformController
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('profile'),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('system'),
             'title' => 'Saját adataim szerkesztése',
             'form' => $form->createView(),
         ]);
@@ -90,7 +90,7 @@ class UserController extends PlatformController
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('profile'),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('system'),
             'title' => $this->translator->trans('account.change password'),
             'form' => $form->createView(),
         ]);

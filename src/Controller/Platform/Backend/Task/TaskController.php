@@ -36,7 +36,20 @@ class TaskController extends PlatformController
             'actions' => [
                 'new',
                 'edit',
+                'view',
+                'delete',
             ],
+        ]);
+    }
+
+    // create view function with content.html.twig, content is Task title and description
+    #[Route('/view/{id<\d+>}/', name: 'admin_v1_task_view')]
+    public function view(Task $task): Response
+    {
+        return $this->render('platform/backend/v1/content.html.twig', [
+            'title' => $task->getTitle(),
+            'content' => $task->getDescription(),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
         ]);
     }
 
@@ -88,5 +101,15 @@ class TaskController extends PlatformController
             'form' => $form->createView(),
         ]);
 
+    }
+
+    // create delete function
+    #[Route('/delete/{id<\d+>}/', name: 'admin_v1_task_delete')]
+    public function delete(Task $task): Response
+    {
+        $this->doctrine->getManager()->remove($task);
+        $this->doctrine->getManager()->flush();
+
+        return $this->redirectToRoute('admin_v1_task_index');
     }
 }

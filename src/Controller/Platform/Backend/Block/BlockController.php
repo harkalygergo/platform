@@ -16,6 +16,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/block')]
 class BlockController extends PlatformController
 {
+    private $instanceRepository;
+
     #[Route('/', name: 'admin_v1_block_index', methods: ['GET'])]
     public function index(BlockRepository $blockRepository): Response
     {
@@ -107,7 +109,7 @@ class BlockController extends PlatformController
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'title' => 'Blokk példányok',
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('system'),
             'tableHead' => [
                 'name' => 'Név',
                 'createdAt' => 'Létrehozva',

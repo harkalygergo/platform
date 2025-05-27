@@ -5,6 +5,7 @@ namespace App\Controller\Platform\ImportExport;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\WebsitePage;
+use App\Entity\Platform\Website\WebsitePost;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Attribute\Route;
@@ -88,24 +89,9 @@ class ImportWordPressController extends PlatformController
             $data = $form->getData();
             $domain = $data['domain'];
             $website = $data['website'];
-            $json = file_get_contents($domain . $this->pageURL);
-            if ($json === false) {
-                throw new \Exception('Could not get JSON from ' . $domain . $this->pageURL);
-            }
-            $json = json_decode($json, true);
 
-            foreach ($json as $pages) {
-                $page = new WebsitePage();
-
-                $page->setTitle($pages['title']['rendered']);
-                $page->setContent($pages['content']['rendered']);
-                $page->setSlug($pages['slug']);
-                $page->setInstance($this->currentInstance);
-                $page->setWebsite($this->doctrine->getRepository('App\Entity\Platform\Website\Website')->find($website));
-
-                $this->doctrine->getManager()->persist($page);
-                $this->doctrine->getManager()->flush();
-            }
+            $this->importPagesFromWordPress($domain, $website);
+            $this->importPostsFromWordPress($domain, $website);;
 
             return $this->redirectToRoute('admin_v1_website_pages', [
                 'id' => $website->getId(),
@@ -117,5 +103,69 @@ class ImportWordPressController extends PlatformController
             'title' => 'WordPress importálás',
             'form' => $form->createView(),
         ]);
+    }
+
+    public function importPagesFromWordPress($domain, $website = null): void
+    {
+        $json = file_get_contents($domain . $this->pageURL);
+        if ($json === false) {
+            throw new \Exception('Could not get JSON from ' . $domain . $this->pageURL);
+        }
+        $json = json_decode($json, true);
+
+        foreach ($json as $pages) {
+            $page = new WebsitePage();
+
+            $page->setTitle($pages['title']['rendered']);
+            $page->setContent($pages['content']['rendered']);
+            $page->setSlug($pages['slug']);
+            $page->setInstance($this->currentInstance);
+            $page->setWebsite($this->doctrine->getRepository('App\Entity\Platform\Website\Website')->find($website));
+
+            $this->doctrine->getManager()->persist($page);
+            $this->doctrine->getManager()->flush();
+        }
+    }
+
+    private function importPostsFromWordPress($domain, $website = null): void
+    {
+        $json = file_get_contents($domain . $this->postURL);
+        if ($json === false) {
+            throw new \Exception('Could not get JSON from ' . $domain . $this->postURL);
+        }
+        $json = json_decode($json, true);
+
+        foreach ($json as $posts) {
+            $post = new WebsitePost();
+            $post->setTitle($posts['title']['rendered']);
+            $post->setContent($posts['content']['rendered']);
+            $post->setSlug($posts['slug']);
+            $post->setInstance($this->currentInstance);
+            $post->setWebsite($this->doctrine->getRepository('App\Entity\Platform\Website\Website')->find($website));
+            $post->setStatus($posts['status'] ?? 'draft'); // Default to 'draft' if status is not set
+            $post->setMetaDescription(substr(strip_tags($posts['excerpt']['rendered']), 0, 255) ?? '');
+            /*
+            // Handle categories if they exist
+            if (isset($posts['categories']) && is_array($posts['categories'])) {
+                foreach ($posts['categories'] as $categoryId) {
+                    $category = $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteCategory')->find($categoryId);
+                    if ($category) {
+                        $post->addCategory($category);
+                    }
+                }
+            }
+            // Handle tags if they exist
+            if (isset($posts['tags']) && is_array($posts['tags'])) {
+                foreach ($posts['tags'] as $tagId) {
+                    $tag = $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteTag')->find($tagId);
+                    if ($tag) {
+                        $post->addTag($tag);
+                    }
+                }
+            }
+            */
+            $this->doctrine->getManager()->persist($post);
+            $this->doctrine->getManager()->flush();
+        }
     }
 }

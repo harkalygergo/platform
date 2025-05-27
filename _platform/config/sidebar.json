@@ -338,12 +338,7 @@
             }
         }
     },
-    "profile": {
-        "dashboard": {
-            "icon": "bi bi-speedometer2",
-            "title": "aside.dashboard",
-            "route": "admin_v1_dashboard"
-        },
+    "system": {
         "profile": {
             "icon": "",
             "title": "Személyes",
@@ -448,13 +443,6 @@
                     "children": []
                 }
             }
-        }
-    },
-    "system": {
-        "dashboard": {
-            "icon": "bi bi-speedometer2",
-            "title": "aside.dashboard",
-            "route": "admin_v1_dashboard"
         },
         "system": {
             "icon": "",

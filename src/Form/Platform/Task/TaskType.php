@@ -36,7 +36,7 @@ class TaskType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control summernote'
                 ]
             ])
             ->add('priority', ChoiceType::class, [

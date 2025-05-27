@@ -23,7 +23,7 @@ class InstanceController extends PlatformController
         $instances = $user->getInstances();
 
         return $this->render('platform/backend/v1/list.html.twig', [
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('system'),
             'title' => 'Instances',
             'tableHead' => [
                 'name' => 'Name',
