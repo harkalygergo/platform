@@ -45,11 +45,15 @@ class WebsiteController extends PlatformController
                 ],
                 'posts' => [
                     'route' => 'admin_v1_website_posts',
-                    'label' => $this->translator->trans('page.posts'),
+                    'label' => $this->translator->trans('posts'),
                 ],
                 'pages' => [
                     'route' => 'admin_v1_website_pages',
                     'label' => $this->translator->trans('page.pages'),
+                ],
+                'categories' => [
+                    'route' => 'admin_v1_website_categories',
+                    'label' => $this->translator->trans('categories'),
                 ],
             ],
         ]);

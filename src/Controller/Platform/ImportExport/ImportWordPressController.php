@@ -4,6 +4,7 @@ namespace App\Controller\Platform\ImportExport;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
+use App\Entity\Platform\Website\WebsiteCategory;
 use App\Entity\Platform\Website\WebsitePage;
 use App\Entity\Platform\Website\WebsitePost;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,6 +18,7 @@ class ImportWordPressController extends PlatformController
 {
     private string $postURL = '/wp-json/wp/v2/posts';
     private string $pageURL = '/wp-json/wp/v2/pages';
+    private string $categoryURL = '/wp-json/wp/v2/categories';
 
 
     #[Route('/import/', name: 'admin_v1_wordpress_import')]
@@ -91,9 +93,10 @@ class ImportWordPressController extends PlatformController
             $website = $data['website'];
 
             $this->importPagesFromWordPress($domain, $website);
-            $this->importPostsFromWordPress($domain, $website);;
+            $this->importPostsFromWordPress($domain, $website);
+            $this->importCategoriesFromWordPress($domain, $website);
 
-            return $this->redirectToRoute('admin_v1_website_pages', [
+            return $this->redirectToRoute('admin_v1_website_index', [
                 'id' => $website->getId(),
             ]);
         }
@@ -105,7 +108,7 @@ class ImportWordPressController extends PlatformController
         ]);
     }
 
-    public function importPagesFromWordPress($domain, $website = null): void
+    private function importPagesFromWordPress($domain, $website = null): void
     {
         $json = file_get_contents($domain . $this->pageURL);
         if ($json === false) {
@@ -123,8 +126,8 @@ class ImportWordPressController extends PlatformController
             $page->setWebsite($this->doctrine->getRepository('App\Entity\Platform\Website\Website')->find($website));
 
             $this->doctrine->getManager()->persist($page);
-            $this->doctrine->getManager()->flush();
         }
+        $this->doctrine->getManager()->flush();
     }
 
     private function importPostsFromWordPress($domain, $website = null): void
@@ -165,7 +168,27 @@ class ImportWordPressController extends PlatformController
             }
             */
             $this->doctrine->getManager()->persist($post);
-            $this->doctrine->getManager()->flush();
         }
+        $this->doctrine->getManager()->flush();
+    }
+
+    private function importCategoriesFromWordPress($domain, $website = null): void
+    {
+        $json = file_get_contents($domain . $this->categoryURL);
+        if ($json === false) {
+            throw new \Exception('Could not get JSON from ' . $domain . $this->categoryURL);
+        }
+        $json = json_decode($json, true);
+
+        foreach ($json as $categoryData) {
+            $category = new WebsiteCategory();
+            $category->setTitle($categoryData['name']);
+            $category->setSlug($categoryData['slug']);
+            $category->setContent($categoryData['description'] ?? '');
+            $category->setInstance($this->currentInstance);
+            $category->setWebsite($this->doctrine->getRepository('App\Entity\Platform\Website\Website')->find($website));
+            $this->doctrine->getManager()->persist($category);
+        }
+        $this->doctrine->getManager()->flush();
     }
 }

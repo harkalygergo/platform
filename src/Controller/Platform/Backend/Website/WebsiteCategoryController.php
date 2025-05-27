@@ -4,25 +4,25 @@ namespace App\Controller\Platform\Backend\Website;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
-use App\Entity\Platform\Website\WebsitePost;
-use App\Form\Platform\Website\WebsitePostType;
-use App\Repository\Platform\Website\WebsitePostRepository;
+use App\Entity\Platform\Website\WebsiteCategory;
+use App\Form\Platform\Website\WebsiteCategoryType;
+use App\Repository\Platform\Website\WebsiteCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_USER)]
-#[Route('/{_locale}/admin/v1/website/posts')]
-class WebsitePostController extends PlatformController
+#[Route('/{_locale}/admin/v1/website/categories')]
+class WebsiteCategoryController extends PlatformController
 {
-    #[Route('/{id}/', name: 'admin_v1_website_posts')]
-    public function index(\App\Entity\Platform\Website\Website $id, WebsitePostRepository $websitePostRepository): Response
+    #[Route('/{id}/', name: 'admin_v1_website_categories')]
+    public function index(\App\Entity\Platform\Website\Website $id, WebsiteCategoryRepository $websiteCategoryRepository): Response
     {
-        $pagesByWebsite = $websitePostRepository->findByWebsiteId($id->getId());
+        $pagesByWebsite = $websiteCategoryRepository->findByWebsiteId($id->getId());
 
         return $this->render('platform/backend/v1/list.html.twig', [
-            'title' => $id->getDomain() . ' bejegyzések',
+            'title' => $id->getDomain() . ' kategóriák',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
                 'title' => 'Cím',
@@ -38,41 +38,41 @@ class WebsitePostController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/new/', name: 'admin_v1_website_post_new')]
+    #[Route('/{id}/new/', name: 'admin_v1_website_category_new')]
     public function new(Request $request, \App\Entity\Platform\Website\Website $id): Response
     {
-        $form = $this->createForm(WebsitePostType::class);
+        $form = $this->createForm(WebsiteCategoryType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $websitePost = $form->getData();
-            $websitePost->setWebsite($id);
-            $this->doctrine->getManager()->persist($websitePost);
+            $websiteCategory = $form->getData();
+            $websiteCategory->setWebsite($id);
+            $this->doctrine->getManager()->persist($websiteCategory);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_website_posts', [
+            return $this->redirectToRoute('admin_v1_website_categories', [
                 'id' => $id->getId(),
             ]);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
-            'title' => 'Új bejegyzés',
+            'title' => 'Új kategória',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'form' => $form->createView(),
         ]);
     }
 
     // create edit function
-    #[Route('/{id}/edit/{page}', name: 'admin_v1_website_post_edit')]
-    public function edit(Request $request, \App\Entity\Platform\Website\Website $id, WebsitePost $page): Response
+    #[Route('/{id}/edit/{page}', name: 'admin_v1_website_category_edit')]
+    public function edit(Request $request, \App\Entity\Platform\Website\Website $id, WebsiteCategory $page): Response
     {
-        $form = $this->createForm(WebsitePostType::class, $page);
+        $form = $this->createForm(WebsiteCategoryType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_website_posts', [
+            return $this->redirectToRoute('admin_v1_website_categories', [
                 'id' => $id->getId(),
             ]);
         }
@@ -84,8 +84,8 @@ class WebsitePostController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/delete/{page}', name: 'admin_v1_website_post_delete')]
-    public function delete(Request $request, \App\Entity\Platform\Website\Website $id, WebsitePost $page): Response
+    #[Route('/{id}/delete/{page}', name: 'admin_v1_website_category_delete')]
+    public function delete(Request $request, \App\Entity\Platform\Website\Website $id, WebsiteCategory $page): Response
     {
         // check if page's website is the same as the current website
         if ($page->getWebsite() !== $id) {
@@ -102,7 +102,7 @@ class WebsitePostController extends PlatformController
         $this->doctrine->getManager()->flush();
         //}
 
-        return $this->redirectToRoute('admin_v1_website_posts', [
+        return $this->redirectToRoute('admin_v1_website_categories', [
             'id' => $id->getId(),
         ]);
     }
