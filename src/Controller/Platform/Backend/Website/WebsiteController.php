@@ -154,6 +154,8 @@ class WebsiteController extends PlatformController
         $urls = [];
         $filenames = [];
 
+        $flashText = '';
+
         foreach ($pages as $page) {
 
             $pageContent = $page->getContent();
@@ -205,8 +207,11 @@ class WebsiteController extends PlatformController
                 $slug.'.html'
             );
 
-            $this->addFlash('success', $page->getTitle(). ' FTP OK.');
+            $flashText .= $page->getTitle() . " FTP OK <br>";
         }
+
+        $this->addFlash('success', $flashText);
+
 
         $this->createHtaccessFile($website, $urls, $filenames);
 

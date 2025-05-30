@@ -449,12 +449,6 @@
             "title": "Rendszer",
             "route": "",
             "children": {
-                "system_settings": {
-                    "icon": "bi bi-gear",
-                    "title": "Intranet szerkesztése",
-                    "route": "admin_v1_instances_edit_intranet",
-                    "children": []
-                },
                 "system_users": {
                     "icon": "bi bi-people",
                     "title": "Felhasználók",

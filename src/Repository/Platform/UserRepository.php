@@ -16,6 +16,14 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findUsersByInstance($instance)
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.instances', 'i')
+            ->where('i = :currentInstance')
+            ->setParameter('currentInstance', $instance);
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
