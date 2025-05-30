@@ -161,6 +161,12 @@
                     "route": "admin_v1_block_index",
                     "children": []
                 },
+                "media": {
+                    "icon": "bi bi-hdd",
+                    "title": "Médiatár",
+                    "route": "admin_v1_media_instance_index",
+                    "children": []
+                },
                 "domain": {
                     "icon": "bi bi-link-45deg",
                     "title": "Domain",
@@ -321,12 +327,6 @@
                     "icon": "bi bi-arrow-down-up",
                     "title": "Export\/import",
                     "route": "admin_v1_wordpress_import",
-                    "children": []
-                },
-                "storage": {
-                    "icon": "bi bi-hdd",
-                    "title": "Tárhely",
-                    "route": "",
                     "children": []
                 },
                 "link": {
