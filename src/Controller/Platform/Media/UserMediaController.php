@@ -29,10 +29,10 @@ class UserMediaController extends PlatformController
             'tableBody' => $medias,
             'tableHead' => [
                 'originalName' => 'Eredeti név',
+                'description' => 'Leírás',
                 'type' => 'Type',
                 'size' => 'Méret',
                 'path' => 'Elérési út',
-                'description' => 'Leírás',
                 'public' => 'Nyilvános',
                 'status' => 'Státusz',
                 'createdAt' => 'Létrehozva',
@@ -66,12 +66,12 @@ class UserMediaController extends PlatformController
                         $mimeType = $uploadedFile->getMimeType();
                         $size = $uploadedFile->getSize();
 
-                        $uploadedFile->move(__DIR__ . '/../../../../public/media/user/' . $this->getUser()->getId(), $newFilename);
+                        $uploadedFile->move(__DIR__ . '/../../../../public/media/u' . $this->getUser()->getId(), $newFilename);
 
                         // save the file to the database as InstanceStorage
                         $instanceStorage = new Media();
                         $instanceStorage->setPath($newFilename);
-                        $instanceStorage->setOriginalName($originalFilename);
+                        $instanceStorage->setOriginalName($uploadedFile->getClientOriginalName());
                         $instanceStorage->setType($mimeType);
                         $instanceStorage->setSize($size);
                         $instanceStorage->setCreatedAt(new \DateTime());

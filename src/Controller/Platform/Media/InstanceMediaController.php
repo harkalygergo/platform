@@ -29,10 +29,10 @@ class InstanceMediaController extends PlatformController
             'tableBody' => $medias,
             'tableHead' => [
                 'originalName' => 'Eredeti név',
+                'description' => 'Leírás',
                 'type' => 'Type',
                 'size' => 'Méret',
                 'path' => 'Elérési út',
-                'description' => 'Leírás',
                 'public' => 'Nyilvános',
                 'status' => 'Státusz',
                 'createdAt' => 'Létrehozva',
@@ -57,6 +57,7 @@ class InstanceMediaController extends PlatformController
             if ($uploadedFiles) {
 
                 foreach ($uploadedFiles as $uploadedFile) {
+                    // get file name with original extension
                     $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
@@ -66,12 +67,12 @@ class InstanceMediaController extends PlatformController
                         $mimeType = $uploadedFile->getMimeType();
                         $size = $uploadedFile->getSize();
 
-                        $uploadedFile->move(__DIR__ . '/../../../../public/media/instance/' . $this->currentInstance->getId(), $newFilename);
+                        $uploadedFile->move(__DIR__ . '/../../../../public/media/i' . $this->currentInstance->getId(), $newFilename);
 
                         // save the file to the database as InstanceStorage
                         $instanceStorage = new Media();
                         $instanceStorage->setPath($newFilename);
-                        $instanceStorage->setOriginalName($originalFilename);
+                        $instanceStorage->setOriginalName($uploadedFile->getClientOriginalName());
                         $instanceStorage->setType($mimeType);
                         $instanceStorage->setSize($size);
                         $instanceStorage->setCreatedAt(new \DateTime());
