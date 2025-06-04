@@ -300,7 +300,6 @@ class WebsitePageController extends PlatformController
         return $this->render('platform/backend/v1/form.html.twig', $data);
     }
 
-
     #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_website_page_multiple')]
     public function multiple(Request $request, \App\Entity\Platform\Website\Website $id, string $action, string $ids)
     {

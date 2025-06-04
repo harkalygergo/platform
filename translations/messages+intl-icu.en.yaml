@@ -61,10 +61,11 @@ web:
     blocks: 'Blocks'
     category: 'Category'
     categories: 'Categories'
+    menu: 'Menu'
+    menus: 'Menus'
     page: 'Page'
     pages: 'Pages'
     post: 'Post'
     posts: 'Posts'
     website: 'Website'
     webshop: 'Webshop'
-

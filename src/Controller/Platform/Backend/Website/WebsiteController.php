@@ -55,6 +55,10 @@ class WebsiteController extends PlatformController
                     'route' => 'admin_v1_website_categories',
                     'label' => $this->translator->trans('web.categories'),
                 ],
+                'menus' => [
+                    'route' => 'admin_v1_website_menus',
+                    'label' => $this->translator->trans('web.menus'),
+                ]
             ],
         ]);
     }
@@ -178,6 +182,8 @@ class WebsiteController extends PlatformController
     {
         $website = $id;
 
+        $categories = $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteCategory')->findBy(['website' => $website, 'status' => true]);
+
         // check if the directory exists
         if (!is_dir('/tmp/' . $website->getId())) {
             mkdir('/tmp/' . $website->getId());
@@ -195,8 +201,8 @@ class WebsiteController extends PlatformController
         $urls = [];
         $filenames = [];
 
-        $this->deployPages($website, $slugger, $urls, $filenames, $flashText);
-        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText);
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories);
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories);
 
         $this->addFlash('success', $flashText);
 
@@ -205,7 +211,7 @@ class WebsiteController extends PlatformController
         return $this->redirectToRoute('admin_v1_website_index');
     }
 
-    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText)
+    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories)
     {
         $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true]);
 
@@ -232,6 +238,7 @@ class WebsiteController extends PlatformController
                 'keywords' => $website->getMetaKeywords(),
                 'description' => $website->getMetaDescription(),
                 'content' => $pageContent,
+                'categories' => $categories,
             ]);
 
             if ($page->getSlug() === '') {
@@ -264,7 +271,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText)
+    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories)
     {
         $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true]);
 
@@ -290,6 +297,7 @@ class WebsiteController extends PlatformController
                 'keywords' => $website->getMetaKeywords(),
                 'description' => $website->getMetaDescription(),
                 'content' => $postContent,
+                'categories' => $categories,
             ]);
 
             if ($post->getSlug() === '') {

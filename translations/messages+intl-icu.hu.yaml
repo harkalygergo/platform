@@ -64,6 +64,8 @@ web:
     blocks: 'Blokkok'
     category: 'Kategória'
     categories: 'Kategóriák'
+    menu: 'Menü'
+    menus: 'Menük'
     page: 'Oldal'
     pages: 'Oldalak'
     post: 'Bejegyzés'

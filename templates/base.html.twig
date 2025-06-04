@@ -26,6 +26,19 @@
         <link rel="stylesheet" type="text/css" href="//cdn.brandcomstudio.com/node_modules/summernote/dist/summernote.min.css">
         <link rel="stylesheet" type="text/css" href="/style.css">
 
+        <style>
+            label.required:after {
+                content: " * ";
+                color: red;
+            }
+            .form-control:invalid {
+                border-color: red;
+            }
+            .form-control:valid {
+                border-color: green;
+            }
+        </style>
+
         {% block stylesheets %}
         {% endblock %}
 

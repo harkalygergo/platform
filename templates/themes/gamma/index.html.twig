@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="{{ language|default('en') }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="localhost">
-    <meta name="description" content="localhost">
-    <title>Gyógykezelések</title>
+    <meta name="keywords" content="{{ keywords }}">
+    <meta name="description" content="{{ description }}">
+    <title>{{ title }}</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
@@ -71,8 +71,10 @@
                 </a>
             </div>
             <div class="col-12 col-lg-4 text-center">
-                <img class="img-fluid" style="max-width:400px;" src="http://localhost/vitalitashaz_hu_bogacs_logo_5.png" alt="Vitalitásház Bogács">
-                <br>Vitalitás Alternatív Gyógyközpont
+                <a href="/">
+                    <img class="img-fluid" style="max-width:400px;" src="http://localhost/vitalitashaz_hu_bogacs_logo_5.png" alt="Vitalitásház Bogács">
+                    <br>Vitalitás Alternatív Gyógyközpont
+                </a>
             </div>
             <div class="col-12 col-lg-4 text-center text-lg-end">
                 <a target="_blank" class="btn btn-outline-success fs-5 fw-bold" href="https://www.google.com/maps?cid=9767394032924822955&hl=hu&_ga=2.37890149.71853044.1498734968-803022388.1496652900">
@@ -142,6 +144,29 @@
         </div>
     </div>
 </div>
+
+<footer>
+    <div class="container-fluid bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 text-white-50 py-3">
+                    <h4>Kategóriák</h4>
+                    <ul>
+                        {% for category in categories %}
+                            <li>
+                                <a class="text-white-50" href="{{ category.slug }}">
+                                    {{ category.title|raw }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 text-white-50 py-3">
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
 
 </body>
