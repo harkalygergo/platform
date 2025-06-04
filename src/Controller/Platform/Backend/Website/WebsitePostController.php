@@ -4,6 +4,7 @@ namespace App\Controller\Platform\Backend\Website;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
+use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsitePost;
 use App\Form\Platform\Website\WebsitePostType;
 use App\Repository\Platform\Website\WebsitePostRepository;
@@ -17,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class WebsitePostController extends PlatformController
 {
     #[Route('/{id}/', name: 'admin_v1_website_posts')]
-    public function index(\App\Entity\Platform\Website\Website $id, WebsitePostRepository $websitePostRepository): Response
+    public function index(Website $id, WebsitePostRepository $websitePostRepository): Response
     {
         $pagesByWebsite = $websitePostRepository->findByWebsiteId($id->getId());
 
@@ -39,7 +40,7 @@ class WebsitePostController extends PlatformController
     }
 
     #[Route('/{id}/new/', name: 'admin_v1_website_post_new')]
-    public function new(Request $request, \App\Entity\Platform\Website\Website $id): Response
+    public function new(Request $request, Website $id): Response
     {
         $entity = new WebsitePost();
         $form = $this->createForm(WebsitePostType::class, $entity, [
@@ -68,7 +69,7 @@ class WebsitePostController extends PlatformController
 
     // create edit function
     #[Route('/{id}/edit/{page}', name: 'admin_v1_website_post_edit')]
-    public function edit(Request $request, \App\Entity\Platform\Website\Website $id, WebsitePost $page): Response
+    public function edit(Request $request, Website $id, WebsitePost $page): Response
     {
         $form = $this->createForm(WebsitePostType::class, $page, [
             'website' => $id,
@@ -91,7 +92,7 @@ class WebsitePostController extends PlatformController
     }
 
     #[Route('/{id}/delete/{page}', name: 'admin_v1_website_post_delete')]
-    public function delete(Request $request, \App\Entity\Platform\Website\Website $id, WebsitePost $page): Response
+    public function delete(Request $request, Website $id, WebsitePost $page): Response
     {
         // check if page's website is the same as the current website
         if ($page->getWebsite() !== $id) {
@@ -110,6 +111,30 @@ class WebsitePostController extends PlatformController
 
         return $this->redirectToRoute('admin_v1_website_posts', [
             'id' => $id->getId(),
+        ]);
+    }
+
+    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_website_post_multiple')]
+    public function multiple(Request $request, Website $id, string $action, string $ids)
+    {
+        $idsArray = explode(',', $ids);
+
+        switch ($action) {
+            case 'delete':
+                foreach ($idsArray as $id) {
+                    $page = $this->doctrine->getRepository(WebsitePost::class)->find($id);
+                    if ($page) {
+                        $this->doctrine->getManager()->remove($page);
+                    }
+                }
+                $this->doctrine->getManager()->flush();
+                break;
+            default:
+                throw new \Exception('Unknown action: ' . $action);
+        }
+
+        return $this->redirectToRoute('admin_v1_website_posts', [
+            'id' => $request->get('id'),
         ]);
     }
 }

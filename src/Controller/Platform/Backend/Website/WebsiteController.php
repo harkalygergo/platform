@@ -136,18 +136,30 @@ class WebsiteController extends PlatformController
     #[Route('/multiple/{action}/{ids}', name: 'admin_v1_website_multiple')]
     public function multiple(Request $request, string $action, string $ids): Response
     {
-        dump($action);
         $idsArray = explode(',', $ids);
-        dd($idsArray);
-        $websites = $this->doctrine->getRepository(Website::class)->findBy(['id' => $idsArray]);
 
         if ($action === 'delete') {
-            foreach ($websites as $website) {
+            foreach ($idsArray as $website) {
+                $website = $this->doctrine->getRepository(Website::class)->find($website);
+
                 // delete all pages of the website
                 $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website]);
                 foreach ($pages as $page) {
                     $this->doctrine->getManager()->remove($page);
                 }
+
+                // delete all posts of the website
+                $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website]);
+                foreach ($posts as $post) {
+                    $this->doctrine->getManager()->remove($post);
+                }
+
+                // delete all categories of the website
+                $categories = $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteCategory')->findBy(['website' => $website]);
+                foreach ($categories as $category) {
+                    $this->doctrine->getManager()->remove($category);
+                }
+
                 $this->doctrine->getManager()->flush();
 
                 // remove the website

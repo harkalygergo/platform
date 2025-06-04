@@ -299,5 +299,30 @@ class WebsitePageController extends PlatformController
 
         return $this->render('platform/backend/v1/form.html.twig', $data);
     }
+
+
+    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_website_page_multiple')]
+    public function multiple(Request $request, \App\Entity\Platform\Website\Website $id, string $action, string $ids)
+    {
+        $idsArray = explode(',', $ids);
+
+        switch ($action) {
+            case 'delete':
+                foreach ($idsArray as $id) {
+                    $page = $this->doctrine->getRepository(WebsitePage::class)->find($id);
+                    if ($page) {
+                        $this->doctrine->getManager()->remove($page);
+                    }
+                }
+                $this->doctrine->getManager()->flush();
+                break;
+            default:
+                throw new \Exception('Unknown action: ' . $action);
+        }
+
+        return $this->redirectToRoute('admin_v1_website_pages', [
+            'id' => $request->get('id'),
+        ]);
+    }
 }
 
