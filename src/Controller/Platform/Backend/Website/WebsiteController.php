@@ -7,8 +7,8 @@ use App\Entity\Platform\Block;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsitePage;
+use App\Entity\Platform\Website\WebsitePost;
 use App\Form\Platform\Website\WebsiteType;
-use App\Repository\Platform\BlockRepository;
 use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,7 +45,7 @@ class WebsiteController extends PlatformController
                 ],
                 'posts' => [
                     'route' => 'admin_v1_website_posts',
-                    'label' => $this->translator->trans('posts'),
+                    'label' => $this->translator->trans('web.posts'),
                 ],
                 'pages' => [
                     'route' => 'admin_v1_website_pages',
@@ -53,7 +53,7 @@ class WebsiteController extends PlatformController
                 ],
                 'categories' => [
                     'route' => 'admin_v1_website_categories',
-                    'label' => $this->translator->trans('categories'),
+                    'label' => $this->translator->trans('web.categories'),
                 ],
             ],
         ]);
@@ -132,6 +132,35 @@ class WebsiteController extends PlatformController
         return $this->redirectToRoute('admin_v1_website_index');
     }
 
+    // multiple delete
+    #[Route('/multiple/{action}/{ids}', name: 'admin_v1_website_multiple')]
+    public function multiple(Request $request, string $action, string $ids): Response
+    {
+        dump($action);
+        $idsArray = explode(',', $ids);
+        dd($idsArray);
+        $websites = $this->doctrine->getRepository(Website::class)->findBy(['id' => $idsArray]);
+
+        if ($action === 'delete') {
+            foreach ($websites as $website) {
+                // delete all pages of the website
+                $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website]);
+                foreach ($pages as $page) {
+                    $this->doctrine->getManager()->remove($page);
+                }
+                $this->doctrine->getManager()->flush();
+
+                // remove the website
+                $this->doctrine->getManager()->remove($website);
+            }
+            $this->doctrine->getManager()->flush();
+
+            $this->addFlash('success', 'A kiválasztott honlap(ok) sikeresen törölve.');
+        }
+
+        return $this->redirectToRoute('admin_v1_website_index');
+    }
+
     #[Route('/deploy/{id}', name: 'admin_v1_website_deploy')]
     public function deploy(Website $id): Response
     {
@@ -149,12 +178,24 @@ class WebsiteController extends PlatformController
             return $this->redirectToRoute('admin_v1_website_index');
         }
 
+        $flashText = '';
         $slugger = new AsciiSlugger();
-        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $id, 'status' => true]);
         $urls = [];
         $filenames = [];
 
-        $flashText = '';
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText);
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText);
+
+        $this->addFlash('success', $flashText);
+
+        $this->createHtaccessFile($website, $urls, $filenames);
+
+        return $this->redirectToRoute('admin_v1_website_index');
+    }
+
+    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText)
+    {
+        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true]);
 
         foreach ($pages as $page) {
 
@@ -207,15 +248,77 @@ class WebsiteController extends PlatformController
                 $slug.'.html'
             );
 
-            $flashText .= $page->getTitle() . " FTP OK <br>";
+            $flashText .= strtoupper($this->translator->trans('web.page')) .': '. $page->getTitle() . " FTP OK <br>";
+        }
+    }
+
+    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText)
+    {
+        $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true]);
+
+        foreach ($posts as $post) {
+            $postContent = $post->getContent();
+            preg_match_all('/\[block id="(\d+)"\]/', $postContent, $matches);
+            foreach ($matches[1] as $blockId) {
+                $blockRepository = $this->doctrine->getRepository(Block::class);
+                $block = $blockRepository->findOneBy([
+                    'id' => $blockId,
+                    'instance' => $this->currentInstance,
+                    'status' => true
+                ]);
+                if ($block) {
+                    $postContent = str_replace('[block id="'.$blockId.'"]', $block->getContent(), $postContent);
+                }
+            }
+
+            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
+                'charset' => $website->getCharset(),
+                'language' => $website->getLanguage(),
+                'title' => $post->getTitle(),
+                'keywords' => $website->getMetaKeywords(),
+                'description' => $website->getMetaDescription(),
+                'content' => $postContent,
+            ]);
+
+            if ($post->getSlug() === '') {
+                $slug = $slugger->slug($post->getTitle());
+            } else {
+                if ($post->getSlug() === '/') {
+                    $slug = 'index';
+                } else {
+                    $slug = $post->getSlug();
+                }
+            }
+
+            $firstCategory = $post->getCategories()->first();
+            $fileName = $slug;
+            if ($firstCategory) {
+                $slug = $firstCategory->getSlug() . '/' . $slug;
+                $fileName = $firstCategory->getSlug() . '___' . $fileName;
+            }
+
+            // Save the generated HTML content to a temporary file
+            $tempFilePath = '/tmp/' . $website->getId() .'/'. $fileName . '.html';
+            file_put_contents($tempFilePath, $htmlContent);
+
+            // Add to URLs and filenames for .htaccess
+            $urls[] = $slug;
+            $filenames[] = $fileName . '.html';
+
+            // Push to FTP
+            $this->pushToFTP(
+                $website->getFTPHost(),
+                $website->getFTPUser(),
+                $website->getFTPPassword(),
+                $website->getFTPPath(),
+                $tempFilePath,
+                $fileName . '.html'
+            );
+
+            // Add to flash message
+            $flashText .= strtoupper($this->translator->trans('web.post')) . ': ' . htmlspecialchars($post->getTitle()) . " FTP OK <br>";
         }
 
-        $this->addFlash('success', $flashText);
-
-
-        $this->createHtaccessFile($website, $urls, $filenames);
-
-        return $this->redirectToRoute('admin_v1_website_index');
     }
 
     private function createHtaccessFile(Website $website, array $urls=[], array $filenames=[])
@@ -255,6 +358,19 @@ RewriteRule ^(.*)$ /$1/ [L,R=301]
             $ftp = ftp_connect($FTPhost);
             ftp_login($ftp, $FTPuser, $FTPpassword);
             ftp_pasv($ftp, true);
+
+            // check if the FTP path exists, if not create it
+            if (!@ftp_chdir($ftp, $FTPpath)) {
+                ftp_mkdir($ftp, $FTPpath);
+                ftp_chdir($ftp, $FTPpath);
+            }
+
+            // check if ftp connection is successful
+            if (!$ftp) {
+                $this->addFlash('danger', 'FTP kapcsolat sikertelen.');
+                return;
+            }
+
             ftp_put($ftp, $FTPpath.$filename, $content, FTP_ASCII);
             ftp_close($ftp);
         }

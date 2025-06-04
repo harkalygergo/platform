@@ -59,6 +59,12 @@ web:
     application: 'Web application'
     block: 'Block'
     blocks: 'Blocks'
+    category: 'Category'
+    categories: 'Categories'
+    page: 'Page'
+    pages: 'Pages'
+    post: 'Post'
+    posts: 'Posts'
     website: 'Website'
     webshop: 'Webshop'
 

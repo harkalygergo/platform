@@ -371,7 +371,7 @@
                 "profile_storage": {
                     "icon": "bi bi-hdd",
                     "title": "Személyes tárhely",
-                    "route": "",
+                    "route": "admin_v1_media_user_index",
                     "children": []
                 },
                 "profile_worksheet": {

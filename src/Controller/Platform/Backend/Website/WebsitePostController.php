@@ -22,7 +22,7 @@ class WebsitePostController extends PlatformController
         $pagesByWebsite = $websitePostRepository->findByWebsiteId($id->getId());
 
         return $this->render('platform/backend/v1/list.html.twig', [
-            'title' => $id->getDomain() . ' bejegyzések',
+            'title' => $id->getName() . ' (' . $id->getDomain() . ') ' . $this->translator->trans('web.posts'),
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
                 'title' => 'Cím',
