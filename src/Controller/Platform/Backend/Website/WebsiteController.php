@@ -182,8 +182,6 @@ class WebsiteController extends PlatformController
     {
         $website = $id;
 
-        $categories = $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteCategory')->findBy(['website' => $website, 'status' => true]);
-
         // check if the directory exists
         if (!is_dir('/tmp/' . $website->getId())) {
             mkdir('/tmp/' . $website->getId());
@@ -201,8 +199,13 @@ class WebsiteController extends PlatformController
         $urls = [];
         $filenames = [];
 
-        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories);
-        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories);
+        $categories = $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteCategory')->findBy(['website' => $website, 'status' => true]);
+        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true]);
+        // get all menus of the website, order by position
+        $menus = $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
+
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
 
         $this->addFlash('success', $flashText);
 
@@ -211,10 +214,8 @@ class WebsiteController extends PlatformController
         return $this->redirectToRoute('admin_v1_website_index');
     }
 
-    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories)
+    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
     {
-        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true]);
-
         foreach ($pages as $page) {
 
             $pageContent = $page->getContent();
@@ -232,6 +233,7 @@ class WebsiteController extends PlatformController
             }
 
             $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
+                'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
                 'title' => $page->getTitle(),
@@ -239,12 +241,14 @@ class WebsiteController extends PlatformController
                 'description' => $website->getMetaDescription(),
                 'content' => $pageContent,
                 'categories' => $categories,
+                'pages' => $pages,
+                'menus' => $menus,
             ]);
 
             if ($page->getSlug() === '') {
                 $slug = $slugger->slug($page->getTitle());
             } else {
-                if ($page->getSlug() === '/') {
+                if ($page->getSlug() === '/' || $page->isHomepage()) {
                     $slug = 'index';
                 } else {
                     $slug = $page->getSlug();
@@ -267,11 +271,11 @@ class WebsiteController extends PlatformController
                 $slug.'.html'
             );
 
-            $flashText .= strtoupper($this->translator->trans('web.page')) .': '. $page->getTitle() . " FTP OK <br>";
+            $flashText .= mb_strtoupper($this->translator->trans('web.page')) .': '. $page->getTitle() . " FTP OK <br>";
         }
     }
 
-    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories)
+    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
     {
         $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true]);
 
@@ -291,6 +295,7 @@ class WebsiteController extends PlatformController
             }
 
             $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
+                'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
                 'title' => $post->getTitle(),
@@ -298,6 +303,8 @@ class WebsiteController extends PlatformController
                 'description' => $website->getMetaDescription(),
                 'content' => $postContent,
                 'categories' => $categories,
+                'pages' => $pages,
+                'menus' => $menus,
             ]);
 
             if ($post->getSlug() === '') {
@@ -335,8 +342,7 @@ class WebsiteController extends PlatformController
                 $fileName . '.html'
             );
 
-            // Add to flash message
-            $flashText .= strtoupper($this->translator->trans('web.post')) . ': ' . htmlspecialchars($post->getTitle()) . " FTP OK <br>";
+            $flashText .= mb_strtoupper($this->translator->trans('web.post')) . ': ' . htmlspecialchars($post->getTitle()) . " FTP OK <br>";
         }
 
     }

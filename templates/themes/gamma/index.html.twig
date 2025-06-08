@@ -89,24 +89,11 @@
 <div class="container-fluid">
     <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
-            <li class="nav-item">
-                <a href="#" class="nav-link text-primary-color fw-bold" aria-current="page">Főoldal</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link text-primary-color fw-bold" aria-current="page">Léböjtkúra</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link text-primary-color fw-bold" aria-current="page">Gyógyászat</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link text-primary-color fw-bold" aria-current="page">Egészségmegőrző ajánlatok</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link text-primary-color fw-bold" aria-current="page">Időpontfoglalás</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link text-primary-color fw-bold" aria-current="page">Árlista</a>
-            </li>
+            {% for menu in menus %}
+                <li class="nav-item">
+                    <a href="{{ menu.slug }}" class="nav-link text-primary-color fw-bold" aria-current="page">{{ menu.title|raw }}</a>
+                </li>
+            {% endfor %}
         </ul>
     </header>
 </div>
@@ -147,7 +134,7 @@
 
 <footer>
     <div class="container-fluid bg-dark">
-        <div class="container">
+        <div class="container py-5">
             <div class="row">
                 <div class="col-12 col-md-6 text-white-50 py-3">
                     <h4>Kategóriák</h4>
@@ -162,6 +149,26 @@
                     </ul>
                 </div>
                 <div class="col-12 col-md-6 text-white-50 py-3">
+                    <h4>Oldalak</h4>
+                    <ul>
+                        {% for page in pages %}
+                            <li>
+                                <a class="text-white-50" href="{{ page.slug }}">
+                                    {{ page.title|raw }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container border-top border-secondary">
+            <div class="row text-white-50 pt-2 fw-6">
+                <div class="col-12 col-md-6 text-start">
+                    &copy; {{ "now"|date("Y") }} {{ website.title }}. Minden jog fenntartva.
+                </div>
+                <div class="col-12 col-md-6 text-end">
+                    <a href="https://www.brandcomstudio.com/hu/" target="_blank" class="text-white-50">brandcom. weboldalkészítés</a>
                 </div>
             </div>
         </div>
