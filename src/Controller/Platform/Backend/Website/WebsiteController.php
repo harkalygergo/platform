@@ -58,6 +58,10 @@ class WebsiteController extends PlatformController
                 'menus' => [
                     'route' => 'admin_v1_website_menus',
                     'label' => $this->translator->trans('web.menus'),
+                ],
+                'media' => [
+                    'route' => 'admin_v1_website_media',
+                    'label' => $this->translator->trans('media'),
                 ]
             ],
         ]);
@@ -378,7 +382,7 @@ RewriteRule ^(.*)$ /$1/ [L,R=301]
         $this->addFlash('success', '.htaccess FTP OK.');
     }
 
-    private function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename)
+    public static function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename)
     {
         if ($FTPhost !== 'localhost') {
             $ftp = ftp_connect($FTPhost);
@@ -393,7 +397,7 @@ RewriteRule ^(.*)$ /$1/ [L,R=301]
 
             // check if ftp connection is successful
             if (!$ftp) {
-                $this->addFlash('danger', 'FTP kapcsolat sikertelen.');
+                //$this->addFlash('danger', 'FTP kapcsolat sikertelen.');
                 return;
             }
 
