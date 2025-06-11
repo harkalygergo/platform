@@ -7,18 +7,17 @@ use App\Entity\Platform\BillingProfile;
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Service;
 use App\Entity\Platform\User;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[IsGranted(User::ROLE_USER)]
+#[\Symfony\Component\Routing\Attribute\Route('/{_locale}/admin/v1/order')]
 class OrderController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/orders', name: 'admin_v1_orders')]
+    #[Route('/', name: 'admin_v1_order_index')]
     public function index(Request $request): Response
     {
         $orders = $this->doctrine->getRepository(Order::class)->findBy([
@@ -49,11 +48,12 @@ class OrderController extends PlatformController
             ],
             'tableBody' => $orders,
             'actions' => [
+                'delete'
             ],
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/orders/view/{id}', name: 'admin_v1_orders_view')]
+    #[Route('/view/{id}', name: 'admin_v1_order_view')]
     public function view(Request $request, int $id): Response
     {
         $order = $this->doctrine->getRepository(Order::class)->find($id);
@@ -65,7 +65,7 @@ class OrderController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/orders/edit/{id}', name: 'admin_v1_orders_edit')]
+    #[Route('/edit/{id}/', name: 'admin_v1_order_edit')]
     public function edit(Request $request, int $id): Response
     {
         $order = $this->doctrine->getRepository(Order::class)->find($id);
@@ -77,19 +77,53 @@ class OrderController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/orders/delete/{id}', name: 'admin_v1_orders_delete')]
-    public function delete(Request $request, int $id): Response
+    #[Route('/delete/{id}', name: 'admin_v1_order_delete')]
+    public function delete(Request $request, Order $id): Response
     {
-        $order = $this->doctrine->getRepository(Order::class)->find($id);
+        // check if order instance matches current instance
+        if ($id->getInstance() !== $this->currentInstance) {
+            $this->addFlash('danger', $this->translator->trans('You do not have permission'));
+            return $this->redirectToRoute('admin_v1_order_index');
+            //throw $this->createAccessDeniedException($this->translator->trans('You do not have permission'));
+        }
 
-        return $this->render('platform/backend/v1/delete.html.twig', [
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
-            'title' => 'Rendelés törlése',
-            'order' => $order,
-        ]);
+        // check if order exists
+        if (!$id) {
+            $this->addFlash('error', 'Rendelés nem található.');
+            return $this->redirectToRoute('admin_v1_order_index');
+        }
+
+        // remove order
+        $this->doctrine->getManager()->remove($id);
+        $this->doctrine->getManager()->flush();
+
+        return $this->redirectToRoute('admin_v1_order_index');
     }
 
-    #[Route('/{_locale}/admin/v1/orders/create', name: 'admin_v1_orders_create')]
+    #[Route('/multiple/{action}/{ids}', name: 'admin_v1_order_multiple')]
+    public function multiple(Request $request, string $action, string $ids): Response
+    {
+        $idsArray = explode(',', $ids);
+
+        switch ($action) {
+            case 'delete':
+                foreach ($idsArray as $id) {
+                    $order = $this->doctrine->getRepository(Order::class)->find($id);
+                    if ($order && $order->getInstance() === $this->currentInstance) {
+                        $this->doctrine->getManager()->remove($order);
+                    }
+                }
+                break;
+            default:
+                throw new \InvalidArgumentException('Invalid action');
+        }
+
+        $this->doctrine->getManager()->flush();
+
+        return $this->redirectToRoute('admin_v1_order_index');
+    }
+
+    #[Route('/create', name: 'admin_v1_order_create')]
     public function create(Request $request, SerializerInterface $serializer): Response
     {
         // get billing profile object based on posted integer id

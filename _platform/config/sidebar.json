@@ -213,7 +213,7 @@
                 "webshop": {
                     "icon": "bi bi-basket",
                     "title": "Rendelések",
-                    "route": "admin_v1_orders",
+                    "route": "admin_v1_order_index",
                     "children": []
                 },
                 "domain": {
