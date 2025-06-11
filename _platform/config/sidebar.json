@@ -231,13 +231,13 @@
                 "payment": {
                     "icon": "bi bi-credit-card",
                     "title": "Fizetési módok",
-                    "route": "",
+                    "route": "admin_v1_webshop_paymentmethod_index",
                     "children": []
                 },
                 "shipping": {
                     "icon": "bi bi-truck",
                     "title": "Szállítási módok",
-                    "route": "",
+                    "route": "admin_v1_webshop_shippingmethod_index",
                     "children": []
                 },
                 "analytics": {
