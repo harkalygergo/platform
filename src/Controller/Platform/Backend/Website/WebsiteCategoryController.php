@@ -106,5 +106,30 @@ class WebsiteCategoryController extends PlatformController
             'id' => $id->getId(),
         ]);
     }
+
+    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_website_category_multiple')]
+    public function multiple(Request $request, \App\Entity\Platform\Website\Website $id, string $action, string $ids): Response
+    {
+        $idsArray = explode(',', $ids);
+
+        switch ($action) {
+            case 'delete':
+                foreach ($idsArray as $categoryId) {
+                    $category = $this->doctrine->getRepository(WebsiteCategory::class)->find($categoryId);
+                    if ($category && $category->getWebsite() === $id && $category->getWebsite()->getInstance() === $this->currentInstance) {
+                        $this->doctrine->getManager()->remove($category);
+                    }
+                }
+                break;
+            default:
+                throw new \InvalidArgumentException('Invalid action');
+        }
+
+        $this->doctrine->getManager()->flush();
+
+        return $this->redirectToRoute('admin_v1_website_categories', [
+            'id' => $id->getId(),
+        ]);
+    }
 }
 

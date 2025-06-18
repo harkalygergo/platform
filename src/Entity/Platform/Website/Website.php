@@ -52,7 +52,37 @@ class Website
     private ?string $name;
 
     #[ORM\Column(length: 320, nullable: true)]
+    private ?string $slogan;
+
+    #[ORM\Column(length: 320, nullable: true)]
     private ?string $description;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $phone;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $email;
+
+    #[ORM\Column(length: 320, nullable: true)]
+    private ?string $address;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $facebook;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $twitter;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $instagram;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $linkedin;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $youtube;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $tiktok;
 
     #[ORM\Column(length: 16, nullable: true)]
     private ?string $theme;
@@ -233,6 +263,18 @@ class Website
         return $this;
     }
 
+    public function getSlogan(): ?string
+    {
+        return $this->slogan;
+    }
+
+    public function setSlogan(?string $slogan): self
+    {
+        $this->slogan = $slogan;
+
+        return $this;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -241,6 +283,114 @@ class Website
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(?string $facebook): self
+    {
+        $this->facebook = $facebook;
+
+        return $this;
+    }
+
+    public function getTwitter(): ?string
+    {
+        return $this->twitter;
+    }
+
+    public function setTwitter(?string $twitter): self
+    {
+        $this->twitter = $twitter;
+
+        return $this;
+    }
+
+    public function getInstagram(): ?string
+    {
+        return $this->instagram;
+    }
+
+    public function setInstagram(?string $instagram): self
+    {
+        $this->instagram = $instagram;
+
+        return $this;
+    }
+
+    public function getLinkedin(): ?string
+    {
+        return $this->linkedin;
+    }
+
+    public function setLinkedin(?string $linkedin): self
+    {
+        $this->linkedin = $linkedin;
+
+        return $this;
+    }
+
+    public function getYoutube(): ?string
+    {
+        return $this->youtube;
+    }
+
+    public function setYoutube(?string $youtube): self
+    {
+        $this->youtube = $youtube;
+
+        return $this;
+    }
+
+    public function getTiktok(): ?string
+    {
+        return $this->tiktok;
+    }
+
+    public function setTiktok(?string $tiktok): self
+    {
+        $this->tiktok = $tiktok;
 
         return $this;
     }

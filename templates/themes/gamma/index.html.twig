@@ -11,6 +11,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --primary-color: #68442e;
@@ -22,9 +26,20 @@
             color: var(--primary-color) !important;
         }
 
+        .gilda-display-regular {
+            font-family: "Gilda Display", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+
         body {
             background-color: #f5efeb;
             background-color:white;
+            font-family: "Urbanist", sans-serif;
+            font-weight: 400;
+            font-optical-sizing: auto;
+            font-style: normal;
         }
 
         .btn {
@@ -72,8 +87,7 @@
             </div>
             <div class="col-12 col-lg-4 text-center">
                 <a href="/">
-                    <img class="img-fluid" style="max-width:400px;" src="https://uj.vitalitashaz.hu/media/vitalitashaz_hu_bogacs_logo_5.png" alt="Vitalitásház Bogács">
-                    <br>Vitalitás Alternatív Gyógyközpont
+                    <img class="img-fluid" style="max-width:400px;" src="https://uj.vitalitashaz.hu/media/vitalitashaz_hu_bogacs_logo_5.png" alt="{{ website.title|raw }}" title="{{ website.title|raw }}">
                 </a>
             </div>
             <div class="col-12 col-lg-4 text-center text-lg-end">
@@ -106,54 +120,155 @@
         <div class="col col-md-8">
 
             {% block body %}
-            {{ content|raw }}
+
+                <img alt="" class="img img-fluid" src="https://www.vitalitashaz.hu/contents/uploads/sites/16/2016/12/illusztracio_lebojtkura_pixabaycom-768x508.jpg">
+                <h1>{{ title|raw }}</h1>
+                {{ content|raw }}
 
             {% endblock %}
 
 
         </div>
         <div class="col col-md-4">
-            <aside class="bg-light p-3 rounded">
-                <h3 class="fw-bold">Kapcsolat</h3>
-                <p>
-                    <a href="https://maps.google.com/maps?q=Bogács,+Dózsa+György+utca+4." target="_blank">Bogács, Dózsa György utca 4.</a><br>
-                    Telefon: <a href="tel:+3649534002">+36-49-534-002</a><br>
-                    E-mail: <a href="mailto:info@vitalitashaz.hu">
-                    info@vitalitashaz.hu</a><br>
-                    Facebook: <a target="_blank" href="https://www.facebook.com/vitalitashaz">@vitalitashaz</a><br>
-                    Skype: <a href="skype:vitalitashaz?chat">vitalitashaz</a>
-                </p>
-                <a href="https://maps.google.com/maps?q=Bogács,+Dózsa+György+utca+4." target="_blank" rel="noopener">
-                    <img alt="térkép" src="/terkep.png" class="img-fluid">
-                </a>
-                <hr>
-            </aside>
-        </div>
-    </div>
-</div>
+            <aside>
+                <div class="bg-light p-3 rounded mb-3">
+                    <h4>Rólunk</h4>
+                    <p style="text-align: justify;">{{ website.description }}</p>
+                </div>
 
-<footer>
-    <div class="container-fluid bg-dark">
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-12 col-md-6 text-white-50 py-3">
+                <div class="bg-light p-3 rounded mb-3">
                     <h4>Kategóriák</h4>
                     <ul>
                         {% for category in categories %}
                             <li>
-                                <a class="text-white-50" href="{{ category.slug }}">
+                                <a class="text-decoration-none" href="{{ category.slug }}">
                                     {{ category.title|raw }}
                                 </a>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="col-12 col-md-6 text-white-50 py-3">
+
+                <div class="bg-light p-3 rounded mb-3">
                     <h4>Oldalak</h4>
                     <ul>
                         {% for page in pages %}
                             <li>
-                                <a class="text-white-50" href="{{ page.slug }}">
+                                <a class="text-decoration-none" href="{{ page.slug }}">
+                                    {{ page.title|raw }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="bg-light p-3 rounded mb-3">
+                    <h3 class="fw-bold">Kapcsolat</h3>
+                    <p>
+                        {% if website.phone %}
+                            Telefon:
+                            <a class="text-decoration-none" href="tel:{{ website.phone|replace({'-': ''}) }}">
+                                {{ website.phone|raw }}
+                            </a>
+                            <br>
+                        {% endif %}
+                        {% if website.email %}
+                            E-mail:{{ website.email|replace({'@': ' - @ - '}) }}
+                            <br>
+                        {% endif %}
+                        {% if website.facebook %}
+                            Facebook:
+                            <a class="text-decoration-none" href="https://www.facebook.com/{{ website.facebook }}" target="_blank">
+                                @{{ website.facebook }}
+                            </a>
+                            <br>
+                        {% endif %}
+                        {% if website.address %}
+                            Cím:
+                            <a class="text-decoration-none" href="https://maps.google.com/maps?q={{ website.address|url_encode }}" target="_blank">
+                                {{ website.address|raw }}
+                            </a>
+                            <br>
+                        {% endif %}
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container-fluid bg-dark text-white p-2">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-12 col-md-3 text-white-50 py-3">
+                    <h4>{{ website.title }}</h4>
+                    <p class="lead">{{ website.slogan }}</p>
+                    <p>{{ website.description }}</p>
+                </div>
+                <div class="col-12 col-md-3 py-3">
+                    <h4 class="text-white-50">Elérhetőségek</h4>
+                    <ul>
+                        {% if website.phone %}
+                            <li>
+                                <i class="bi bi-telephone"></i>
+                                <a class="text-white text-decoration-none" href="tel:{{ website.phone|replace({'-': ''}) }}">
+                                    {{ website.phone|raw }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if website.address %}
+                            <li>
+                                <i class="bi bi-geo-alt"></i>
+                                <a class="text-white text-decoration-none" href="https://maps.google.com/maps?q={{ website.address|url_encode }}" target="_blank">
+                                    {{ website.address|raw }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if website.facebook %}
+                            <li>
+                                <i class="bi bi-facebook"></i>
+                                <a class="text-white text-decoration-none" href="https://www.facebook.com/{{ website.facebook }}" target="_blank">
+                                    Facebook
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if website.email %}
+                            <li>
+                                <i class="bi bi-envelope"></i>
+                                <a class="text-white text-decoration-none" href="mailto:{{ website.email }}">
+                                    {{ website.email|raw }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if website.instagram %}
+                            <li>
+                                <i class="bi bi-instagram"></i>
+                                <a class="text-white text-decoration-none" href="https://instagram.com/{{ website.instagram }}" target="_blank">
+                                    Instagram
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 py-3">
+                    <h4 class="text-white-50">Kategóriák</h4>
+                    <ul>
+                        {% for category in categories %}
+                            <li>
+                                <a class="text-white text-decoration-none" href="{{ category.slug }}">
+                                    {{ category.title|raw }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 py-3">
+                    <h4 class="text-white-50">Oldalak</h4>
+                    <ul>
+                        {% for page in pages %}
+                            <li>
+                                <a class="text-white text-decoration-none" href="{{ page.slug }}">
                                     {{ page.title|raw }}
                                 </a>
                             </li>

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,11 +32,75 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('description', TextType::class, [
+            ->add('slogan', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
             ])
+            ->add('description', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+
+            // add phone, email, address, and social media fields
+            ->add('phone', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('email', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('address', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('facebook', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('twitter', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('instagram', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('linkedin', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('youtube', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('tiktok', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            // add language, meta description, keywords, author, robots, theme, FTP fields
+
+
             ->add('language', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control',
