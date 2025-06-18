@@ -355,15 +355,15 @@ class WebsiteController extends PlatformController
     {
         $content = 'FallbackResource /index.html
 RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$ [NC]
-RewriteCond %{REQUEST_URI} !/$
-RewriteRule ^(.*)$ /$1/ [L,R=301]
+#RewriteBase /
+#RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$ [NC]
+#RewriteCond %{REQUEST_URI} !/$
+#RewriteRule ^(.*)$ /$1/ [L,R=301]
 ';
 
         $i = 0;
         foreach ($urls as $url) {
-            $content .= 'RewriteRule ^' . $url . '/$ ' . $filenames[$i] . ' [L,NC]'."\n";
+            $content .= 'RewriteRule ^' . $url . '/?$ ' . $filenames[$i] . ' [L,NC]'."\n";
             $i++;
         }
 

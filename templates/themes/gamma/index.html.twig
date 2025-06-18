@@ -18,6 +18,7 @@
     <style>
         :root {
             --primary-color: #68442e;
+            --secondary-color: #f5efeb;
         }
         .bg-primary-color {
             background-color: var(--primary-color) !important;
@@ -32,10 +33,8 @@
             font-style: normal;
         }
 
-
         body {
-            background-color: #f5efeb;
-            background-color:white;
+            background-color: var(--secondary-color);
             font-family: "Urbanist", sans-serif;
             font-weight: 400;
             font-optical-sizing: auto;
@@ -44,6 +43,10 @@
 
         .btn {
             border:none;
+        }
+
+        a {
+            color: var(--primary-color);
         }
 
         a.btn {
@@ -80,18 +83,18 @@
     <header class="py-md-4">
         <div class="row align-items-center fw-bold">
             <div class="col-12 col-lg-4 text-center text-lg-start">
-                <a class="btn btn-outline-success fs-5 fw-bold" href="tel:+3649534002">
+                <a class="btn btn-outline-light fs-5 fw-bold" href="tel:{{ website.phone|replace({'-': ''}) }}">
                     <i class="bi bi-telephone fw-bold"></i>
-                    +36-49-534-002
+                    {{ website.phone|raw }}
                 </a>
             </div>
             <div class="col-12 col-lg-4 text-center">
                 <a href="/">
-                    <img class="img-fluid" style="max-width:400px;" src="https://uj.vitalitashaz.hu/media/vitalitashaz_hu_bogacs_logo_5.png" alt="{{ website.title|raw }}" title="{{ website.title|raw }}">
+                    <img class="img img-fluid" src="https://uj.vitalitashaz.hu/media/vitalitashaz_hu_bogacs_logo_5.png" alt="{{ website.title|raw }}" title="{{ website.title|raw }}">
                 </a>
             </div>
             <div class="col-12 col-lg-4 text-center text-lg-end">
-                <a target="_blank" class="btn btn-outline-success fs-5 fw-bold" href="https://www.google.com/maps?cid=9767394032924822955&hl=hu&_ga=2.37890149.71853044.1498734968-803022388.1496652900">
+                <a target="_blank" class="btn btn-outline-light fs-5 fw-bold" href="https://www.google.com/maps?cid=9767394032924822955&hl=hu&_ga=2.37890149.71853044.1498734968-803022388.1496652900">
                     <i class="bi bi-geo-alt fw-bold"></i>
                     Bogács, Dózsa György u 4.
                 </a>
@@ -110,9 +113,6 @@
             {% endfor %}
         </ul>
     </header>
-</div>
-<div class="container-fluid p-0">
-    <img alt="" class="img-fluid w-100" src="http://localhost/a.jpg">
 </div>
 
 <div class="container">
@@ -173,7 +173,14 @@
                             <br>
                         {% endif %}
                         {% if website.email %}
-                            E-mail:{{ website.email|replace({'@': ' - @ - '}) }}
+                            E-mail: {{ website.email|replace({'@': ' - @ - '}) }}
+                            <br>
+                        {% endif %}
+                        {% if website.address %}
+                            Cím:
+                            <a class="text-decoration-none" href="https://maps.google.com/maps?q={{ website.address|url_encode }}" target="_blank">
+                                {{ website.address|raw }}
+                            </a>
                             <br>
                         {% endif %}
                         {% if website.facebook %}
@@ -183,10 +190,17 @@
                             </a>
                             <br>
                         {% endif %}
-                        {% if website.address %}
-                            Cím:
-                            <a class="text-decoration-none" href="https://maps.google.com/maps?q={{ website.address|url_encode }}" target="_blank">
-                                {{ website.address|raw }}
+                        {% if website.instagram %}
+                            Instagram:
+                            <a class="text-decoration-none" href="https://instagram.com/{{ website.instagram }}" target="_blank">
+                                @{{ website.instagram }}
+                            </a>
+                            <br>
+                        {% endif %}
+                        {% if website.tiktok %}
+                            Instagram:
+                            <a class="text-decoration-none" href="https://tiktok.com/{{ website.tiktok }}" target="_blank">
+                                @{{ website.tiktok }}
                             </a>
                             <br>
                         {% endif %}
@@ -217,6 +231,12 @@
                                 </a>
                             </li>
                         {% endif %}
+                        {% if website.email %}
+                            <li>
+                                <i class="bi bi-envelope"></i>
+                                {{ website.email|replace({'@': ' - @ - '}) }}
+                            </li>
+                        {% endif %}
                         {% if website.address %}
                             <li>
                                 <i class="bi bi-geo-alt"></i>
@@ -230,14 +250,6 @@
                                 <i class="bi bi-facebook"></i>
                                 <a class="text-white text-decoration-none" href="https://www.facebook.com/{{ website.facebook }}" target="_blank">
                                     Facebook
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if website.email %}
-                            <li>
-                                <i class="bi bi-envelope"></i>
-                                <a class="text-white text-decoration-none" href="mailto:{{ website.email }}">
-                                    {{ website.email|raw }}
                                 </a>
                             </li>
                         {% endif %}
