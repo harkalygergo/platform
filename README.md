@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM Online Management System
-###### Version: 2025.06.18.2
+###### Version: 2025.06.18.3
 
 Platform is a multisite and multilingual compatibility Online Management System based on Symfony PHP Framework by @harkalygergo. It's ideal for managing any company or organization.
 

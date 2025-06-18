@@ -136,10 +136,10 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'choices' => [
-                    'index, follow' => 'index, follow',
-                    'noindex, nofollow' => 'noindex, nofollow',
-                    'index, nofollow' => 'index, nofollow',
-                    'noindex, follow' => 'noindex, follow',
+                    'index, follow' => 'index,follow',
+                    'noindex, nofollow' => 'noindex,nofollow',
+                    'index, nofollow' => 'index,nofollow',
+                    'noindex, follow' => 'noindex,follow',
                 ],
             ])
             ->add('theme', ChoiceType::class, [
