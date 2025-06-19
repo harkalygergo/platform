@@ -108,6 +108,24 @@ class Website
     #[ORM\Column(length: 16, nullable: true)]
     private ?string $metaRobots;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $headerCSS = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $headerJS = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $headerHTML = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $bodyTopHTML = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $footerJS = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $footerHTML = null;
+
     public function __construct()
     {
         $this->status = true;
@@ -487,6 +505,78 @@ class Website
     public function setMetaRobots(?string $metaRobots): self
     {
         $this->metaRobots = $metaRobots;
+
+        return $this;
+    }
+
+    public function getHeaderCSS(): ?string
+    {
+        return $this->headerCSS;
+    }
+
+    public function setHeaderCSS(?string $headerCSS): self
+    {
+        $this->headerCSS = $headerCSS;
+
+        return $this;
+    }
+
+    public function getHeaderJS(): ?string
+    {
+        return $this->headerJS;
+    }
+
+    public function setHeaderJS(?string $headerJS): self
+    {
+        $this->headerJS = $headerJS;
+
+        return $this;
+    }
+
+    public function getHeaderHTML(): ?string
+    {
+        return $this->headerHTML;
+    }
+
+    public function setHeaderHTML(?string $headerHTML): self
+    {
+        $this->headerHTML = $headerHTML;
+
+        return $this;
+    }
+
+    public function getBodyTopHTML(): ?string
+    {
+        return $this->bodyTopHTML;
+    }
+
+    public function setBodyTopHTML(?string $bodyTopHTML): self
+    {
+        $this->bodyTopHTML = $bodyTopHTML;
+
+        return $this;
+    }
+
+    public function getFooterJS(): ?string
+    {
+        return $this->footerJS;
+    }
+
+    public function setFooterJS(?string $footerJS): self
+    {
+        $this->footerJS = $footerJS;
+
+        return $this;
+    }
+
+    public function getFooterHTML(): ?string
+    {
+        return $this->footerHTML;
+    }
+
+    public function setFooterHTML(?string $footerHTML): self
+    {
+        $this->footerHTML = $footerHTML;
 
         return $this;
     }

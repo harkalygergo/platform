@@ -17,45 +17,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --primary-color: #68442e;
-            --secondary-color: #f5efeb;
-        }
-        .bg-primary-color {
-            background-color: var(--primary-color) !important;
-        }
-        .text-primary-color {
-            color: var(--primary-color) !important;
-        }
-
-        .gilda-display-regular {
-            font-family: "Gilda Display", serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        body {
-            background-color: var(--secondary-color);
-            font-family: "Urbanist", sans-serif;
-            font-weight: 400;
-            font-optical-sizing: auto;
-            font-style: normal;
-        }
-
-        .btn {
-            border:none;
-        }
-
-        a {
-            color: var(--primary-color);
-        }
-
-        a.btn {
-            color: var(--primary-color);
-        }
+        {{ website.headerCSS|raw }}
     </style>
+    <script>
+        {{ website.headerJS|raw }}
+    </script>
+    {{ website.headerHTML|raw }}
 </head>
 <body>
+{{ website.bodyTopHTML|raw }}
 
 <div class="container-fluid py-0 bg-primary-color">
     <div class="container d-flex flex-wrap p-0">
@@ -303,6 +273,10 @@
     </div>
 </footer>
 
+<script>
+    {{ website.footerJS|raw }}
+</script>
+{{ website.footerHTML|raw }}
 
 </body>
 </html>

@@ -180,6 +180,48 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('headerCSS', TextareaType::class, [
+                'label' => 'Header CSS',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('headerJS', TextareaType::class, [
+                'label' => 'Header JS',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('headerHTML', TextareaType::class, [
+                'label' => 'Header HTML',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('bodyTopHTML', TextareaType::class, [
+                'label' => 'Body Top HTML',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('footerJS', TextareaType::class, [
+                'label' => 'Footer JS',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('footerHTML', TextareaType::class, [
+                'label' => 'Footer HTML',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('status', CheckboxType::class, [
                 'label' => 'Status',
                 'required' => false,
