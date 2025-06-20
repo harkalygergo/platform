@@ -25,6 +25,8 @@ class APIController extends PlatformController
                 'name' => 'Név',
                 'description' => 'Leírás',
                 'domain' => 'Domain',
+                'apiKey' => 'API Kulcs',
+                'apiSecret' => 'API Titok',
                 'status' => 'Státusz',
             ],
             'tableBody' => $apis,
