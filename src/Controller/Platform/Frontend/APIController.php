@@ -99,6 +99,36 @@ class APIController extends PlatformController
                 break;
             }
 
+            case 'newsletter_subscriber':
+            {
+                $email = $parameters['email'] ?? null;
+
+                // validate email
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    return $this->json([
+                        'status' => 'error',
+                        'message' => 'Invalid email address',
+                    ]);
+                }
+
+                // save subscriber
+                $subscriber = new \App\Entity\Platform\Newsletter\NewsletterSubscriber();
+                $subscriber->setName($parameters['name'] ?? null);
+                $subscriber->setEmail($email);
+                $subscriber->setInstance($instance);
+                $subscriber->setCreatedAt(new \DateTimeImmutable());
+
+                // save subscriber
+                $em = $doctrine->getManager();
+                $em->persist($subscriber);
+                $em->flush();
+
+                return $this->json([
+                    'status' => 'success',
+                    'message' => 'Subscription successful',
+                ]);
+            }
+
             case 'order':
             {
                 $order = new Order();
