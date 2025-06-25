@@ -210,12 +210,65 @@ class WebsiteController extends PlatformController
 
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
+        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
 
         $this->addFlash('success', $flashText);
 
         $this->createHtaccessFile($website, $urls, $filenames);
 
         return $this->redirectToRoute('admin_v1_website_index');
+    }
+
+    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
+    {
+        // get website categories
+        foreach ($categories as $category) {
+            $htmlContent = $this->renderView('themes/' . $website->getTheme() . '/category.html.twig', [
+                'website' => $website,
+                'charset' => $website->getCharset(),
+                'language' => $website->getLanguage(),
+                'title' => $category->getTitle(),
+                'keywords' => $website->getMetaKeywords(),
+                'description' => $website->getMetaDescription(),
+                'content' => $category,
+                'categories' => $categories,
+                'pages' => $pages,
+                'menus' => $menus,
+            ]);
+
+            if ($category->getSlug() === '') {
+                $slug = $slugger->slug($category->getName());
+            } else {
+                if ($category->getSlug() === '/') {
+                    $slug = 'index';
+                } else {
+                    $slug = $category->getSlug();
+                }
+            }
+
+            // Save the generated HTML content to a temporary file
+            $tempFilePath = '/tmp/' . $website->getId() . '/' . $slug . '.html';
+            file_put_contents($tempFilePath, $htmlContent);
+
+            // Add to URLs and filenames for .htaccess
+            $urls[] = $slug;
+            $filenames[] = $slug . '.html';
+
+            // Push to FTP
+            self::pushToFTP(
+                $website->getFTPHost(),
+                $website->getFTPUser(),
+                $website->getFTPPassword(),
+                $website->getFTPPath(),
+                $tempFilePath,
+                $slug . '.html'
+            );
+
+            // Flash message
+            $flashText .= mb_strtoupper($this->translator->trans('web.category')) . ': ' . htmlspecialchars($category->getTitle()) . " FTP OK <br>";
+
+        }
+
     }
 
     private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
@@ -236,7 +289,12 @@ class WebsiteController extends PlatformController
                 }
             }
 
-            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
+            $templateFile = 'index.html.twig';
+            if (file_exists('themes/'. $website->getTheme() .'/page.html.twig')) {
+                $templateFile = 'page.html.twig';
+            }
+
+            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/page.html.twig', [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
@@ -298,7 +356,12 @@ class WebsiteController extends PlatformController
                 }
             }
 
-            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/index.html.twig', [
+            $templateFile = 'index.html.twig';
+            if (file_exists('themes/'. $website->getTheme() .'/post.html.twig')) {
+                $templateFile = 'post.html.twig';
+            }
+
+            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/post.html.twig', [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),

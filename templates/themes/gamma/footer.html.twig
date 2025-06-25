@@ -1,0 +1,95 @@
+<footer>
+    <div class="container-fluid bg-dark text-white p-2">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-12 col-md-3 text-white-50 py-3">
+                    <h4>{{ website.title }}</h4>
+                    <p class="lead">{{ website.slogan }}</p>
+                    <p>{{ website.description }}</p>
+                </div>
+                <div class="col-12 col-md-3 py-3">
+                    <h4 class="text-white-50">Elérhetőségek</h4>
+                    <ul>
+                        {% if website.phone %}
+                            <li>
+                                <i class="bi bi-telephone"></i>
+                                <a class="text-white text-decoration-none" href="tel:{{ website.phone|replace({'-': ''}) }}">
+                                    {{ website.phone|raw }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if website.email %}
+                            <li>
+                                <i class="bi bi-envelope"></i>
+                                {{ website.email|replace({'@': ' - @ - '}) }}
+                            </li>
+                        {% endif %}
+                        {% if website.address %}
+                            <li>
+                                <i class="bi bi-geo-alt"></i>
+                                <a class="text-white text-decoration-none" href="https://maps.google.com/maps?q={{ website.address|url_encode }}" target="_blank">
+                                    {{ website.address|raw }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if website.facebook %}
+                            <li>
+                                <i class="bi bi-facebook"></i>
+                                <a class="text-white text-decoration-none" href="https://www.facebook.com/{{ website.facebook }}" target="_blank">
+                                    Facebook
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if website.instagram %}
+                            <li>
+                                <i class="bi bi-instagram"></i>
+                                <a class="text-white text-decoration-none" href="https://instagram.com/{{ website.instagram }}" target="_blank">
+                                    Instagram
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 py-3">
+                    <h4 class="text-white-50">Kategóriák</h4>
+                    <ul>
+                        {% for category in categories %}
+                            <li>
+                                <a class="text-white text-decoration-none" href="{{ category.slug }}">
+                                    {{ category.title|raw }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 py-3">
+                    <h4 class="text-white-50">Oldalak</h4>
+                    <ul>
+                        {% for page in pages %}
+                            <li>
+                                <a class="text-white text-decoration-none" href="{{ page.slug }}">
+                                    {{ page.title|raw }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container border-top border-secondary">
+            <div class="row text-white-50 pt-2 fw-6">
+                <div class="col-12 col-md-6 text-start">
+                    &copy; {{ "now"|date("Y") }} {{ website.title }}. Minden jog fenntartva.
+                </div>
+                <div class="col-12 col-md-6 text-end">
+                    <a href="https://www.brandcomstudio.com/hu/" target="_blank" class="text-white-50">brandcom. weboldalkészítés</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    {{ website.footerJS|raw }}
+</script>
+{{ website.footerHTML|raw }}
