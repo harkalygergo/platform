@@ -57,6 +57,14 @@ class Website
     #[ORM\Column(length: 320, nullable: true)]
     private ?string $description;
 
+    #[ORM\ManyToOne(targetEntity: WebsiteMedia::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?WebsiteMedia $favicon = null;
+
+    #[ORM\ManyToOne(targetEntity: WebsiteMedia::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?WebsiteMedia $logo = null;
+
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $phone;
 
@@ -313,6 +321,30 @@ class Website
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getFavicon(): ?WebsiteMedia
+    {
+        return $this->favicon;
+    }
+
+    public function setFavicon(?WebsiteMedia $favicon): self
+    {
+        $this->favicon = $favicon;
+
+        return $this;
+    }
+
+    public function getLogo(): ?WebsiteMedia
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?WebsiteMedia $logo): self
+    {
+        $this->logo = $logo;
 
         return $this;
     }

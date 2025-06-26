@@ -172,4 +172,35 @@ class WebsiteMediaController extends PlatformController
         ftp_close($connection);
     }
 
+    // create delete function, not just delete record, but remove file from FTP server as well
+    #[Route('/{id}/delete/{websiteMedia}', name: 'admin_v1_website_media_delete', methods: ['GET', 'POST'])]
+    public function delete(Request $request, Website $id, WebsiteMedia $websiteMedia): Response
+    {
+        //if ($this->isCsrfTokenValid('delete' . $id->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->doctrine->getManager();
+            //$websiteMedia = $entityManager->getRepository(WebsiteMedia::class)->find($id);
+
+            if ($websiteMedia) {
+                // Remove file from FTP server
+                WebsiteController::removeFromFTP(
+                    $websiteMedia->getWebsite()->getFTPHost(),
+                    $websiteMedia->getWebsite()->getFTPUser(),
+                    $websiteMedia->getWebsite()->getFTPPassword(),
+                    $websiteMedia->getWebsite()->getFTPPath(),
+                    'media/' . $websiteMedia->getPath()
+                );
+
+                // Remove record from database
+                $entityManager->remove($websiteMedia);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Média sikeresen törölve.');
+            } else {
+                $this->addFlash('danger', 'A média nem található.');
+            }
+        //}
+
+        return $this->redirectToRoute('admin_v1_website_media', ['id' => $id->getId()]);
+    }
+
 }

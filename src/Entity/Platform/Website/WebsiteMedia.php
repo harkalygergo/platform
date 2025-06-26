@@ -4,9 +4,10 @@ namespace App\Entity\Platform\Website;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
+use App\Repository\Platform\Website\WebsiteMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: 'App\Repository\Platform\Media\WebsiteMediaRepository')]
+#[ORM\Entity(repositoryClass: WebsiteMediaRepository::class)]
 class WebsiteMedia
 {
     #[ORM\Id]

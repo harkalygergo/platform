@@ -34,7 +34,12 @@
             </div>
             <div class="col-12 col-lg-4 text-center">
                 <a href="/">
-                    <img class="img img-fluid" src="https://uj.vitalitashaz.hu/media/vitalitashaz_hu_bogacs_logo_5.png" alt="{{ website.title|raw }}" title="{{ website.title|raw }}">
+                    <!-- add website.logo -->
+                    {% if website.logo %}
+                        <img class="img img-fluid" src="/media/{{ website.logo.originalName }}" alt="{{ website.title|raw }}" title="{{ website.title|raw }}">
+                    {% else %}
+                        {{ website.title|raw }}
+                    {% endif %}
                 </a>
             </div>
             <div class="col-12 col-lg-4 text-center text-lg-end">

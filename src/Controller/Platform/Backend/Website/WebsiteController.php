@@ -468,4 +468,24 @@ RewriteEngine On
             ftp_close($ftp);
         }
     }
+
+    public static function removeFromFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $filename)
+    {
+        if ($FTPhost !== 'localhost') {
+            $ftp = ftp_connect($FTPhost);
+            ftp_login($ftp, $FTPuser, $FTPpassword);
+            ftp_pasv($ftp, true);
+
+            // check if the FTP path exists
+            if (@ftp_chdir($ftp, $FTPpath)) {
+                // check if file exists
+                if (ftp_nlist($ftp, $FTPpath . $filename)) {
+                    // delete the file
+                    ftp_delete($ftp, $FTPpath . $filename);
+                }
+            }
+
+            ftp_close($ftp);
+        }
+    }
 }
