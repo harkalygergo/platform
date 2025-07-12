@@ -19,7 +19,7 @@ class WebsiteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $currentWebsite = $options['data']; // Get the current Website entity
+        $currentWebsite = $options['data'] ?? null; // Get the current Website entity
 
         $builder
             ->add('domain', TextType::class, [
@@ -47,36 +47,6 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-
-            ->add('favicon', EntityType::class, [
-                'class' => WebsiteMedia::class,
-                'choice_label' => 'originalName', // Adjust to the property you want to display
-                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
-                    return $er->createQueryBuilder('wm')
-                        ->where('wm.website = :website')
-                        ->setParameter('website', $currentWebsite->getId());
-                },
-                'required' => false,
-                'placeholder' => 'Select a favicon',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-            ->add('logo', EntityType::class, [
-                'class' => WebsiteMedia::class,
-                'choice_label' => 'originalName', // Adjust to the property you want to display
-                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
-                    return $er->createQueryBuilder('wm')
-                        ->where('wm.website = :website')
-                        ->setParameter('website', $currentWebsite->getId());
-                },
-                'required' => false,
-                'placeholder' => 'Select a logo',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
-
             ->add('phone', TextType::class, [
                 'required' => false,
                 'attr' => [
@@ -259,14 +229,47 @@ class WebsiteType extends AbstractType
                     'class' => 'form-check-input',
                 ],
             ])
-
         ;
+
+        if ($currentWebsite) {
+            $builder
+                ->add('favicon', EntityType::class, [
+                    'class' => WebsiteMedia::class,
+                    'choice_label' => 'originalName', // Adjust to the property you want to display
+                    'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                        return $er->createQueryBuilder('wm')
+                            ->where('wm.website = :website')
+                            ->setParameter('website', $currentWebsite->getId());
+                    },
+                    'required' => false,
+                    'placeholder' => 'Select a favicon',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                ])
+                ->add('logo', EntityType::class, [
+                    'class' => WebsiteMedia::class,
+                    'choice_label' => 'originalName', // Adjust to the property you want to display
+                    'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                        return $er->createQueryBuilder('wm')
+                            ->where('wm.website = :website')
+                            ->setParameter('website', $currentWebsite->getId());
+                    },
+                    'required' => false,
+                    'placeholder' => 'Select a logo',
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                ])
+            ;
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Website::class,
+
         ]);
     }
 }

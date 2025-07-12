@@ -445,6 +445,29 @@ RewriteEngine On
         $this->addFlash('success', '.htaccess FTP OK.');
     }
 
+    public function createRobotsTxtFile(Website $website)
+    {
+        $fileName = 'robots.txt';
+
+        $content = 'User-agent: *
+Crawl-delay: 10
+';
+
+        $tempFilePath = '/tmp/' . $website->getId() . '/'. $fileName;
+        file_put_contents($tempFilePath, $content);
+
+        $this->pushToFTP(
+            $website->getFTPHost(),
+            $website->getFTPUser(),
+            $website->getFTPPassword(),
+            $website->getFTPPath(),
+            $tempFilePath,
+            $fileName
+        );
+
+        $this->addFlash('success', $fileName.' FTP OK.');
+    }
+
     public static function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename)
     {
         if ($FTPhost !== 'localhost') {
