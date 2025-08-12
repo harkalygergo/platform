@@ -237,7 +237,7 @@ class WebsiteController extends PlatformController
                 $website->getFTPPassword(),
                 $website->getFTPPath(),
                 $tempFilePath,
-                'header.css'
+                'style.css',
             );
 
             $this->addFlash('success', 'style.css FTP OK.');
@@ -503,9 +503,14 @@ Crawl-delay: 10
         $this->addFlash('success', $fileName.' FTP OK.');
     }
 
-    public static function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename)
+    public static function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename, $website = null)
     {
-        if ($FTPhost !== 'localhost') {
+        // if FTP host is localhost, move files to FTP path directly
+        if ($FTPhost === 'localhost') {
+            $filePath = $FTPpath . $filename;
+            file_put_contents($filePath, file_get_contents($content));
+            return;
+        } else {
             $ftp = ftp_connect($FTPhost);
             ftp_login($ftp, $FTPuser, $FTPpassword);
             ftp_pasv($ftp, true);

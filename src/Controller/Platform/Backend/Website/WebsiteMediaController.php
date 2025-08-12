@@ -85,7 +85,7 @@ class WebsiteMediaController extends PlatformController
                     $tempFilePath = '/tmp/' . $uploadedFile->getFilename();
                     file_put_contents($tempFilePath, $uploadedFile->getContent());
 
-                    $tempFilePath = '/tmp/' . $website->getId() .'/media/'. $uploadedFile->getClientOriginalName();
+                    $tempFilePath = '/tmp/' . $website->getId() .'/'. $uploadedFile->getClientOriginalName();
                     file_put_contents($tempFilePath, $uploadedFile->getContent());
 
                     WebsiteController::pushToFTP(
@@ -150,7 +150,7 @@ class WebsiteMediaController extends PlatformController
     public function createMediaDirectory(Website $website): void
     {
         if ($website->getFTPHost() === 'localhost') {
-            $mediaDirectory = '/tmp/' . $website->getId() . '/media';
+            $mediaDirectory = $website->getFTPPath() . 'media';
             if (!is_dir($mediaDirectory)) {
                 mkdir($mediaDirectory, 0777, true);
             }
@@ -214,14 +214,21 @@ class WebsiteMediaController extends PlatformController
     // http://platform.local/hu/admin/v1/website/media/9/multiple/delete/on,12,13,14
     //     #[Route('/{id}/delete/{websiteMedia}', name: 'admin_v1_website_media_delete', methods: ['GET', 'POST'])]
     #[Route('/{website}/multiple/{action}/{ids}', name: 'admin_v1_website_media_multiple')]
-    public function multiple(Request $request, Website $website, string $action, string $ids): Response
+    public function multiple(Request $request, WebsiteMediaRepository $websiteMediaRepository, Website $website, string $action, string $ids): Response
     {
         $idsArray = explode(',', $ids);
 
         if ($action === 'delete') {
-            foreach ($idsArray as $websiteMedia) {
+            foreach ($idsArray as $websiteMediaId) {
+                $websiteMedia = $this->doctrine->getRepository(WebsiteMedia::class)->find($websiteMediaId);
+                if (!$websiteMedia) {
+                    continue; // Skip if media not found
+                }
+                // delete media record from database
+                $this->delete($request, $website, $websiteMedia);
+
                 // delete media from database and FTP server
-                $websiteMedia = $this->doctrine->getRepository(WebsiteMedia::class)->find($websiteMedia);
+                //$websiteMedia = $this->doctrine->getRepository(WebsiteMedia::class)->find($websiteMedia);
                 // delete $websiteMedia if it exists
                 if ($websiteMedia) {
                     /*
@@ -236,10 +243,10 @@ class WebsiteMediaController extends PlatformController
                     */
 
                     // Remove record from database
-                    $this->doctrine->getManager()->remove($websiteMedia);
+                    //$this->doctrine->getManager()->remove($websiteMedia);
                 }
             }
-            $this->doctrine->getManager()->flush();
+            //$this->doctrine->getManager()->flush();
 
             $this->addFlash('success', 'A kiválasztott média sikeresen törölve.');
         }
