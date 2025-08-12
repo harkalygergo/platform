@@ -10,6 +10,17 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/style.css">
+
+    <!--style>
+        {#{ website.headerCSS|raw }#}
+    </style-->
+    <script>
+        {{ website.headerJS|raw }}
+    </script>
+    {{ website.headerHTML|raw }}
+
 </head>
 <body>
 

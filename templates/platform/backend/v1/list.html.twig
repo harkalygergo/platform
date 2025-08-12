@@ -23,19 +23,21 @@
                                         </a>
                                     {% endif %}
                                 {% endif %}
-                                <button type="button" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-heart"></i> <span class="d-none d-md-inline-block">kedvencekhez</span>
-                                </button>
-                            </div>
-                            <div class="dropdown">
                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-gear"></i>
                                     <span class="d-none d-md-inline-block">eszközök</span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <span class="dropdown-item">
+                                            <i class="bi bi-heart text-danger"></i>
+                                            kedvencekhez adás
+                                        </span>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
                                         <span class="dropdown-item" onclick="multipleFunction('multiple/delete');">
-                                            <i class="bi bi-trash3-fill"></i>
+                                            <i class="bi bi-trash"></i>
                                             kijelöltek tömeges törlése
                                         </span>
                                     </li>
@@ -45,6 +47,7 @@
                                     <li><a class="dropdown-item" href="#">import - hamarosan</a></li>
                                     <li><a class="dropdown-item" href="#">import mintafájl - hamarosan</a></li>
                                 </ul>
+
                             </div>
                         </div>
                     </div>

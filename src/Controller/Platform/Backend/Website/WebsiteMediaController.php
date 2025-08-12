@@ -31,8 +31,10 @@ class WebsiteMediaController extends PlatformController
             'title' => $id->getDomain() . ' media',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
-                'path' => 'Útvonal',
                 'originalName' => 'Eredeti név',
+                'type' => 'Típus',
+                'size' => 'Méret (bytes)',
+                'description' => 'Leírás',
             ],
             'tableBody' => $media,
             'actions' => [
@@ -53,13 +55,7 @@ class WebsiteMediaController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->createMediaDirectory(
-                $website->getFTPHost(),
-                $website->getFTPUser(),
-                $website->getFTPPassword(),
-                $website->getFTPPath(),
-            );
-
+            $this->createMediaDirectory($website);
 
             $uploadedFiles = $form->get('file')->getData();
 
@@ -87,6 +83,9 @@ class WebsiteMediaController extends PlatformController
                     $entityManager->flush();
 
                     $tempFilePath = '/tmp/' . $uploadedFile->getFilename();
+                    file_put_contents($tempFilePath, $uploadedFile->getContent());
+
+                    $tempFilePath = '/tmp/' . $website->getId() .'/media/'. $uploadedFile->getClientOriginalName();
                     file_put_contents($tempFilePath, $uploadedFile->getContent());
 
                     WebsiteController::pushToFTP(
@@ -148,21 +147,29 @@ class WebsiteMediaController extends PlatformController
     }
 
 
-    public function createMediaDirectory(string $ftpHost, string $ftpUser, string $ftpPassword, string $ftpPath): void
+    public function createMediaDirectory(Website $website): void
     {
-        $connection = ftp_connect($ftpHost);
+        if ($website->getFTPHost() === 'localhost') {
+            $mediaDirectory = '/tmp/' . $website->getId() . '/media';
+            if (!is_dir($mediaDirectory)) {
+                mkdir($mediaDirectory, 0777, true);
+            }
+            return;
+        }
+
+        $connection = ftp_connect($website->getFTPHost());
         if (!$connection) {
             throw new \RuntimeException('Failed to connect to FTP server.');
         }
 
-        $loginResult = ftp_login($connection, $ftpUser, $ftpPassword);
+        $loginResult = ftp_login($connection, $website->getFTPUser(), $website->getFTPPassword());
         if (!$loginResult) {
             ftp_close($connection);
             throw new \RuntimeException('Failed to log in to FTP server.');
         }
 
         // Ensure the "media" directory exists
-        $mediaDirectory = $ftpPath . 'media';
+        $mediaDirectory = $website->getFTPPath() . 'media';
 
         if (!@ftp_chdir($connection, $mediaDirectory)) {
             ftp_mkdir($connection, $mediaDirectory);
@@ -201,6 +208,43 @@ class WebsiteMediaController extends PlatformController
         //}
 
         return $this->redirectToRoute('admin_v1_website_media', ['id' => $id->getId()]);
+    }
+
+    // multiple delete
+    // http://platform.local/hu/admin/v1/website/media/9/multiple/delete/on,12,13,14
+    //     #[Route('/{id}/delete/{websiteMedia}', name: 'admin_v1_website_media_delete', methods: ['GET', 'POST'])]
+    #[Route('/{website}/multiple/{action}/{ids}', name: 'admin_v1_website_media_multiple')]
+    public function multiple(Request $request, Website $website, string $action, string $ids): Response
+    {
+        $idsArray = explode(',', $ids);
+
+        if ($action === 'delete') {
+            foreach ($idsArray as $websiteMedia) {
+                // delete media from database and FTP server
+                $websiteMedia = $this->doctrine->getRepository(WebsiteMedia::class)->find($websiteMedia);
+                // delete $websiteMedia if it exists
+                if ($websiteMedia) {
+                    /*
+                    // Remove file from FTP server
+                    WebsiteController::removeFromFTP(
+                        $websiteMedia->getWebsite()->getFTPHost(),
+                        $websiteMedia->getWebsite()->getFTPUser(),
+                        $websiteMedia->getWebsite()->getFTPPassword(),
+                        $websiteMedia->getWebsite()->getFTPPath(),
+                        'media/' . $websiteMedia->getPath()
+                    );
+                    */
+
+                    // Remove record from database
+                    $this->doctrine->getManager()->remove($websiteMedia);
+                }
+            }
+            $this->doctrine->getManager()->flush();
+
+            $this->addFlash('success', 'A kiválasztott média sikeresen törölve.');
+        }
+
+        return $this->redirectToRoute('admin_v1_website_media', ['id' => $website->getId()]);
     }
 
 }

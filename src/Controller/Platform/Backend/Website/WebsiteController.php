@@ -31,6 +31,10 @@ class WebsiteController extends PlatformController
                 'name' => $this->translator->trans('global.name'),
                 'title' => $this->translator->trans('global.title'),
                 'theme' => 'Téma',
+                'FTPHost' => 'FTP Host',
+                'FTPUser' => 'FTP Felhasználó',
+                'FTPPath' => 'FTP Elérési út',
+                'status' => 'Státusz',
             ],
             'tableBody' => $websiteRepository->findBy(['instance' => $this->currentInstance]),
             'actions' => [
@@ -208,6 +212,7 @@ class WebsiteController extends PlatformController
         // get all menus of the website, order by position
         $menus = $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
 
+        $this->deployStylesheet($website);
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
@@ -217,6 +222,28 @@ class WebsiteController extends PlatformController
         $this->createHtaccessFile($website, $urls, $filenames);
 
         return $this->redirectToRoute('admin_v1_website_index');
+    }
+
+    private function deployStylesheet(Website $website)
+    {
+        $headerCSS = $website->getHeaderCSS();
+        if ($headerCSS) {
+            $tempFilePath = '/tmp/' . $website->getId() . '/style.css';
+            file_put_contents($tempFilePath, $headerCSS);
+
+            self::pushToFTP(
+                $website->getFTPHost(),
+                $website->getFTPUser(),
+                $website->getFTPPassword(),
+                $website->getFTPPath(),
+                $tempFilePath,
+                'header.css'
+            );
+
+            $this->addFlash('success', 'style.css FTP OK.');
+        } else {
+            $this->addFlash('warning', 'No header CSS found.');
+        }
     }
 
     private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
@@ -289,12 +316,20 @@ class WebsiteController extends PlatformController
                 }
             }
 
+            // if page is homepage, use index.html.twig template
+            $templateFile = 'index.html.twig';
+            if (!$page->isHomepage() && file_exists('themes/'. $website->getTheme() .'/page.html.twig')) {
+                $templateFile = 'page.html.twig';
+            }
+
+            /*
             $templateFile = 'index.html.twig';
             if (file_exists('themes/'. $website->getTheme() .'/page.html.twig')) {
                 $templateFile = 'page.html.twig';
             }
+            */
 
-            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/page.html.twig', [
+            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/'.$templateFile, [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
