@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Platform;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 class PlatformController extends AbstractController
 {
-    #[Route('/platform', name: 'app_platform')]
+    #[Route('/platform', name: 'admin_index')]
     public function index(Request $request): Response
     {
         return $this->render('platform/base.html.twig', [
