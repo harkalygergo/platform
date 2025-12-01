@@ -13,6 +13,7 @@ namespace App\Controller\Platform;
 
 use App\Entity\Platform\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -58,5 +59,13 @@ final class SecurityController extends AbstractController
             // last authentication error (if any)
             'error' => $helper->getLastAuthenticationError(),
         ]);
+    }
+
+    #[Route('/logout', name: 'security_logout')]
+    public function logout(Security $security): Response
+    {
+        $response = $security->logout(false);
+
+        return $response;
     }
 }
