@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+    {% for msg in app.flashes('success') %}
+        <div class="flash-success">{{ msg }}</div>
+    {% endfor %}
+
+    {% if errors is not empty %}
+        <ul class="errors">
+            {% for e in errors %}
+                <li>{{ e }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="{{ path('security_register') }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('register') }}">
+
+        <div>
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" required value="{{ data.fullName|e }}">
+        </div>
+
+        <div>
+            <label for="username">Username</label>
+            <input id="username" name="username" required minlength="2" maxlength="50" value="{{ data.username|e }}">
+        </div>
+
+        <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" required type="email" value="{{ data.email|e }}">
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input id="password" name="password" required type="password" minlength="6">
+        </div>
+
+        <button type="submit">Register</button>
+    </form>
+
+{% endblock %}
+
