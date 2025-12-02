@@ -64,13 +64,7 @@ See https://symfony.com/doc/current/templates.html#template-inheritance-and-layo
                                     <twig:ux:icon name="tabler:user"/> {{ app.user.fullname }}
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ path('user_edit') }}">
-                                            <twig:ux:icon name="tabler:id-badge-2"/> {{ 'menu.user'|trans }}
-                                        </a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{{ logout_path() }}">
-                                            <twig:ux:icon name="tabler:logout"/> {{ 'menu.logout'|trans }}
-                                        </a></li>
                                 </ul>
                             </li>
                         {% endif %}

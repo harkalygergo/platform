@@ -12,7 +12,7 @@ class PlatformController extends AbstractController
     #[Route('/platform', name: 'homepage')]
     public function index(Request $request): Response
     {
-        return $this->render('platform/base.html.twig', [
+        return $this->render('platform/backend/list.html.twig', [
         ]);
     }
 }
