@@ -13,9 +13,48 @@
     </nav>
 
     <div class="card">
-        <div class="card-header text-uppercase fw-bold">
-            {{ title|trans }}
+        <div class="card-header fw-bold  d-flex justify-content-between">
+            <div class="text-uppercase">
+                {{ title|trans }}
+            </div>
+            <div>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+
+                        <a href="new/" type="button" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-plus-circle"></i> <span class="d-none d-md-inline-block">új hozzáadása</span>
+                        </a>
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear"></i>
+                            <span class="d-none d-md-inline-block">eszközök</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                        <span class="dropdown-item">
+                                            <i class="bi bi-heart text-danger"></i>
+                                            kedvencekhez adás
+                                        </span>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                        <span class="dropdown-item" onclick="multipleFunction('multiple/delete');">
+                                            <i class="bi bi-trash"></i>
+                                            kijelöltek tömeges törlése
+                                        </span>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">export - hamarosan</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">import - hamarosan</a></li>
+                            <li><a class="dropdown-item" href="#">import mintafájl - hamarosan</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
         </div>
+
+
         <div class="card-body">
             {% if tableBody ?? false %}
                 <div class="table-responsive small">
@@ -61,6 +100,9 @@
             {% else %}
                 <p>{{ 'post.no_posts_found'|trans }}</p>
             {% endif %}
+        </div>
+        <div class="card-footer text-muted text-center small">
+            Összesen: {{ tableBody|length }}
         </div>
     </div>
 </main>

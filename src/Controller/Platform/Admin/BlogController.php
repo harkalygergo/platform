@@ -122,7 +122,7 @@ final class BlogController extends AbstractController
             return $this->redirectToRoute('admin_post_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/blog/new.html.twig', [
+        return $this->render('platform/backend/blog/new.html.twig', [
             'post' => $post,
             'form' => $form,
         ]);
