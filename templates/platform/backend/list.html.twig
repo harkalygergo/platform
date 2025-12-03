@@ -4,168 +4,64 @@
 
 <main class="p-3">
 
-    {{ app.user.username }}
-
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb small">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Library</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Data</li>
+            <li class="breadcrumb-item"><a class="link-secondary" href="/admin/">Vezérlőpult</a></li>
+            <li class="breadcrumb-item"><a class="link-secondary" href="/admin/posts/">Bejegyzések</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Összes bejegyzés</li>
         </ol>
     </nav>
 
-    <!-- check if posts exists -->
-    <h1>{{ 'title.post_list'|trans }}</h1>
-
-    {% if data ?? false %}
-        <div class="table-responsive small">
-            <table class="table table-hover table-bordered table-sm table-striped">
-                {% for dat in data %}
-                    <tr>
-                        <td>{{ dat.title }}</td>
-                        {#
-                        It's not mandatory to set the timezone in format_datetime(). This is done to
-                        avoid errors when the 'intl' PHP extension is not available and the application
-                        is forced to use the limited "intl polyfill", which only supports UTC and GMT
-                        #}
-                        <td>{{ dat.publishedAt|format_datetime('medium', 'short', '', 'UTC') }}</td>
-                        <td class="text-right">
-                            <div class="item-actions">
-                                <a href="{{ path('admin_post_show', {id: dat.id}) }}" class="btn btn-sm btn-secondary">
-                                    <twig:ux:icon name="tabler:eye"/> {{ 'action.show'|trans }}
-                                </a>
-
-                                <a href="{{ path('admin_post_edit', {id: dat.id}) }}" class="btn btn-sm btn-primary">
-                                    <twig:ux:icon name="tabler:pencil"/> {{ 'action.edit'|trans }}
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-    {% else %}
-        <p>{{ 'post.no_posts_found'|trans }}</p>
-    {% endif %}
-
-
     <div class="card">
         <div class="card-header text-uppercase fw-bold">
-            blokkok
+            {{ title|trans }}
         </div>
         <div class="card-body">
-            <div class="table-responsive small">
-                <table class="table table-hover table-bordered table-sm table-striped">
+            {% if tableBody ?? false %}
+                <div class="table-responsive small">
+                    <table class="table table-hover table-bordered table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                {% for data in tableHead %}
+                                    <th scope="col">{{ data|trans }}</th>
+                                {% endfor %}
+                                <th class="col text-end">Eszközök</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% for data in tableBody %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ data.title }}</td>
+                                    <td>{{ data.summary }}</td>
+                                    <td>{{ data.content }}</td>
+                                    {#
+                                    It's not mandatory to set the timezone in format_datetime(). This is done to
+                                    avoid errors when the 'intl' PHP extension is not available and the application
+                                    is forced to use the limited "intl polyfill", which only supports UTC and GMT
+                                    #}
+                                    <td>{{ data.publishedAt|format_datetime('medium', 'short', '', 'UTC') }}</td>
+                                    <td class="text-end">
+                                        <div class="item-actions">
+                                            <a href="{{ path('admin_post_show', {id: data.id}) }}" class="btn btn-sm btn-secondary">
+                                                <i class="bi bi-eye"></i> {{ 'action.show'|trans }}
+                                            </a>
 
-                    <thead>
-                    <tr>
-                        <th scope="col">id</th>
-                        <th scope="col">name</th>
-                        <th scope="col">content</th>
-                        <th scope="col">status</th>
-                        <th scope="col">createdAt</th>
-                        <th scope="col">updatedAt</th>
-                        <th scope="col">instanceId</th>
-                        <th scope="col">createdById</th>
-                        <th>Eszközök</th>
-                    </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                    <tr>
-                        <td>3</td>
-                        <td>eee</td>
-                        <td>fsafsa</td>
-                        <td></td>
-                        <td>2025-10-21T11:23:14+00:00</td>
-                        <td></td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>
-                            <a href="edit/3">edit</a>
-                            <form action="delete/3" method="POST">
-                                <input type="hidden" name="_token" value="44178e47b88500c19e5bfbbd6f6d9b.faKvemY-6VtbMEeq-Kj2EKEclUL1R_6U-l3P6tpSqow.EP3XE1dQkG0DZQzpsMfHWOh-pQ-_JpXtgBKo2Okk-uJL68A4FWSsDwQCJA">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit">delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>ddd</td>
-                        <td>ere</td>
-                        <td></td>
-                        <td>2025-10-21T11:23:19+00:00</td>
-                        <td></td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>
-                            <a href="edit/4">edit</a>
-                            <form action="delete/4" method="POST">
-                                <input type="hidden" name="_token" value="a02fd3fbf0fea.jCROPFyDhwoUkPNodzYPHYdbvCFkLEt_X1wlAp7_9Tg.5XYJWxHgtG9Y5YQjRmFHS_QC-FAHQx0bEmRgWK2tqlS7ez1YasLWQEzPyw">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit">delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>11</td>
-                        <td>222</td>
-                        <td>1</td>
-                        <td>2025-10-21T11:23:26+00:00</td>
-                        <td></td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>
-                            <a href="edit/5">edit</a>
-                            <form action="delete/5" method="POST">
-                                <input type="hidden" name="_token" value="c62cd582c7cec1a535ba9.1NTLa1tNwUzhZI625DaGU5S-6DiU6nE723Rscab4QZA.kJijBm8_-TybFr7isF_PHabLrFyh0kZ3uS5dC5StNMXikoUqFHryD64C_Q">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit">delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>222</td>
-                        <td>333</td>
-                        <td>1</td>
-                        <td>2025-10-21T11:24:11+00:00</td>
-                        <td></td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>
-                            <a href="edit/6">edit</a>
-                            <form action="delete/6" method="POST">
-                                <input type="hidden" name="_token" value="578e0cb59.iElUL-ayraZfnDhDXPSmuXeGAmllierkiGj4y7RDM1w.335nSq3B4PBtqVoOM8Tl4S7-bD8h7oCx2QGBn80HCjbDEAZZtIOe6i3qDA">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit">delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>555</td>
-                        <td>6666</td>
-                        <td>1</td>
-                        <td>2025-10-21T11:24:20+00:00</td>
-                        <td></td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>
-                            <a href="edit/7">edit</a>
-                            <form action="delete/7" method="POST">
-                                <input type="hidden" name="_token" value="4c86.Qx0DpEdcMwaEKEgWsFatP7d2_zV2eM1mu70zssXcUAQ.AkJX8nNxBTfOGzBOyTCYWsA3iw1PLeAH-NVp3JPrIDcRcFHsdB5VN-kZJw">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit">delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                                            <a href="{{ path('admin_post_edit', {id: data.id}) }}" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-pencil"></i> {{ 'action.edit'|trans }}
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>{{ 'post.no_posts_found'|trans }}</p>
+            {% endif %}
         </div>
-
     </div>
 </main>
 
