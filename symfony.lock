@@ -35,6 +35,9 @@
             "migrations/.gitignore"
         ]
     },
+    "lelyfoto/twig-instanceof": {
+        "version": "v1.2"
+    },
     "phpunit/phpunit": {
         "version": "12.4",
         "recipe": {
