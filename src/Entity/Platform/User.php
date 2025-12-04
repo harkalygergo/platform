@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Entity\Platform;
 
 use App\Repository\Platform\UserRepository;
@@ -18,20 +9,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Defines the properties of the User entity to represent the application users.
- *
- * See https://symfony.com/doc/current/doctrine.html#creating-an-entity-class
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    // We can use constants for roles to find usages all over the application rather
-    // than doing a full-text search on the "ROLE_" string.
-    // It also prevents from making typo errors.
     final public const ROLE_USER = 'ROLE_USER';
     final public const ROLE_ADMIN = 'ROLE_ADMIN';
 
