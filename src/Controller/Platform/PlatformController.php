@@ -13,11 +13,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_ADMIN)]
 class PlatformController extends AbstractController
 {
-    #[Route('/', name: 'homepage')]
+    #[Route('/', name: 'dashboard_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
         return $this->render('platform/backend/list.html.twig', [
             'title' => 'Dashboard',
+            'tableHead' => [],
             'tableBody' => [],
         ]);
     }

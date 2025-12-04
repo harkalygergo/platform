@@ -63,10 +63,9 @@ final class BlogController extends AbstractController
         return $this->render('platform/backend/list.html.twig', [
             'title' => 'Posts',
             'tableHead' => [
-                'name' => 'Név',
+                'title' => 'Név',
                 'summary' => 'Összefoglaló',
                 'content' => 'Tartalom',
-                'published_at' => 'Közzétéve',
             ],
             'tableBody' => $data,
             'actions' => [
