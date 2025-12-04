@@ -1,0 +1,14 @@
+{# platform/backend/event/_form.html.twig #}
+
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-primary">
+        <twig:ux:icon name="tabler:save-changes"/> {{ button_label|default('Save') }}
+    </button>
+
+    <a href="{{ path('admin_event_index') }}" class="btn btn-link">
+        <twig:ux:icon name="tabler:list"/> {{ 'action.back_to_list'|trans }}
+    </a>
+{{ form_end(form) }}
+

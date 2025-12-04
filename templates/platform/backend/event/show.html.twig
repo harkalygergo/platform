@@ -1,0 +1,14 @@
+{# templates/platform/backend/event/show.html.twig #}
+{% extends 'platform/base.html.twig' %}
+
+{% block body %}
+    <h1>{{ event.title }}</h1>
+
+    <p><strong>When:</strong> {{ event.startAt ? event.startAt|date('Y-m-d H:i') : '' }} - {{ event.endAt ? event.endAt|date('Y-m-d H:i') : '' }}</p>
+    <p><strong>Where:</strong> {{ event.location }}</p>
+
+    <div>{{ event.description|nl2br }}</div>
+
+    <a href="{{ path('admin_event_index') }}" class="btn btn-link">Back to list</a>
+{% endblock %}
+

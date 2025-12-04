@@ -1,0 +1,9 @@
+{# templates/platform/backend/event/new.html.twig #}
+{% extends 'platform/base.html.twig' %}
+
+{% block main %}
+    <h1>New Event</h1>
+
+    {{ include('platform/backend/event/_form.html.twig', {form: form, button_label: 'Create Event'}) }}
+{% endblock %}
+

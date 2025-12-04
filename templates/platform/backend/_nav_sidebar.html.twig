@@ -8,9 +8,12 @@
         </div>
     </div-->
 
-    <div class="p-3 pb-0 lh-1">
-        <span class="fw-bold fs-55 text-uppercase">Content Management</span>
-        <br><small>CMS</small>
+    <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+        <i class="bi bi-globe fs-3 m-2"></i>
+        <div class="lh-1">
+            <span class="fw-bold text-uppercase">CMS</span>
+            <br><small class="text-uppercase">Tartalomkezelés</small>
+        </div>
     </div>
 
     <hr>
@@ -57,7 +60,7 @@
             </a>
             <div class="collapse submenu bg-black p-0 m-0" id="events">
                 <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Összes esemény</a></li>
+                    <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_event_index') }}">Összes esemény</a></li>
                     <li class="nav-item"><a class="nav-link link-light" href="#">esemény hozzáadása</a></li>
                     <li class="nav-item"><a class="nav-link link-light" href="#">Kategóriók</a></li>
                     <li class="nav-item"><a class="nav-link link-light" href="#">Cimkék</a></li>

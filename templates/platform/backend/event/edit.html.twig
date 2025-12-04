@@ -1,0 +1,9 @@
+{# templates/platform/backend/event/edit.html.twig #}
+{% extends 'platform/base.html.twig' %}
+
+{% block body %}
+    <h1>Edit Event</h1>
+
+    {{ include('platform/backend/event/_form.html.twig', {form: form, button_label: 'Update Event'}) }}
+{% endblock %}
+
