@@ -36,7 +36,7 @@ final class SecurityController extends AbstractController
      * The $user argument type (?User) must be nullable because the login page
      * must be accessible to anonymous visitors too.
      */
-    #[Route('/login', name: 'security_login')]
+    #[Route('/', name: 'security_login')]
     public function login(
         #[CurrentUser] ?User $user,
         Request $request,

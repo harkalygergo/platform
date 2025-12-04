@@ -18,6 +18,7 @@ class PlatformController extends AbstractController
     {
         return $this->render('platform/backend/list.html.twig', [
             'title' => 'Dashboard',
+            'tableBody' => [],
         ]);
     }
 }

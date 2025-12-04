@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2025.12.3.2
+###### v2025.12.4.1
 
 ---
 
@@ -25,6 +25,8 @@ npm update
 npm run build
 # check for entity / database changes
 php bin/console doctrine:migrations:diff
+# apply database migrations
+php bin/console doctrine:migrations:migrate
 # verify Doctrine mappings
 php bin/console doctrine:schema:validate
 php bin/console doctrine:mapping:info
