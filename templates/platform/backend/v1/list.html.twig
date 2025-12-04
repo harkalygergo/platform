@@ -1,0 +1,226 @@
+{% extends 'platform/base.html.twig' %}
+
+
+{% block main %}
+
+    <main class="p-3">
+
+        {% include 'platform/backend/v1/elements/flashes.html.twig' %}
+
+        <nav aria-label="breadcrumb small">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item small"><a class="link-secondary" href="/admin/">Vezérlőpult</a></li>
+                <li class="breadcrumb-item small"><a class="link-secondary" href="/admin/posts/">Bejegyzések</a></li>
+                <li class="breadcrumb-item small active" aria-current="page">Összes bejegyzés</li>
+            </ol>
+        </nav>
+
+        <div class="card">
+            <div class="card-header fw-bold  d-flex justify-content-between">
+                <div class="text-uppercase">
+                    {{ title }}
+                </div>
+                <div>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+
+                            {% if actions is defined %}
+                                {% if 'new' in actions %}
+                                    <a href="new/" type="button" class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-plus-circle"></i> <span class="d-none d-md-inline-block">új hozzáadása</span>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-gear"></i>
+                                <span class="d-none d-md-inline-block">eszközök</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <span class="dropdown-item">
+                                        <i class="bi bi-heart text-danger"></i>
+                                        kedvencekhez adás
+                                    </span>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <span class="dropdown-item" onclick="multipleFunction('multiple/delete');">
+                                        <i class="bi bi-trash"></i>
+                                        kijelöltek tömeges törlése
+                                    </span>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">export - hamarosan</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">import - hamarosan</a></li>
+                                <li><a class="dropdown-item" href="#">import mintafájl - hamarosan</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="table-responsive small">
+
+                    <table class="table table-hover table-bordered table-sm table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAllCheckbox">
+                                    <label class="form-check-label" for="selectAllCheckbox"></label>
+                                </div>
+                            </th>
+                            <th scope="col">#</th>
+                            {% for th in tableHead %}
+                                <th scope="col">{{ th }}</th>
+                            {% endfor %}
+                            <th class="col text-center">{{ 'date.createdAt'|trans }}</th>
+                            <th class="col text-center">{{ 'date.updatedAt'|trans }}</th>
+                            <th scope="col" class="text-end">Eszközök</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                        {% for td in tableBody %}
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectRowCheckbox{{ loop.index }}" value="{{ td.id }}">
+                                        <label class="form-check-label" for="selectRowCheckbox{{ loop.index }}"></label>
+                                    </div>
+                                </td>
+                                <th scope="row">{{ loop.index }}.</th>
+                                {% for thKey, thValue in tableHead %}
+                                    <td>
+                                        {% set variable = attribute(td, thKey) %}
+                                        {# is array #}
+                                        {% if is_array(attribute(td, thKey)) %}
+                                            {% for key, value in attribute(td, thKey) %}
+                                                {% if value is same as(true) or value is same as(false) %}
+                                                    {{ value ? '&#9989;' : '&#10060;' }}
+                                                {% else %}
+                                                    {{ value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {# is boolean #}
+                                        {% elseif attribute(td, thKey) is same as(true) or attribute(td, thKey) is same as(false) %}
+                                            {{ attribute(td, thKey) ? '&#9989;' : '&#10060;' }}
+                                            {# is datetime #}
+                                        {% elseif attribute(td, thKey) is instanceof('DateTime') or attribute(td, thKey) is instanceof('DateTimeImmutable') %}
+                                            {{ attribute(td, thKey).format('Y-m-d') }}
+                                            {# is object #}
+                                        {% elseif variable is instanceof('App\\Enum\\NewsletterStatusEnum') %}
+                                            {{ variable.toString()|trans }}
+                                        {% else %}
+                                            {{ variable|trans }}
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                                <td class="text-center">{% if td.createdAt is defined %}{{ td.createdAt.format('Y-m-d H:i:s') }}{% endif %}</td>
+                                <td class="text-center">
+                                    {% if td.updatedAt is defined and td.updatedAt is not null %}
+                                        {{ td.updatedAt.format('Y-m-d H:i:s') }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    {% if actions is defined %}
+                                        {% if 'switchInstance' in actions %}
+                                            {% if app.user.defaultInstance.id == td.id %}
+                                                <span class="badge bg-secondary">
+                                                    alapértelmezett
+                                                </span>
+                                            {% endif %}
+                                            {% if app.request.cookies.get('currentInstance') != td.id %}
+                                                <a class="btn btn-sm btn-outline-success" title="{{ 'action.view'|trans }}" href="switch/{{ td.id }}">
+                                                    <i class="bi bi-briefcase"></i> <span class="d-none d-sm-inline-block">átváltás</span>
+                                                </a>
+                                            {% else %}
+                                                <button class="btn btn-sm btn-success">
+                                                    aktuális
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if 'view' in actions %}
+                                            <a class="btn btn-sm btn-primary" title="{{ 'action.view'|trans }}" href="view/{{ td.id}}">
+                                                <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
+                                            </a>
+                                        {% endif %}
+                                        {% if 'edit' in actions %}
+                                            <a class="btn btn-sm btn-outline-primary text-nowrap" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
+                                                <i class="bi bi-pen"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
+                                            </a>
+                                        {% endif %}
+                                        {% if 'delete' in actions %}
+                                            <a class="btn btn-sm btn-outline-danger" title="{{ 'action.delete'|trans }}" href="delete/{{ td.id}}">
+                                                <i class="bi bi-trash"></i> <span class="d-none d-sm-inline-block">{{ 'action.delete'|trans }}</span>
+                                            </a>
+                                        {% endif %}
+                                        {% if 'cart' in actions %}
+                                            <a class="btn btn-sm btn-success" title="" href="{{ path('admin_v1_cart_add', {"id": td.id }) }}">
+                                                <i class="bi bi-cart"></i> <span class="d-none d-sm-inline-block">kosárba</span>
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if extraActions is defined %}
+                                        {% for extraAction in extraActions %}
+                                            <a class="btn btn-sm btn-outline-secondary" title="{{ extraAction.label }}" href="{{ path(extraAction.route, {"id": td.id}) }}">
+                                                <span class="d-none d-sm-inline-block">{{ extraAction.label }}</span>
+                                            </a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="card-footer text-center text-body-secondary">
+                <small>
+                    Összesen: {{ tableBody|length }}
+                </small>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // create a popup question for delete action
+        document.querySelectorAll('a.btn-outline-danger').forEach(function (element) {
+            element.addEventListener('click', function (event) {
+                event.preventDefault();
+                if (confirm('Biztosan törölni szeretné?')) {
+                    window.location.href = this.href;
+                }
+            });
+        });
+
+        // select all checkboxes
+        document.getElementById('selectAllCheckbox').addEventListener('change', function () {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = this.checked;
+            }, this);
+        });
+
+        // multiple function
+        function multipleFunction(url) {
+            const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            if (selectedCheckboxes.length === 0) {
+                alert('Nincs kijelölt elem!');
+                return;
+            }
+            const ids = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+            if (confirm('Biztosan végrehajtod a műveletet a kijelölt elemekre?')) {
+                window.location.href = url + '/' + ids.join(',');
+            }
+        }
+    </script>
+
+{% endblock %}
