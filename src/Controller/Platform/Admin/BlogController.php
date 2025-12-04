@@ -60,7 +60,7 @@ final class BlogController extends AbstractController
     ): Response {
         $data = $posts->findBy(['author' => $user], ['publishedAt' => 'DESC']);
 
-        return $this->render('platform/backend/list.html.twig', [
+        return $this->render('platform/backend/v1/list.html.twig', [
             'title' => 'Posts',
             'tableHead' => [
                 'title' => 'Név',

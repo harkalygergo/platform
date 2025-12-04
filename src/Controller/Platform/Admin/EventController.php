@@ -26,7 +26,7 @@ final class EventController extends AbstractController
     {
         $data = $events->findBy([], ['startAt' => 'DESC']);
 
-        return $this->render('platform/backend/list.html.twig', [
+        return $this->render('platform/backend/v1/list.html.twig', [
             'title' => 'Events',
             'tableHead' => [
                 'title' => 'Title',
