@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LoginController extends PlatformController
 {
-    #[Route('/', name: 'honeypot')]
+    //#[Route('/', name: 'honeypot')]
     #[Route('/admin', name: 'honeypot_admin')]
     #[Route('/wp-admin', name: 'honeypot_wp_admin')]
     #[Route('/administrator', name: 'honeypot_administrator')]

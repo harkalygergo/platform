@@ -12,19 +12,128 @@
             </div>
         </form>
         <div class="d-flex flex-wrap">
-            <div class="dropdown text-end"><a href="#"
-                                              class="d-block link-body-emphasis text-decoration-none dropdown-toggle text-white"
-                                              data-bs-toggle="dropdown" aria-expanded="false"> {{ app.user.username }} </a>
-                <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item" href="#">New project...</a></li>
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
+
+
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <i class="bi bi-list text-white d-none"></i>
+                        </a>
                     </li>
-                    <li><a class="dropdown-item" href="#">Sign out</a></li>
                 </ul>
-            </div>
+
+                <a class="btn text-white d-none d-sm-inline-block" href="/hu/admin/v1/dashboard">
+                    <i class="bi bi-speedometer2"></i>
+                </a>
+
+                <a href="/hu/admin/v1/checkout" class="btn text-white position-relative">
+                    <i class="bi bi-cart"></i>
+                </a>
+
+                <div class="dropdown">
+                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        <i class="bi bi-translate text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark" style="position: absolute; inset: 0 0 auto auto; margin: 0; transform: translate(0px, 40px);" data-popper-placement="bottom-end">
+                        <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href=window.location.href.replace('/hu/', '/en/')">english</a></span></li>
+                        <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href=window.location.href.replace('/en/', '/hu/')">magyar</a></span></li>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn text-white" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-toggle="dropdown" data-bs-theme="dark">
+                        <li><span class="dropdown-item"><i>nincs új értesítés</i></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">összes megtekintése</a></li>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-envelope text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark" style="">
+                        <li><span class="dropdown-item"><i>nincs új üzenet</i></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">összes megtekintése</a></li>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn" type="button" data-bs-theme="dark" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-calendar text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark" style="">
+                        <li><span class="dropdown-item"><i>nincs új esemény</i></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">összes megtekintése</a></li>
+                    </ul>
+                </div>
+
+                <button class="btn text-white" id="view-fullscreen"><i class="bi bi-arrows-fullscreen"></i></button>
+                <button class="btn text-white" id="view-fullscreen-exit" style="display:none;"><i class="bi bi-fullscreen-exit"></i></button>
+                <script>
+                    var viewFullScreen = document.getElementById("view-fullscreen");
+                    if (viewFullScreen) {
+                        viewFullScreen.addEventListener("click", function() {
+                            var docElm = document.documentElement;
+                            if (docElm.requestFullscreen) {
+                                docElm.requestFullscreen();
+                            } else if (docElm.msRequestFullscreen) {
+                                docElm.msRequestFullscreen();
+                            } else if (docElm.mozRequestFullScreen) {
+                                docElm.mozRequestFullScreen();
+                            } else if (docElm.webkitRequestFullScreen) {
+                                docElm.webkitRequestFullScreen();
+                            }
+                            viewFullScreen.style.display = "none";
+                            document.getElementById("view-fullscreen-exit").style.display = "block";
+                        })
+                    }
+                    var viewFullScreenExit = document.getElementById("view-fullscreen-exit");
+                    if (viewFullScreenExit) {
+                        viewFullScreenExit.addEventListener("click", function() {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            } else if (document.msExitFullscreen) {
+                                document.msExitFullscreen();
+                            } else if (document.mozCancelFullScreen) {
+                                document.mozCancelFullScreen();
+                            } else if (document.webkitCancelFullScreen) {
+                                document.webkitCancelFullScreen();
+                            }
+                            viewFullScreenExit.style.display = "none";
+                            document.getElementById("view-fullscreen").style.display = "block";
+                        })
+                    }
+                </script>
+
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" style="font-size: 12px;" aria-expanded="false">
+                        <img alt="account" class="rounded-circle" src="https://harkalygergo.github.io/harkalygergo.jpg" style="float:left;margin:0 5px;width:auto;height:32px;">
+                        <span class="d-none d-sm-inline-block"> Harkály  Gergő<br><small class="text-white-50 float-start">Bieco Shop Kft.</small></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
+                        <li><a class="dropdown-item" href="/hu/admin/v1/account/edit"><i class="bi bi-person"></i> Profil és beállítások</a></li>
+                        <li><a class="dropdown-item" href="/hu/admin/v1/media/user/">
+                                <i class="bi bi-usb-drive"></i> Személyes tárhely</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/hu/admin/v1/instances/"><i class="bi bi-briefcase"></i> Vállalkozások és szervezetek</a></li>
+                        <li><a class="dropdown-item" href="/hu/admin/v1/billing-profiles/"><i class="bi bi-receipt"></i> Számlázási profilok</a></li>
+                        <li><a class="dropdown-item text-white-50" href="#"><i class="bi bi-gear"></i> Rendszereszközök</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/hu/admin/v1/support"><i class="bi bi-question-circle"></i> Támogatás és support</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/hu/admin/v1/superadmin/services"><i class="bi bi-stars"></i> Superadmin</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-warning" href="/hu/admin/logout"><i class="bi bi-box-arrow-right"></i> Kijelentkezés</a></li>
+                    </ul>
+                </div>
+
         </div>
     </div>
 </header>

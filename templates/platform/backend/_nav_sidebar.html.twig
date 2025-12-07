@@ -1,5 +1,4 @@
 <div id="sidebar_menu" class="col-21 d-none d-lg-block flex-shrink-0  bg-dark text-white vh-100" style="width:16rem;">
-
     <!--div class="d-flex align-items-center p-1">
         <i class="bi bi-globe fs-1 me-1"></i>
         <div class="lh-1">
@@ -8,170 +7,314 @@
         </div>
     </div-->
 
-    <div class="d-flex align-items-center mx-2 pb-0 mb-0">
-        <i class="bi bi-globe fs-3 m-2"></i>
-        <div class="lh-1">
-            <span class="fw-bold text-uppercase">CMS</span>
-            <br><small class="text-uppercase">Tartalomkezelés</small>
+    <!-- DASHBOARD MENU -->
+    <div id="sidebar_menu_dashboard" class="sidebar_menu_section">
+        <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+            <i class="bi bi-speedometer2 fs-3 m-2"></i>
+            <div class="lh-1">
+                <span class="fw-bold text-uppercase">DASHBOARD</span>
+                <br><small class="text-uppercase">Irányítópult</small>
+            </div>
         </div>
+
+        <hr>
+
+        <ul class="nav flex-column text-white p-0 m-0">
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/dashboard/">
+                    <i class="bi bi-house-door-fill"></i>
+                    Áttekintés
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <hr>
+    <!-- CMS MENU -->
+    <div id="sidebar_menu_cms" class="sidebar_menu_section" style="display:none;">
+        <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+            <i class="bi bi-globe fs-3 m-2"></i>
+            <div class="lh-1">
+                <span class="fw-bold text-uppercase">CMS</span>
+                <br><small class="text-uppercase">Tartalomkezelés</small>
+            </div>
+        </div>
 
-    <ul class="nav flex-column text-white p-0 m-0 mb-4">
-        <li class="nav-item">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#blocks" role="button" aria-expanded="false" aria-controls="blocks">
+        <hr>
+
+        <ul class="nav flex-column text-white p-0 m-0">
+            <li class="nav-item">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#blocks" role="button" aria-expanded="false" aria-controls="blocks">
                     <span>
                         <i class="pe-1 bi bi-bricks"></i>
                         Blokk
                     </span>
-            </a>
-            <div class="collapse submenu bg-black" id="blocks">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="/hu/admin/v2/web/block/">Összes blokk</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="/hu/admin/v2/web/block/add/">Új blokk hozzáadása</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black" id="blocks">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_v1_block_index') }}">Összes blokk</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="/hu/admin/v2/web/block/add/">Új blokk hozzáadása</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item border-top2">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#posts" role="button" aria-expanded="false" aria-controls="posts">
+            <li class="nav-item border-top2">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#posts" role="button" aria-expanded="false" aria-controls="posts">
                     <span>
                         <i class="pe-1 bi bi-pin-angle-fill"></i>
                         Bejegyzések
                     </span>
-            </a>
-            <div class="collapse submenu bg-black p-0 m-0" id="posts">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_post_index') }}">Összes bejegyzés</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">bejegyzés hozzáadása</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Kategóriók</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Cimkék</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black p-0 m-0" id="posts">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_post_index') }}">Összes bejegyzés</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">bejegyzés hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Kategóriók</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Cimkék</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item border-top2">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#events" role="button" aria-expanded="false" aria-controls="posts">
+            <li class="nav-item border-top2">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#events" role="button" aria-expanded="false" aria-controls="posts">
                     <span>
                         <i class="pe-1 bi bi-calendar-event"></i>
                         Események
                     </span>
-            </a>
-            <div class="collapse submenu bg-black p-0 m-0" id="events">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_event_index') }}">Összes esemény</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">esemény hozzáadása</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Kategóriók</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Cimkék</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black p-0 m-0" id="events">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_event_index') }}">Összes esemény</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">esemény hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Kategóriók</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Cimkék</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item border-top2">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#submenu2" role="button" aria-expanded="false" aria-controls="submenu2">
+            <li class="nav-item border-top2">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#submenu2" role="button" aria-expanded="false" aria-controls="submenu2">
                     <span>
                         <i class="pe-1 bi bi-hdd"></i>
                         Média
                     </span>
-            </a>
-            <div class="collapse submenu bg-black p-0 m-0" id="submenu2">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="#">összes média</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black p-0 m-0" id="submenu2">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_v1_website_media') }}">összes média</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item border-top2">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#pages" role="button" aria-expanded="false" aria-controls="pages">
+            <li class="nav-item border-top2">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#pages" role="button" aria-expanded="false" aria-controls="pages">
                     <span>
                         <i class="pe-1 bi bi-file-earmark-fill"></i>
                         Oldalak
                     </span>
-            </a>
-            <div class="collapse submenu bg-black p-0 m-0" id="pages">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="#">összes oldal</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black p-0 m-0" id="pages">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_v1_website_pages') }}">összes oldal</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item border-top2">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#comments" role="button" aria-expanded="false" aria-controls="comments">
+            <li class="nav-item border-top2">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#comments" role="button" aria-expanded="false" aria-controls="comments">
                     <span>
                         <i class="pe-1 bi bi-chat-square-fill"></i>
                         Hozzászólások
                     </span>
-            </a>
-            <div class="collapse submenu bg-black p-0 m-0" id="comments">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="#">összes hozzászólás</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black p-0 m-0" id="comments">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="#">összes hozzászólás</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
 
         <hr>
+        <ul class="nav flex-column text-white p-0 m-0">
 
-        <li class="nav-item border-top2">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#design1" role="button" aria-expanded="false" aria-controls="design">
+            <li class="nav-item border-top2">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#design1" role="button" aria-expanded="false" aria-controls="design">
                     <span>
                         <i class="pe-1 bi bi-brush-fill"></i>
                         Megjelelenés
                     </span>
-            </a>
-            <div class="collapse submenu bg-black p-0 m-0" id="design1">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="#">összes hozzászólás</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black p-0 m-0" id="design1">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="#">összes hozzászólás</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item border-top2">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#design2" role="button" aria-expanded="false" aria-controls="design">
+            <li class="nav-item border-top2">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#design2" role="button" aria-expanded="false" aria-controls="design">
                     <span>
                         <i class="pe-1 bi bi-wrench"></i>
                         Eszközök
                     </span>
-            </a>
-            <div class="collapse submenu bg-black p-0 m-0" id="design2">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="#">összes hozzászólás</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black p-0 m-0" id="design2">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="#">összes hozzászólás</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
+                    </ul>
+                </div>
+            </li>
 
-        <li class="nav-item border-top2">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#design" role="button" aria-expanded="false" aria-controls="design">
+            <li class="nav-item border-top2">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#design" role="button" aria-expanded="false" aria-controls="design">
                     <span>
                         <i class="pe-1 bi bi-sliders2-vertical"></i>
                         Beállítások
                     </span>
-            </a>
-            <div class="collapse submenu bg-black p-0 m-0" id="design">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link link-light" href="#">összes hozzászólás</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
-                </ul>
-            </div>
-        </li>
+                </a>
+                <div class="collapse submenu bg-black p-0 m-0" id="design">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="#">összes hozzászólás</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">média hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média kategóriák</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="#">Média beállítások</a></li>
+                    </ul>
+                </div>
+            </li>
 
-    </ul>
+        </ul>
+
+        <hr>
+
+        <ul class="nav flex-column mb-auto p-0 m-0">
+
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/domains">
+                    <i class="bi bi-link-45deg"></i>
+                    Domain
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/website/">
+                    <i class="bi bi-globe"></i>
+                    Honlap
+                </a>
+            </li>
+
+            <li class="nav-item">
+                                                                            <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                                            <i class="bi bi-cart"></i>
+                                            Webáruház
+                                        </span>
+            </li>
+
+            <li class="nav-item">
+                                                                            <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                                            <i class="bi bi-window"></i>
+                                            Webalkalmazás
+                                        </span>
+            </li>
+
+            <li class="nav-item">
+                <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                                            <i class="bi bi-phone"></i>
+                                            Mobilalkalmazás
+                                        </span>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/api/">
+                    <i class="bi bi-code-slash"></i>
+                    API
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ECOM MENU -->
+    <div id="sidebar_menu_ecom" class="sidebar_menu_section" style="display:none;">
+        <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+            <i class="bi bi-cart fs-3 m-2"></i>
+            <div class="lh-1">
+                <span class="fw-bold text-uppercase">ECOM</span>
+                <br><small class="text-uppercase">E-kereskedelem</small>
+            </div>
+        </div>
+        <div class="p-2">
+            <em>Nincs még elérhető menü</em>
+        </div>
+    </div>
+
+    <!-- CRM MENU -->
+    <div id="sidebar_menu_crm" class="sidebar_menu_section" style="display:none;">
+        <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+            <i class="bi bi-people fs-3 m-2"></i>
+            <div class="lh-1">
+                <span class="fw-bold text-uppercase">CRM</span>
+                <br><small class="text-uppercase">Ügyfélkapcsolat-kezelés</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ERP MENU -->
+    <div id="sidebar_menu_erp" class="sidebar_menu_section" style="display:none;">
+        <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+            <i class="bi bi-briefcase fs-3 m-2"></i>
+            <div class="lh-1">
+                <span class="fw-bold text-uppercase">ERP</span>
+                <br><small class="text-uppercase">Vállalatirányítás</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANALYTICS MENU -->
+    <div id="sidebar_menu_analytics" class="sidebar_menu_section" style="display:none;">
+        <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+            <i class="bi bi-graph-up fs-3 m-2"></i>
+            <div class="lh-1">
+                <span class="fw-bold text-uppercase">ANALYTICS</span>
+                <br><small class="text-uppercase">Elemzések</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOOLS MENU -->
+    <div id="sidebar_menu_tools" class="sidebar_menu_section" style="display:none;">
+        <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+            <i class="bi bi-tools fs-3 m-2"></i>
+            <div class="lh-1">
+                <span class="fw-bold text-uppercase">TOOLS</span>
+                <br><small class="text-uppercase">Eszközök</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MENU -->
+    <div id="sidebar_menu_settings" class="sidebar_menu_section" style="display:none;">
+        <div class="d-flex align-items-center mx-2 pb-0 mb-0">
+            <i class="bi bi-gear fs-3 m-2"></i>
+            <div class="lh-1">
+                <span class="fw-bold text-uppercase">SETTINGS</span>
+                <br><small class="text-uppercase">Beállítások</small>
+            </div>
+        </div>
+    </div>
 
 </div>

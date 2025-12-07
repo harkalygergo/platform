@@ -23,13 +23,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/admin/v1/website/pages')]
 class WebsitePageController extends PlatformController
 {
-    #[Route('/{id}/', name: 'admin_v1_website_pages')]
-    public function index(\App\Entity\Platform\Website\Website $id, WebsitePageRepository $websitePageRepository): Response
+    #[Route('/', name: 'admin_v1_website_pages')]
+    public function index(WebsitePageRepository $websitePageRepository): Response
     {
-        $pagesByWebsite = $websitePageRepository->findByWebsiteId($id->getId());
+        //$pagesByWebsite = $websitePageRepository->findByWebsiteId($id->getId());
+        $pages = $websitePageRepository->findAll();
 
         return $this->render('platform/backend/v1/list.html.twig', [
-            'title' => $id->getDomain() . ' oldalak',
+            'title' => ' oldalak',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
                 'title' => 'Cím',
@@ -37,7 +38,7 @@ class WebsitePageController extends PlatformController
                 'status' => 'Státusz',
                 'homepage' => 'Főoldal'
             ],
-            'tableBody' => $pagesByWebsite,
+            'tableBody' => $pages,
             'actions' => [
                 'new',
                 'edit',

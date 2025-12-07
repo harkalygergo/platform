@@ -2,28 +2,28 @@
     <button class="btn btn-lg border-orange bg-orange text-white m-2" data-section="projects" title="Projects" onclick="sidebarToggle()">
         <span class="p-0 m-0 fs-4">⫹⫺</span>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="communication" title="Communication">
+    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="dashboard" title="Dashboard" onclick="sidebarMenu('dashboard')">
         <i class="bi bi-speedometer2 p-0 m-0 fs-4"></i>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white text-secondary m-2 py-2 px-3" data-section="communication" title="Communication">
+    <button class="btn btn-lg border-dark bg-dark text-white text-secondary m-2 py-2 px-3" data-section="cms" title="CMS" onclick="sidebarMenu('cms')">
         <i class="bi bi-globe p-0 m-0 fs-4"></i>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="communication" title="Communication">
+    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="ecom" title="ECOM" onclick="sidebarMenu('ecom')">
         <i class="bi bi-cart p-0 m-0 fs-4"></i>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="communication" title="Communication">
+    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="crm" title="CRM" onclick="sidebarMenu('crm')">
         <i class="bi bi-people p-0 m-0 fs-4"></i>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="communication" title="Communication">
+    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="erp" title="ERP" onclick="sidebarMenu('erp')">
         <i class="bi bi-briefcase p-0 m-0 fs-4"></i>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="communication" title="Communication">
+    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="analytics" title="Analytics" onclick="sidebarMenu('analytics')">
         <i class="bi bi-graph-up p-0 m-0 fs-4"></i>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="communication" title="Communication">
+    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="tools" title="Tools" onclick="sidebarMenu('tools')">
         <i class="bi bi-tools p-0 m-0 fs-4"></i>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="communication" title="Communication">
+    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="settings" title="Settings" onclick="sidebarMenu('settings')">
         <i class="bi bi-gear p-0 m-0 fs-4"></i>
     </button>
 </div>
@@ -40,6 +40,32 @@
             icons.setAttribute("style", "display:none !important");
             menu.setAttribute("style", "display:none !important");
             header_toggle_icon.setAttribute("style", "display:flex !important");
+        }
+    }
+
+    function sidebarMenu(section)
+    {
+        let sectionMenu = document.getElementById("sidebar_menu_"+section);
+
+        // check if it is not null
+        if (!sectionMenu)
+        {
+            return;
+        }
+
+        if(sectionMenu.style.display === "none" || sectionMenu.style.display === "")
+        {
+            closeAllSidebarMenus();
+            sectionMenu.style.display = "block";
+        }
+    }
+
+    function closeAllSidebarMenus()
+    {
+        let menus = document.getElementsByClassName("sidebar_menu_section");
+        for(let i = 0; i < menus.length; i++)
+        {
+            menus[i].style.display = "none";
         }
     }
 </script>
