@@ -1,0 +1,24 @@
+{
+  "name": "platform",
+  "version": "1.0.0",
+  "description": "Platform is a multisite and multilingual compatibility Management System based on Symfony PHP Framework. It's ideal for managing and growing any organization. Free and open-source and always will be.",
+  "main": "public/index.php",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harkalygergo/platform.git"
+  },
+  "keywords": [
+    "Platform",
+    "Symfony",
+    "ERP"
+  ],
+  "author": "Harkály Gergő",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harkalygergo/platform/issues"
+  },
+  "homepage": "https://github.com/harkalygergo/platform#readme"
+}
