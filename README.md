@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2025.12.8.3
+###### v2025.12.9.1
 
 ---
 
@@ -25,6 +25,30 @@ npm update
 npm run build
 # check for entity / database changes
 php bin/console doctrine:migrations:diff
+# apply database migrations
+php bin/console doctrine:migrations:migrate
+# verify Doctrine mappings
+php bin/console doctrine:schema:validate
+php bin/console doctrine:mapping:info
+# clear cache
+php bin/console cache:clear
+```
+
+---
+
+## How to install?
+
+```shell
+# clone (or download) the repository
+git clone git@github.com:harkalygergo/platform.git
+# install Composer packages
+composer install
+# install npm packages
+npm install
+# build assets
+npm run build
+# create database
+php bin/console doctrine:database:create
 # apply database migrations
 php bin/console doctrine:migrations:migrate
 # verify Doctrine mappings
