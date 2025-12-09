@@ -37,10 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 128, nullable: true)]
     private ?string $nickName = null;
 
-    #[ORM\Column(type: Types::STRING)]
-    #[Assert\NotBlank]
-    private ?string $fullName = null;
-
     #[ORM\Column(type: Types::STRING, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
@@ -113,16 +109,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setFullName(string $fullName): void
-    {
-        $this->fullName = $fullName;
-    }
-
-    public function getFullName(): ?string
-    {
-        return $this->fullName;
     }
 
     public function getUserIdentifier(): string
@@ -388,5 +374,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setOrders(Collection $orders): void
     {
         $this->orders = $orders;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->namePrefix . ' ' . $this->firstName . ' ' . $this->middleName . ' ' . $this->lastName;
     }
 }
