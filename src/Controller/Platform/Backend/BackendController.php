@@ -84,7 +84,7 @@ class BackendController extends PlatformController
             return $this->redirectToRoute('login');
         }
 
-        $instance = $_COOKIE['currentInstance'];
+        $instance = $_COOKIE['currentInstance'] ?? 1;
         $instance = (new InstanceRepository($this->doctrine))->find($instance);
         $instanceUsers = $instance->getUsers();
         $services = (new ServiceRepository($this->doctrine))->findBy(['instance' => $instance]);

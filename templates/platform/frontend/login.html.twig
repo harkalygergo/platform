@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-lg bg-dark text-white">
+                        <div class="card-body p-lg-5 text-center">
+
+                            <h2 class="fw-bold text-uppercase"><i class="bi bi-stack"></i> {{ title }}</h2>
+                            <p class="text-white-50 fs-6">Online Management System</p>
+                            <form name="form" method="post">
+
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
+                                {% if error is defined and error is not null %}
+                                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+
+                                <div class="text-start">
+                                    <div id="form">
+                                        <div>
+                                            <label for="username" class="required">Azonosító</label>
+                                            <input class="form-control required" {{ stimulus_target('login', 'username') }} id="username" name="_username" required="required" type="text" value="{{ last_username }}">
+                                        </div>
+                                        <div class="py-1">
+                                            <label for="password" class="required">Jelszó</label>
+                                            <div class="input-group">
+                                                <input class="form-control required" {{ stimulus_target('login', 'password') }} id="password" name="_password" required="required" type="password">
+                                                <button class="btn btn-dark border" type="button" onclick="togglePasswordInputType()"><i class="bi bi-eye"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="py-1">
+                                            <label for="form_language">Nyelv</label>
+                                            <select id="form_language" name="form[language]" class="form-control bg-dark text-white">
+                                                <option value="en">english</option>
+                                                <option value="hu" selected="selected">magyar</option>
+                                            </select>
+                                        </div>
+                                        <div class="py-1">
+                                            <input type="checkbox" id="form__remember_me" name="_remember_me" class="form-check-input bg-dark text-white" value="1" />
+                                            <label for="form__remember_me"> Maradjak bejelentkezve</label>
+                                        </div>
+                                        <div class="py-1 d-grid gap-2">
+                                            <button type="submit" id="form_submit" name="submit" class="btn btn-outline-light btn-lg px-5 my-3">
+                                                Bejelentkezés
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--form method="post" action="/hu">
+                                <div class="text-start">
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="username"><i class="bi bi-person"></i> Azonosító</label>
+                                        <input type="text" id="username" name="_username" class="form-control form-control-lg bg-dark text-white" />
+                                    </div>
+
+                                    <div class="form-outline form-white mb-4">
+                                        <label class="form-label" for="password"><i class="bi bi-lock"></i> Jelszó</label>
+                                        <input type="password" id="password" name="password" class="form-control form-control-lg bg-dark text-white" />
+                                    </div>
+
+                                    <div class="form-outline form-white mb-4 form-group">
+                                        <label for="languageSelector"><i class="bi bi-translate"></i> Nyelv</label>
+                                        <select class="form-control form-control-lg bg-dark text-white" id="languageSelector">
+                                            <option>english</option>
+                                            <option>magyar</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-outline form-white mb-4 form-check">
+                                        <input class="form-check-input bg-dark text-white" type="checkbox" value="" id="keepLoggedIn">
+                                        <label class="form-check-label" for="keepLoggedIn">
+                                            Maradjak bejelentkezve
+                                        </label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-light btn-lg px-5" type="submit">Bejelentkezés <i class="bi bi-box-arrow-in-right"></i></button>
+                            </form-->
+
+                            <p class="small mt-5"><a class="text-white-50" href="{{ path('reset_password') }}">{{ 'account.reset password'|trans }}</a></p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function togglePasswordInputType()
+        {
+            let passwordInput = document.querySelector('[data-login-target="password"]');
+            let type = passwordInput.getAttribute('type');
+
+            if (type === 'password') {
+                passwordInput.setAttribute('type', 'text');
+            } else {
+                passwordInput.setAttribute('type', 'password');
+            }
+        }
+
+    </script>
+{% endblock %}
