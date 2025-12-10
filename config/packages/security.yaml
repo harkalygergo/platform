@@ -31,8 +31,8 @@ security:
 
             # basic logout configuration (optional but handy)
             logout:
-                path: app_logout
-                # where to redirect after logout
+                path: /logout
+                invalidate_session: true
                 target: security_login
 
     # Easy way to control access for large sections of your site

@@ -113,7 +113,7 @@ class LoginController extends PlatformController
                 );
             }
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('security_login');
         }
 
         return $this->render('platform/frontend/reset-password.html.twig');

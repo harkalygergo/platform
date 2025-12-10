@@ -14,6 +14,7 @@ namespace App\Controller\Platform;
 use App\Entity\Platform\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,6 +38,7 @@ final class SecurityController extends AbstractController
      * must be accessible to anonymous visitors too.
      */
     #[Route('/', name: 'security_login')]
+    #[Route('/{_locale}', name: 'security_login_locale')]
     public function login(
         #[CurrentUser] ?User $user,
         Request $request,
@@ -65,10 +67,12 @@ final class SecurityController extends AbstractController
     }
 
     #[Route('/logout', name: 'security_logout')]
-    public function logout(Security $security): Response
+    public function logout(): void
     {
-        $response = $security->logout(false);
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
 
-        return $response;
+        //$security->logout(false);
+
+        //return $this->redirectToRoute('security_login');
     }
 }
