@@ -19,13 +19,12 @@ class LoginController extends PlatformController
     #[Route('/administrator', name: 'honeypot_administrator')]
     #[Route('/login', name: 'honeypot_login')]
     #[Route('/register', name: 'honeypot_register')]
-    #[Route('/{_locale}', name: 'locale')]
     #[Route('/{_locale}/admin', name: 'locale_admin')]
     public function honeypot(): Response
     {
         // if a user is logged in, redirect to the dashboard
         if ($this->getUser()) {
-            return $this->redirectToRoute('admin_v1_dashboard');
+            return $this->redirectToRoute('admin_post');
         }
 
         $environment = $this->getPlatformBasicEnviroments();
@@ -59,18 +58,18 @@ class LoginController extends PlatformController
                         setcookie('currentInstance', $defaultInstance->getId(), time() + 60 * 60 * 24 * 30, '/');
                     }
 
-                    return $this->redirectToRoute('admin_v1_dashboard');
+                    return $this->redirectToRoute('admin_post');
                 }
             }
         }
 
         if ($this->getUser()) {
-            return $this->redirectToRoute('admin_v1_dashboard');
+            return $this->redirectToRoute('admin_post');
         }
 
         // if it is a post request, redirect to the dashboard
         if ($this->isCsrfTokenValid('authenticate', $request->get('_csrf_token'))) {
-            return $this->redirectToRoute('admin_v1_dashboard');
+            return $this->redirectToRoute('admin_post');
         }
 
         $queryParams = $request->query->all();
