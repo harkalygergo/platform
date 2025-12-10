@@ -1,0 +1,71 @@
+address:
+    zip: 'Zip'
+    city: 'City'
+    settlement: 'Settlement'
+    street: 'Street'
+    houseNumber: 'House number'
+    country: 'Country'
+    state: 'State'
+    address: 'Address'
+global:
+    comment: 'Comment'
+    message: 'Message'
+    name: 'Name'
+    status: Status
+    title: 'Title'
+action:
+    view: view
+    edit: edit
+    delete: delete
+    save: save
+    cancel: cancel
+    create: create
+    created: created
+    update: update
+    updated: updated
+    back: back
+    remove: remove
+account:
+    change password: 'Password change'
+    password created: 'Password created'
+    reset password: 'Reset password'
+data:
+    description: Description
+event:
+    saved successfully: 'Saved successfully'
+date:
+    createdAt: 'Created'
+    description: Description
+    updatedAt: 'Updated'
+payment:
+    yearly: yearly
+page:
+    page: 'Page'
+    pages: 'Pages'
+user:
+    namePrefix: 'Name prefix'
+    firstName: 'First name'
+    middleName: 'Middle name'
+    lastName: 'Last name'
+    birthDate: 'Birth date'
+    phone: 'Phone'
+aside:
+    dashboard: 'Dashboard'
+    favourites: 'Favorites'
+    settings: 'Settings'
+    logout: 'Logout'
+    users: 'Users'
+web:
+    application: 'Web application'
+    block: 'Block'
+    blocks: 'Blocks'
+    category: 'Category'
+    categories: 'Categories'
+    menu: 'Menu'
+    menus: 'Menus'
+    page: 'Page'
+    pages: 'Pages'
+    post: 'Post'
+    posts: 'Posts'
+    website: 'Website'
+    webshop: 'Webshop'

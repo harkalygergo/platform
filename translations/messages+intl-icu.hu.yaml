@@ -1,0 +1,78 @@
+You do not have permission: 'Önnek nincs jogosultsága'
+Not found: 'Nem található'
+Deleted successfully: 'Sikeresen törölve'
+
+address:
+    zip: 'Irányítószám'
+    city: 'Város'
+    settlement: 'Település'
+    street: 'Utca'
+    houseNumber: 'Házszám'
+    country: 'Ország'
+    state: 'Megye'
+    address: 'Cím'
+newsletter:
+    draft: vázlat
+    scheduled: időzítve
+    sent: elküldve
+global:
+    comment: 'Megjegyzés'
+    message: 'Üzenet'
+    name: 'Név'
+    status: Státusz
+    title: 'Megnevezés'
+action:
+    view: megtekintés
+    edit: szerkesztés
+    delete: törlés
+    save: mentés
+    cancel: megszakítás
+    create: létrehozás
+    created: létrehozva
+    update: frissítés
+    updated: frissítve
+    back: vissza
+    remove: eltávolítás
+account:
+    change password: 'Jelszó módosítása'
+    password created: 'Jelszó létrehozva'
+    reset password: 'Jelszó visszaállítása'
+data:
+    description: Leírás
+date:
+    createdAt: 'Létrehozva'
+    updatedAt: 'Frissítve'
+event:
+    saved successfully: 'Sikeres mentés.'
+page:
+    page: 'Oldal'
+    pages: 'Oldalak'
+payment:
+    annual: éves
+user:
+    namePrefix: 'Név előtag'
+    firstName: 'Keresztnév'
+    middleName: 'Második név'
+    lastName: 'Vezetéknév'
+    birthDate: 'Születési dátum'
+    phone: 'Telefonszám'
+aside:
+    dashboard: 'Vezérlőpult'
+    favourites: 'Kedvencek'
+    settings: 'Beállítások'
+    logout: 'Kijelentkezés'
+    users: 'Felhasználók'
+web:
+    application: 'Webalkalmazás'
+    block: 'Blokk'
+    blocks: 'Blokkok'
+    category: 'Kategória'
+    categories: 'Kategóriák'
+    menu: 'Menü'
+    menus: 'Menük'
+    page: 'Oldal'
+    pages: 'Oldalak'
+    post: 'Bejegyzés'
+    posts: 'Bejegyzések'
+    website: 'Honlap'
+    webshop: 'Webáruház'
