@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2025.12.9.3
+###### v2025.12.10.1
 
 ---
 
@@ -56,4 +56,16 @@ php bin/console doctrine:schema:validate
 php bin/console doctrine:mapping:info
 # clear cache
 php bin/console cache:clear
+```
+
+## How to activate?
+
+```shell
+# create .env.local file based on .env
+cp .env .env.local
+# set database URL in .env.local
+# DATABASE_URL="mysql://db_user:db_password@
+php bin/console messenger:consume async
+# run the Symfony server
+symfony server:start
 ```
