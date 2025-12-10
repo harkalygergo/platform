@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main>
+        <section class="vh-100 gradient-custom">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div class="card shadow-lg bg-dark text-white" style="border-radius: 1rem;">
+                            <div class="card-body p-5 text-center">
+                                <h2 class="fw-bold mb-2 text-uppercase"><i class="bi bi-stack"></i> {{ title }}</h2>
+                                <p class="text-white-50 fs-6">Online Management System</p>
+                                <hr>RESTRICTED AREA<hr>
+                                <p>
+                                    <b>IP:</b> {{ ip }}<br>
+                                    <b>Agent:</b> {{ userAgent }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
