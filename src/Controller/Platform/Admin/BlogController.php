@@ -37,7 +37,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-#[Route('/admin/post')]
+#[Route('/{_locale}/admin/post')]
 #[IsGranted(User::ROLE_ADMIN)]
 final class BlogController extends AbstractController
 {
