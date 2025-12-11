@@ -1,0 +1,155 @@
+{% extends 'platform/base.html.twig' %}
+
+{% block main %}
+
+    <main class="p-1">
+        <div class="mx-3 my-4">
+            <h1 class="fw-bold fs-3">
+                <i class="bi bi-person-badge mx-3"></i> Felhasználói dokumentáció
+            </h1>
+            <hr>
+
+
+
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link text-dark active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"><i class="bi bi-envelope mx-1"></i> E-mail</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link text-dark" id="other-tab" data-bs-toggle="tab" data-bs-target="#other-tab-pane" type="button" role="tab" aria-controls="other-tab-pane" aria-selected="false">Egyéb</button>
+                </li>
+            </ul>
+            <div class="tab-content bg-white p-3 border-start border-bottom border-end rounded-bottom" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                    <p>Óránkénti limit: 200 darab / fiók.</p>
+                    <div class="card-group">
+                        <div class="card">
+                            <div class="card-header text-uppercase fw-bold">
+                                E-mail konfiguráció | webmail
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm">
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-nowrap">domain webmail</td>
+                                        <td><strong>webmail.<code>domain.tld</code></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">globális webmail</td>
+                                        <td><strong><a target="_blank" href="//webmail.brandcomstudio.com">webmail.brandcomstudio.com</a></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">felhasználónév</td>
+                                        <td><strong><code><i>teljes e-mail cím</i></code></strong></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header text-uppercase fw-bold">
+                                E-mail konfiguráció | IMAP
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm">
+                                    <tbody>
+                                    <tr>
+                                        <td>host</td>
+                                        <td><strong>mail.<code>domain.tld</code></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>autentikáció</td>
+                                        <td><strong>normál jelszó</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SSL/TLS port</td>
+                                        <td><strong>993</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>STARTTLS port</td>
+                                        <td><strong>143</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>no encryption port</td>
+                                        <td><strong>143</strong></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header text-uppercase fw-bold">
+                                E-mail konfiguráció | POP3
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm">
+                                    <tbody>
+                                    <tr>
+                                        <td>host</td>
+                                        <td><strong>mail.<code>domain.tld</code></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>autentikáció</td>
+                                        <td><strong>normál jelszó</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SSL/TLS port</td>
+                                        <td><strong>995</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>STARTTLS port</td>
+                                        <td><strong>110</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>no encryption port</td>
+                                        <td><strong>110</strong></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header text-uppercase fw-bold">
+                                E-mail konfiguráció | SMTP
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm">
+                                    <tbody>
+                                    <tr>
+                                        <td>host</td>
+                                        <td><strong>mail.<code>domain.tld</code></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>autentikáció</td>
+                                        <td><strong>normál jelszó</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SSL/TLS port</td>
+                                        <td><strong>465</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>STARTTLS port</td>
+                                        <td><strong>587</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>no encryption port</td>
+                                        <td><strong>25</strong></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="other-tab-pane" role="tabpanel" aria-labelledby="other-tab" tabindex="0">-</div>
+            </div>
+
+
+        </div>
+
+    </main>
+
+{% endblock %}

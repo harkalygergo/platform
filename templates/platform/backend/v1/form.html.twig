@@ -1,0 +1,25 @@
+{% extends 'platform/base.html.twig' %}
+
+{% block main %}
+
+    <main class="p-1">
+        <div class="mx-3 my-4">
+
+            {% include 'platform/backend/v1/elements/flashes.html.twig' %}
+
+            <h1 class="fs-5 fw-bold text-uppercase">{{ title }}</h1>
+            <hr>
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+
+            <button type="submit" class="btn btn-success btn-lg my-3">
+                <i class="bi bi-save mx-1"></i> {{ 'action.save'|trans }}
+            </button>
+            {{ form_end(form) }}
+
+        </div>
+
+    </main>
+
+{% endblock %}

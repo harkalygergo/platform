@@ -1,0 +1,52 @@
+{% extends 'platform/backend/v1/base.html.twig' %}
+
+{% block main %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10">
+    <div class="mx-3 my-4">
+
+        {% include 'platform/backend/v1/elements/flashes.html.twig' %}
+
+        <div class="card">
+            <div class="card-header fw-bold  d-flex justify-content-between">
+                <div class="text-uppercase">
+                    {{ title }}
+                </div>
+                <div>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+
+                            {% if actions is defined %}
+                                {% if 'new' in actions %}
+                                    <a href="new/" type="button" class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-plus-circle"></i> <span class="d-none d-md-inline-block">új hozzáadása</span>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                            <button type="button" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-heart"></i> <span class="d-none d-md-inline-block">kedvencekhez</span>
+                            </button>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-gear"></i>
+                                <span class="d-none d-md-inline-block">eszközök</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">export - hamarosan</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">import - hamarosan</a></li>
+                                <li><a class="dropdown-item" href="#">import mintafájl - hamarosan</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {{ content|raw }}
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

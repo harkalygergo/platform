@@ -46,6 +46,12 @@ final class SecurityController extends AbstractController
     ): Response {
         // if user is already logged in, don't display the login page again
         if ($user) {
+            // set user's defaultInstance to cookie
+            $defaultInstance = $user->getDefaultInstance();
+            if ($defaultInstance) {
+                setcookie('currentInstance', $defaultInstance->getId(), time() + 60 * 60 * 24 * 30, '/');
+            }
+
             return $this->redirectToRoute('homepage');
         }
 

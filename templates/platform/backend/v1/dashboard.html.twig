@@ -1,0 +1,371 @@
+{% extends 'platform/backend/v1/base.html.twig' %}
+
+{% block main %}
+
+    <main class="col-md-9 ms-sm-auto col-lg-10">
+        <div class="mx-3 my-4">
+
+            {% include 'platform/backend/v1/elements/flashes.html.twig' %}
+
+            <h1 class="fw-bold fs-3">
+                <i class="bi bi-speedometer2 mx-3"></i> Vezérlőpult
+            </h1>
+            <hr>
+            <div class="row row-cols-1 row-cols-md-4 py-2">
+                <div class="col">
+                    <div class="card h-100 text-bg-primary">
+                        <div class="card-body row">
+                            <div class="col-3 display-3">
+                                <i class="bi bi-person-fill px-2"></i>
+                            </div>
+                            <div class="col fw-bold text-uppercase">
+                                Kapcsolatok
+                                <br><span class="display-6">{{ clientsCount }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 text-bg-success">
+                        <div class="card-body row">
+                            <div class="col-3 display-3">
+                                <i class="bi bi-send px-2"></i>
+                            </div>
+                            <div class="col fw-bold text-uppercase">
+                                Hírlevél-feliratkozók
+                                <br><span class="display-6">{{ newsletterSubscriberCount }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 text-bg-secondary">
+                        <div class="card-body row">
+                            <div class="col-3 display-3">
+                                <i class="bi bi-piggy-bank px-2"></i>
+                            </div>
+                            <div class="col fw-bold text-uppercase">
+                                Előző napi forgalom
+                                <br><span class="display-6">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 text-bg-danger">
+                        <div class="card-body row">
+                            <div class="col-3 display-3">
+                                <i class="bi bi-binoculars px-2"></i>
+                            </div>
+                            <div class="col fw-bold text-uppercase">
+                                Előző napi látogatószám
+                                <br><span class="display-6">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <div class="card h-100">
+                        <div class="card-header text-uppercase fw-bold">
+                            Hírfolyam
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(form) }}
+                            {{ form_end(form) }}
+                            <hr>
+
+                            <!-- loop throw feed -->
+                            {% for f in feed %}
+                                <p>
+                                    <small><i>{{ f.createdAt.format('Y-m-d H:i:s') }} - {{ f.createdBy.fullName }}</i></small>
+                                    <br>{{ f.message }}
+                                </p>
+                                <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row row-cols-1 py-2">
+                        <div class="col m-1">
+                            <div class="card h-100">
+                                <div class="card-header text-uppercase fw-bold">
+                                    Szolgáltatás áttekintés
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                        <tr>
+                                            <td>Rendszer tárhely:</td>
+                                            <td class="fw-bold">10000 / ? MB</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Domain:</td>
+                                            <td class="fw-bold">
+                                                {% set domainCount = 0 %}
+                                                {% for s in currentInstance.services %}
+                                                    {% if s.type == "domain" %}
+                                                        {% set domainCount = domainCount + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <a class="text-black" href="{{ path('admin_v1_domains') }}">
+                                                    {{ domainCount }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Aldomain:</td>
+                                            <td class="fw-bold">?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Honlap:</td>
+                                            <td class="fw-bold">?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Webshop:</td>
+                                            <td class="fw-bold">?</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Webalkalmazás:</td>
+                                            <td class="fw-bold">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mobilalkalmazás:</td>
+                                            <td class="fw-bold">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col m-1">
+                            <div class="card h-100">
+                                <div class="card-header text-uppercase fw-bold">
+                                    Szervezeti áttekintés
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                        <tr>
+                                            <td>Felhasználók száma:</td>
+                                            <td class="fw-bold">
+                                                <a class="text-black" href="{{ path('admin_v1_instances_users') }}">
+                                                    {{ instanceUsers|length }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hírlevél-feliratkozók:</td>
+                                            <td class="fw-bold">
+                                                <a class="text-black" href="{{ path('admin_v1_newsletter_subscriber') }}">
+                                                    {{ newsletterSubscriberCount }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Éves forgalom:</td>
+                                            <td><small>[hamarosan]</small></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="card-text">
+                                        Szervezeti meghívó link: <span onclick="copyToClipboard('{{ registerUrl }}')" class="badge badge-sm text-bg-secondary"><i class="bi bi-copy"></i> másolás</span>
+                                        <br><code>{{ registerUrl }}</code>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col m-1">
+                            <div class="card h-100">
+                                <div class="card-header text-uppercase fw-bold">
+                                    Személyes áttekintés
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                        <tr>
+                                            <td>Vállalkozások és szervezetek:</td>
+                                            <td class="fw-bold">
+                                                <a class="text-black" href="{{ path('admin_v1_instances') }}">
+                                                    {{ app.user.instances|length }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Személyes tárhely:</td>
+                                            <td class="fw-bold">0 MB</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ajánlott felhasználók:</td>
+                                            <td class="fw-bold">0 fő</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kredit:</td>
+                                            <td class="fw-bold">0</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="card-text">Személyes ajánlói link: <code>hamarosan</code>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col m-1">
+                            <div class="card h-100">
+                                <div class="card-header text-uppercase fw-bold">
+                                    Ügyfélszolgálat
+                                </div>
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="https://harkalygergo.github.io/harkalygergo.jpg" class="img-fluid" alt="Harkály Gergő ügyfélszolgálat">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <strong>Harkály Gergő</strong>
+                                                <br><i class="bi bi-phone"></i> <a target="_blank" class="text-dark text-decoration-none" href="tel:+36305512337">+36-30-55-123-37</a>
+                                                <br><i class="bi bi-envelope"></i> <a target="_blank" class="text-dark text-decoration-none" href="mailto:gergo.harkaly@brandcom.hu">gergo.harkaly@brandcom.hu</a>
+                                                <br><i class="bi bi-globe2"></i> <a target="_blank" class="text-dark text-decoration-none" href="https://www.brandcomstudio.com/hu">www.brandcomstudio.com/hu</a>
+                                            </p>
+                                            <p class="card-text"><small class="text-body-secondary">naponta 8:00 - 22:00 óra között</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row row-cols-1 row-cols-md-3 py-3">
+
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header text-uppercase fw-bold">
+                            Legutóbbi rendszerüzenetek
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <strong>2025.07.22.:</strong>
+                                <br> - HestiaCP webkiszolgáló vezérlő felület frissítve 1.9.4 verzióra.
+                                <br> - Roundcube webmail kliens frissítve 1.6.11 verzióra.
+                            </p>
+                            <p class="card-text">
+                                <strong>2025.02.28.:</strong>
+                                <br> - HestiaCP webkiszolgáló vezérlő felület frissítve 1.9.3 verzióra.
+                                <br> - Roundcube webmail kliens frissítve 1.6.10 verzióra.
+                            </p>
+                            <p class="card-text">
+                                <strong>2025.02.04.:</strong>
+                                <br> - HestiaCP webkiszolgáló vezérlő felület frissítve 1.8.12-ről 1.9.1 verzióra.
+                                <br> - Roundcube webmail kliens frissítve 1.6.9 verzióra.
+                                <br> - PhpMyAdmin frissítve 5.2.2 verzióra.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-header text-uppercase fw-bold">
+                            Legutóbbi értesítések
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <strong>Értesítés:</strong> 0 db
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+            </div>
+
+            <div class="row g-0 py-2">
+                <div class="card">
+                    <div class="card-header fw-bold text-uppercase d-flex justify-content-between">
+                        <div>
+                            {{ title }}
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="table-responsive small">
+
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    {% for th in tableHead %}
+                                        <th scope="col">{{ th }}</th>
+                                    {% endfor %}
+                                    <th class="text-center">{{ 'date.createdAt'|trans }}</th>
+                                    <th class="text-center">{{ 'date.updatedAt'|trans }}</th>
+                                    <th scope="col" class="text-end">Eszközök</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for td in tableBody %}
+                                    <tr>
+                                        <td>{{ loop.index }}.</td>
+                                        {% for thKey, thValue in tableHead %}
+                                            <td>
+                                                {% if attribute(td, thKey) is same as(true) or attribute(td, thKey) is same as(false) %}
+                                                    {{ attribute(td, thKey) ? '&#9989;' : '&#10060;' }}
+                                                {% else %}
+                                                    {% set variable = attribute(td, thKey) %}
+                                                    {{ variable|trans }}
+                                                {% endif %}
+                                            </td>
+                                        {% endfor %}
+                                        <td class="text-center">{% if td.createdAt is defined %}{{ td.createdAt.format('Y-m-d H:i:s') }}{% endif %}</td>
+                                        <td class="text-center">
+                                            {% if td.updatedAt is defined and td.updatedAt is not null %}
+                                                {{ td.updatedAt.format('Y-m-d H:i:s') }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            {% if actions is defined %}
+                                                {% if 'view' in actions %}
+                                                    <a class="btn btn-sm btn-primary" title="{{ 'action.view'|trans }}" href="#{{ td.id}}">
+                                                        <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
+                                                    </a>
+                                                {% endif %}
+                                                {% if 'edit' in actions %}
+                                                    <a class="btn btn-sm btn-warning" title="{{ 'action.edit'|trans }}" href="#{{ td.id}}">
+                                                        <i class="bi bi-pen"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
+                                                    </a>
+                                                {% endif %}
+                                                {% if 'delete' in actions %}
+                                                    <a class="btn btn-sm btn-danger" title="{{ 'action.delete'|trans }}" href="#{{ td.id}}">
+                                                        <i class="bi bi-trash"></i> <span class="d-none d-sm-inline-block">{{ 'action.delete'|trans }}</span>
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                            <a class="btn btn-sm btn-success" title="" href="{{ path('admin_v1_cart_add', {"id": td.id }) }}">
+                                                <i class="bi bi-cart"></i> <span class="d-none d-sm-inline-block">kosárba</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="card-footer text-center text-body-secondary">
+                        <small>
+                            Összesen: {{ tableBody|length }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+{% endblock %}

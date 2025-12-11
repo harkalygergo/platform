@@ -114,7 +114,7 @@
                 <div class="dropdown">
                     <button class="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" style="font-size: 12px;" aria-expanded="false">
                         <img alt="account" class="rounded-circle" src="https://harkalygergo.github.io/harkalygergo.jpg" style="float:left;margin:0 5px;width:auto;height:32px;">
-                        <span class="d-none d-sm-inline-block"> Harkály  Gergő<br><small class="text-white-50 float-start">Bieco Shop Kft.</small></span>
+                        <span class="d-none d-sm-inline-block"> {{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ currentInstance.name }}</small></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                         <li><a class="dropdown-item" href="/hu/admin/v1/account/edit"><i class="bi bi-person"></i> Profil és beállítások</a></li>

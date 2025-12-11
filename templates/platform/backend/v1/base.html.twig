@@ -1,0 +1,370 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if title is defined %}
+        {{ title }} | PLATFORM
+    {% endif %}
+{% endblock %}
+
+{% block head %}
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        hr {
+            border-top: 1px solid gray;
+        }
+
+        .bi {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /*
+         * Sidebar
+         */
+
+        @media (min-width: 768px) {
+            .sidebar .offcanvas-lg {
+                position: -webkit-sticky;
+                position: sticky;
+                top: 48px;
+            }
+            .navbar-search {
+                display: block;
+            }
+        }
+
+        .sidebar .nav-link {
+            font-size: .875rem;
+            font-weight: 500;
+        }
+
+        .sidebar .nav-link.active {
+            color: #2470dc;
+        }
+
+        .sidebar-heading {
+            font-size: .75rem;
+        }
+
+        /*
+         * Navbar
+         */
+
+        .navbar-brand {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            background-color: rgba(0, 0, 0, .25);
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+        }
+
+        .navbar .form-control {
+            padding: .75rem 1rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark border-dark-subtle p-0 m-0" aria-label="Second navbar example">
+        <div class="container-fluid">
+            <a class="navbar-brand fs-6 text-warning p-0 m-0 bg-dark" href="{{ path('admin_v1_dashboard') }}">
+
+                <table>
+                    <tbody>
+                    <tr>
+                        <td class="col" style="width:2.5rem;">
+                            <i class="bi bi-stack fs-2"></i>
+                        </td>
+                        <td class="col d-none d-sm-block pt-1" style="font-size:12px;">
+                            <b class="text-uppercase p-0">
+                                {{ currentInstance.type|default('platform')|capitalize }}
+                            </b>
+                            {% if app.user %}
+                                <br>{{ currentInstance.name }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </a>
+            <button class="d-md-none nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list text-white fs-1"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <i class="bi bi-list text-white d-none"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <a class="btn text-white d-none d-sm-inline-block" href="{{ path('admin_v1_dashboard') }}">
+                    <i class="bi bi-speedometer2"></i>
+                </a>
+
+                <a href="{{ path('admin_v1_checkout') }}" class="btn text-white position-relative">
+                    <i class="bi bi-cart"></i>
+                    {% if cart is defined and cart is not null %}
+                        {% if cart.items is not null and cart.items|length > 0 %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                {{ cart.items|length }}
+                            </span>
+                        {% endif %}
+                    {% endif %}
+                </a>
+
+                <div class="dropdown">
+                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        <i class="bi bi-translate text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark" style="position: absolute; inset: 0 0 auto auto; margin: 0; transform: translate(0px, 40px);" data-popper-placement="bottom-end">
+                        <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href=window.location.href.replace('/hu/', '/en/')">english</a></span></li>
+                        <li><span class="dropdown-item"><a class="text-decoration-none text-white" href="javascript:window.location.href=window.location.href.replace('/en/', '/hu/')">magyar</a></span></li>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn text-white" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-toggle="dropdown" data-bs-theme="dark">
+                        <li><span class="dropdown-item"><i>nincs új értesítés</i></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">összes megtekintése</a></li>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-envelope text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark" style="">
+                        <li><span class="dropdown-item"><i>nincs új üzenet</i></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">összes megtekintése</a></li>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn" type="button" data-bs-theme="dark" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-calendar text-white"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark" style="">
+                        <li><span class="dropdown-item"><i>nincs új esemény</i></span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">összes megtekintése</a></li>
+                    </ul>
+                </div>
+
+                <button class="btn text-white" id="view-fullscreen"><i class="bi bi-arrows-fullscreen"></i></button>
+                <button class="btn text-white" id="view-fullscreen-exit" style="display:none;"><i class="bi bi-fullscreen-exit"></i></button>
+                <script>
+                    var viewFullScreen = document.getElementById("view-fullscreen");
+                    if (viewFullScreen) {
+                        viewFullScreen.addEventListener("click", function() {
+                            var docElm = document.documentElement;
+                            if (docElm.requestFullscreen) {
+                                docElm.requestFullscreen();
+                            } else if (docElm.msRequestFullscreen) {
+                                docElm.msRequestFullscreen();
+                            } else if (docElm.mozRequestFullScreen) {
+                                docElm.mozRequestFullScreen();
+                            } else if (docElm.webkitRequestFullScreen) {
+                                docElm.webkitRequestFullScreen();
+                            }
+                            viewFullScreen.style.display = "none";
+                            document.getElementById("view-fullscreen-exit").style.display = "block";
+                        })
+                    }
+                    var viewFullScreenExit = document.getElementById("view-fullscreen-exit");
+                    if (viewFullScreenExit) {
+                        viewFullScreenExit.addEventListener("click", function() {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            } else if (document.msExitFullscreen) {
+                                document.msExitFullscreen();
+                            } else if (document.mozCancelFullScreen) {
+                                document.mozCancelFullScreen();
+                            } else if (document.webkitCancelFullScreen) {
+                                document.webkitCancelFullScreen();
+                            }
+                            viewFullScreenExit.style.display = "none";
+                            document.getElementById("view-fullscreen").style.display = "block";
+                        })
+                    }
+                </script>
+
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" style="font-size: 12px;" aria-expanded="false">
+                        {% if (app.user.profileImageUrl) %}
+                            <img alt="account" class="rounded-circle" src="{{ app.user.profileImageUrl }}" style="float:left;margin:0 5px;width:auto;height:32px;">
+                        {% else %}
+                            <i class="bi bi-person-circle" style="float:left;margin:0 5px;width:auto;font-size:25px;"></i>
+                        {% endif %}
+                        <span class="d-none d-sm-inline-block">{{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ app.user.position }}</small></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
+                        <li><a class="dropdown-item" href="{{ path('admin_v1_account_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_v1_media_user_index') }}">
+                                <i class="bi bi-usb-drive"></i> Személyes tárhely</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_v1_instances') }}"><i class="bi bi-briefcase"></i> Vállalkozások és szervezetek</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_v1_billing_profiles') }}"><i class="bi bi-receipt"></i> Számlázási profilok</a></li>
+                        <li><a class="dropdown-item text-white-50" href="#"><i class="bi bi-gear"></i> Rendszereszközök</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_v1_support') }}"><i class="bi bi-question-circle"></i> Támogatás és support</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            <li><a class="dropdown-item" href="{{ path('admin_v1_superadmin_services') }}"><i class="bi bi-stars"></i> Superadmin</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                        {% endif %}
+                        <li><a class="dropdown-item text-warning" href="{{ path('admin_logout') }}"><i class="bi bi-box-arrow-right"></i> Kijelentkezés</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!--header class="navbar sticky-top bg-black flex-md-nowrap p-0 shadow" data-bs-theme="dark">
+        <a class="navbar-brand py-0 px-1 m-0 fs-6 text-warning" href="/en/admin">
+            <b class="text-uppercase d-none d-sm-inline-block">
+                <i class="bi bi-stack"></i>
+                Platform
+            </b>
+            {% if app.user %}
+                <br><small>{{ app.user.instances.first.name }}</small>
+            {% endif %}
+        </a>
+
+        <ul class="navbar-nav flex-row d-md-none">
+            <li class="nav-item text-nowrap">
+                <button class="nav-link px-3 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch" aria-controls="navbarSearch" aria-expanded="false" aria-label="Toggle search">
+                    <i class="bi bi-search"></i>
+                </button>
+            </li>
+            <li class="nav-item text-nowrap">
+                <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+            </li>
+        </ul>
+
+        <div id="navbarSearch" class="navbar-search w-100 collapse">
+            <input class="form-control w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
+        </div>
+    </header-->
+
+    <div class="container-fluid">
+        <div class="row">
+
+            {% include 'platform/backend/v1/sidebar.html.twig' %}
+
+            {% block main %}
+            {% endblock %}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+    <style>
+        .loader {
+            width: 40px;
+            height: 20px;
+            background: white;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            animation: l9-0 1.5s infinite linear;
+        }
+
+        .loader:before,
+        .loader:after {
+            content: "";
+            position: absolute;
+            background: inherit;
+            bottom: 100%;
+            width: 50%;
+            height: 100%;
+            animation: inherit;
+            animation-name: l9-1;
+        }
+
+        .loader:before {
+            left: 0;
+            transform-origin: bottom left;
+            --s: -1;
+        }
+
+        .loader:after {
+            right: 0;
+            transform-origin: bottom right;
+        }
+
+        @keyframes l9-0 {
+            0%, 10% { transform: translateY(0%) scaleY(1); }
+            49.99% { transform: translateY(-50%) scaleY(1); }
+            50% { transform: translateY(-50%) scaleY(-1); }
+            90%, 100% { transform: translateY(-100%) scaleY(-1); }
+        }
+
+        @keyframes l9-1 {
+            10%, 90% { transform: rotate(0deg); }
+            50% { transform: rotate(calc(var(--s, 1) * 180deg)); }
+        }
+
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9998;
+        }
+    </style>
+    <div class="loader-overlay d-none"></div>
+    <div class="loader d-none"></div>
+    <script>
+        function showLoader() {
+            document.querySelector('.loader-overlay').classList.remove('d-none');
+            document.querySelector('.loader').classList.remove('d-none');
+        }
+        function hideLoader() {
+            document.querySelector('.loader-overlay').classList.add('d-none');
+            document.querySelector('.loader').classList.add('d-none');
+        }
+
+        function copyToClipboard(text) {
+            // Create a temporary textarea element
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+
+            // Select the text
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // For mobile devices
+
+            // Copy the text to the clipboard
+            document.execCommand('copy');
+
+            // Remove the temporary textarea element
+            document.body.removeChild(textarea);
+
+            alert("másolva");
+        }
+    </script>
+{% endblock %}
+

@@ -1,19 +1,7 @@
-{% if app.user is defined and app.user is not null %}
-    {% set cart = app.user.cart %}
-{% endif %}
-
-{% if app.user is defined and app.user is not null %}
-    {% set currentInstance = app.request.cookies.get('currentInstance') %}
-    {% for userInstance in app.user.instances %}
-        {% if userInstance.id == app.request.cookies.get('currentInstance') %}
-            {% set currentInstance = userInstance %}
-        {% endif %}
-    {% endfor %}
-{% endif %}
-
 <!DOCTYPE html>
 <html lang="{{ app.locale }}" data-bs-theme="{% if app.user is null %}dark{% else %}auto{% endif %}">
 <head>
+    <!-- We are always open for new developers. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="robots" content="noindex,nofollow">
