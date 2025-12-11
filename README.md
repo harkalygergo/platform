@@ -1,7 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2025.12.11.2
-
----
+###### v2025.12.11.3
 
 ## Templates
 
@@ -11,8 +9,6 @@ Backend has a fix template with light and dark mode. Frontend has multiple templ
 - beta: basic template with header and footer
 - gamma: advanced template with sidebar and widgets, ideal for CV
 - delta: ideal for events and conferences
-
----
 
 ## How to develop?
 
@@ -33,8 +29,6 @@ php bin/console doctrine:mapping:info
 # clear cache
 php bin/console cache:clear
 ```
-
----
 
 ## How to install?
 
@@ -68,4 +62,24 @@ cp .env .env.local
 php bin/console messenger:consume async
 # run the Symfony server
 symfony server:start
+```
+
+## How to update?
+
+```shell
+# pull the latest changes from the repository
+git pull origin main
+# update Composer packages
+composer update
+# update npm packages
+npm update
+# build assets
+npm run build
+# apply database migrations
+php bin/console doctrine:migrations:migrate
+# verify Doctrine mappings
+php bin/console doctrine:schema:validate
+php bin/console doctrine:mapping:info
+# clear cache
+php bin/console cache:clear
 ```

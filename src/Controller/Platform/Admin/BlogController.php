@@ -109,7 +109,7 @@ final class BlogController extends AbstractController
             // actions. They are deleted automatically from the session as soon
             // as they are accessed.
             // See https://symfony.com/doc/current/controller.html#flash-messages
-            $this->addFlash('success', 'post.created_successfully');
+            $this->addFlash('success', 'action.saved');
 
             /** @var SubmitButton $submit */
             $submit = $form->get('saveAndCreateNew');
@@ -147,7 +147,7 @@ final class BlogController extends AbstractController
     /**
      * Displays a form to edit an existing Post entity.
      */
-    #[Route('/{id:post}/edit', name: 'admin_post_edit', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET', 'POST'])]
+    #[Route('/edit/{id:post}', name: 'admin_post_edit', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET', 'POST'])]
     //#[IsGranted('edit', subject: 'post', message: 'Posts can only be edited by their authors.')]
     public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
@@ -156,12 +156,12 @@ final class BlogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-            $this->addFlash('success', 'post.updated_successfully');
+            $this->addFlash('success', 'action.updated');
 
-            return $this->redirectToRoute('admin_post_edit', ['id' => $post->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_post_index', ['id' => $post->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('platform/backend/blog/edit.html.twig', [
+        return $this->render('platform/backend/blog/new.html.twig', [
             'post' => $post,
             'form' => $form,
         ]);

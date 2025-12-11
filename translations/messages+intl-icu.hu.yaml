@@ -26,6 +26,7 @@ action:
     edit: szerkesztés
     delete: törlés
     save: mentés
+    saved: mentve
     cancel: megszakítás
     create: létrehozás
     created: létrehozva

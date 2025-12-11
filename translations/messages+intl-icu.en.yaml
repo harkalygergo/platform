@@ -18,6 +18,7 @@ action:
     edit: edit
     delete: delete
     save: save
+    saved: saved
     cancel: cancel
     create: create
     created: created
