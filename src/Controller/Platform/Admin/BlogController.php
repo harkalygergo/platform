@@ -114,9 +114,11 @@ final class BlogController extends AbstractController
             /** @var SubmitButton $submit */
             $submit = $form->get('saveAndCreateNew');
 
+            /*
             if ($submit->isClicked()) {
                 return $this->redirectToRoute('admin_post_new', [], Response::HTTP_SEE_OTHER);
             }
+            */
 
             return $this->redirectToRoute('admin_post_index', [], Response::HTTP_SEE_OTHER);
         }

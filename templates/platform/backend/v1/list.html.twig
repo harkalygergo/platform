@@ -7,13 +7,7 @@
 
         {% include 'platform/backend/v1/elements/flashes.html.twig' %}
 
-        <nav aria-label="breadcrumb small">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item small"><a class="link-secondary" href="/admin/">Vezérlőpult</a></li>
-                <li class="breadcrumb-item small"><a class="link-secondary" href="/admin/posts/">Bejegyzések</a></li>
-                <li class="breadcrumb-item small active" aria-current="page">Összes bejegyzés</li>
-            </ol>
-        </nav>
+        {% include 'platform/backend/v1/elements/breadcrumbs.html.twig' %}
 
         <div class="card">
             <div class="card-header fw-bold  d-flex justify-content-between">

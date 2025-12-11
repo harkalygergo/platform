@@ -48,17 +48,14 @@ final class PostType extends AbstractType
 
         $builder
             ->add('title', null, [
-                'attr' => ['autofocus' => true],
-                'label' => 'label.title',
+                'attr' => ['autofocus' => true, 'class' => 'form-control'],
             ])
             ->add('summary', TextareaType::class, [
-                'help' => 'help.post_summary',
-                'label' => 'label.summary',
+                'attr' => ['class' => 'form-control'],
+
             ])
             ->add('content', null, [
-                'attr' => ['rows' => 20],
-                'help' => 'help.post_content',
-                'label' => 'label.content',
+                'attr' => ['rows' => 20, 'class' => 'form-control'],
             ])
             // form events let you modify information or fields at different steps
             // of the form handling process.

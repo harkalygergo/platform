@@ -3,24 +3,50 @@
 {% block body_id 'admin_post_new' %}
 
 {% block main %}
-    <h1>{{ 'title.post_new'|trans }}</h1>
+
+<main class="p-4">
+
+    {% include 'platform/backend/v1/elements/flashes.html.twig' %}
+
+    {% include 'platform/backend/v1/elements/breadcrumbs.html.twig' %}
 
     {{ form_start(form) }}
-    {{ form_row(form.title) }}
-    {{ form_row(form.summary) }}
-    {{ form_row(form.content) }}
+        <div class="row">
+            <div class="col-9">
+                <div class="card">
+                    <div class="card-header fw-bold  d-flex justify-content-between">
+                        Új
+                    </div>
+                    <div class="card-body">
 
-    <button type="submit" class="btn btn-primary">
-        <twig:ux:icon name="tabler:save-changes"/> {{ 'label.create_post'|trans }}
-    </button>
-    {{ form_widget(form.saveAndCreateNew, {label: 'label.save_and_create_new', attr: {class: 'btn btn-primary'}}) }}
-    <a href="{{ path('admin_post_index') }}" class="btn btn-link">
-        <twig:ux:icon name="tabler:list"/> {{ 'action.back_to_list'|trans }}
-    </a>
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.summary) }}
+                        {{ form_row(form.content) }}
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-header fw-bold  d-flex justify-content-between">
+                        Közzététel
+                    </div>
+                    <div class="card-body">
+                    </div>
+                    <div class="card-footer text-muted">
+
+                        {{ form_widget(form.saveAndCreateNew, {label: 'Közzététel', attr: {class: 'btn btn-primary btn-sm'}}) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
     {{ form_end(form) }}
+
+</main>
+
 {% endblock %}
 
 {% block sidebar %}
     {{ parent() }}
-
 {% endblock %}

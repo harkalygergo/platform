@@ -8,7 +8,7 @@
     </div-->
 
     <!-- DASHBOARD MENU -->
-    <div id="sidebar_menu_dashboard" class="sidebar_menu_section">
+    <div id="sidebar_menu_dashboard" class="sidebar_menu_section" style="display:none;">
         <div class="d-flex align-items-center mx-2 pb-0 mb-0">
             <i class="bi bi-speedometer2 fs-3 m-2"></i>
             <div class="lh-1">
@@ -21,7 +21,7 @@
 
         <ul class="nav flex-column text-white p-0 m-0">
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/dashboard/">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path('admin_v1_website_pages') }}">
                     <i class="bi bi-house-door-fill"></i>
                     Áttekintés
                 </a>
@@ -30,7 +30,7 @@
     </div>
 
     <!-- CMS MENU -->
-    <div id="sidebar_menu_cms" class="sidebar_menu_section" style="display:none;">
+    <div id="sidebar_menu_cms" class="sidebar_menu_section">
         <div class="d-flex align-items-center mx-2 pb-0 mb-0">
             <i class="bi bi-globe fs-3 m-2"></i>
             <div class="lh-1">
