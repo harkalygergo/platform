@@ -3,6 +3,7 @@
 namespace App\Entity\Platform;
 
 use App\Repository\Platform\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

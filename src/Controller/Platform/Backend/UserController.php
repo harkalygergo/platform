@@ -116,4 +116,35 @@ class UserController extends PlatformController
 
         return $this->redirectToRoute('admin_v1_instances_switch', ['instance' => $user->getDefaultInstance()->getId()]);
     }
+
+    // function to add new user by superadmin
+    #[Route('/{_locale}/admin/v1/superadmin/users/new', name: 'admin_v1_superadmin_user_new')]
+    public function superAdminUserNew(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher
+    ): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$user->getPassword()) {
+                $hashedPassword = $passwordHasher->hashPassword($user, $user->getUsername());
+                $user->setPassword($hashedPassword);
+            }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('action.created'));
+            return $this->redirectToRoute('admin_v1_superadmin_users', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('superadmin'),
+            'title' => 'Új felhasználó létrehozása',
+            'form' => $form->createView(),
+        ]);
+    }
 }
