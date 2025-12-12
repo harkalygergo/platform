@@ -35,7 +35,7 @@ class SuperAdminController extends PlatformController
                 'birthDate' => 'Születési dátum',
                 'phone' => $this->translator->trans('user.phone'),
                 'email' => 'E-mail',
-                'status' => $this->translator->trans('global.status'),
+                'isActive' => $this->translator->trans('global.status'),
                 'roles' => 'Szerepkörök',
                 'lastLogin' => 'Utolsó belépés',
                 'lastActivation' => 'Utolsó aktivitás',
@@ -95,7 +95,7 @@ class SuperAdminController extends PlatformController
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('superadmin'),
             'title' => 'Rendelések',
             'tableHead' => [
-                'createdBy' => 'Felhasználó',
+                //'createdBy' => 'Felhasználó',
                 'billingProfile' => 'Számlázási fiók',
                 'paymentStatus' => 'Fizetési státusz',
                 'total' => 'Total',

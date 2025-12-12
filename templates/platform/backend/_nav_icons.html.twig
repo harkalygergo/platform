@@ -23,9 +23,13 @@
     <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="tools" title="Tools" onclick="sidebarMenu('tools')">
         <i class="bi bi-tools p-0 m-0 fs-4"></i>
     </button>
-    <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="settings" title="Settings" onclick="sidebarMenu('settings')">
-        <i class="bi bi-gear p-0 m-0 fs-4"></i>
-    </button>
+
+    {% if is_granted('ROLE_SUPERADMIN') %}
+        <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="superadmin" title="Superadmin" onclick="sidebarMenu('superadmin')">
+            <i class="bi bi-stars p-0 m-0 fs-4"></i>
+        </button>
+    {% endif %}
+
 </div>
 <script>
     function sidebarToggle() {
