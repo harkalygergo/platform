@@ -4,10 +4,12 @@ namespace App\Controller\Platform\Backend\Superadmin;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
+use App\Form\Platform\InstanceType;
 use App\Repository\OrderRepository;
 use App\Repository\Platform\BillingProfileRepository;
 use App\Repository\Platform\ServiceRepository;
 use App\Repository\Platform\UserRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -126,5 +128,54 @@ class SuperAdminController extends PlatformController
         ]);
     }
 
+    #[Route('/{_locale}/admin/v1/superadmin/instances/', name: 'admin_v1_superadmin_instances')]
+    public function superAdminInstanceList(): Response
+    {
+        // if user is not logged in, redirect to login
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('login');
+        }
+
+        return $this->render('platform/backend/v1/list.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('superadmin'),
+            'title' => 'Példányok',
+            'tableHead' => [
+                'name' => 'Név',
+                'type' => 'Típus',
+                'intranet' => 'Intranet',
+                'status' => 'Státusz',
+            ],
+            'tableBody' => $this->doctrine->getRepository('App\Entity\Platform\Instance')->findAll(),
+            'actions' => [
+                'new',
+                'edit',
+                'delete',
+            ],
+        ]);
+    }
+
+    #[Route('/{_locale}/admin/v1/superadmin/instances/new/', name: 'admin_v1_superadmin_instances_new')]
+    public function superAdminInstanceNew(Request $request): Response
+    {
+        $instance = new \App\Entity\Platform\Instance();
+        $form = $this->createForm(InstanceType::class, $instance);
+
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->doctrine->getManager()->persist($instance);
+            $this->doctrine->getManager()->flush();
+
+            return $this->redirectToRoute('admin_v1_superadmin_instances');
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu('superadmin'),
+            'title' => 'Új példány létrehozása',
+            'form' => $form->createView(),
+        ]);
+
+    }
 
 }
