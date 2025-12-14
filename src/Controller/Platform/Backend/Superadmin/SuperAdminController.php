@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_SUPERADMIN)]
 class SuperAdminController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/superadmin/users', name: 'admin_v1_superadmin_users')]
+    #[Route('/{_locale}/admin/v1/superadmin/users/', name: 'admin_v1_superadmin_users')]
     public function index(): Response
     {
         // if user is not logged in, redirect to login
@@ -41,10 +41,7 @@ class SuperAdminController extends PlatformController
                 'lastActivation' => 'Utolsó aktivitás',
             ],
             'tableBody' => (new UserRepository($this->doctrine))->findAll(),
-            'actions' => [
-                'edit' => 'Szerkesztés',
-                'delete' => 'Törlés',
-            ],
+            'actions' => ['new', 'edit', 'delete'],
             'extraActions' => [
                 'switch' => [
                     'label' => 'Váltás',
@@ -75,15 +72,12 @@ class SuperAdminController extends PlatformController
                 'email' => 'E-mail',
             ],
             'tableBody' => (new BillingProfileRepository($this->doctrine))->findAll(),
-            'actions' => [
-                'edit' => 'Szerkesztés',
-                'delete' => 'Törlés',
-            ],
+            'actions' => ['new', 'edit', 'delete'],
         ]);
     }
 
     // get all orders
-    #[Route('/{_locale}/admin/v1/superadmin/orders', name: 'admin_v1_superadmin_orders')]
+    #[Route('/{_locale}/admin/v1/superadmin/orders/', name: 'admin_v1_superadmin_orders')]
     public function superAdminOrderList(): Response
     {
         // if user is not logged in, redirect to login
@@ -102,14 +96,11 @@ class SuperAdminController extends PlatformController
                 'comment' => 'Megjegyzés',
             ],
             'tableBody' => (new OrderRepository($this->doctrine))->findAll(),
-            'actions' => [
-                'edit' => 'Szerkesztés',
-                'delete' => 'Törlés',
-            ],
+            'actions' => ['new', 'edit', 'delete'],
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/superadmin/services', name: 'admin_v1_superadmin_services')]
+    #[Route('/{_locale}/admin/v1/superadmin/services/', name: 'admin_v1_superadmin_services')]
     public function superAdminServiceList(): Response
     {
         // if user is not logged in, redirect to login

@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2025.12.12.1
+###### v2025.12.14.1
 
 ## Templates
 
@@ -80,6 +80,8 @@ php bin/console doctrine:migrations:migrate
 # verify Doctrine mappings
 php bin/console doctrine:schema:validate
 php bin/console doctrine:mapping:info
+# set proper permissions
+chown -R $(stat -c '%U:%G' ..) .
 # clear cache
 php bin/console cache:clear
 ```
