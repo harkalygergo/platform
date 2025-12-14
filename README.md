@@ -1,5 +1,7 @@
 # ⫹⫺ PLATFORM
-###### v2025.12.14.2
+###### v2025.12.14.3
+
+![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
 ## Templates
 

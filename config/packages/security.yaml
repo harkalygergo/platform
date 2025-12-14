@@ -29,6 +29,15 @@ security:
                 password_parameter: _password
                 default_target_path: homepage
 
+            remember_me:
+                secret: '%kernel.secret%'
+                remember_me_parameter: '_remember_me'    # must match your form checkbox
+                lifetime: 2592000                         # 30 days (seconds)
+                path: /
+                httponly: true
+                secure: auto
+                user_provider: app_user_provider
+
             # basic logout configuration (optional but handy)
             logout:
                 path: /logout
