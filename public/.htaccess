@@ -9,8 +9,8 @@ DirectoryIndex index.php
     RewriteEngine On
 
     # force trailing slash at the end
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)([^/])$        /$1$2/ [L,R=301]
+    #RewriteCond %{REQUEST_FILENAME} !-f
+    #RewriteRule ^(.*)([^/])$        /$1$2/ [L,R=301]
 
     RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
     RewriteRule .* - [E=BASE:%1]
