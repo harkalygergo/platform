@@ -21,16 +21,16 @@ class Event
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column]
     #[Assert\NotNull]
-    #[Assert\Type("DateTimeInterface")]
-    private ?\DateTimeInterface $startAt = null;
+    //#[Assert\Type("DateTimeInterface")]
+    private ?\DateTime $startAt = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column]
     #[Assert\NotNull]
-    #[Assert\Type("DateTimeInterface")]
+    //#[Assert\Type("DateTimeInterface")]
     #[Assert\GreaterThan(propertyPath: 'startAt')]
-    private ?\DateTimeInterface $endAt = null;
+    private ?\DateTime $endAt = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $location = null;

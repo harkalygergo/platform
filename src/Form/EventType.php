@@ -17,22 +17,38 @@ final class EventType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Title',
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'form-control',
+                ],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('location', TextType::class, [
                 'label' => 'Location',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('startAt', DateTimeType::class, [
                 'widget' => 'single_text',
                 'label' => 'Start',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('endAt', DateTimeType::class, [
                 'widget' => 'single_text',
                 'label' => 'End',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
         ;
     }
