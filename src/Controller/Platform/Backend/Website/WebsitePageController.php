@@ -5,6 +5,7 @@ namespace App\Controller\Platform\Backend\Website;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website;
+use App\Entity\Platform\Website\Website AS web;
 use App\Entity\Platform\Website\WebsitePage;
 use App\Form\Platform\Website\WebsitePageType;
 use App\Repository\Platform\Website\WebsitePageRepository;
@@ -29,6 +30,11 @@ class WebsitePageController extends PlatformController
         //$pagesByWebsite = $websitePageRepository->findByWebsiteId($id->getId());
         $pages = $websitePageRepository->findAll();
 
+        // find pages based on $this->currentInstance
+        $pages = array_filter($pages, function (WebsitePage $page) {
+            return $page->getWebsite()->getInstance() === $this->currentInstance;
+        });
+
         return $this->render('platform/backend/v1/list.html.twig', [
             'title' => ' oldalak',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
@@ -36,7 +42,7 @@ class WebsitePageController extends PlatformController
                 'title' => 'Cím',
                 'slug' => 'Slug',
                 'status' => 'Státusz',
-                'homepage' => 'Főoldal'
+                'homepage' => 'Főoldal',
             ],
             'tableBody' => $pages,
             'actions' => [
@@ -47,20 +53,28 @@ class WebsitePageController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/new/', name: 'admin_v1_website_page_new')]
-    public function new(Request $request, \App\Entity\Platform\Website\Website $id): Response
+    #[Route('/new/', name: 'admin_v1_website_page_new')]
+    public function new(Request $request): Response
     {
         $form = $this->createForm(WebsitePageType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $websitePage = $form->getData();
-            $websitePage->setWebsite($id);
+
+            // get instance first website and set it to the new page
+            $websites = $this->doctrine->getRepository(web::class)->findBy(['instance' => $this->currentInstance]);
+            if (count($websites) === 0) {
+                throw $this->createAccessDeniedException('You do not have permission to create a page because there is no website for the current instance.');
+            }
+            $websitePage->setWebsite($websites[0]);
+
+            //$websitePage->setWebsite($id);
             $this->doctrine->getManager()->persist($websitePage);
             $this->doctrine->getManager()->flush();
 
             return $this->redirectToRoute('admin_v1_website_pages', [
-                'id' => $id->getId(),
+                //'id' => $id->getId(),
             ]);
         }
 
@@ -72,8 +86,8 @@ class WebsitePageController extends PlatformController
     }
 
     // create edit function
-    #[Route('/{id}/edit/{page}', name: 'admin_v1_website_page_edit')]
-    public function edit(Request $request, \App\Entity\Platform\Website\Website $id, WebsitePage $page): Response
+    #[Route('/edit/{page}', name: 'admin_v1_website_page_edit')]
+    public function edit(Request $request, WebsitePage $page): Response
     {
         $form = $this->createForm(WebsitePageType::class, $page);
         $form->handleRequest($request);
@@ -82,7 +96,7 @@ class WebsitePageController extends PlatformController
             $this->doctrine->getManager()->flush();
 
             return $this->redirectToRoute('admin_v1_website_pages', [
-                'id' => $id->getId(),
+                //'id' => $id->getId(),
             ]);
         }
 
@@ -93,13 +107,15 @@ class WebsitePageController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/delete/{page}', name: 'admin_v1_website_page_delete')]
-    public function delete(Request $request, \App\Entity\Platform\Website\Website $id, WebsitePage $page): Response
+    #[Route('/delete/{page}', name: 'admin_v1_website_page_delete')]
+    public function delete(Request $request, WebsitePage $page): Response
     {
+        /*
         // check if page's website is the same as the current website
         if ($page->getWebsite() !== $id) {
             throw $this->createAccessDeniedException('You do not have permission to delete this page.');
         }
+        */
 
         // check if website's instance is the same as the current instance
         if ($page->getWebsite()->getInstance() !== $this->currentInstance) {
@@ -112,7 +128,7 @@ class WebsitePageController extends PlatformController
         //}
 
         return $this->redirectToRoute('admin_v1_website_pages', [
-            'id' => $id->getId(),
+            //'id' => $id->getId(),
         ]);
     }
 

@@ -43,7 +43,7 @@ class ServiceDomainController extends PlatformController
             ],
             'tableBody' => $services,
             'actions' => [
-                'new'
+                'new', 'delete'
             ],
         ]);
     }
@@ -75,4 +75,21 @@ class ServiceDomainController extends PlatformController
             'form' => $form->createView(),
         ]);
     }
+
+    // delete
+    #[Route('/{_locale}/admin/v1/domains/delete/{id}', name: 'admin_v1_domains_delete', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function delete(Request $request, Service $domain, EntityManagerInterface $entityManager): Response
+    {
+        //if ($this->isCsrfTokenValid('delete' . $domain->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($domain);
+            $entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('Deleted successfully'));
+
+            return $this->redirectToRoute('admin_v1_domains', [], Response::HTTP_SEE_OTHER);
+        //}
+
+        return $this->redirectToRoute('admin_v1_domains', [], Response::HTTP_SEE_OTHER);
+    }
+
 }

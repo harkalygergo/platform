@@ -71,6 +71,7 @@ final class BlogController extends AbstractController
             'actions' => [
                 'new',
                 'edit',
+                'delete',
             ],
         ]);
     }
@@ -170,16 +171,18 @@ final class BlogController extends AbstractController
     /**
      * Deletes a Post entity.
      */
-    #[Route('/{id:post}/delete', name: 'admin_post_delete', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['POST'])]
-    #[IsGranted('delete', subject: 'post')]
+    #[Route('/delete/{id:post}', name: 'admin_post_delete', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET'])]
+    //#[IsGranted('delete', subject: 'post')]
     public function delete(Request $request, Post $post, EntityManagerInterface $entityManager): Response
     {
         /** @var string|null $token */
         $token = $request->getPayload()->get('token');
 
+        /*
         if (!$this->isCsrfTokenValid('delete', $token)) {
-            return $this->redirectToRoute('admin_post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
         }
+        */
 
         // Delete the tags associated with this blog post. This is done automatically
         // by Doctrine, except for SQLite (the database used in this application)
@@ -189,8 +192,8 @@ final class BlogController extends AbstractController
         $entityManager->remove($post);
         $entityManager->flush();
 
-        $this->addFlash('success', 'post.deleted_successfully');
+        $this->addFlash('success', 'action.deleted');
 
-        return $this->redirectToRoute('admin_post_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
     }
 }

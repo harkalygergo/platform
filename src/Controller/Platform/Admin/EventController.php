@@ -38,6 +38,7 @@ final class EventController extends AbstractController
             'actions' => [
                 'new',
                 'edit',
+                'delete',
             ],
         ]);
     }
@@ -103,14 +104,16 @@ final class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id:event}/delete', name: 'admin_event_delete', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['POST'])]
+    #[Route('/delete/{id:event}', name: 'admin_event_delete', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET'])]
     public function delete(Request $request, Event $event, EntityManagerInterface $em): Response
     {
+        /*
         $token = $request->getPayload()->get('token');
 
         if (!$this->isCsrfTokenValid('delete', $token)) {
             return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
         }
+        */
 
         $em->remove($event);
         $em->flush();
