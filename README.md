@@ -7,10 +7,30 @@
 
 Backend has a fix template with light and dark mode. Frontend has multiple templates to choose from. You can change the template in the settings.
 
-- alpha: pure empty template
-- beta: basic template with header and footer
-- gamma: advanced template with sidebar and widgets, ideal for CV
-- delta: ideal for events and conferences
+1. Alpha: pure empty template
+2. Beta: basic template with header and footer
+3. Gamma: advanced template with sidebar and widgets, ideal for CV
+4. Delta: ideal for events and conferences
+5. Epsilon
+6. Zeta
+7. Eta
+8. Theta
+9. Iota
+10. Kappa
+11. Lambda
+12. Mu
+13. Nu
+14. Xi
+15. Omicron
+16. Pi
+17. Rho
+18. Sigma
+19. Tau
+20. Upsilon
+21. Phi
+22. Chi
+23. Psi
+24. Omega
 
 ## How to develop?
 
