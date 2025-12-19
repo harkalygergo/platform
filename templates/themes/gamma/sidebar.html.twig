@@ -1,0 +1,79 @@
+<div class="col-12 col-md-4">
+    <aside>
+        <div class="bg-light p-3 rounded mb-3">
+            <h4>Rólunk</h4>
+            <p style="text-align: justify;">{{ website.description }}</p>
+        </div>
+
+        <div class="bg-light p-3 rounded mb-3">
+            <h4>Kategóriák</h4>
+            <ul>
+                {% for category in categories %}
+                    <li>
+                        <a class="text-decoration-none" href="{{ category.slug }}">
+                            {{ category.title|raw }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="bg-light p-3 rounded mb-3">
+            <h4>Oldalak</h4>
+            <ul>
+                {% for page in pages %}
+                    <li>
+                        <a class="text-decoration-none" href="{{ page.slug }}">
+                            {{ page.title|raw }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="bg-light p-3 rounded mb-3">
+            <h3 class="fw-bold">Kapcsolat</h3>
+            <p>
+                {% if website.phone %}
+                    Telefon:
+                    <a class="text-decoration-none" href="tel:{{ website.phone|replace({'-': ''}) }}">
+                        {{ website.phone|raw }}
+                    </a>
+                    <br>
+                {% endif %}
+                {% if website.email %}
+                    E-mail: {{ website.email|replace({'@': ' - @ - '}) }}
+                    <br>
+                {% endif %}
+                {% if website.address %}
+                    Cím:
+                    <a class="text-decoration-none" href="https://maps.google.com/maps?q={{ website.address|url_encode }}" target="_blank">
+                        {{ website.address|raw }}
+                    </a>
+                    <br>
+                {% endif %}
+                {% if website.facebook %}
+                    Facebook:
+                    <a class="text-decoration-none" href="https://www.facebook.com/{{ website.facebook }}" target="_blank">
+                        @{{ website.facebook }}
+                    </a>
+                    <br>
+                {% endif %}
+                {% if website.instagram %}
+                    Instagram:
+                    <a class="text-decoration-none" href="https://instagram.com/{{ website.instagram }}" target="_blank">
+                        @{{ website.instagram }}
+                    </a>
+                    <br>
+                {% endif %}
+                {% if website.tiktok %}
+                    Instagram:
+                    <a class="text-decoration-none" href="https://tiktok.com/{{ website.tiktok }}" target="_blank">
+                        @{{ website.tiktok }}
+                    </a>
+                    <br>
+                {% endif %}
+            </p>
+        </div>
+    </aside>
+</div>

@@ -1,0 +1,43 @@
+{{ website.bodyTopHTML|raw }}
+
+<div class="container">
+    <header class="py-md-4">
+        <div class="row align-items-center fw-bold">
+            <div class="col-12 col-lg-4 text-center text-lg-start">
+                <a class="btn btn-outline-light fs-6 fw-bold" href="tel:{{ website.phone|replace({'-': ''}) }}">
+                    <i class="bi bi-telephone fw-bold"></i>
+                    {{ website.phone|raw }}
+                </a>
+            </div>
+            <div class="col-12 col-lg-4 text-center">
+                <a href="/">
+                    <!-- add website.logo -->
+                    {% if website.logo %}
+                        <img class="img img-fluid" src="/media/{{ website.logo.originalName }}" alt="{{ website.title|raw }}" title="{{ website.title|raw }}">
+                    {% else %}
+                        {{ website.title|raw }}
+                    {% endif %}
+                </a>
+            </div>
+            <div class="col-12 col-lg-4 text-center text-lg-end">
+                <a target="_blank" class="btn btn-outline-light fs-6 fw-bold"  href="https://maps.google.com/maps?q={{ website.address }}">
+                <!--a target="_blank" class="btn btn-outline-light fs-5" href="https://www.google.com/maps?cid=9767394032924822955&hl=hu&_ga=2.37890149.71853044.1498734968-803022388.1496652900"-->
+                    <i class="bi bi-geo-alt fw-bold"></i>
+                    {{ website.address|raw }}
+                </a>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div class="container-fluid bg-primary-color mb-4">
+    <header class="d-flex justify-content-center py-2">
+        <ul class="nav nav-pills">
+            {% for menu in menus %}
+                <li class="nav-item">
+                    <a href="{{ menu.slug }}" class="nav-link text-white fw-bold" aria-current="page">{{ menu.title|raw }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </header>
+</div>
