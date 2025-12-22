@@ -4,6 +4,7 @@ namespace App\Entity\Platform;
 
 use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\Popup\Popup;
+use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -71,6 +72,10 @@ class Instance
     #[ORM\OneToMany(targetEntity: Popup::class, mappedBy: 'instance')]
     private Collection $popups;
 
+    // websites
+    #[ORM\OneToMany(targetEntity: Website::class, mappedBy: 'instance')]
+    private Collection $websites;
+
     public function __construct()
     {
         $this->status = true;
@@ -82,6 +87,7 @@ class Instance
         $this->newsletters = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->popups = new ArrayCollection();
+        $this->websites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -384,5 +390,15 @@ class Instance
     public function setPopups(Collection $popups): void
     {
         $this->popups = $popups;
+    }
+
+    public function getWebsites(): Collection
+    {
+        return $this->websites;
+    }
+
+    public function setWebsites(Collection $websites): void
+    {
+        $this->websites = $websites;
     }
 }

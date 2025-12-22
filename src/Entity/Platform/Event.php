@@ -2,6 +2,7 @@
 
 namespace App\Entity\Platform;
 
+use App\Entity\Platform\Website\Website;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,6 +18,10 @@ class Event
     #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\NotBlank]
     private ?string $title = null;
+
+    // slug can be generated from title
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -41,6 +46,10 @@ class Event
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\ManyToOne(targetEntity: Website::class)]
+    #[ORM\JoinColumn(name: "website_id", referencedColumnName: "id", nullable: false)]
+    private ?Website $website = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -61,6 +70,16 @@ class Event
         $this->title = $title;
     }
 
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -76,7 +95,7 @@ class Event
         return $this->startAt;
     }
 
-    public function setStartAt(\DateTimeInterface $startAt): void
+    public function setStartAt($startAt): void
     {
         $this->startAt = $startAt;
     }
@@ -86,7 +105,7 @@ class Event
         return $this->endAt;
     }
 
-    public function setEndAt(\DateTimeInterface $endAt): void
+    public function setEndAt($endAt): void
     {
         $this->endAt = $endAt;
     }
@@ -119,5 +138,15 @@ class Event
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getWebsite(): ?Website
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?Website $website): void
+    {
+        $this->website = $website;
     }
 }

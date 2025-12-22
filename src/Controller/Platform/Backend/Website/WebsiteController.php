@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 #[IsGranted(User::ROLE_USER)]
 #[Route('/{_locale}/admin/v1/website')]
@@ -32,8 +34,8 @@ class WebsiteController extends PlatformController
                 'title' => $this->translator->trans('global.title'),
                 'theme' => 'Téma',
                 'FTPHost' => 'FTP Host',
-                'FTPUser' => 'FTP Felhasználó',
-                'FTPPath' => 'FTP Elérési út',
+                //'FTPUser' => 'FTP Felhasználó',
+                //'FTPPath' => 'FTP Elérési út',
                 'status' => 'Státusz',
             ],
             'tableBody' => $websiteRepository->findBy(['instance' => $this->currentInstance]),
@@ -211,17 +213,62 @@ class WebsiteController extends PlatformController
         $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true]);
         // get all menus of the website, order by position
         $menus = $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
+        $events = $this->doctrine->getRepository('App\Entity\Platform\Event')->findBy(['website' => $website]);
 
         $this->deployStylesheet($website);
-        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events);
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
+        $this->deployEvents($website, $slugger, $urls, $filenames, $categories, $events, $menus);
 
         $this->addFlash('success', $flashText);
 
         $this->createHtaccessFile($website, $urls, $filenames);
 
         return $this->redirectToRoute('admin_v1_website_index');
+    }
+
+    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, $categories, $events, $menus)
+    {
+        foreach ($events as $event) {
+            $eventContent = $this->renderView('themes/' . $website->getTheme() . '/event.html.twig', [
+                'website' => $website,
+                'charset' => $website->getCharset(),
+                'language' => $website->getLanguage(),
+                'title' => $event->getTitle(),
+                'keywords' => $website->getMetaKeywords(),
+                'description' => $website->getMetaDescription(),
+                'event' => $event,
+            ]);
+
+            if ($event->getSlug() === '') {
+                $slug = (new AsciiSlugger())->slug($event->getTitle());
+            } else {
+                if ($event->getSlug() === '/') {
+                    $slug = 'index';
+                } else {
+                    $slug = $event->getSlug();
+                }
+            }
+
+            $urls[] = $slug;
+            $filenames[] = $slug . '.html';
+
+            // Save the generated HTML content to a temporary file
+            $tempFilePath = '/tmp/' . $website->getId() . '/' . $slug . '.html';
+            file_put_contents($tempFilePath, $eventContent);
+
+            $this->pushToFTP(
+                $website->getFTPHost(),
+                $website->getFTPUser(),
+                $website->getFTPPassword(),
+                $website->getFTPPath(),
+                $tempFilePath,
+                $slug . '.html'
+            );
+
+            $this->addFlash('success', mb_strtoupper($this->translator->trans('web.event')) . ': ' . htmlspecialchars($event->getTitle()) . " FTP OK <br>");
+        }
     }
 
     private function deployStylesheet(Website $website)
@@ -298,9 +345,13 @@ class WebsiteController extends PlatformController
 
     }
 
-    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
+    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events)
     {
+        $i = 0;
         foreach ($pages as $page) {
+            //dump($pages);
+
+            //dump($page);
 
             $pageContent = $page->getContent();
             preg_match_all('/\[block id="(\d+)"\]/', $pageContent, $matches);
@@ -316,8 +367,25 @@ class WebsiteController extends PlatformController
                 }
             }
 
+            //dump($twig->loader->exists('themes/'. $website->getTheme() .'/homepage.html.twig'));
             // if page is homepage, use index.html.twig template
             $templateFile = 'index.html.twig';
+
+            // if it is homepage and homepage.html.twig exists, use it
+            if ($page->isHomepage() && file_exists('themes/'. $website->getTheme() .'/homepage.html.twig')) {
+                $templateFile = 'homepage.html.twig';
+            }
+            if($page->isHomepage())
+            {
+                //dump(__FILE__);
+                //dump('themes/'. $website->getTheme() .'/homepage.html.twig');
+                //dump($website->getTheme());
+                //dump($page);
+                //dump($website);
+                //dump(file_exists('themes/'. $website->getTheme() .'/homepage.html.twig'));
+                //dd($templateFile);
+            }
+
             if (!$page->isHomepage() && file_exists('themes/'. $website->getTheme() .'/page.html.twig')) {
                 $templateFile = 'page.html.twig';
             }
@@ -340,6 +408,7 @@ class WebsiteController extends PlatformController
                 'categories' => $categories,
                 'pages' => $pages,
                 'menus' => $menus,
+                'events' => $events,
             ]);
 
             if ($page->getSlug() === '') {
@@ -369,6 +438,7 @@ class WebsiteController extends PlatformController
             );
 
             $flashText .= mb_strtoupper($this->translator->trans('web.page')) .': '. $page->getTitle() . " FTP OK <br>";
+            $i++;
         }
     }
 

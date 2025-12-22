@@ -22,6 +22,14 @@ final class EventType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('slug', TextType::class, [
+                'label' => 'Slug',
+                'required' => true,
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => false,

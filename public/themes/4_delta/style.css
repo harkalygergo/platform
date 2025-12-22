@@ -1,0 +1,44 @@
+/* 4Delta theme styles - elegant, minimal and readable */
+
+:root{
+  --brand:#0d6efd; /* bootstrap primary */
+  --muted:#6c757d;
+  --bg:#ffffff;
+  --accent:#f8f9fa;
+}
+
+body[data-bs-theme="dark"] .hero{
+  background: linear-gradient(120deg, rgba(10,10,10,0.9), rgba(40,40,40,0.9));
+}
+
+.hero{
+  background: linear-gradient(120deg, #111827, #1f2937);
+  padding:3.5rem 0;
+}
+.hero h1{font-family: 'Georgia', serif;letter-spacing:1px}
+
+.card.event-card .card-title, .card.blog-card .card-title{font-weight:600}
+.card.event-card .card-text, .card.blog-card .card-text{color:var(--muted)}
+
+.card{border:0;border-radius:.75rem;overflow:hidden}
+.card img{object-fit:cover;height:160px}
+
+.navbar-brand{color:var(--brand);font-size:1.1rem}
+
+.footer{background:transparent}
+
+/* Make event and blog cards equal height */
+.card.h-100{display:flex;flex-direction:column}
+
+/* Improve layout on small screens */
+@media (max-width:576px){
+  .hero{padding:2rem 0}
+  .card img{height:140px}
+}
+
+/* Subtle hover */
+.card:hover{transform:translateY(-4px);transition:all .18s ease}
+
+/* Accessibility */
+a.btn:focus, .navbar-toggler:focus{outline:3px solid rgba(13,110,253,0.15);outline-offset:2px}
+

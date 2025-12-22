@@ -2,6 +2,7 @@
 
 namespace App\Controller\Platform\Admin;
 
+use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Event;
 use App\Form\EventType;
 use App\Repository\Platform\EventRepository;
@@ -19,12 +20,17 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/admin/event')]
 #[IsGranted(User::ROLE_ADMIN)]
-final class EventController extends AbstractController
+final class EventController extends PlatformController
 {
     #[Route('/', name: 'admin_event_index', methods: ['GET'])]
     public function index(EventRepository $events): Response
     {
         $data = $events->findBy([], ['startAt' => 'DESC']);
+
+        $instance = $this->currentInstance;
+        $data = array_filter($data, function (Event $event) use ($instance) {
+            return $instance->getWebsites()->contains($event->getWebsite());
+        });
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'title' => 'Events',
@@ -55,6 +61,16 @@ final class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $event->setCreatedAt(new \DateTimeImmutable());
+
+            // if website is not set, set to current instance's first website
+            if (null === $event->getWebsite()) {
+                $websites = $this->currentInstance->getWebsites();
+                if (count($websites) > 0) {
+                    $event->setWebsite($websites->first());
+                }
+            }
+
             $em->persist($event);
             $em->flush();
 
@@ -84,7 +100,7 @@ final class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id:event}/edit', name: 'admin_event_edit', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET', 'POST'])]
+    #[Route('/edit/{id:event}', name: 'admin_event_edit', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(EventType::class, $event);
@@ -98,9 +114,17 @@ final class EventController extends AbstractController
             return $this->redirectToRoute('admin_event_edit', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
         }
 
+        /*
         return $this->render('platform/backend/event/edit.html.twig', [
             'event' => $event,
             'form' => $form,
+        ]);
+        */
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Szerkesztése',
+            'form' => $form->createView(),
         ]);
     }
 
