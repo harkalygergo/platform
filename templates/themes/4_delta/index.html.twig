@@ -2,13 +2,33 @@
 
 {% block body %}
 
-<div class="col-12 col-md-8">
+    <!-- get events where website id is equal to website.id and startAt is greater than or equal to now order by startAt ascending limit 5 -->
 
-    <h1 class="mt-4 mb-3">{{ title }}</h1>
+    <div class="col-8">
+        <div class="text-start">
+            <h1>Következő események</h1>
+        </div>
+        <div class="text-end">
+            <a href="/events/create" class="btn btn-primary">térképes nézet</a>
+        </div>
 
-    <div class="mb-4">
-        {{ content|raw }}
+        {% if events is defined %}
+            <h2 class="mt-5">Következő események</h2>
+            <ul class="list-group">
+                {% for event in events %}
+                    <li class="list-group-item">
+                        <a href="/events/{{ event.id }}">{{ event.title }}</a> - {{ event.startAt|date('Y.m.d. H:i') }}
+                    </li>
+                {% else %}
+                    <li class="list-group-item">Nincsenek elérhető események.</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
     </div>
-</div>
+
+    <div class="col-4">
+        oldalmenü
+    </div>
 
 {% endblock %}

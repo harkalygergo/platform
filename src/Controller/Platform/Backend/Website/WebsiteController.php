@@ -371,6 +371,7 @@ class WebsiteController extends PlatformController
             // if page is homepage, use index.html.twig template
             $templateFile = 'index.html.twig';
 
+            /*
             // if it is homepage and homepage.html.twig exists, use it
             if ($page->isHomepage() && file_exists('themes/'. $website->getTheme() .'/homepage.html.twig')) {
                 $templateFile = 'homepage.html.twig';
@@ -385,6 +386,7 @@ class WebsiteController extends PlatformController
                 //dump(file_exists('themes/'. $website->getTheme() .'/homepage.html.twig'));
                 //dd($templateFile);
             }
+            */
 
             if (!$page->isHomepage() && file_exists('themes/'. $website->getTheme() .'/page.html.twig')) {
                 $templateFile = 'page.html.twig';
