@@ -14,6 +14,23 @@
 
         {% if events is defined %}
             <h2 class="mt-5">Következő események</h2>
+
+
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for event in events %}
+                    <div class="col">
+                        <div class="card">
+                            <img src="https://oraplacc.hu/storage/53/conversions/elado-casio-gw-m5610u-1e-harkalygergo-1-medium.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.title }}</h5>
+                                <p class="card-text">{{ event.startAt|date('Y.m.d. H:i') }}</p>
+                                <a href="{{ event.slug }}" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
             <ul class="list-group">
                 {% for event in events %}
                     <li class="list-group-item">

@@ -30,6 +30,14 @@ final class EventType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('leadDescription', TextType::class, [
+                'label' => 'Lead',
+                'required' => false,
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => false,
@@ -55,6 +63,22 @@ final class EventType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'End',
                 'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('ticketUrl', TextType::class, [
+                'required' => false,
+                'label' => 'Ticket URL',
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('imageUrl', TextType::class, [
+                'required' => false,
+                'label' => 'Image URL',
+                'attr' => [
+                    'maxlength' => 255,
                     'class' => 'form-control',
                 ],
             ])

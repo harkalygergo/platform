@@ -23,6 +23,9 @@ class Event
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $slug = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $leadDescription = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -45,6 +48,12 @@ class Event
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, options: ['default' => null], nullable: true)]
+    private ?string $ticketUrl = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, options: ['default' => null], nullable: true)]
+    private ?string $imageUrl = null;
 
     #[ORM\ManyToOne(targetEntity: Website::class)]
     #[ORM\JoinColumn(name: "website_id", referencedColumnName: "id", nullable: false)]
@@ -78,6 +87,16 @@ class Event
     public function setSlug(?string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    public function getLeadDescription(): ?string
+    {
+        return $this->leadDescription;
+    }
+
+    public function setLeadDescription(?string $leadDescription): void
+    {
+        $this->leadDescription = $leadDescription;
     }
 
     public function getDescription(): ?string
@@ -138,6 +157,26 @@ class Event
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getTicketUrl(): ?string
+    {
+        return $this->ticketUrl;
+    }
+
+    public function setTicketUrl(?string $ticketUrl): void
+    {
+        $this->ticketUrl = $ticketUrl;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(?string $imageUrl): void
+    {
+        $this->imageUrl = $imageUrl;
     }
 
     public function getWebsite(): ?Website

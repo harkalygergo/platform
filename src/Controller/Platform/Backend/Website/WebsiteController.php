@@ -254,6 +254,18 @@ class WebsiteController extends PlatformController
             $urls[] = $slug;
             $filenames[] = $slug . '.html';
 
+            // if slug contains slashes, create necessary directories in /tmp/{websiteId}/
+            $slugParts = explode('/', $slug);
+            if (count($slugParts) > 1) {
+                $path = '/tmp/' . $website->getId() . '/';
+                for ($j = 0; $j < count($slugParts) - 1; $j++) {
+                    $path .= $slugParts[$j] . '/';
+                    if (!is_dir($path)) {
+                        mkdir($path);
+                    }
+                }
+            }
+
             // Save the generated HTML content to a temporary file
             $tempFilePath = '/tmp/' . $website->getId() . '/' . $slug . '.html';
             file_put_contents($tempFilePath, $eventContent);
@@ -426,6 +438,18 @@ class WebsiteController extends PlatformController
             $urls[] = $slug;
             $filenames[] = $slug.'.html';
 
+            // if slug contains slashes, create necessary directories in /tmp/{websiteId}/
+            $slugParts = explode('/', $slug);
+            if (count($slugParts) > 1) {
+                $path = '/tmp/' . $website->getId() . '/';
+                for ($j = 0; $j < count($slugParts) - 1; $j++) {
+                    $path .= $slugParts[$j] . '/';
+                    if (!is_dir($path)) {
+                        mkdir($path);
+                    }
+                }
+            }
+
             // Save the generated HTML content to a temporary file
             $tempFilePath = '/tmp/' . $website->getId() .'/'. $slug . '.html';
             file_put_contents($tempFilePath, $htmlContent);
@@ -580,7 +604,29 @@ Crawl-delay: 10
         // if FTP host is localhost, move files to FTP path directly
         if ($FTPhost === 'localhost') {
             $filePath = $FTPpath . $filename;
-            file_put_contents($filePath, file_get_contents($content));
+            try {
+                // if filename contains directories, create them
+                $pathParts = explode('/', $filename);
+                if (count($pathParts) > 1) {
+                    $path = $FTPpath;
+                    for ($j = 0; $j < count($pathParts) - 1; $j++) {
+                        $path .= $pathParts[$j] . '/';
+                        if (!is_dir($path)) {
+                            mkdir($path);
+                        }
+                    }
+                }
+
+
+                file_put_contents($filePath, file_get_contents($content));
+            }
+            catch (\Exception $e) {
+                dump($filename);
+
+                dd('Hiba a fájl írása során: ' . $e->getMessage());
+            }
+
+
             return;
         } else {
             $ftp = ftp_connect($FTPhost);
