@@ -17,9 +17,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/website/menus')]
 class MenuController extends PlatformController
 {
-    #[Route('/{id}/', name: 'admin_v1_website_menus')]
-    public function index(\App\Entity\Platform\Website\Website $id, MenuRepository $menuRepository): Response
+    #[Route('/', name: 'admin_v1_website_menus')]
+    public function index(/*\App\Entity\Platform\Website\Website $id, */MenuRepository $menuRepository): Response
     {
+        // get current instance first website
+        $id = $this->currentInstance->getWebsites()->first();
+
         $menusByWebsite = $menuRepository->findByWebsiteId($id->getId());
 
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -41,9 +44,11 @@ class MenuController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/new/', name: 'admin_v1_website_menu_new')]
-    public function new(\App\Entity\Platform\Website\Website $id, Request $request): Response
+    #[Route('/new/', name: 'admin_v1_website_menu_new')]
+    public function new(Request $request): Response
     {
+        $id = $this->currentInstance->getWebsites()->first();
+
         $form = $this->createForm(MenuType::class);
         $form->handleRequest($request);
 

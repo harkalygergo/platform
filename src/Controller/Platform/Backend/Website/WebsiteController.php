@@ -239,6 +239,8 @@ class WebsiteController extends PlatformController
                 'keywords' => $website->getMetaKeywords(),
                 'description' => $website->getMetaDescription(),
                 'event' => $event,
+                'menus' => $menus,
+                'categories' => $categories,
             ]);
 
             if ($event->getSlug() === '') {
@@ -410,6 +412,8 @@ class WebsiteController extends PlatformController
                 $templateFile = 'page.html.twig';
             }
             */
+
+
 
             $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/'.$templateFile, [
                 'website' => $website,

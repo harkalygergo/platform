@@ -86,19 +86,12 @@
     <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/summernote.min.js"></script>
 
     <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/lang/summernote-en-US.min.js"></script>
+    <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/lang/summernote-hu-HU.min.js"></script>
 
     <script>
         $(document).ready(function() {
             $('.summernote').summernote({
-                toolbar: [
-                    // [groupName, [list of button]]
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']]
-                ]
+                lang: 'hu-HU',
             });
         });
     </script>
