@@ -11,7 +11,6 @@
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": "^3.6.1",
         "lelyfoto/twig-instanceof": "^1.2",
-        "mati365/ckeditor5-symfony": "^1.0.9",
         "phpdocumentor/reflection-docblock": "^5.6.6",
         "phpstan/phpdoc-parser": "^2.3.1",
         "symfony/asset": "7.3.*",
@@ -80,8 +79,7 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "importmap:install": "symfony-cmd",
-            "ckeditor5:assets-mapper:install --distribution=npm --editor-version=47.3.0 --translations=en --skip-template-update --skip-composer-update --skip-css-update --skip-js-update": "symfony-cmd"
+            "importmap:install": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
