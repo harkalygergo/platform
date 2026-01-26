@@ -71,7 +71,7 @@ class MenuController extends PlatformController
     }
 
     // create edit and delete methods as needed
-    #[Route('/{id}/edit/{menu}/', name: 'admin_v1_website_menu_edit')]
+    #[Route('/edit/{id}/', name: 'admin_v1_website_menu_edit')]
     public function edit(\App\Entity\Platform\Website\Website $id, Menu $menu, Request $request, MenuRepository $menuRepository): Response
     {
 

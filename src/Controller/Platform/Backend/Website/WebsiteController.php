@@ -401,8 +401,9 @@ class WebsiteController extends PlatformController
                 //dd($templateFile);
             }
             */
+            $projectDir = $this->getParameter('kernel.project_dir');
 
-            if (!$page->isHomepage() && file_exists('themes/'. $website->getTheme() .'/page.html.twig')) {
+            if (!$page->isHomepage() && file_exists($projectDir.'/templates/themes/'. $website->getTheme() .'/page.html.twig')) {
                 $templateFile = 'page.html.twig';
             }
 

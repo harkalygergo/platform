@@ -12,13 +12,7 @@
 
     <!-- get events where website id is equal to website.id and startAt is greater than or equal to now order by startAt ascending limit 5 -->
 
-    <div class="col-8">
-        <div class="text-start">
-            <h1>Következő események</h1>
-        </div>
-        <div class="text-end">
-            <a href="/events/create" class="btn btn-primary">térképes nézet</a>
-        </div>
+    <div class="col-12">
 
         {% if events is defined %}
             <h2 class="mt-5">Következő események</h2>
@@ -28,32 +22,24 @@
                 {% for event in events %}
                     <div class="col">
                         <div class="card">
-                            <img src="https://oraplacc.hu/storage/53/conversions/elado-casio-gw-m5610u-1e-harkalygergo-1-medium.jpg" class="card-img-top" alt="...">
+                            <img src="{{ event.imageUrl }}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{ event.title }}</h5>
-                                <p class="card-text">{{ event.startAt|date('Y.m.d. H:i') }}</p>
-                                <a href="{{ event.slug }}" class="btn btn-primary">Go somewhere</a>
+                                <p class="card-text"><i class="bi bi-clock"></i> {{ event.startAt|date('Y.m.d. H:i') }}</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ event.slug }}" class="btn btn-dark">
+                                    <i class="bi bi-ticket-perforated"></i>
+                                    részletek, jegyvásárlás
+                                </a>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
 
-            <ul class="list-group">
-                {% for event in events %}
-                    <li class="list-group-item">
-                        <a href="/events/{{ event.id }}">{{ event.title }}</a> - {{ event.startAt|date('Y.m.d. H:i') }}
-                    </li>
-                {% else %}
-                    <li class="list-group-item">Nincsenek elérhető események.</li>
-                {% endfor %}
-            </ul>
         {% endif %}
 
-    </div>
-
-    <div class="col-4">
-        oldalmenü
     </div>
 
 {% endblock %}
