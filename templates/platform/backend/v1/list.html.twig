@@ -129,7 +129,6 @@
                                     </td>
                                     <td class="text-end">
 
-
                                         {% if 'switchInstance' in actions %}
                                             {% if app.user.defaultInstance.id == td.id %}
                                                 <span class="badge bg-dark">
@@ -154,7 +153,6 @@
 
                                         {% if actions is defined %}
 
-
                                                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="bi bi-gear-fill"></i>
                                                 </button>
@@ -163,7 +161,9 @@
                                                         {% if app.request.cookies.get('currentInstance') != td.id %}
                                                             <li>
                                                                 <a class="dropdown-item text-success" title="{{ 'action.view'|trans }}" href="switch/{{ td.id }}">
-                                                                    <i class="bi bi-shuffle"></i> <span class="d-none d-sm-inline-block">átváltás</span>
+                                                                    <small>
+                                                                        <i class="bi bi-shuffle"></i> <span class="d-none d-sm-inline-block">átváltás</span>
+                                                                    </small>
                                                                 </a>
                                                             </li>
                                                         {% endif %}
@@ -171,8 +171,10 @@
 
                                                     {% if 'view' in actions %}
                                                         <li>
-                                                            <a class="dropdown-item text-nowrap" title="{{ 'action.view'|trans }}" href="view/{{ td.id}}">
-                                                                <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
+                                                            <a class="dropdown-item text-nowrap" title="{{ 'action.view'|trans }}" href="view/{{ td.id}}" target="_blank">
+                                                                <small>
+                                                                    <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
+                                                                </small>
                                                             </a>
                                                         </li>
                                                     {% endif %}
@@ -211,7 +213,7 @@
                                                         <li>
                                                             <a class="dropdown-item text-nowrap" title="{{ extraAction.label }}" href="{{ path(extraAction.route, {"id": td.id}) }}">
                                                                 <small>
-                                                                    <span class="d-none d-sm-inline-block">{{ extraAction.label }}</span>
+                                                                    <span class="d-none d-sm-inline-block">{{ extraAction.label|raw }}</span>
                                                                 </small>
                                                             </a>
                                                         </li>

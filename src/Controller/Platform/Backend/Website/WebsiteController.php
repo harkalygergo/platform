@@ -47,7 +47,7 @@ class WebsiteController extends PlatformController
             'extraActions' => [
                 'deploy' => [
                     'route' => 'admin_v1_website_deploy',
-                    'label' => 'Deploy',
+                    'label' => '<i class="bi bi-code-slash"></i> Deploy',
                 ],
                 'posts' => [
                     'route' => 'admin_v1_website_posts',

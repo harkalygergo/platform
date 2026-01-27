@@ -24,6 +24,23 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/admin/v1/website/pages')]
 class WebsitePageController extends PlatformController
 {
+    #[Route('/view/{id}', name: 'admin_v1_website_pages_view')]
+    public function view(WebsitePage $id): Response
+    {
+        /*
+        // check if website's instance is the same as the current instance
+        if ($id->getWebsite()->getInstance() !== $this->currentInstance) {
+            throw $this->createAccessDeniedException('You do not have permission to view this page.');
+        }
+        */
+
+        $websiteUrl = rtrim($id->getWebsite()->getDomain(), '/');
+        $slug = ltrim($id->getSlug(), '/');
+        $url = 'https://'.$websiteUrl . '/' . $slug;
+
+        return $this->redirect($url);
+    }
+
     #[Route('/', name: 'admin_v1_website_pages')]
     public function index(WebsitePageRepository $websitePageRepository): Response
     {
@@ -47,6 +64,7 @@ class WebsitePageController extends PlatformController
             'tableBody' => $pages,
             'actions' => [
                 'new',
+                'view',
                 'edit',
                 'delete',
             ],
