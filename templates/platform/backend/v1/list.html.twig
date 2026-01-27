@@ -10,55 +10,54 @@
         {% include 'platform/backend/v1/elements/breadcrumbs.html.twig' %}
 
         <div class="card">
-            <div class="card-header fw-bold  d-flex justify-content-between">
-                <div class="text-uppercase">
-                    {{ title }}
-                </div>
-                <div>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group me-2">
 
-                            {% if actions is defined %}
-                                {% if 'new' in actions %}
-                                    <a href="new/" type="button" class="btn btn-sm btn-outline-success">
-                                        <i class="bi bi-plus-circle"></i> <span class="d-none d-md-inline-block">új hozzáadása</span>
-                                    </a>
-                                {% endif %}
-                            {% endif %}
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-gear"></i>
-                                <span class="d-none d-md-inline-block">eszközök</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
+
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 text-uppercase fw-bold">{{ title }}</h6>
+                <div class="btn-group" role="group">
+
+                    {% if actions is defined %}
+                        {% if 'new' in actions %}
+                            <a href="new/" type="button" class="btn btn-sm btn-outline-success">
+                                <i class="bi bi-plus-circle"></i> <span class="d-none d-md-inline-block">új hozzáadása</span>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-gear"></i>
+                        <span class="d-none d-md-inline-block">eszközök</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
                                     <span class="dropdown-item">
                                         <i class="bi bi-heart text-danger"></i>
                                         kedvencekhez adás
                                     </span>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
                                     <span class="dropdown-item" onclick="multipleFunction('multiple/delete');">
                                         <i class="bi bi-trash"></i>
                                         kijelöltek tömeges törlése
                                     </span>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">export - hamarosan</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">import - hamarosan</a></li>
-                                <li><a class="dropdown-item" href="#">import mintafájl - hamarosan</a></li>
-                            </ul>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">export - hamarosan</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">import - hamarosan</a></li>
+                        <li><a class="dropdown-item" href="#">import mintafájl - hamarosan</a></li>
+                    </ul>
 
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
+
             <div class="card-body">
 
                 <div class="table-responsive small">
 
-                    <table class="table table-hover table-bordered table-sm table-striped">
+                    <table class="table table-hover table-bordered table-sm table-striped mb-5">
                         <thead>
                         <tr>
                             <th scope="col">
@@ -122,42 +121,67 @@
                                 </td>
                                 <td class="text-end">
                                     {% if actions is defined %}
+
                                         {% if 'switchInstance' in actions %}
                                             {% if app.user.defaultInstance.id == td.id %}
                                                 <span class="badge bg-secondary">
                                                     alapértelmezett
                                                 </span>
                                             {% endif %}
-                                            {% if app.request.cookies.get('currentInstance') != td.id %}
-                                                <a class="btn btn-sm btn-outline-success" title="{{ 'action.view'|trans }}" href="switch/{{ td.id }}">
-                                                    <i class="bi bi-shuffle"></i> <span class="d-none d-sm-inline-block">átváltás</span>
-                                                </a>
-                                            {% else %}
-                                                <button class="btn btn-sm btn-success">
+                                            {% if app.request.cookies.get('currentInstance') == td.id %}
+                                                <span class="badge bg-success">
                                                     aktuális
-                                                </button>
+                                                </span>
                                             {% endif %}
-                                        {% endif %}
-                                        {% if 'view' in actions %}
-                                            <a class="btn btn-sm btn-primary" title="{{ 'action.view'|trans }}" href="view/{{ td.id}}">
-                                                <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
-                                            </a>
-                                        {% endif %}
-                                        {% if 'edit' in actions %}
-                                            <a class="btn btn-sm btn-outline-primary text-nowrap" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
-                                                <i class="bi bi-pen"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
-                                            </a>
-                                        {% endif %}
-                                        {% if 'delete' in actions %}
-                                            <a class="btn btn-sm btn-outline-danger" title="{{ 'action.delete'|trans }}" href="delete/{{ td.id}}">
-                                                <i class="bi bi-trash"></i> <span class="d-none d-sm-inline-block">{{ 'action.delete'|trans }}</span>
-                                            </a>
+
                                         {% endif %}
                                         {% if 'cart' in actions %}
                                             <a class="btn btn-sm btn-success" title="" href="{{ path('admin_v1_cart_add', {"id": td.id }) }}">
                                                 <i class="bi bi-cart"></i> <span class="d-none d-sm-inline-block">kosárba</span>
                                             </a>
                                         {% endif %}
+
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-three-dots"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" style="z-index: 10000;">
+                                                {% if 'switchInstance' in actions %}
+                                                    {% if app.request.cookies.get('currentInstance') != td.id %}
+                                                        <li>
+                                                            <a class="dropdown-item text-success" title="{{ 'action.view'|trans }}" href="switch/{{ td.id }}">
+                                                                <i class="bi bi-shuffle"></i> <span class="d-none d-sm-inline-block">átváltás</span>
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+
+                                                {% if 'view' in actions %}
+                                                    <li>
+                                                        <a class="dropdown-item text-nowrap" title="{{ 'action.view'|trans }}" href="view/{{ td.id}}">
+                                                            <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if 'edit' in actions %}
+                                                    <li>
+                                                        <a class="dropdown-item text-nowrap text-primary" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
+                                                            <i class="bi bi-pen"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+
+
+                                                {% if 'delete' in actions %}
+                                                    <li><hr class="dropdown-divider"><div></div></li>
+                                                    <li>
+                                                        <a class="dropdown-item text-nowrap text-danger" title="{{ 'action.delete'|trans }}" href="delete/{{ td.id}}">
+                                                            <i class="bi bi-trash"></i> <span class="d-none d-sm-inline-block">{{ 'action.delete'|trans }}</span>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
                                     {% endif %}
                                     {% if extraActions is defined %}
                                         {% for extraAction in extraActions %}
