@@ -24,28 +24,36 @@
                         {% endif %}
                     {% endif %}
                     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-gear"></i>
+                        <i class="bi bi-gear-fill"></i>
                         <span class="d-none d-md-inline-block">eszközök</span>
                     </button>
                     <ul class="dropdown-menu">
                         <li>
-                                    <span class="dropdown-item">
-                                        <i class="bi bi-heart text-danger"></i>
-                                        kedvencekhez adás
-                                    </span>
+                            <span class="dropdown-item text-danger">
+                                <small>
+                                <i class="bi bi-heart-fill"></i>
+                                kedvencekhez adás
+                                </small>
+                            </span>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                                    <span class="dropdown-item" onclick="multipleFunction('multiple/delete');">
-                                        <i class="bi bi-trash"></i>
-                                        kijelöltek tömeges törlése
-                                    </span>
+                            <span class="dropdown-item" onclick="multipleFunction('multiple/delete');">
+                                <small>
+                                    <i class="bi bi-trash-fill"></i>
+                                    kijelöltek tömeges törlése
+                                </small>
+                            </span>
                         </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">export - hamarosan</a></li>
+                        <li><a class="dropdown-item" href="#"><small>export - hamarosan</small></a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">import - hamarosan</a></li>
-                        <li><a class="dropdown-item" href="#">import mintafájl - hamarosan</a></li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <small>import - hamarosan</small>
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item" href="#"><small>import mintafájl - hamarosan</small></a></li>
                     </ul>
 
 
@@ -76,62 +84,62 @@
                         </tr>
                         </thead>
                         <tbody class="table-group-divider">
-                        {% for td in tableBody %}
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="selectRowCheckbox{{ loop.index }}" value="{{ td.id }}">
-                                        <label class="form-check-label" for="selectRowCheckbox{{ loop.index }}"></label>
-                                    </div>
-                                </td>
-                                <th scope="row">{{ loop.index }}.</th>
-                                {% for thKey, thValue in tableHead %}
+                            {% for td in tableBody %}
+                                <tr>
                                     <td>
-                                        {% set variable = attribute(td, thKey) %}
-                                        {# is array #}
-                                        {% if is_array(attribute(td, thKey)) %}
-                                            {% for key, value in attribute(td, thKey) %}
-                                                {% if value is same as(true) or value is same as(false) %}
-                                                    {{ value ? '&#9989;' : '&#10060;' }}
-                                                {% else %}
-                                                    {{ value }}
-                                                {% endif %}
-                                            {% endfor %}
-                                            {# is boolean #}
-                                        {% elseif attribute(td, thKey) is same as(true) or attribute(td, thKey) is same as(false) %}
-                                            {{ attribute(td, thKey) ? '&#9989;' : '&#10060;' }}
-                                            {# is datetime #}
-                                        {% elseif attribute(td, thKey) is instanceof('DateTime') or attribute(td, thKey) is instanceof('DateTimeImmutable') %}
-                                            {{ attribute(td, thKey).format('Y-m-d') }}
-                                            {# is object #}
-                                        {% elseif variable is instanceof('App\\Enum\\NewsletterStatusEnum') %}
-                                            {{ variable.toString()|trans }}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="selectRowCheckbox{{ loop.index }}" value="{{ td.id }}">
+                                            <label class="form-check-label" for="selectRowCheckbox{{ loop.index }}"></label>
+                                        </div>
+                                    </td>
+                                    <th scope="row">{{ loop.index }}.</th>
+                                    {% for thKey, thValue in tableHead %}
+                                        <td>
+                                            {% set variable = attribute(td, thKey) %}
+                                            {# is array #}
+                                            {% if is_array(attribute(td, thKey)) %}
+                                                {% for key, value in attribute(td, thKey) %}
+                                                    {% if value is same as(true) or value is same as(false) %}
+                                                        {{ value ? '&#9989;' : '&#10060;' }}
+                                                    {% else %}
+                                                        {{ value }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {# is boolean #}
+                                            {% elseif attribute(td, thKey) is same as(true) or attribute(td, thKey) is same as(false) %}
+                                                {{ attribute(td, thKey) ? '&#9989;' : '&#10060;' }}
+                                                {# is datetime #}
+                                            {% elseif attribute(td, thKey) is instanceof('DateTime') or attribute(td, thKey) is instanceof('DateTimeImmutable') %}
+                                                {{ attribute(td, thKey).format('Y-m-d') }}
+                                                {# is object #}
+                                            {% elseif variable is instanceof('App\\Enum\\NewsletterStatusEnum') %}
+                                                {{ variable.toString()|trans }}
+                                            {% else %}
+                                                {{ variable|trans }}
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+                                    <td class="text-center">{% if td.createdAt is defined %}{{ td.createdAt.format('Y-m-d H:i:s') }}{% endif %}</td>
+                                    <td class="text-center">
+                                        {% if td.updatedAt is defined and td.updatedAt is not null %}
+                                            {{ td.updatedAt.format('Y-m-d H:i:s') }}
                                         {% else %}
-                                            {{ variable|trans }}
+                                            -
                                         {% endif %}
                                     </td>
-                                {% endfor %}
-                                <td class="text-center">{% if td.createdAt is defined %}{{ td.createdAt.format('Y-m-d H:i:s') }}{% endif %}</td>
-                                <td class="text-center">
-                                    {% if td.updatedAt is defined and td.updatedAt is not null %}
-                                        {{ td.updatedAt.format('Y-m-d H:i:s') }}
-                                    {% else %}
-                                        -
-                                    {% endif %}
-                                </td>
-                                <td class="text-end">
-                                    {% if actions is defined %}
+                                    <td class="text-end">
+
 
                                         {% if 'switchInstance' in actions %}
                                             {% if app.user.defaultInstance.id == td.id %}
-                                                <span class="badge bg-secondary">
-                                                    alapértelmezett
-                                                </span>
+                                                <span class="badge bg-dark">
+                                                        alapértelmezett
+                                                    </span>
                                             {% endif %}
                                             {% if app.request.cookies.get('currentInstance') == td.id %}
                                                 <span class="badge bg-success">
-                                                    aktuális
-                                                </span>
+                                                        aktuális
+                                                    </span>
                                             {% endif %}
 
                                         {% endif %}
@@ -141,58 +149,81 @@
                                             </a>
                                         {% endif %}
 
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="bi bi-three-dots"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end" style="z-index: 10000;">
-                                                {% if 'switchInstance' in actions %}
-                                                    {% if app.request.cookies.get('currentInstance') != td.id %}
+                                        <div class="btn-group">
+
+
+                                        {% if actions is defined %}
+
+
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-gear-fill"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    {% if 'switchInstance' in actions %}
+                                                        {% if app.request.cookies.get('currentInstance') != td.id %}
+                                                            <li>
+                                                                <a class="dropdown-item text-success" title="{{ 'action.view'|trans }}" href="switch/{{ td.id }}">
+                                                                    <i class="bi bi-shuffle"></i> <span class="d-none d-sm-inline-block">átváltás</span>
+                                                                </a>
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endif %}
+
+                                                    {% if 'view' in actions %}
                                                         <li>
-                                                            <a class="dropdown-item text-success" title="{{ 'action.view'|trans }}" href="switch/{{ td.id }}">
-                                                                <i class="bi bi-shuffle"></i> <span class="d-none d-sm-inline-block">átváltás</span>
+                                                            <a class="dropdown-item text-nowrap" title="{{ 'action.view'|trans }}" href="view/{{ td.id}}">
+                                                                <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
                                                             </a>
                                                         </li>
                                                     {% endif %}
-                                                {% endif %}
+                                                    {% if 'edit' in actions %}
+                                                        <li>
+                                                            <a class="dropdown-item text-nowrap text-primary" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
+                                                                <small>
+                                                                    <i class="bi bi-pen"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
+                                                                </small>
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
 
-                                                {% if 'view' in actions %}
-                                                    <li>
-                                                        <a class="dropdown-item text-nowrap" title="{{ 'action.view'|trans }}" href="view/{{ td.id}}">
-                                                            <i class="bi bi-eye"></i> <span class="d-none d-sm-inline-block">{{ 'action.view'|trans }}</span>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                                {% if 'edit' in actions %}
-                                                    <li>
-                                                        <a class="dropdown-item text-nowrap text-primary" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
-                                                            <i class="bi bi-pen"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
+                                                    <!-- if actions length greater than 2, add divider before delete -->
+                                                    {% if actions|length > 2 and 'delete' in actions %}
+                                                        <li><hr class="dropdown-divider"></li>
+                                                    {% endif %}
 
+                                                    {% if 'delete' in actions %}
+                                                        <li>
+                                                            <a class="dropdown-item text-nowrap text-danger" title="{{ 'action.delete'|trans }}" href="delete/{{ td.id}}">
+                                                                <small>
+                                                                    <i class="bi bi-trash"></i> <span class="d-none d-sm-inline-block">{{ 'action.delete'|trans }}</span>
+                                                                </small>
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                        {% endif %}
+                                        {% if extraActions is defined %}
+                                                <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    {% for extraAction in extraActions %}
+                                                        <li>
+                                                            <a class="dropdown-item text-nowrap" title="{{ extraAction.label }}" href="{{ path(extraAction.route, {"id": td.id}) }}">
+                                                                <small>
+                                                                    <span class="d-none d-sm-inline-block">{{ extraAction.label }}</span>
+                                                                </small>
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
 
-                                                {% if 'delete' in actions %}
-                                                    <li><hr class="dropdown-divider"><div></div></li>
-                                                    <li>
-                                                        <a class="dropdown-item text-nowrap text-danger" title="{{ 'action.delete'|trans }}" href="delete/{{ td.id}}">
-                                                            <i class="bi bi-trash"></i> <span class="d-none d-sm-inline-block">{{ 'action.delete'|trans }}</span>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                            </ul>
+                                        {% endif %}
                                         </div>
-                                    {% endif %}
-                                    {% if extraActions is defined %}
-                                        {% for extraAction in extraActions %}
-                                            <a class="btn btn-sm btn-outline-secondary" title="{{ extraAction.label }}" href="{{ path(extraAction.route, {"id": td.id}) }}">
-                                                <span class="d-none d-sm-inline-block">{{ extraAction.label }}</span>
-                                            </a>
-                                        {% endfor %}
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
