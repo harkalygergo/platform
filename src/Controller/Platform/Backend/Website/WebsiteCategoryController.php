@@ -16,9 +16,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/website/categories')]
 class WebsiteCategoryController extends PlatformController
 {
-    #[Route('/{id}/', name: 'admin_v1_website_categories')]
-    public function index(\App\Entity\Platform\Website\Website $id, WebsiteCategoryRepository $websiteCategoryRepository): Response
+    #[Route('/', name: 'admin_v1_website_categories')]
+    public function index(/*\App\Entity\Platform\Website\Website $id, */WebsiteCategoryRepository $websiteCategoryRepository): Response
     {
+        // get instance first website
+        $id = $this->currentInstance->getWebsites()->first();
+
         $pagesByWebsite = $websiteCategoryRepository->findByWebsiteId($id->getId());
 
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -38,9 +41,12 @@ class WebsiteCategoryController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/new/', name: 'admin_v1_website_category_new')]
-    public function new(Request $request, \App\Entity\Platform\Website\Website $id): Response
+    #[Route('/new/', name: 'admin_v1_website_category_new')]
+    public function new(Request $request/*, \App\Entity\Platform\Website\Website $id*/): Response
     {
+        // get instance first website
+        $id = $this->currentInstance->getWebsites()->first();
+
         $form = $this->createForm(WebsiteCategoryType::class);
         $form->handleRequest($request);
 
@@ -63,10 +69,10 @@ class WebsiteCategoryController extends PlatformController
     }
 
     // create edit function
-    #[Route('/{id}/edit/{page}', name: 'admin_v1_website_category_edit')]
-    public function edit(Request $request, \App\Entity\Platform\Website\Website $id, WebsiteCategory $page): Response
+    #[Route('/edit/{id}', name: 'admin_v1_website_category_edit')]
+    public function edit(Request $request, \App\Entity\Platform\Website\WebsiteCategory $id/*, WebsiteCategory $page*/): Response
     {
-        $form = $this->createForm(WebsiteCategoryType::class, $page);
+        $form = $this->createForm(WebsiteCategoryType::class, $id);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

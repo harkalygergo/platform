@@ -55,7 +55,7 @@ final class PostType extends AbstractType
 
             ])
             ->add('content', null, [
-                'attr' => ['rows' => 20, 'class' => 'form-control'],
+                'attr' => ['rows' => 20, 'class' => 'form-control summernote'],
             ])
             // form events let you modify information or fields at different steps
             // of the form handling process.
