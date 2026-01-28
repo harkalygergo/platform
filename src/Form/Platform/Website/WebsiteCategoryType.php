@@ -55,6 +55,7 @@ class WebsiteCategoryType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-check-input',
+                    'checked' => 'checked',
                 ],
             ])
 
