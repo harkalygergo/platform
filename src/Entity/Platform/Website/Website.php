@@ -92,6 +92,12 @@ class Website
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $tiktok;
 
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $treads;
+
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $bluesky;
+
     #[ORM\Column(length: 16, nullable: true)]
     private ?string $theme;
 
@@ -441,6 +447,30 @@ class Website
     public function setTiktok(?string $tiktok): self
     {
         $this->tiktok = $tiktok;
+
+        return $this;
+    }
+
+    public function getTreads(): ?string
+    {
+        return $this->treads;
+    }
+
+    public function setTreads(?string $treads): self
+    {
+        $this->treads = $treads;
+
+        return $this;
+    }
+
+    public function getBluesky(): ?string
+    {
+        return $this->bluesky;
+    }
+
+    public function setBluesky(?string $bluesky): self
+    {
+        $this->bluesky = $bluesky;
 
         return $this;
     }

@@ -101,6 +101,18 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('threads', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('bluesky', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('language', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control',
