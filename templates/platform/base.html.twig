@@ -84,39 +84,38 @@
     <script src="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.brandcomstudio.com/vendor/components/jquery/jquery.min.js"></script>
     <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/summernote.min.js"></script>
-
     <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/lang/summernote-en-US.min.js"></script>
     <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/lang/summernote-hu-HU.min.js"></script>
 
     <script>
+        function slugify(text) {
+            return text.toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        window.addEventListener("load", (event) => {
+            const slugTargets = document.querySelectorAll('.slugTarget');
+            slugTargets.forEach(function(input) {
+                input.addEventListener('focus', function() {
+                    if (this.value === '') {
+                        const slugSource = document.getElementsByClassName("slugSource")["0"];
+                        this.value = slugify(slugSource.value);
+                    }
+                });
+            });
+        });
+
         $(document).ready(function() {
             $('.summernote').summernote({
                 lang: 'hu-HU',
             });
         });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const titleInput = document.getElementById('website_category_title');
-            const slugInput = document.getElementById('website_category_slug');
-
-            if (titleInput && slugInput) {
-                slugInput.addEventListener('focus', function() {
-                    if (this.value === '') {
-                        const title = titleInput.value;
-                        this.value = title.toLowerCase()
-                            .normalize('NFD')
-                            .replace(/[\u0300-\u036f]/g, '')
-                            .replace(/[^a-z0-9\s-]/g, '')
-                            .replace(/\s+/g, '-')
-                            .replace(/-+/g, '-')
-                            .replace(/^-|-$/g, '');
-                    }
-                });
-            }
-        });
-
     </script>
 
 </body>
 </html>
-

@@ -18,12 +18,12 @@ class WebsiteCategoryType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control slugSource',
                 ],
             ])
             ->add('slug', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control slugTarget',
                 ],
             ])
             ->add('content', TextareaType::class, [

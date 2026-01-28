@@ -20,14 +20,14 @@ class MenuType extends AbstractType
                 'label' => 'Cím',
                 'constraints' => [new NotBlank()],
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control slugSource',
                 ],
             ])
             ->add('slug', TextType::class, [
                 'label' => 'Slug',
                 'constraints' => [new NotBlank()],
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control slugTarget',
                 ],
             ])
             // add position field with integer type
