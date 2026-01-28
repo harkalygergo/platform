@@ -219,7 +219,7 @@ class WebsiteController extends PlatformController
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events);
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
-        $this->deployEvents($website, $slugger, $urls, $filenames, $categories, $events, $menus);
+        $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $menus);
 
         $this->addFlash('success', $flashText);
 
@@ -228,7 +228,7 @@ class WebsiteController extends PlatformController
         return $this->redirectToRoute('admin_v1_website_index');
     }
 
-    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, $categories, $events, $menus)
+    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $menus)
     {
         foreach ($events as $event) {
             $eventContent = $this->renderView('themes/' . $website->getTheme() . '/event.html.twig', [
@@ -281,7 +281,7 @@ class WebsiteController extends PlatformController
                 $slug . '.html'
             );
 
-            $this->addFlash('success', mb_strtoupper($this->translator->trans('web.event')) . ': ' . htmlspecialchars($event->getTitle()) . " FTP OK <br>");
+            $flashText .= mb_strtoupper($this->translator->trans('web.event')) .': '. $event->getTitle() . " FTP OK <br>";
         }
     }
 

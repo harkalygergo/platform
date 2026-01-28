@@ -54,6 +54,7 @@ class WebsitePageType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-check-input',
+                    'checked' => 'checked',
                 ],
             ])
             ->add('homepage', CheckboxType::class, [

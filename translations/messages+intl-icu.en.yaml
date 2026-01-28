@@ -62,6 +62,7 @@ web:
     blocks: 'Blocks'
     category: 'Category'
     categories: 'Categories'
+    event: 'Event'
     menu: 'Menu'
     menus: 'Menus'
     page: 'Page'

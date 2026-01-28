@@ -69,6 +69,7 @@ web:
     blocks: 'Blokkok'
     category: 'Kategória'
     categories: 'Kategóriák'
+    event: 'Esemény'
     menu: 'Menü'
     menus: 'Menük'
     page: 'Oldal'
