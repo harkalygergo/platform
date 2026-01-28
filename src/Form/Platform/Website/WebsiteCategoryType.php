@@ -27,6 +27,7 @@ class WebsiteCategoryType extends AbstractType
                 ],
             ])
             ->add('content', TextareaType::class, [
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control summernote',
                 ],
