@@ -1,12 +1,35 @@
 <footer class="bg-dark text-white pt-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h5>{{ website.title }}</h5>
                 <p class="lead">{{ website.slogan }}</p>
                 <p>{{ website.description }}</p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <h5>Csatlakozz!</h5>
+                <ul class="list-unstyled">
+                    {% if website.bluesky != null and website.bluesky != '' %}
+                        <li><a href="{{ website.bluesky }}" class="text-white text-decoration-none" target="_blank"><i class="bi bi-bluesky"></i> Bluesky</a></li>
+                    {% endif %}
+                    {% if website.facebook != null and website.facebook != '' %}
+                        <li><a href="{{ website.facebook }}" class="text-white text-decoration-none" target="_blank"><i class="bi bi-facebook"></i> Facebook</a></li>
+                    {% endif %}
+                    {% if website.instagram != null and website.instagram != '' %}
+                        <li><a href="{{ website.instagram }}" class="text-white text-decoration-none" target="_blank"><i class="bi bi-instagram"></i> Instagram</a></li>
+                    {% endif %}
+                    {% if website.linkedin != null and website.linkedin != '' %}
+                        <li><a href="{{ website.linkedin }}" class="text-white text-decoration-none" target="_blank"><i class="bi bi-linkedin"></i> LinkedIn</a></li>
+                    {% endif %}
+                    {% if website.treads != null and website.treads != '' %}
+                        <li><a href="{{ website.treads }}" class="text-white text-decoration-none" target="_blank"><i class="bi bi-treads"></i> Treads</a></li>
+                    {% endif %}
+                    {% if website.twitter != null and website.twitter != '' %}
+                        <li><a href="{{ website.twitter }}" class="text-white text-decoration-none" target="_blank"><i class="bi bi-twitter-x"></i> X (Twitter)</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-md-4">
                 <h5>Oldalak</h5>
                 <ul class="list-unstyled">
                     {% for menu in menus %}
