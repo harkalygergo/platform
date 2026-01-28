@@ -138,7 +138,7 @@ class InstanceController extends PlatformController
         $this->addFlash('success', $this->translator->trans('event.saved successfully'));
         setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
 
-        return $this->redirectToRoute('admin_v1_website_posts');
+        return $this->redirectToRoute('admin_v1_website_index');
     }
 
 
