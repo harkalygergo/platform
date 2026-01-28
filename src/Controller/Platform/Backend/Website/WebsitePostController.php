@@ -17,9 +17,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/website/posts')]
 class WebsitePostController extends PlatformController
 {
-    #[Route('/{id}/', name: 'admin_v1_website_posts')]
-    public function index(Website $id, WebsitePostRepository $websitePostRepository): Response
+    #[Route('/', name: 'admin_v1_website_posts')]
+    public function index(WebsitePostRepository $websitePostRepository): Response
     {
+        // get instance first website
+        $id = $this->currentInstance->getWebsites()->first();
+
         $pagesByWebsite = $websitePostRepository->findByWebsiteId($id->getId());
 
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -28,6 +31,7 @@ class WebsitePostController extends PlatformController
             'tableHead' => [
                 'title' => 'Cím',
                 'slug' => 'Slug',
+                'metaTitle' => 'Meta cím',
                 'status' => 'Státusz',
             ],
             'tableBody' => $pagesByWebsite,
@@ -39,9 +43,11 @@ class WebsitePostController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/new/', name: 'admin_v1_website_post_new')]
-    public function new(Request $request, Website $id): Response
+    #[Route('/new/', name: 'admin_v1_website_post_new')]
+    public function new(Request $request): Response
     {
+        $id = $this->currentInstance->getWebsites()->first();
+
         $entity = new WebsitePost();
         $form = $this->createForm(WebsitePostType::class, $entity, [
             'website' => $id,
@@ -52,6 +58,7 @@ class WebsitePostController extends PlatformController
         if ($form->isSubmitted() && $form->isValid()) {
             $websitePost = $form->getData();
             $websitePost->setWebsite($id);
+            $websitePost->setInstance($this->currentInstance);
             $this->doctrine->getManager()->persist($websitePost);
             $this->doctrine->getManager()->flush();
 
@@ -68,10 +75,12 @@ class WebsitePostController extends PlatformController
     }
 
     // create edit function
-    #[Route('/{id}/edit/{page}', name: 'admin_v1_website_post_edit')]
-    public function edit(Request $request, Website $id, WebsitePost $page): Response
+    #[Route('/edit/{post}', name: 'admin_v1_website_post_edit')]
+    public function edit(Request $request, WebsitePost $post): Response
     {
-        $form = $this->createForm(WebsitePostType::class, $page, [
+        $id = $this->currentInstance->getWebsites()->first();
+
+        $form = $this->createForm(WebsitePostType::class, $post, [
             'website' => $id,
         ]);
         $form->handleRequest($request);

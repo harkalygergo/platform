@@ -1,0 +1,48 @@
+{% extends 'themes/4_delta/base.html.twig' %}
+
+{% block navigation %}
+    {% for menu in menus %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ menu.slug }}">{{ menu.title }}</a>
+        </li>
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+
+    <!-- get events where website id is equal to website.id and startAt is greater than or equal to now order by startAt ascending limit 5 -->
+
+    <div class="col-12">
+
+        <h1>{{ title|raw }}</h1>
+
+
+        {% for post in content.posts %}
+            {{ post.title }}
+        {% endfor %}
+
+
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for post in content.posts %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            {{ post.content|raw }}
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{{ post.slug }}" class="btn btn-dark">
+                                részletek
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+
+
+    </div>
+
+{% endblock %}

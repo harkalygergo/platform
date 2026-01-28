@@ -32,7 +32,10 @@
                         Közzététel
                     </div>
                     <div class="card-body">
-                        <!-- categories multiple select -->
+                        {{ form_row(form.categories, {
+                            'label': 'Kategóriák',
+                            'attr': {'class': 'form-select', 'size': '5'}
+                        }) }}
                     </div>
                     <div class="card-footer text-muted text-end">
                         <button type="submit" class="btn btn-success">

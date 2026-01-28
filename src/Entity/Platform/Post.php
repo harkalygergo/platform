@@ -11,6 +11,7 @@
 
 namespace App\Entity\Platform;
 
+use App\Entity\Platform\Website\WebsiteCategory;
 use App\Repository\Platform\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -77,11 +78,19 @@ class Post
     #[Assert\Count(max: 4, maxMessage: 'post.too_many_tags')]
     private Collection $tags;
 
+    /**
+     * @var Collection<int, WebsiteCategory>
+     */
+    #[ORM\ManyToMany(targetEntity: WebsiteCategory::class, cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'website_post_category')]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->publishedAt = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,5 +200,29 @@ class Post
     public function getTags(): Collection
     {
         return $this->tags;
+    }
+
+    /**
+     * @return Collection<int, WebsiteCategory>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(WebsiteCategory $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(WebsiteCategory $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
     }
 }

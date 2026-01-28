@@ -12,6 +12,8 @@
 namespace App\Form;
 
 use App\Entity\Platform\Post;
+use App\Entity\Platform\Website\WebsiteCategory;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -56,6 +58,18 @@ final class PostType extends AbstractType
             ])
             ->add('content', null, [
                 'attr' => ['rows' => 20, 'class' => 'form-control summernote'],
+            ])
+            ->add('categories', EntityType::class, [
+                'class' => WebsiteCategory::class,
+                'choice_label' => function (WebsiteCategory $category) {
+                    return $category->getTitle();
+                },
+                'multiple' => true,
+                'expanded' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             // form events let you modify information or fields at different steps
             // of the form handling process.
