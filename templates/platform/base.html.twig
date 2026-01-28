@@ -94,6 +94,27 @@
                 lang: 'hu-HU',
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const titleInput = document.getElementById('website_category_title');
+            const slugInput = document.getElementById('website_category_slug');
+
+            if (titleInput && slugInput) {
+                slugInput.addEventListener('focus', function() {
+                    if (this.value === '') {
+                        const title = titleInput.value;
+                        this.value = title.toLowerCase()
+                            .normalize('NFD')
+                            .replace(/[\u0300-\u036f]/g, '')
+                            .replace(/[^a-z0-9\s-]/g, '')
+                            .replace(/\s+/g, '-')
+                            .replace(/-+/g, '-')
+                            .replace(/^-|-$/g, '');
+                    }
+                });
+            }
+        });
+
     </script>
 
 </body>
