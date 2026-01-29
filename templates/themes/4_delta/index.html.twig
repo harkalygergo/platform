@@ -16,11 +16,38 @@
 
         <h1>{{ title|raw }}</h1>
 
-        {{ content|raw }}
-
         {% if events is defined %}
             <h2 class="mt-5">Következő események</h2>
 
+            {% for event in events %}
+                <div class="row p-1 mb-3 bg-white border rounded shadow-sm align-items-center">
+                    <div class="col-md-2 text-center event-date">
+                        <div class="event-day">{{ event.startAt|date('Y.m.d.') }}</div>
+                        <div class="event-time">{{ event.startAt|date('H:i') }}</div>
+                    </div>
+                    <div class="col-8">
+                        <h5>{{ event.title }}</h5>
+                        <p class="mb-1 text-muted">
+                            <strong>Helyszín:</strong> {{ event.location }}
+                        </p>
+                        {{ event.description|raw }}
+                    </div>
+                    <div class="col-2">
+                        <a href="{{ event.slug }}" class="btn btn-sm btn-dark">
+                            <i class="bi bi-ticket-perforated"></i>
+                            részletek, jegyvásárlás
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+
+            <p>========</p>
+
+            {{ content|raw }}
+
+            <p>========</p>
 
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 {% for event in events %}
