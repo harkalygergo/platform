@@ -34,8 +34,8 @@ class Event
     //#[Assert\Type("DateTimeInterface")]
     private ?\DateTime $startAt = null;
 
-    #[ORM\Column]
-    #[Assert\NotNull]
+    #[ORM\Column(nullable: true, options: ['default' => null])]
+    //#[Assert\NotNull]
     //#[Assert\Type("DateTimeInterface")]
     #[Assert\GreaterThan(propertyPath: 'startAt')]
     private ?\DateTime $endAt = null;
@@ -46,7 +46,7 @@ class Event
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $locationName = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
