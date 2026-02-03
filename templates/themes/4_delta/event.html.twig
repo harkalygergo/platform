@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="col-12 col-md-8">
+<div class="col-12 col-md-7">
 
     {% if event.imageUrl is not null %}
         <div class="mb-4">
@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<div class="col-12 col-md-4">
+<div class="col-12 col-md-5">
     <div class="card text-bg-light">
         <h5 class="card-header fw-bold">Esemény információk</h5>
         <div class="card-body">
@@ -51,7 +51,9 @@
                     <i class="bi bi-geo-alt"></i> Helyszín:
                 </span>
                 <span class="text-end fw-bold">
-                    {{ event.location }}
+                    {{ event.locationName }}
+                    <br>
+                    <small>({{ event.location }})</small>
                 </span>
             </p>
             {#% if event.performers is not empty %}

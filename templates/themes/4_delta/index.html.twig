@@ -30,7 +30,7 @@
                     <div class="col-8">
                         <h5>{{ event.title }}</h5>
                         <p class="mb-1 text-muted">
-                            <strong>Helyszín:</strong> {{ event.location }}
+                            <strong>Helyszín:</strong> {{ event.locationName }} ({{ event.location }})
                         </p>
                         {{ event.description|raw }}
                     </div>
