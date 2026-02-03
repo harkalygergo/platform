@@ -19,7 +19,7 @@ final class EventType extends AbstractType
                 'label' => 'Title',
                 'attr' => [
                     'maxlength' => 255,
-                    'class' => 'form-control',
+                    'class' => 'form-control slugSource',
                 ],
             ])
             ->add('slug', TextType::class, [
@@ -27,7 +27,7 @@ final class EventType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'maxlength' => 255,
-                    'class' => 'form-control',
+                    'class' => 'form-control slugTarget',
                 ],
             ])
             ->add('leadDescription', TextType::class, [
@@ -45,6 +45,14 @@ final class EventType extends AbstractType
                     'class' => 'form-control summernote',
                 ],
             ])
+            ->add("locationName", TextType::class, [
+                'label' => 'Location Name',
+                'required' => false,
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('location', TextType::class, [
                 'label' => 'Location',
                 'required' => false,
@@ -60,6 +68,7 @@ final class EventType extends AbstractType
                 ],
             ])
             ->add('endAt', DateTimeType::class, [
+                'required' => false,
                 'widget' => 'single_text',
                 'label' => 'End',
                 'attr' => [

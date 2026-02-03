@@ -43,6 +43,9 @@ class Event
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $location = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $locationName = null;
+
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -137,6 +140,16 @@ class Event
     public function setLocation(?string $location): void
     {
         $this->location = $location;
+    }
+
+    public function getLocationName(): ?string
+    {
+        return $this->locationName;
+    }
+
+    public function setLocationName(?string $locationName): void
+    {
+        $this->locationName = $locationName;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable

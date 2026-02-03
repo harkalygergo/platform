@@ -32,8 +32,6 @@ account:
     reset password: 'Reset password'
 data:
     description: Description
-event:
-    saved successfully: 'Saved successfully'
 date:
     createdAt: 'Created'
     description: Description

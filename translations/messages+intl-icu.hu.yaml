@@ -43,8 +43,6 @@ data:
 date:
     createdAt: 'Létrehozva'
     updatedAt: 'Frissítve'
-event:
-    saved successfully: 'Sikeres mentés.'
 page:
     page: 'Oldal'
     pages: 'Oldalak'

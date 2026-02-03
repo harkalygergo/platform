@@ -74,7 +74,7 @@ final class EventController extends PlatformController
             $em->persist($event);
             $em->flush();
 
-            $this->addFlash('success', 'event.created_successfully');
+            $this->addFlash('success', 'action.saved');
 
             /** @var SubmitButton $submit */
             $submit = $form->get('saveAndCreateNew');
