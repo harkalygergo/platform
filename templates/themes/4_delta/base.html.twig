@@ -40,8 +40,11 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 py-3 text-center display-2 fw-bold">
-            <a class="navbar-brand" href="/">{{ website.name|default('') }}</a>
+        <div class="col-12 py-3 text-center display-5 fw-bold">
+            <a class="navbar-brand" href="/">
+                <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" class="mb-4" style="max-height: 100px;">
+                {{ website.name|default('') }}
+            </a>
         </div>
         <div class="col-12">
             <nav class="navbar navbar-expand-lg bg-body-tertiary">

@@ -45,9 +45,12 @@ class WebsiteMediaController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/new', name: 'admin_v1_website_media_new')]
-    public function new(Request $request, SluggerInterface $slugger, Website $id): Response
+    #[Route('/new', name: 'admin_v1_website_media_new')]
+    public function new(Request $request, SluggerInterface $slugger): Response
     {
+        // get instance first website
+        $id = $this->currentInstance->getWebsites()->first();
+
         $website = $id;
 
         $form = $this->createForm(MediaType::class);
