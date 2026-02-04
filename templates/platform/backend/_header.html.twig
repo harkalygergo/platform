@@ -30,7 +30,7 @@
                     <i class="bi bi-cart"></i>
                 </a>
 
-                <div class="dropdown">
+                <div class="dropdown pt-1">
                     <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="true">
                         <i class="bi bi-translate text-white"></i>
                     </button>
@@ -40,7 +40,7 @@
                     </ul>
                 </div>
 
-                <div class="dropdown">
+                <div class="dropdown pt-1">
                     <button class="btn text-white" type="button" data-bs-toggle="dropdown">
                         <i class="bi bi-bell text-white"></i>
                     </button>
@@ -51,7 +51,7 @@
                     </ul>
                 </div>
 
-                <div class="dropdown">
+                <div class="dropdown pt-1">
                     <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-envelope text-white"></i>
                     </button>
@@ -62,7 +62,7 @@
                     </ul>
                 </div>
 
-                <div class="dropdown">
+                <div class="dropdown pt-1">
                     <button class="btn" type="button" data-bs-theme="dark" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-calendar text-white"></i>
                     </button>
@@ -113,6 +113,12 @@
 
                 <div class="dropdown">
                     <button class="btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" style="font-size: 12px;" aria-expanded="false">
+                        <!-- create a circle background for the user name first letter -->
+                        <span class="rounded-circle bg-secondary text-white d-inline-block text-center" style="height:30px;width:30px;font-size:14px;letter-spacing: -2px;">
+                            {{ app.user.firstName|first }} {{ app.user.lastName|first }}
+                        </span>
+
+
                         <!--img alt="account" class="rounded-circle" src="https://harkalygergo.github.io/harkalygergo.jpg" style="float:left;margin:0 5px;width:auto;height:32px;"-->
                         <span class="d-none d-sm-inline-block"> {{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ currentInstance.name }}</small></span>
                     </button>

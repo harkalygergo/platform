@@ -379,6 +379,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFullName(): ?string
     {
-        return $this->namePrefix . ' ' . $this->firstName . ' ' . $this->middleName . ' ' . $this->lastName;
+        // concat name parts, but if namePrefix is null, skip it
+        $parts = array_filter([$this->namePrefix, $this->firstName, $this->middleName, $this->lastName]);
+        return implode(' ', $parts) ?: null;
     }
 }

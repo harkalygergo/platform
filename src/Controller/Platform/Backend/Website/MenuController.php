@@ -71,8 +71,8 @@ class MenuController extends PlatformController
     }
 
     // create edit and delete methods as needed
-    #[Route('/edit/{id}/', name: 'admin_v1_website_menu_edit')]
-    public function edit(\App\Entity\Platform\Website\Website $id, Menu $menu, Request $request, MenuRepository $menuRepository): Response
+    #[Route('/edit/{menu}/', name: 'admin_v1_website_menu_edit')]
+    public function edit(Menu $menu, Request $request, MenuRepository $menuRepository): Response
     {
 
         if (!$menu) {
@@ -86,7 +86,7 @@ class MenuController extends PlatformController
             $this->doctrine->getManager()->flush();
 
             return $this->redirectToRoute('admin_v1_website_menus', [
-                'id' => $id->getId(),
+                //'id' => $id->getId(),
             ]);
         }
 
