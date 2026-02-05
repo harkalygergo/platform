@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.02.05.1
+###### v2026.02.05.2
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -84,6 +84,8 @@ cp .env .env.local
 php bin/console messenger:consume async
 # run the Symfony server
 symfony server:start
+# set cron jobs to run commands, like update websites
+php bin/console app:website:deploy [WEBSITE_ID]
 ```
 
 ## How to update?

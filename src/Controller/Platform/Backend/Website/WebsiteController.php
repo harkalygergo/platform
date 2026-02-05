@@ -138,9 +138,9 @@ class WebsiteController extends PlatformController
             $em->remove($website);
             $em->flush();
 
-            $this->addFlash('success', 'A honlap sikeresen törölve.');
+            //$this->addFlash('success', 'A honlap sikeresen törölve.');
         //} else {
-        //    $this->addFlash('danger', 'A honlap törlése sikertelen.');
+        //    //$this->addFlash('danger', 'A honlap törlése sikertelen.');
         //}
 
         return $this->redirectToRoute('admin_v1_website_index');
@@ -181,14 +181,14 @@ class WebsiteController extends PlatformController
             }
             $this->doctrine->getManager()->flush();
 
-            $this->addFlash('success', 'A kiválasztott honlap(ok) sikeresen törölve.');
+            //$this->addFlash('success', 'A kiválasztott honlap(ok) sikeresen törölve.');
         }
 
         return $this->redirectToRoute('admin_v1_website_index');
     }
 
     #[Route('/deploy/{id}', name: 'admin_v1_website_deploy')]
-    public function deploy(Website $id): Response
+    public function deploy(Website $id): void
     {
         $website = $id;
 
@@ -199,9 +199,9 @@ class WebsiteController extends PlatformController
 
         // check if website has FTP credentials
         if (!$website->getFTPHost() || !$website->getFTPUser() || !$website->getFTPPassword() || !$website->getFTPPath()) {
-            $this->addFlash('danger', 'FTP adatok hiányoznak.');
+            //$this->addFlash('danger', 'FTP adatok hiányoznak.');
 
-            return $this->redirectToRoute('admin_v1_website_index');
+            //return $this->redirectToRoute('admin_v1_website_index');
         }
 
         $flashText = '';
@@ -221,11 +221,11 @@ class WebsiteController extends PlatformController
         $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $menus);
 
-        $this->addFlash('success', $flashText);
+        //$this->addFlash('success', $flashText);
 
         $this->createHtaccessFile($website, $urls, $filenames);
 
-        return $this->redirectToRoute('admin_v1_website_index');
+        //return $this->redirectToRoute('admin_v1_website_index');
     }
 
     public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $menus)
@@ -301,9 +301,9 @@ class WebsiteController extends PlatformController
                 'style.css',
             );
 
-            $this->addFlash('success', 'style.css FTP OK.');
+            //$this->addFlash('success', 'style.css FTP OK.');
         } else {
-            $this->addFlash('warning', 'No header CSS found.');
+            //$this->addFlash('warning', 'No header CSS found.');
         }
     }
 
@@ -578,7 +578,7 @@ RewriteEngine On
             '.htaccess'
         );
 
-        $this->addFlash('success', '.htaccess FTP OK.');
+        //$this->addFlash('success', '.htaccess FTP OK.');
     }
 
     public function createRobotsTxtFile(Website $website)
@@ -601,7 +601,7 @@ Crawl-delay: 10
             $fileName
         );
 
-        $this->addFlash('success', $fileName.' FTP OK.');
+        //$this->addFlash('success', $fileName.' FTP OK.');
     }
 
     public static function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename, $website = null)
