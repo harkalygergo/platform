@@ -1,0 +1,5 @@
+{% for menu in menus %}
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{{ menu.slug }}">{{ menu.title }}</a>
+    </li>
+{% endfor %}
