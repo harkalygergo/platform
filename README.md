@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.02.05.3
+###### v2026.02.06.1
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
