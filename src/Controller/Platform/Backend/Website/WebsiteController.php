@@ -241,6 +241,7 @@ class WebsiteController extends PlatformController
                 'event' => $event,
                 'menus' => $menus,
                 'categories' => $categories,
+                'events' => $events,
             ]);
 
             if ($event->getSlug() === '') {

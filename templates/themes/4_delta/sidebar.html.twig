@@ -1,0 +1,31 @@
+<div class="p-2 my-3 bg-light border rounded shadow-sm">
+    <h4 class="text-center fw-bold">Események</h4>
+    {% if events is defined %}
+        <ul>
+            {% for event in events %}
+                <li class="py-1 border-bottom">
+                    <a href="{{ event.slug }}" class="text-decoration-none text-dark" title="{{ event.title }} esemény részletei">
+                        {{ event.title }}
+                        <br><span class="text-secondary">{{ event.locationName }}
+                        <br><i>{{ event.startAt|date('Y.m.d. H:i') }}</i></span><br>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+<div class="p-2 my-3 bg-light border rounded shadow-sm">
+    <h4 class="text-center fw-bold">Oldalak</h4>
+    {% if pages is defined %}
+        <ul>
+            {% for page in pages %}
+                <li class="py-1 border-bottom">
+                    <a href="{{ page.slug }}" class="text-decoration-none text-dark" title="{{ page.title }} esemény részletei">
+                        {{ page.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
