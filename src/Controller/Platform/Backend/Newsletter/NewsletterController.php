@@ -57,7 +57,7 @@ class NewsletterController extends PlatformController
             $this->doctrine->getManager()->persist($newsletter);
             $this->doctrine->getManager()->flush();
 
-            $this->addFlash('success', $this->translator->trans('event.saved successfully'));
+            $this->addFlash('success', $this->translator->trans('action.saved'));
 
             return $this->redirectToRoute('admin_v1_newsletter');
         }

@@ -84,7 +84,7 @@ class UserController extends PlatformController
             $entityManager->flush();
 
             // Add a success message and redirect
-            $this->addFlash('success', $this->translator->trans('event.saved successfully'));
+            $this->addFlash('success', $this->translator->trans('action.saved'));
 
             return $this->redirectToRoute('admin_v1_account_password_change');
         }
