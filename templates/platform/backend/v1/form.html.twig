@@ -16,10 +16,37 @@
                 <div class="card-body">
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
-                    {{ form_widget(form) }}
-                    <button type="submit" class="btn btn-success btn-lg my-3">
-                        <i class="bi bi-save mx-1"></i> {{ 'action.save'|trans }}
-                    </button>
+                    {#{ form_widget(form) }#}
+                    {% for field in form %}
+                        {% if field.vars.name != '_token' %}
+                            {% set prefix = field.vars.row_attr['data-prefix'] ?? null %}
+                            {% set suffix = field.vars.row_attr['data-suffix'] ?? null %}
+                            {% set help = field.vars.help ?? null %}
+
+                            {% if prefix or suffix %}
+                                {# Custom rendering with input group #}
+                                <div class="mb-3{{ field.vars.row_attr.class is defined ? ' ' ~ field.vars.row_attr.class : '' }}">
+                                    {{ form_label(field) }}
+                                    <div class="input-group">
+                                        {% if prefix %}
+                                            <span class="input-group-text">{{ prefix }}</span>
+                                        {% endif %}
+                                        {{ form_widget(field) }}
+                                        {% if suffix %}
+                                            <span class="input-group-text">{{ suffix }}</span>
+                                        {% endif %}
+                                    </div>
+                                    {{ form_errors(field) }}
+                                    {% if help %}
+                                        <div class="form-text">{{ help }}</div>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                {# Standard rendering #}
+                                {{ form_row(field) }}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                     {{ form_end(form) }}
                 </div>
             </div>

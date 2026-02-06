@@ -22,12 +22,20 @@ final class EventType extends AbstractType
                     'class' => 'form-control slugSource',
                 ],
             ])
+            /*
             ->add('slug', TextType::class, [
                 'label' => 'Slug',
                 'required' => true,
                 'attr' => [
                     'maxlength' => 255,
                     'class' => 'form-control slugTarget',
+                ],
+            ])
+            */
+            ->add('slug', TextType::class, [
+                'attr' => ['class' => 'form-control slugTarget'],
+                'row_attr' => [
+                    'data-prefix' => 'esemeny/',
                 ],
             ])
             ->add('leadDescription', TextType::class, [

@@ -21,9 +21,17 @@ class WebsiteCategoryType extends AbstractType
                     'class' => 'form-control slugSource',
                 ],
             ])
+            /*
             ->add('slug', TextType::class, [
                 'attr' => [
                     'class' => 'form-control slugTarget',
+                ],
+            ])
+            */
+            ->add('slug', TextType::class, [
+                'attr' => ['class' => 'form-control slugTarget'],
+                'row_attr' => [
+                    'data-prefix' => 'kategoria/',
                 ],
             ])
             ->add('content', TextareaType::class, [
