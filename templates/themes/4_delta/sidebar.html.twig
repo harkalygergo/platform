@@ -2,7 +2,8 @@
     <h4 class="text-center fw-bold">Események</h4>
     {% if events is defined %}
         <ul>
-            {% for event in events %}
+            {% set lastEvents = events|slice(0,10) %}
+            {% for event in lastEvents %}
                 <li class="py-1 border-bottom">
                     <a href="{{ event.slug }}" class="text-decoration-none text-dark" title="{{ event.title }} esemény részletei">
                         {{ event.title }}

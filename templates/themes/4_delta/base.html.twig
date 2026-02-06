@@ -41,7 +41,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12 py-3 text-center display-5 fw-bold">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand text-wrap" href="/">
                 <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" class="mb-4" style="max-height: 100px;">
                 {{ website.name|default('') }}
             </a>
@@ -68,11 +68,11 @@
 
 <div class="container">
     <div class="row my-5 mx-2">
-        <div class="col-8">
+        <div class="col-12 col-lg-8">
             {% block body %}
             {% endblock %}
         </div>
-        <div class="col-4">
+        <div class="col-12 col-lg-4">
             {% include 'themes/4_delta/sidebar.html.twig' %}
         </div>
     </div>

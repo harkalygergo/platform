@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.02.06.5
+###### v2026.02.06.6
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -108,4 +108,7 @@ php bin/console doctrine:mapping:info
 chown -R $(stat -c '%U:%G' ..) .
 # clear cache
 php bin/console cache:clear
+
+# all of these steps can be automated with a single command, like:
+git pull; composer update; npm update; php bin/console doctrine:migrations:migrate; php bin/console doctrine:schema:validate; php bin/console doctrine:mapping:info; chown -R $(stat -c '%U:%G' ..) .; php bin/console cache:clear
 ```
