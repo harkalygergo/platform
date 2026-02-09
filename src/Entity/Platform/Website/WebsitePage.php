@@ -70,6 +70,10 @@ class WebsitePage
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $homepage = false;
 
+    #[ORM\ManyToOne(targetEntity: WebsiteMedia::class)]
+    #[ORM\JoinColumn(name: "featured_image_id")]
+    private ?WebsiteMedia $featuredImage = null;
+
     public function __construct()
     {
         $this->status = true;
@@ -255,6 +259,18 @@ class WebsitePage
     public function setHomepage(?bool $homepage): self
     {
         $this->homepage = $homepage;
+
+        return $this;
+    }
+
+    public function getFeaturedImage(): ?WebsiteMedia
+    {
+        return $this->featuredImage;
+    }
+
+    public function setFeaturedImage(?WebsiteMedia $featuredImage): self
+    {
+        $this->featuredImage = $featuredImage;
 
         return $this;
     }

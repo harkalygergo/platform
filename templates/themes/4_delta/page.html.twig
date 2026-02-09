@@ -6,5 +6,10 @@
 
 {% block body %}
     <h1>{{ title|raw }}</h1>
+    {% if page.featuredImage %}
+        <div class="mb-4">
+            <img src="/media/{{ page.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
+        </div>
+    {% endif %}
     {{ content|raw }}
 {% endblock %}

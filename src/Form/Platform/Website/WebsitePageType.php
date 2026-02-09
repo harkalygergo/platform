@@ -3,7 +3,10 @@
 
 namespace App\Form\Platform\Website;
 
+use App\Entity\Platform\Website\WebsiteMedia;
 use App\Entity\Platform\Website\WebsitePage;
+use App\Repository\Platform\Website\WebsiteMediaRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -15,6 +18,8 @@ class WebsitePageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $currentWebsite = $options['data']->getWebsite();
+
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
@@ -45,6 +50,20 @@ class WebsitePageType extends AbstractType
             ])
             ->add('metaKeywords', TextType::class, [
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('featuredImage', EntityType::class, [
+                'class' => WebsiteMedia::class,
+                'choice_label' => 'originalName', // Adjust to the property you want to display
+                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                    return $er->createQueryBuilder('wm')
+                        ->where('wm.website = :website')
+                        ->setParameter('website', $currentWebsite->getId());
+                },
+                'required' => false,
+                'placeholder' => 'Select a favicon',
                 'attr' => [
                     'class' => 'form-control',
                 ],

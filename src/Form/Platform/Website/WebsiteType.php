@@ -305,7 +305,6 @@ class WebsiteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Website::class,
-
         ]);
     }
 }
