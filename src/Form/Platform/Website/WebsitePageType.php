@@ -63,7 +63,7 @@ class WebsitePageType extends AbstractType
                         ->setParameter('website', $currentWebsite->getId());
                 },
                 'required' => false,
-                'placeholder' => 'Select a favicon',
+                'placeholder' => ' - select a featured image - ',
                 'attr' => [
                     'class' => 'form-control',
                 ],

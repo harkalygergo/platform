@@ -216,9 +216,9 @@ class WebsiteController extends PlatformController
         $events = $this->doctrine->getRepository('App\Entity\Platform\Event')->findUpcoming($website, 100);
 
         $this->deployStylesheet($website);
+        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events);
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
-        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $menus);
 
         //$this->addFlash('success', $flashText);
@@ -310,6 +310,12 @@ class WebsiteController extends PlatformController
 
     private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
     {
+        // create a '/tmp/' . $website->getId() . '/kategoria' directory if it doesn't exist
+        $categoryDir = '/tmp/' . $website->getId() . '/kategoria';
+        if (!is_dir($categoryDir)) {
+            mkdir($categoryDir);
+        }
+
         // get website categories
         foreach ($categories as $category) {
             $htmlContent = $this->renderView('themes/' . $website->getTheme() . '/category.html.twig', [
