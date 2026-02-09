@@ -89,6 +89,9 @@ class WebsiteMediaController extends PlatformController
                     file_put_contents($tempFilePath, $uploadedFile->getContent());
 
                     $tempFilePath = '/tmp/' . $website->getId() .'/'. $uploadedFile->getClientOriginalName();
+                    if (!is_dir('/tmp/' . $website->getId())) {
+                        mkdir('/tmp/' . $website->getId(), 0777, true);
+                    }
                     file_put_contents($tempFilePath, $uploadedFile->getContent());
 
                     WebsiteController::pushToFTP(
