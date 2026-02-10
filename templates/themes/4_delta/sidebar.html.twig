@@ -5,7 +5,7 @@
             {% set lastEvents = events|slice(0,10) %}
             {% for event in lastEvents %}
                 <li class="py-1 border-bottom">
-                    <a href="{{ event.slug }}" class="text-decoration-none text-dark" title="{{ event.title }} esemény részletei">
+                    <a href="/esemeny/{{ event.slug }}" class="text-decoration-none text-dark" title="{{ event.title }} esemény részletei">
                         {{ event.title }}
                         <br><span class="text-secondary">{{ event.locationName }}
                         <br><i>{{ event.startAt|date('Y.m.d. H:i') }}</i></span><br>
@@ -22,7 +22,7 @@
         <ul class="list-unstyled p-3">
             {% for page in pages %}
                 <li class="py-1 border-bottom">
-                    <a href="{{ page.slug }}" class="text-decoration-none text-dark" title="{{ page.title }} esemény részletei">
+                    <a href="/{{ page.slug }}" class="text-decoration-none text-dark" title="{{ page.title }} esemény részletei">
                         {{ page.title }}
                     </a>
                 </li>
