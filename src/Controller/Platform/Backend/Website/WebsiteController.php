@@ -216,7 +216,7 @@ class WebsiteController extends PlatformController
         $this->deployStylesheet($website);
         $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events);
-        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events);
         $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $pages, $menus);
 
         //$this->addFlash('success', $flashText);
@@ -480,7 +480,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
+    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events)
     {
         $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true]);
 
@@ -515,6 +515,7 @@ class WebsiteController extends PlatformController
                 'categories' => $categories,
                 'pages' => $pages,
                 'menus' => $menus,
+                'events' => $events,
                 'post' => $post,
             ]);
 

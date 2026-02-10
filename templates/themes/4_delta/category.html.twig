@@ -6,9 +6,6 @@
 
 {% block body %}
     <h1>{{ title|raw }}</h1>
-    {% for post in content.posts %}
-        {{ post.title }}
-    {% endfor %}
     <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for post in content.posts %}
             <div class="col">
@@ -18,7 +15,7 @@
                         {{ post.content|raw }}
                     </div>
                     <div class="card-footer text-center">
-                        <a href="/{{ post.slug }}" class="btn btn-dark">
+                        <a href="/{{ post.categories|first.slug }}/{{ post.slug }}" class="btn btn-dark">
                             részletek
                         </a>
                     </div>

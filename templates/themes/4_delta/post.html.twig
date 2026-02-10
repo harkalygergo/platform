@@ -5,11 +5,17 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ title|raw }}</h1>
-    {% if post.featuredImage %}
-        <div class="mb-4">
-            <img src="/media/{{ post.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
-        </div>
-    {% endif %}
-    {{ content|raw }}
+    <div class="p-5 bg-white border rounded shadow-sm">
+        <h1 class="fw-bold">{{ title|raw }}</h1>
+        <h6 class="text-muted mb-4">
+            <i class="bi bi-folder2-open"></i> {{ post.categories|first.title }}
+            <i class="bi bi-clock ms-3"></i> {{ post.createdAt|date('Y.m.d.') }}
+        </h6>
+        {% if post.featuredImage %}
+            <div class="mb-4">
+                <img src="/media/{{ post.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
+            </div>
+        {% endif %}
+        {{ content|raw }}
+    </div>
 {% endblock %}
