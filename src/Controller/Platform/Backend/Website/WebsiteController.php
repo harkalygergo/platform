@@ -217,7 +217,7 @@ class WebsiteController extends PlatformController
         $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events);
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
-        $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $menus);
+        $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $pages, $menus);
 
         //$this->addFlash('success', $flashText);
 
@@ -226,7 +226,7 @@ class WebsiteController extends PlatformController
         //return $this->redirectToRoute('admin_v1_website_index');
     }
 
-    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $menus)
+    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $pages, $menus)
     {
         foreach ($events as $event) {
             $eventContent = $this->renderView('themes/' . $website->getTheme() . '/event.html.twig', [
@@ -240,6 +240,7 @@ class WebsiteController extends PlatformController
                 'menus' => $menus,
                 'categories' => $categories,
                 'events' => $events,
+                'pages' => $pages,
             ]);
 
             if ($event->getSlug() === '') {
