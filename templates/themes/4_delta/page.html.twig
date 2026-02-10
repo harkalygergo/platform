@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ title|raw }}</h1>
-    {% if page.featuredImage %}
-        <div class="mb-4">
-            <img src="/media/{{ page.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
-        </div>
-    {% endif %}
-    {{ content|raw }}
+    <div class="p-5 bg-white border rounded shadow-sm">
+        <h1 class="fw-bold">{{ title|raw }}</h1>
+        {% if page.featuredImage %}
+            <div class="mb-4">
+                <img src="/media/{{ page.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
+            </div>
+        {% endif %}
+        {{ content|raw }}
+    </div>
 {% endblock %}
