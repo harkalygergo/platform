@@ -344,7 +344,7 @@ class WebsiteController extends PlatformController
             file_put_contents($tempFilePath, $htmlContent);
 
             // Add to URLs and filenames for .htaccess
-            $urls[] = 'kategoria/'.$slug;
+            $urls[] = '/kategoria/'.$slug;
             $filenames[] = $slug . '.html';
 
             // Push to FTP
@@ -446,7 +446,7 @@ class WebsiteController extends PlatformController
                 }
             }
 
-            $urls[] = $slug;
+            $urls[] = '/'.$slug;
             $filenames[] = $slug.'.html';
 
             // if slug contains slashes, create necessary directories in /tmp/{websiteId}/
@@ -539,7 +539,7 @@ class WebsiteController extends PlatformController
             file_put_contents($tempFilePath, $htmlContent);
 
             // Add to URLs and filenames for .htaccess
-            $urls[] = $slug;
+            $urls[] = '/'.$slug;
             $filenames[] = $fileName . '.html';
 
             // Push to FTP
