@@ -5,22 +5,23 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ title|raw }}</h1>
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        {% for post in content.posts %}
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ post.title }}</h5>
-                        {{ post.content|raw }}
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="/{{ post.categories|first.slug }}/{{ post.slug }}" class="btn btn-dark">
-                            részletek
-                        </a>
+    <div class="p-5 bg-white border rounded shadow-sm">
+        <h1 class="fw-bold">{{ title|raw }}</h1>
+        <div class="row row-cols-1 row-cols-md-1 g-4">
+            {% for post in content.posts %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="/{{ category.slug }}/{{ post.slug }}" class="text-decoration-none text-dark" title="{{ post.title }} részletei">
+                                    {{ post.title }} &raquo;
+                                </a>
+                            </h5>
+                            {{ post.content|raw }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

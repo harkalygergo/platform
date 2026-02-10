@@ -328,6 +328,7 @@ class WebsiteController extends PlatformController
                 'categories' => $categories,
                 'pages' => $pages,
                 'menus' => $menus,
+                'category' => $category,
             ]);
 
             if ($category->getSlug() === '') {
