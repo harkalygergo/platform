@@ -1,7 +1,7 @@
 <div class="p-2 mb-4 bg-white border rounded shadow-sm">
     <h4 class="text-center fw-bold">Események</h4>
     {% if events is defined %}
-        <ul>
+        <ul class="list-unstyled p-3">
             {% set lastEvents = events|slice(0,10) %}
             {% for event in lastEvents %}
                 <li class="py-1 border-bottom">
@@ -19,7 +19,7 @@
 <div class="p-2 mb-4 bg-white border rounded shadow-sm">
     <h4 class="text-center fw-bold">Oldalak</h4>
     {% if pages is defined %}
-        <ul>
+        <ul class="list-unstyled p-3">
             {% for page in pages %}
                 <li class="py-1 border-bottom">
                     <a href="{{ page.slug }}" class="text-decoration-none text-dark" title="{{ page.title }} esemény részletei">

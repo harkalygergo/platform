@@ -2,8 +2,8 @@
     {% if menu.parent is null %}
         {% if menu.hasChildren() %}
             {# Parent menu with children - render as dropdown #}
-            <li class="nav-item dropdown px-2">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="dropdown">
+                <a class="nav-link px-2 text-white dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ menu.title }}
                 </a>
                 <ul class="dropdown-menu">
@@ -16,8 +16,8 @@
             </li>
         {% else %}
             {# Simple menu item without children #}
-            <li class="nav-item px-2">
-                <a class="nav-link" aria-current="page" href="{{ menu.slug }}">{{ menu.title }}</a>
+            <li>
+                <a class="nav-link px-2 text-white" aria-current="page" href="{{ menu.slug }}">{{ menu.title }}</a>
             </li>
         {% endif %}
     {% endif %}

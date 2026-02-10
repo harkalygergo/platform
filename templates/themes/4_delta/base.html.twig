@@ -47,29 +47,40 @@
     <div class="row">
         <div class="col-12">
             <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarNav">
-                                <ul class="navbar-nav">
 
-                                    <li>
-                                        <a class="navbar-brand text-wrap" href="/">
-                                            <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" class="mb-4" style="max-height: 30px;">
-                                        </a>
-                                    </li>
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start py-4">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                        <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" class="me-2" style="max-height: 3rem;">
+                    </a>
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 
-                                    {% block navigation %}
-                                    {% endblock %}
+                        {% block navigation %}
+                        {% endblock %}
 
-                                </ul>
-                            </div>
-                        </nav>
+                    </ul>
+                    <div class="text-end">
+                        {% if website.bluesky != null and website.bluesky != '' %}
+                            <a href="{{ website.bluesky }}" class="text-white text-decoration-none p-2" target="_blank" title="Bluesky"><i class="fs-4 bi bi-bluesky"></i></a>
+                        {% endif %}
+                        {% if website.facebook != null and website.facebook != '' %}
+                            <a href="{{ website.facebook }}" class="text-white text-decoration-none p-2" target="_blank" title="Facebook"><i class="fs-4 bi bi-facebook"></i></a>
+                        {% endif %}
+                        {% if website.instagram != null and website.instagram != '' %}
+                            <a href="{{ website.instagram }}" class="text-white text-decoration-none p-2" target="_blank" title="Instagram"><i class="fs-4 bi bi-instagram"></i></a>
+                        {% endif %}
+                        {% if website.linkedin != null and website.linkedin != '' %}
+                            <a href="{{ website.linkedin }}" class="text-white text-decoration-none p-2" target="_blank" title="LinkedIn"><i class="fs-4 bi bi-linkedin"></i></a>
+                        {% endif %}
+                        {% if website.threads != null and website.threads != '' %}
+                            <a href="{{ website.threads }}" class="text-white text-decoration-none p-2" target="_blank" title="Threads"><i class="fs-4 bi bi-threads"></i></a>
+                        {% endif %}
+                        {% if website.twitter != null and website.twitter != '' %}
+                            <a href="{{ website.twitter }}" class="text-white text-decoration-none p-2" target="_blank" title="X (Twitter)"><i class="fs-4 bi bi-twitter-x"></i></a>
+                        {% endif %}
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

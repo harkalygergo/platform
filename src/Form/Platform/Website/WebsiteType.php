@@ -101,7 +101,7 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('treads', TextType::class, [
+            ->add('threads', TextType::class, [
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',

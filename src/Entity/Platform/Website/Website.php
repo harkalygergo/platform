@@ -93,7 +93,7 @@ class Website
     private ?string $tiktok;
 
     #[ORM\Column(length: 64, nullable: true)]
-    private ?string $treads;
+    private ?string $threads;
 
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $bluesky;
@@ -451,14 +451,14 @@ class Website
         return $this;
     }
 
-    public function getTreads(): ?string
+    public function getThreads(): ?string
     {
-        return $this->treads;
+        return $this->threads;
     }
 
-    public function setTreads(?string $treads): self
+    public function setThreads(?string $threads): self
     {
-        $this->treads = $treads;
+        $this->threads = $threads;
 
         return $this;
     }
