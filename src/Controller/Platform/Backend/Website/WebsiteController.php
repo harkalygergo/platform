@@ -252,7 +252,7 @@ class WebsiteController extends PlatformController
                 }
             }
 
-            $urls[] = $slug;
+            $urls[] = 'esemeny/'.$slug;
             $filenames[] = $slug . '.html';
 
             // if slug contains slashes, create necessary directories in /tmp/{websiteId}/
