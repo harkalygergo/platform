@@ -346,7 +346,7 @@ class WebsiteController extends PlatformController
             file_put_contents($tempFilePath, $htmlContent);
 
             // Add to URLs and filenames for .htaccess
-            $urls[] = $slug;
+            $urls[] = 'kategoria/'.$slug;
             $filenames[] = $slug . '.html';
 
             // Push to FTP
