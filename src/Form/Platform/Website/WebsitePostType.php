@@ -3,11 +3,11 @@
 
 namespace App\Form\Platform\Website;
 
-use App\Entity\Platform\User;
 use App\Entity\Platform\Website\WebsiteCategory;
+use App\Entity\Platform\Website\WebsiteMedia;
 use App\Entity\Platform\Website\WebsitePost;
-use App\Repository\Platform\UserRepository;
 use App\Repository\Platform\Website\WebsiteCategoryRepository;
+use App\Repository\Platform\Website\WebsiteMediaRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -22,8 +22,7 @@ class WebsitePostType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $this->website = $options['website'];
-
+        $currentWebsite = $this->website = $options['website'];
 
         $builder
             ->add('title', TextType::class, [
@@ -86,6 +85,20 @@ class WebsitePostType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-check-input',
+                ],
+            ])
+            ->add('featuredImage', EntityType::class, [
+                'class' => WebsiteMedia::class,
+                'choice_label' => 'originalName', // Adjust to the property you want to display
+                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                    return $er->createQueryBuilder('wm')
+                        ->where('wm.website = :website')
+                        ->setParameter('website', $currentWebsite->getId());
+                },
+                'required' => false,
+                'placeholder' => ' - select a featured image - ',
+                'attr' => [
+                    'class' => 'form-control',
                 ],
             ])
         ;

@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 #[IsGranted(User::ROLE_USER)]
 #[Route('/{_locale}/admin/v1/website')]
@@ -516,6 +514,7 @@ class WebsiteController extends PlatformController
                 'categories' => $categories,
                 'pages' => $pages,
                 'menus' => $menus,
+                'post' => $post,
             ]);
 
             if ($post->getSlug() === '') {
