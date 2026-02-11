@@ -128,9 +128,10 @@ final class EventController extends PlatformController
 
             $event->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
-            $this->addFlash('success', 'event.updated_successfully');
+            $this->addFlash('success', $this->translator->trans('action.updated'));
 
-            return $this->redirectToRoute('admin_event_edit', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
+            //return $this->redirectToRoute('admin_event_edit', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
         }
 
         /*

@@ -8,6 +8,99 @@
     <div class="p-5 bg-white border rounded shadow-sm">
         <h1 class="fw-bold">{{ title|raw }}</h1>
 
+
+
+
+
+        <div id="map" style="height: 500px;"></div>
+
+        <script>
+            const events = [
+                {% set validEvents = [] %}
+                {% for event in events %}
+                {% if event.latitude and event.longitude %}
+                {% set validEvents = validEvents|merge([event]) %}
+                {% endif %}
+                {% endfor %}
+
+                {% for event in validEvents %}
+                {
+                    id: {{ event.id }},
+                    name: {{ event.title|json_encode|raw }},
+                    description: {{ event.description|striptags|json_encode|raw }},
+                    date: "{{ event.startAt|date('c') }}",
+                    latitude: {{ event.latitude }},
+                    longitude: {{ event.longitude }},
+                    location: {{ event.locationName|json_encode|raw }},
+                    address: {{ event.location|json_encode|raw }},
+                    url: {{ event.ticketUrl|json_encode|raw }}
+                }{{ loop.last ? '' : ',' }}
+                {% endfor %}
+            ];
+
+            function initMap() {
+                const map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: 47.2314, lng: 16.6218 },
+                    zoom: 7
+                });
+
+                if (events.length === 0) {
+                    console.warn('No events with valid coordinates found');
+                    return;
+                }
+
+                const bounds = new google.maps.LatLngBounds();
+
+                events.forEach(event => {
+                    const marker = new google.maps.Marker({
+                        position: { lat: parseFloat(event.latitude), lng: parseFloat(event.longitude) },
+                        map: map,
+                        title: event.name
+                    });
+
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `
+                    <div style="max-width: 250px;">
+                        <h3>${event.name}</h3>
+                        <p><strong>Helyszín:</strong> ${event.location}</p>
+                        <p><strong>Cím:</strong> ${event.address}</p>
+                        <p><strong>Időpont:</strong> ${new Date(event.date).toLocaleString('hu-HU')}</p>
+                        ${event.description ? `<p>${event.description}</p>` : ''}
+                        ${event.url ? `<a href="${event.url}" target="_blank">Jegyek</a>` : ''}
+                    </div>
+                `
+                    });
+
+                    marker.addListener('click', () => {
+                        infoWindow.open(map, marker);
+                    });
+
+                    bounds.extend(new google.maps.LatLng(
+                        parseFloat(event.latitude),
+                        parseFloat(event.longitude)
+                    ));
+                });
+
+                map.fitBounds(bounds);
+            }
+        </script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVnMze6aTLy9UqzjSCaR9DJL2vUocZC68&callback=initMap" async defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         {{ content|raw }}
 
         {% if events is defined %}
