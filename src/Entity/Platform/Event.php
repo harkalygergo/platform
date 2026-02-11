@@ -46,6 +46,12 @@ class Event
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $locationName = null;
 
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
+    private ?float $latitude = null;
+
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
+    private ?float $longitude = null;
+
     #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -150,6 +156,26 @@ class Event
     public function setLocationName(?string $locationName): void
     {
         $this->locationName = $locationName;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?float $latitude): void
+    {
+        $this->latitude = $latitude;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?float $longitude): void
+    {
+        $this->longitude = $longitude;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable

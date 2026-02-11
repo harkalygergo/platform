@@ -8,7 +8,7 @@ use App\Form\EventType;
 use App\Repository\Platform\EventRepository;
 use App\Entity\Platform\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Geocoder\Query\GeocodeQuery;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/admin/event')]
 #[IsGranted(User::ROLE_ADMIN)]
@@ -39,6 +38,9 @@ final class EventController extends PlatformController
                 'startAt' => 'Start',
                 'endAt' => 'End',
                 'location' => 'Location',
+                'locationName' => 'Location Name',
+                'latitude' => 'Latitude',
+                'longitude' => 'Longitude',
             ],
             'tableBody' => $data,
             'actions' => [
@@ -62,6 +64,12 @@ final class EventController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $event->setCreatedAt(new \DateTimeImmutable());
+
+            $geocode = $this->getAddressGeocode($event->getLocation());
+            if ($geocode) {
+                $event->setLatitude($geocode['latitude']);
+                $event->setLongitude($geocode['longitude']);
+            }
 
             // if website is not set, set to current instance's first website
             if (null === $event->getWebsite()) {
@@ -103,10 +111,21 @@ final class EventController extends PlatformController
     #[Route('/edit/{id:event}', name: 'admin_event_edit', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event, EntityManagerInterface $em): Response
     {
+        $originalEvent = clone $event;
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // if location is changed, update latitude and longitude
+            if ($event->getLocation()!==$originalEvent->getLocation()) {
+                $geocode = $this->getAddressGeocode($event->getLocation());
+                if ($geocode) {
+                    $event->setLatitude($geocode['latitude']);
+                    $event->setLongitude($geocode['longitude']);
+                }
+            }
+
             $event->setUpdatedAt(new \DateTimeImmutable());
             $em->flush();
             $this->addFlash('success', 'event.updated_successfully');
@@ -146,5 +165,24 @@ final class EventController extends PlatformController
 
         return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
     }
-}
 
+    private function getAddressGeocode(string $address): ?array
+    {
+        try {
+            $httpClient = new \Http\Discovery\Psr18Client();
+            $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, 'AIzaSyDUUphBsnzUfbjC93pE8HF98zeKtgqizCM');
+            $geocoder = new \Geocoder\StatefulGeocoder($provider, 'hu');
+
+            $result = $geocoder->geocodeQuery(GeocodeQuery::create($address));
+
+            $coordinates = $result->first()->getCoordinates();
+
+            return [
+                'latitude' => $coordinates->getLatitude(),
+                'longitude' => $coordinates->getLongitude(),
+            ];
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+}
