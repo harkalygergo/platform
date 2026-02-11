@@ -8,6 +8,7 @@
     <div class="p-5 bg-white border rounded shadow-sm">
         <h1 class="fw-bold">{{ title|raw }}</h1>
 
+        {{ content|raw }}
 
 
 
@@ -88,20 +89,6 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVnMze6aTLy9UqzjSCaR9DJL2vUocZC68&callback=initMap" async defer></script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        {{ content|raw }}
 
         {% if events is defined %}
             <h2 class="mt-5">Következő események</h2>
