@@ -140,6 +140,9 @@ class Website
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $footerHTML = null;
 
+    #[ORM\Column(length: 128, nullable: true)]
+    private ?string $googleApiKey;
+
     public function __construct()
     {
         $this->status = true;
@@ -639,6 +642,18 @@ class Website
     public function setFooterHTML(?string $footerHTML): self
     {
         $this->footerHTML = $footerHTML;
+
+        return $this;
+    }
+
+    public function getGoogleApiKey(): ?string
+    {
+        return $this->googleApiKey;
+    }
+
+    public function setGoogleApiKey(?string $googleApiKey): self
+    {
+        $this->googleApiKey = $googleApiKey;
 
         return $this;
     }

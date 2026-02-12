@@ -265,6 +265,14 @@ class WebsiteType extends AbstractType
                     'class' => 'form-check-input',
                 ],
             ])
+            ->add('googleApiKey', TextType::class, [
+                'label' => 'Google API Key',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'readonly' => true,
+                ],
+            ])
         ;
 
         if ($currentWebsite) {
