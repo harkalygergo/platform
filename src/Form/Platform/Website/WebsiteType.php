@@ -270,7 +270,6 @@ class WebsiteType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'readonly' => true,
                 ],
             ])
         ;
