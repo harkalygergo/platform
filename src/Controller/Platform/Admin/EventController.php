@@ -4,6 +4,7 @@ namespace App\Controller\Platform\Admin;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Event;
+use App\Entity\Platform\Location;
 use App\Form\EventType;
 use App\Repository\Platform\EventRepository;
 use App\Entity\Platform\User;
@@ -65,10 +66,11 @@ final class EventController extends PlatformController
         if ($form->isSubmitted() && $form->isValid()) {
             $event->setCreatedAt(new \DateTimeImmutable());
 
-            $geocode = $this->getAddressGeocode($event->getLocation());
-            if ($geocode) {
-                $event->setLatitude($geocode['latitude']);
-                $event->setLongitude($geocode['longitude']);
+            $locationObject = $this->getLocation($event->getLocation());
+            if ($locationObject)            {
+                $event->setLatitude($locationObject->getLatitude());
+                $event->setLongitude($locationObject->getLongitude());
+                $event->setLocationEntity($locationObject);
             }
 
             // if website is not set, set to current instance's first website
@@ -117,12 +119,14 @@ final class EventController extends PlatformController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $locationObject = null;
             // if location is changed, update latitude and longitude
             if ($event->getLocation()!==$originalEvent->getLocation()) {
-                $geocode = $this->getAddressGeocode($event->getLocation());
-                if ($geocode) {
-                    $event->setLatitude($geocode['latitude']);
-                    $event->setLongitude($geocode['longitude']);
+                $locationObject = $this->getLocation($event->getLocation());
+                if ($locationObject)            {
+                    $event->setLatitude($locationObject->getLatitude());
+                    $event->setLongitude($locationObject->getLongitude());
+                    $event->setLocationEntity($locationObject);
                 }
             }
 
@@ -167,23 +171,62 @@ final class EventController extends PlatformController
         return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    private function getAddressGeocode(string $address): ?array
+    private function getLocation(string $address): ?object
     {
-        try {
+        // check if location exists in database, if exists return the Location entity, otherwise return null
+        $location = $this->doctrine->getRepository(Location::class)->findOneBy(['name' => $address]);
+
+        if (!$location) {
+            $APIKey = $this->currentInstance->getWebsites()->first()->getGoogleApiKey();
+
             $httpClient = new \Http\Discovery\Psr18Client();
-            $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, 'AIzaSyDUUphBsnzUfbjC93pE8HF98zeKtgqizCM');
+            $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, $APIKey);
             $geocoder = new \Geocoder\StatefulGeocoder($provider, 'hu');
 
             $result = $geocoder->geocodeQuery(GeocodeQuery::create($address));
 
-            $coordinates = $result->first()->getCoordinates();
+            if ($result->count() === 0) {
+                return null;
+            }
 
-            return [
-                'latitude' => $coordinates->getLatitude(),
-                'longitude' => $coordinates->getLongitude(),
-            ];
-        } catch (\Exception $e) {
-            return null;
+            //return $result->first();
+            $location = $this->addLocation($address, $result->first());
         }
+        /*
+        else {
+            return (object) [
+                'coordinates' => (object) [
+                    'latitude' => $location->getLatitude(),
+                    'longitude' => $location->getLongitude(),
+                ],
+                'postalCode' => $location->getZip(),
+                'locality' => $location->getCity(),
+                'country' => (object) [
+                    'name' => $location->getCountry(),
+                ],
+                'streetName' => $location->getAddress(),
+                'streetNumber' => '',
+            ];
+        }
+        */
+
+        return $location;
+    }
+
+    private function addLocation($address, $geocode): Location
+    {
+        $location = new Location();
+        $location->setName($address);
+        $location->setZip($geocode->getPostalCode());
+        $location->setCity($geocode->getLocality());
+        $location->setAddress($geocode->getStreetName());
+        $location->setNumber($geocode->getStreetNumber());
+        $location->setCountry($geocode->getCountry()->getName());
+        $location->setLatitude($geocode->getCoordinates()->getLatitude());
+        $location->setLongitude($geocode->getCoordinates()->getLongitude());
+        $this->doctrine->getManager()->persist($location);
+        $this->doctrine->getManager()->flush();
+
+        return $location;
     }
 }

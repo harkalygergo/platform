@@ -68,6 +68,10 @@ class Event
     #[ORM\JoinColumn(name: "website_id", referencedColumnName: "id", nullable: false)]
     private ?Website $website = null;
 
+    #[ORM\ManyToOne(targetEntity: Location::class)]
+    #[ORM\JoinColumn(name: "location_id", referencedColumnName: "id", nullable: true)]
+    private ?Location $locationEntity = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -226,5 +230,15 @@ class Event
     public function setWebsite(?Website $website): void
     {
         $this->website = $website;
+    }
+
+    public function getLocationEntity(): ?Location
+    {
+        return $this->locationEntity;
+    }
+
+    public function setLocationEntity(?Location $locationEntity): void
+    {
+        $this->locationEntity = $locationEntity;
     }
 }
