@@ -660,6 +660,9 @@ Crawl-delay: 10
                 return;
             }
 
+            // Delete existing file before uploading (ensures overwrite)
+            @ftp_delete($ftp, $FTPpath.$filename);
+
             ftp_put($ftp, $FTPpath.$filename, $content, FTP_ASCII);
             ftp_close($ftp);
         }
