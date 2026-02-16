@@ -18,8 +18,6 @@ class WebsitePageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $currentWebsite = $options['data']->getWebsite();
-
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
@@ -54,20 +52,6 @@ class WebsitePageType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('featuredImage', EntityType::class, [
-                'class' => WebsiteMedia::class,
-                'choice_label' => 'originalName', // Adjust to the property you want to display
-                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
-                    return $er->createQueryBuilder('wm')
-                        ->where('wm.website = :website')
-                        ->setParameter('website', $currentWebsite->getId());
-                },
-                'required' => false,
-                'placeholder' => ' - select a featured image - ',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
             ->add('status', CheckboxType::class, [
                 'label' => 'Status',
                 'required' => false,
@@ -82,7 +66,28 @@ class WebsitePageType extends AbstractType
                 'attr' => [
                     'class' => 'form-check-input',
                 ],
-            ])
+            ]);
+
+            if(array_key_exists('data', $options)) {
+                $currentWebsite = $options['data']->getWebsite();
+
+                $builder
+                    ->add('featuredImage', EntityType::class, [
+                        'class' => WebsiteMedia::class,
+                        'choice_label' => 'originalName', // Adjust to the property you want to display
+                        'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                            return $er->createQueryBuilder('wm')
+                                ->where('wm.website = :website')
+                                ->setParameter('website', $currentWebsite->getId());
+                        },
+                        'required' => false,
+                        'placeholder' => ' - select a featured image - ',
+                        'attr' => [
+                            'class' => 'form-control',
+                        ],
+                    ])
+                ;
+            }
 
             /*
             ->add('slug', TextType::class, [
