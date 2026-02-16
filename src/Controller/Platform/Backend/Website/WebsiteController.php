@@ -213,11 +213,14 @@ class WebsiteController extends PlatformController
         $menus = $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
         $events = $this->doctrine->getRepository('App\Entity\Platform\Event')->findUpcoming($website, 100);
 
+        // get recent 10 posts of the website
+        $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true], ['createdAt' => 'DESC'], 10);
+
         $this->deployStylesheet($website);
-        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus);
-        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events);
-        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events);
-        $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $pages, $menus);
+        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $posts);
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts);
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts);
+        $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $pages, $menus, $posts);
 
         //$this->addFlash('success', $flashText);
 
@@ -226,7 +229,7 @@ class WebsiteController extends PlatformController
         //return $this->redirectToRoute('admin_v1_website_index');
     }
 
-    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $pages, $menus)
+    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $pages, $menus, $posts)
     {
         foreach ($events as $event) {
             $eventContent = $this->renderView('themes/' . $website->getTheme() . '/event.html.twig', [
@@ -241,6 +244,7 @@ class WebsiteController extends PlatformController
                 'categories' => $categories,
                 'events' => $events,
                 'pages' => $pages,
+                'posts' => $posts,
             ]);
 
             if ($event->getSlug() === '') {
@@ -307,7 +311,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus)
+    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts)
     {
         // create a '/tmp/' . $website->getId() . '/kategoria' directory if it doesn't exist
         $categoryDir = '/tmp/' . $website->getId() . '/kategoria';
@@ -329,6 +333,7 @@ class WebsiteController extends PlatformController
                 'pages' => $pages,
                 'menus' => $menus,
                 'category' => $category,
+                'posts' => $posts,
             ]);
 
             if ($category->getSlug() === '') {
@@ -366,7 +371,7 @@ class WebsiteController extends PlatformController
 
     }
 
-    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events)
+    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts)
     {
         $i = 0;
         foreach ($pages as $page) {
@@ -436,6 +441,7 @@ class WebsiteController extends PlatformController
                 'menus' => $menus,
                 'events' => $events,
                 'page' => $page,
+                'posts' => $posts,
             ]);
 
             if ($page->getSlug() === '') {
@@ -481,7 +487,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events)
+    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts)
     {
         $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true]);
 
@@ -518,6 +524,7 @@ class WebsiteController extends PlatformController
                 'menus' => $menus,
                 'events' => $events,
                 'post' => $post,
+                'posts' => $posts,
             ]);
 
             if ($post->getSlug() === '') {

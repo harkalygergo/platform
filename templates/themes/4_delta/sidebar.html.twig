@@ -17,12 +17,42 @@
 </div>
 
 <div class="bg-white border rounded shadow-sm p-4 mb-4">
+    <h4 class="fw-bold mb-4 text-center">Legutóbbi bejegyzések</h4>
+    {% if posts is defined %}
+        <ul class="list-unstyled">
+            {% for post in posts %}
+                <li class="py-1 border-bottom">
+                    <a href="/{{ post.categories|first.slug }}/{{ post.slug }}" class="text-decoration-none text-dark" title="{{ post.title }} részletei">
+                        {{ post.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+<div class="bg-white border rounded shadow-sm p-4 mb-4">
+    <h4 class="fw-bold mb-4 text-center">Kategóriák</h4>
+    {% if categories is defined %}
+        <ul class="list-unstyled">
+            {% for category in categories %}
+                <li class="py-1 border-bottom">
+                    <a href="/kategoria/{{ category.slug }}" class="text-decoration-none text-dark" title="{{ category.title }} részletei">
+                        {{ category.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+<div class="bg-white border rounded shadow-sm p-4 mb-4">
     <h4 class="fw-bold mb-4 text-center">Oldalak</h4>
     {% if pages is defined %}
         <ul class="list-unstyled">
             {% for page in pages %}
                 <li class="py-1 border-bottom">
-                    <a href="/{{ page.slug }}" class="text-decoration-none text-dark" title="{{ page.title }} esemény részletei">
+                    <a href="/{{ page.slug }}" class="text-decoration-none text-dark" title="{{ page.title }} részletei">
                         {{ page.title }}
                     </a>
                 </li>
