@@ -33,6 +33,7 @@ class WebsitePostController extends PlatformController
                 'slug' => 'Slug',
                 'metaTitle' => 'Meta cím',
                 'status' => 'Státusz',
+                'categories' => 'Kategória',
             ],
             'tableBody' => $pagesByWebsite,
             'actions' => [

@@ -115,7 +115,13 @@
                                             {% elseif variable is instanceof('App\\Enum\\NewsletterStatusEnum') %}
                                                 {{ variable.toString()|trans }}
                                             {% else %}
-                                                {{ variable|trans }}
+                                                {% if variable is iterable %}
+                                                    {% for item in variable %}
+                                                        {{ item.title }}{% if not loop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {{ variable }}
+                                                {% endif %}
                                             {% endif %}
                                         </td>
                                     {% endfor %}
