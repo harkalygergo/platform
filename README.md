@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.02.19.1
+###### v2026.02.19.2
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -104,10 +104,10 @@ php bin/console doctrine:migrations:migrate
 # verify Doctrine mappings
 php bin/console doctrine:schema:validate
 php bin/console doctrine:mapping:info
-# set proper permissions
-chown -R $(stat -c '%U:%G' ..) .
 # clear cache
 php bin/console cache:clear
+# set proper permissions
+chown -R $(stat -c '%U:%G' ..) .
 
 # all of these steps can be automated with a single command, like:
 git status; git pull; composer update; npm update; php bin/console doctrine:migrations:migrate; php bin/console doctrine:schema:validate; php bin/console doctrine:mapping:info; php bin/console cache:clear; chown -R $(stat -c '%U:%G' ..) .; git status;

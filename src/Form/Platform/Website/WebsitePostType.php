@@ -25,6 +25,13 @@ class WebsitePostType extends AbstractType
         $currentWebsite = $this->website = $options['website'];
 
         $builder
+            ->add('status', CheckboxType::class, [
+                'label' => 'Status',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+            ])
             ->add('title', TextType::class, [
                 'attr' => [
                     'class' => 'form-control slugSource',
@@ -33,11 +40,6 @@ class WebsitePostType extends AbstractType
             ->add('slug', TextType::class, [
                 'attr' => [
                     'class' => 'form-control slugTarget',
-                ],
-            ])
-            ->add('content', TextareaType::class, [
-                'attr' => [
-                    'class' => 'form-control summernote',
                 ],
             ])
             ->add('metaTitle', TextType::class, [
@@ -54,6 +56,20 @@ class WebsitePostType extends AbstractType
             ])
             ->add('metaKeywords', TextType::class, [
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('featuredImage', EntityType::class, [
+                'class' => WebsiteMedia::class,
+                'choice_label' => 'originalName', // Adjust to the property you want to display
+                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                    return $er->createQueryBuilder('wm')
+                        ->where('wm.website = :website')
+                        ->setParameter('website', $currentWebsite->getId());
+                },
+                'required' => false,
+                'placeholder' => ' - select a featured image - ',
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -80,25 +96,9 @@ class WebsitePostType extends AbstractType
                 //'placeholder' => 'Choose an assignee',
                 'required' => true
             ])
-            ->add('status', CheckboxType::class, [
-                'label' => 'Status',
-                'required' => false,
+            ->add('content', TextareaType::class, [
                 'attr' => [
-                    'class' => 'form-check-input',
-                ],
-            ])
-            ->add('featuredImage', EntityType::class, [
-                'class' => WebsiteMedia::class,
-                'choice_label' => 'originalName', // Adjust to the property you want to display
-                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
-                    return $er->createQueryBuilder('wm')
-                        ->where('wm.website = :website')
-                        ->setParameter('website', $currentWebsite->getId());
-                },
-                'required' => false,
-                'placeholder' => ' - select a featured image - ',
-                'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control summernote',
                 ],
             ])
         ;
