@@ -43,7 +43,7 @@ class ServiceDomainController extends PlatformController
             ],
             'tableBody' => $services,
             'actions' => [
-                'new', 'delete'
+                'new', 'edit', 'delete'
             ],
         ]);
     }
@@ -72,6 +72,27 @@ class ServiceDomainController extends PlatformController
         return $this->render('platform/backend/v1/form.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => 'Új domain hozzáadása',
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{_locale}/admin/v1/domains/edit/{id}', name: 'admin_v1_domains_edit', requirements: ['id' => '\d+'])]
+    public function edit(Request $request, Service $domain, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ServiceType::class, $domain);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('action.updated'));
+            return $this->redirectToRoute('admin_v1_domains', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Domain szerkesztése',
             'form' => $form->createView(),
         ]);
     }
