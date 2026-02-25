@@ -267,9 +267,29 @@
                 <br><small class="text-uppercase">E-kereskedelem</small>
             </div>
         </div>
-        <div class="p-2">
-            <em>Nincs még elérhető menü</em>
-        </div>
+        <hr>
+
+        <small class="sidebar-heading d-flex text-white text-uppercase fw-bold small ps-2">
+            CMS | Tartalomkezelés
+        </small>
+
+        <ul class="nav flex-column text-white p-0 m-0">
+            <li class="nav-item">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#ecom_products" role="button" aria-expanded="false" aria-controls="blocks">
+                    <span>
+                        <i class="pe-1 bi bi-basket"></i>
+                        Termékek
+                    </span>
+                </a>
+                <div class="collapse submenu bg-black" id="ecom_products">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link link-light" href="{{ path('ecom_v1_products') }}">Összes termék</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="{{ path('ecom_v1_products_new') }}">Új termék hozzáadása</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+
     </div>
 
     <!-- CRM MENU -->

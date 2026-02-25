@@ -186,7 +186,7 @@ class WebsiteController extends PlatformController
     }
 
     #[Route('/deploy/{id}', name: 'admin_v1_website_deploy')]
-    public function deploy(Website $id): void
+    public function deploy(Website $id): \Symfony\Component\HttpFoundation\RedirectResponse|null
     {
         $website = $id;
 
@@ -227,6 +227,13 @@ class WebsiteController extends PlatformController
         $this->createHtaccessFile($website, $urls, $filenames);
 
         //return $this->redirectToRoute('admin_v1_website_index');
+        // if it is called from CLI, return the flash text instead of redirecting
+        if (php_sapi_name() === 'cli') {
+            return null;
+        } else {
+            $this->addFlash('success', $flashText);
+            return $this->redirectToRoute('admin_v1_website_index');
+        }
     }
 
     public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $pages, $menus, $posts)
