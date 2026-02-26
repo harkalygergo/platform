@@ -4,7 +4,6 @@ namespace App\Controller\Platform\Ecom;
 
 use App\Controller\Platform\PlatformController;
 use App\Form\Platform\Ecom\ProductType;
-use App\Form\Platform\Website\WebsiteType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,17 +17,23 @@ class ProductController extends PlatformController
             return $this->redirectToRoute('login');
         }
 
+        $products = $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findBy(['instance' => $this->currentInstance]);
+
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => 'Termékek',
             'tableHead' => [
                 'name' => 'Név',
-                'description' => 'Leírás',
+                'shortDescription' => 'Rövid leírás',
+                'sku' => 'SKU',
                 'price' => 'Ár',
+                'salePrice' => 'Akciós ár',
+                'saleStartDate' => 'Akció kezdete',
+                'saleEndDate' => 'Akció vége',
                 'currency' => 'Pénznem',
                 'status' => 'Státusz',
             ],
-            'tableBody' => [],
+            'tableBody' => $products,
             'actions' => [
                 'new', 'edit', 'delete'
             ],
@@ -44,7 +49,7 @@ class ProductController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entity = $form->getData();
-            //$entity->setInstance($this->currentInstance);
+            $entity->setInstance($this->currentInstance);
             $this->doctrine->getManager()->persist($entity);
             $this->doctrine->getManager()->flush();
 
