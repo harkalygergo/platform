@@ -62,5 +62,30 @@ class ProductController extends PlatformController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/{_locale}/ecom/v1/products/edit/{id}', name: 'ecom_v1_products_edit')]
+    public function edit(Request $request, $id): Response
+    {
+        $product = $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->find($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException('Termék nem található');
+        }
+
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->doctrine->getManager()->flush();
+
+            return $this->redirectToRoute('ecom_v1_products');
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'title' => 'Szerkesztés: ' . $product->getName(),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'form' => $form->createView(),
+        ]);
+    }
 }
 
