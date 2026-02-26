@@ -44,7 +44,10 @@ class ProductController extends PlatformController
     public function new(Request $request): Response
     {
         // handle form submission
-        $form = $this->createForm(ProductType::class);
+        $form = $this->createForm(ProductType::class, null, [
+            'currentInstance' => $this->currentInstance,
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,7 +75,9 @@ class ProductController extends PlatformController
             throw $this->createNotFoundException('Termék nem található');
         }
 
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductType::class, $product, [
+            'currentInstance' => $this->currentInstance,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

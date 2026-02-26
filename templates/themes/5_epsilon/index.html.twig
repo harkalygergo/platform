@@ -1,0 +1,7 @@
+{% block body %}
+
+    {% for product in products %}
+        {{ product.name }} - {{ product.description }}
+    {% endfor %}
+
+{% endblock %}

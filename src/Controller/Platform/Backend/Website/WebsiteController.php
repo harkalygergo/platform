@@ -4,6 +4,7 @@ namespace App\Controller\Platform\Backend\Website;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Block;
+use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsitePage;
@@ -216,11 +217,20 @@ class WebsiteController extends PlatformController
         // get recent 10 posts of the website
         $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true], ['createdAt' => 'DESC'], 10);
 
+        // get products of the website buy ProductRepository findByWebsiteAndStatus()
+        $products = $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findByWebsiteAndStatus($website, true);
+
+        /*
+        $productRepository = $this->doctrine->getRepository(Product::class);
+        $products = $productRepository->findByWebsiteAndStatus($website, true);
+        */
+
         $this->deployStylesheet($website);
-        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $posts);
-        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts);
-        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts);
-        $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $pages, $menus, $posts);
+        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $posts, $products);
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+        $this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $pages, $menus, $posts, $products);
+        $this->deployProducts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
 
         //$this->addFlash('success', $flashText);
 
@@ -236,7 +246,68 @@ class WebsiteController extends PlatformController
         }
     }
 
-    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $pages, $menus, $posts)
+    // deploy products
+    public function deployProducts(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products)
+    {
+        foreach ($products as $product) {
+            // render product template
+            $productContent = $this->renderView('themes/' . $website->getTheme() . '/index.html.twig', [
+                'website' => $website,
+                'charset' => $website->getCharset(),
+                'language' => $website->getLanguage(),
+                'title' => $product->getName(),
+                'keywords' => $website->getMetaKeywords(),
+                'description' => $website->getMetaDescription(),
+                'product' => $product,
+                'menus' => $menus,
+                'categories' => $categories,
+                'events' => $events,
+                'pages' => $pages,
+                'posts' => $posts,
+                'products' => $products,
+            ]);
+
+            if ($product->getSlug() === '') {
+                $slug = (new AsciiSlugger())->slug($product->getTitle());
+            } else {
+                if ($product->getSlug() === '/') {
+                    $slug = 'index';
+                } else {
+                    $slug = $product->getSlug();
+                }
+            }
+
+            $urls[] = 'termek/' . $slug;
+            $filenames[] = $slug . '.html';
+
+            // if slug contains slashes, create necessary directories in /tmp/{websiteId}/
+            $slugParts = explode('/', $slug);
+            if (count($slugParts) > 1) {
+                $path = '/tmp/' . $website->getId() . '/';
+                for ($j = 0; $j < count($slugParts) - 1; $j++) {
+                    $path .= $slugParts[$j] . '/';
+                    if (!is_dir($path)) {
+                        mkdir($path);
+                    }
+                }
+            }
+
+            // Save the generated HTML content to a temporary file
+            $tempFilePath = '/tmp/' . $website->getId() . '/' . $slug . '.html';
+            file_put_contents($tempFilePath, $productContent);
+
+            $this->pushToFTP(
+                $website->getFTPHost(),
+                $website->getFTPUser(),
+                $website->getFTPPassword(),
+                $website->getFTPPath(),
+                $tempFilePath,
+                $slug . '.html'
+            );
+        }
+    }
+
+    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $pages, $menus, $posts, $products)
     {
         foreach ($events as $event) {
             $eventContent = $this->renderView('themes/' . $website->getTheme() . '/event.html.twig', [
@@ -252,6 +323,7 @@ class WebsiteController extends PlatformController
                 'events' => $events,
                 'pages' => $pages,
                 'posts' => $posts,
+                'products' => $products,
             ]);
 
             if ($event->getSlug() === '') {
@@ -318,7 +390,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts)
+    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts, $products)
     {
         // create a '/tmp/' . $website->getId() . '/kategoria' directory if it doesn't exist
         $categoryDir = '/tmp/' . $website->getId() . '/kategoria';
@@ -341,6 +413,7 @@ class WebsiteController extends PlatformController
                 'menus' => $menus,
                 'category' => $category,
                 'posts' => $posts,
+                'products' => $products,
             ]);
 
             if ($category->getSlug() === '') {
@@ -378,7 +451,7 @@ class WebsiteController extends PlatformController
 
     }
 
-    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts)
+    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products)
     {
         $i = 0;
         foreach ($pages as $page) {
@@ -449,6 +522,7 @@ class WebsiteController extends PlatformController
                 'events' => $events,
                 'page' => $page,
                 'posts' => $posts,
+                'products' => $products,
             ]);
 
             if ($page->getSlug() === '') {
@@ -494,7 +568,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts)
+    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products)
     {
         $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true]);
 

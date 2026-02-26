@@ -3,6 +3,11 @@
 namespace App\Form\Platform\Ecom;
 
 use App\Entity\Platform\Ecom\Product;
+use App\Entity\Platform\Website\Website;
+use App\Entity\Platform\Website\WebsiteCategory;
+use App\Repository\Platform\Website\WebsiteCategoryRepository;
+use App\Repository\Platform\Website\WebsiteRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -237,6 +242,26 @@ class ProductType extends AbstractType
                 ],
                 'empty_data' => '0',
             ])
+
+            // add multi select for current instance websites
+            ->add('websites', EntityType::class, [
+                'class' => Website::class,
+                'choice_label' => function (Website $website) {
+                    return $website->getName() . ' (' . $website->getDomain() . ')';
+                },
+                'query_builder' => function (WebsiteRepository $repository) use ($options) {
+                    $qb = $repository->createQueryBuilder('w')
+                        ->where('w.instance = :instance')
+                        ->setParameter('instance', $options['currentInstance']);
+                    return $qb->orderBy('w.name', 'ASC');
+                },
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required' => false,
+                'label' => 'Weboldalak',
+            ])
         ;
     }
 
@@ -244,6 +269,7 @@ class ProductType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
+            'currentInstance' => null,
         ]);
     }
 }

@@ -3,10 +3,12 @@
 namespace App\Entity\Platform\Ecom;
 
 use App\Entity\Platform\Instance;
+use App\Entity\Platform\Website\Website;
+use App\Repository\Platform\Ecom\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'ecom_product')]
 #[ORM\HasLifecycleCallbacks]
 class Product
@@ -137,6 +139,10 @@ class Product
 
     #[ORM\ManyToOne(targetEntity: Instance::class)]
     private Instance $instance;
+
+    #[ORM\ManyToMany(targetEntity: Website::class, inversedBy: 'products')]
+    #[ORM\JoinTable(name: 'ecom_product_website')]
+    private $websites;
 
     // Getters and Setters
     public function getId(): ?int
@@ -599,6 +605,25 @@ class Product
     public function setInstance(Instance $instance): static
     {
         $this->instance = $instance;
+        return $this;
+    }
+
+    public function getWebsites()
+    {
+        return $this->websites;
+    }
+
+    public function addWebsite(Website $website): static
+    {
+        if (!$this->websites->contains($website)) {
+            $this->websites[] = $website;
+        }
+        return $this;
+    }
+
+    public function removeWebsite(Website $website): static
+    {
+        $this->websites->removeElement($website);
         return $this;
     }
 }

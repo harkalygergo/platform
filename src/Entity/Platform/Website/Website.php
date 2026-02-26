@@ -2,9 +2,11 @@
 
 namespace App\Entity\Platform\Website;
 
+use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
 use App\Repository\Platform\Website\WebsiteRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WebsiteRepository::class)]
@@ -142,6 +144,9 @@ class Website
 
     #[ORM\Column(length: 128, nullable: true)]
     private ?string $googleApiKey;
+
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'websites')]
+    private Collection $products;
 
     public function __construct()
     {
@@ -654,6 +659,30 @@ class Website
     public function setGoogleApiKey(?string $googleApiKey): self
     {
         $this->googleApiKey = $googleApiKey;
+
+        return $this;
+    }
+
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->addWebsite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            $product->removeWebsite($this);
+        }
 
         return $this;
     }
