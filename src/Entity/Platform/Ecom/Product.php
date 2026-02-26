@@ -2,6 +2,7 @@
 
 namespace App\Entity\Platform\Ecom;
 
+use App\Entity\Platform\Instance;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -133,6 +134,9 @@ class Product
 
     #[ORM\Column(options: ['default' => 0])]
     private int $sortOrder = 0;
+
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    private Instance $instance;
 
     // Getters and Setters
     public function getId(): ?int
@@ -585,5 +589,16 @@ class Product
     public function isInStock(): bool
     {
         return $this->quantity > 0 || $this->allowBackorder;
+    }
+
+    public function getInstance(): Instance
+    {
+        return $this->instance;
+    }
+
+    public function setInstance(Instance $instance): static
+    {
+        $this->instance = $instance;
+        return $this;
     }
 }
