@@ -54,7 +54,7 @@ class Product
     #[ORM\Column(length: 3, options: ['default' => 'HUF'])]
     private string $currency = 'HUF';
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, options: ['default' => 27.00])]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2, options: ['default' => '27.00'])]
     private string $vatRate = '27.00';
 
     // Inventory

@@ -46,7 +46,7 @@ php bin/console doctrine:migrations:diff
 # apply database migrations
 php bin/console doctrine:migrations:migrate
 # verify Doctrine mappings
-php bin/console doctrine:schema:validate
+php bin/console doctrine:schema:validate -v
 php bin/console doctrine:mapping:info
 # clear cache
 php bin/console cache:clear
@@ -110,5 +110,5 @@ php bin/console cache:clear
 chown -R $(stat -c '%U:%G' ..) .
 
 # all of these steps can be automated with a single command, like:
-git status; git pull; composer update; npm update; php bin/console doctrine:migrations:migrate; php bin/console doctrine:schema:validate; php bin/console doctrine:mapping:info; php bin/console cache:clear; chown -R $(stat -c '%U:%G' ..) .; git status;
+git status; git pull; composer update; npm update; composer dump-autoload -o; php bin/console doctrine:migrations:migrate; php bin/console doctrine:schema:validate; php bin/console doctrine:mapping:info; php bin/console cache:clear; chown -R $(stat -c '%U:%G' ..) .; git status;
 ```
