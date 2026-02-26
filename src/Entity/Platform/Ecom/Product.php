@@ -292,7 +292,7 @@ class Product
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): static
+    public function setQuantity(?int $quantity): static
     {
         $this->quantity = $quantity;
         return $this;

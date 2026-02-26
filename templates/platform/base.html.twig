@@ -38,6 +38,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/node_modules/summernote/dist/summernote-bs5.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 
     <style>
         body {
@@ -91,6 +92,7 @@
     <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/summernote-bs5.min.js"></script>
     <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/lang/summernote-en-US.min.js"></script>
     <script src="https://cdn.brandcomstudio.com/node_modules/summernote/dist/lang/summernote-hu-HU.min.js"></script>
+    <script src="https://cdn.brandcomstudio.com/node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
 
     <script>
         function slugify(text) {
@@ -115,11 +117,36 @@
             });
         });
 
-        $(document).ready(function() {
-            $('.summernote').summernote({
+        jQuery(document).ready(function() {
+            jQuery('.summernote').summernote({
                 lang: 'hu-HU',
             });
+
+            jQuery.datetimepicker.setLocale('hu');
+
+            jQuery('.datetimepicker').datetimepicker({
+                /*
+                i18n:{
+                    hu:{
+                        months:[
+                            'Januar','Februar','März','April',
+                            'Mai','Juni','Juli','August',
+                            'September','Oktober','November','Dezember',
+                        ],
+                        dayOfWeek:[
+                            "So.", "Mo", "Di", "Mi",
+                            "Do", "Fr", "Sa.",
+                        ]
+                    }
+                },
+                */
+                format: 'Y-m-d H:i'
+                //format:'unixtime'
+                //timepicker:false,
+                //format:'d.m.Y'
+            });
         });
+
     </script>
 
 </body>
