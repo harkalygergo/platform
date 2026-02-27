@@ -1,7 +1,52 @@
+{% extends 'themes/5_epsilon/base.html.twig' %}
+
 {% block body %}
 
-    {% for product in products %}
-        {{ product.name }} - {{ product.description }}
-    {% endfor %}
+    <h1>Termékek</h1>
 
+    <div class="row row-cols-2 row-cols-sm-2 row-cols-lg-4 g-4 py-4">
+        {% for product in products %}
+            <div class="col p-0">
+                <div class="card m-0 p-0 mx-1 shadow h-100">
+                    <div class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="carousel-item">
+                                <a href="/termek/{{ product.slug }}">
+                                    <img src="https://images.pexels.com/photos/4604713/pexels-photo-4604713.jpeg" class="card-img-top" alt="{{ product.name }}" loading="lazy">
+                                </a>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicator7" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicator7" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title linear-gradient fw-bold">
+                                <a href="/termek/{{ product.slug }}" class="text-dark text-decoration-none">
+                                    {{ product.name }}
+                                </a>
+                            </h5>
+                            <p class="card-text">
+                                {{ product.shortDescription }}
+                            </p>
+                            <p class="card-text">
+                                {{ product.price }} {{ product.currency }}
+                            </p>
+                        </div>
+                        <div class="card-footer text-center bg-transparent d-grid">
+                            <a href="/termek/{{ product.slug }}" class="btn btn-sm btn-success btn-fluid">
+                                <i class="bi bi-eye"></i>
+                                megnézem
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock %}

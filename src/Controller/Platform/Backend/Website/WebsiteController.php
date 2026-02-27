@@ -251,7 +251,7 @@ class WebsiteController extends PlatformController
     {
         foreach ($products as $product) {
             // render product template
-            $productContent = $this->renderView('themes/' . $website->getTheme() . '/index.html.twig', [
+            $productContent = $this->renderView('themes/' . $website->getTheme() . '/product.html.twig', [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),

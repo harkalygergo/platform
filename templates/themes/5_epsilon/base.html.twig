@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="{{ language|default('en') }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="{{ keywords }}">
+    <meta name="description" content="{{ description }}">
+    <meta name="robots" content="{{ website.metaRobots|default('index, follow') }}">
+
+    <!-- prevent caching to ensure latest content is always displayed -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    {% if website.favicon != null %}
+        <link rel="icon" type="image/png" href="/media/{{ website.favicon.originalName }}">
+    {% else %}
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    {% endif %}
+
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: {{ website.backgroundColor|default('#ffffff') }};
+            color: {{ website.textColor|default('#000000') }};
+        }
+
+        {{ website.headerCSS|raw }}
+    </style>
+    <script>
+        {{ website.headerJS|raw }}
+    </script>
+    {{ website.headerHTML|raw }}
+</head>
+<body class="bg-light">
+
+<div class="container-fluid" style="background-image: url('https://images.pexels.com/photos/4604713/pexels-photo-4604713.jpeg'); background-size: cover; background-position: center;height:40em;width:100%;">
+    <div class="row">
+        <div class="col-12">
+            <div class="container">
+
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start py-4">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                        {% if website.logo %}
+                            <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" class="me-2" style="max-height: 3rem;">
+                        {% else %}
+                            <span class="fs-4 fw-bold">{{ website.name }}</span>
+                        {% endif %}
+                    </a>
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+
+                        {% block navigation %}
+                        {% endblock %}
+
+                    </ul>
+                    <div class="text-end">
+                        {% if website.bluesky != null and website.bluesky != '' %}
+                            <a href="{{ website.bluesky }}" class="text-white text-decoration-none p-2" target="_blank" title="Bluesky"><i class="fs-4 bi bi-bluesky"></i></a>
+                        {% endif %}
+                        {% if website.facebook != null and website.facebook != '' %}
+                            <a href="{{ website.facebook }}" class="text-white text-decoration-none p-2" target="_blank" title="Facebook"><i class="fs-4 bi bi-facebook"></i></a>
+                        {% endif %}
+                        {% if website.instagram != null and website.instagram != '' %}
+                            <a href="{{ website.instagram }}" class="text-white text-decoration-none p-2" target="_blank" title="Instagram"><i class="fs-4 bi bi-instagram"></i></a>
+                        {% endif %}
+                        {% if website.linkedin != null and website.linkedin != '' %}
+                            <a href="{{ website.linkedin }}" class="text-white text-decoration-none p-2" target="_blank" title="LinkedIn"><i class="fs-4 bi bi-linkedin"></i></a>
+                        {% endif %}
+                        {% if website.threads != null and website.threads != '' %}
+                            <a href="{{ website.threads }}" class="text-white text-decoration-none p-2" target="_blank" title="Threads"><i class="fs-4 bi bi-threads"></i></a>
+                        {% endif %}
+                        {% if website.twitter != null and website.twitter != '' %}
+                            <a href="{{ website.twitter }}" class="text-white text-decoration-none p-2" target="_blank" title="X (Twitter)"><i class="fs-4 bi bi-twitter-x"></i></a>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{#% include 'themes/4_delta/header.html.twig' %#}
+
+<div class="container">
+    <div class="row my-5 mx-2">
+        <div class="col-12 col-lg-8">
+            {% block body %}
+            {% endblock %}
+        </div>
+        <div class="col-12 col-lg-4">
+            {# % include 'themes/4_delta/sidebar.html.twig' % #}
+        </div>
+    </div>
+</div>
+
+{#% include 'themes/4_delta/footer.html.twig' %#}
+
+<script src="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Generated: {{ 'now'|date('Y.m.d. H:i:s | U') }} -->
+</body>
+</html>
