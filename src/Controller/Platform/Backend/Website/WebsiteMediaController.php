@@ -25,7 +25,7 @@ class WebsiteMediaController extends PlatformController
     {
         //$website = $id;
 
-        $media = $websiteMediaRepository->findAll();
+        $media = $websiteMediaRepository->findBy(['website' => $this->currentInstance->getWebsites()->first()]);
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'title' => ' media',

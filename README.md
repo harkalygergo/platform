@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.02.27.1
+###### v2026.02.27.2
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -7,30 +7,30 @@
 
 Backend has a fix template with light and dark mode. Frontend has multiple templates to choose from. You can change the template in the settings.
 
-1. Alpha: pure empty template
-2. Beta: basic template with header and footer
-3. Gamma: advanced template with sidebar and widgets, ideal for CV
-4. Delta: ideal for events and conferences
-5. Epsilon
-6. Zeta
-7. Eta
-8. Theta
-9. Iota
-10. Kappa
-11. Lambda
-12. Mu
-13. Nu
-14. Xi
-15. Omicron
-16. Pi
-17. Rho
-18. Sigma
-19. Tau
-20. Upsilon
-21. Phi
-22. Chi
-23. Psi
-24. Omega
+1. **&alpha; Alpha:** pure empty template
+2. **&beta; Beta:** basic template with header and footer
+3. **&gamma; Gamma:** advanced template with sidebar and widgets, ideal for CV
+4. **&delta; Delta:** ideal for events and conferences
+5. **&epsilon; Epsilon:** ideal for webshop
+6. &zeta; Zeta
+7. &eta; Eta
+8. &theta; Theta
+9. &iota; Iota
+10. &kappa; Kappa
+11. &lambda; Lambda
+12. &mu; Mu
+13. &nu; Nu
+14. &xi; Xi
+15. &omicron; Omicron
+16. &pi; Pi
+17. &rho; Rho
+18. &sigma; Sigma
+19. &tau; Tau
+20. &upsilon; Upsilon
+21. &phi; Phi
+22. &chi; Chi
+23. &psi; Psi
+24. &omega; Omega
 
 ## How to develop?
 
