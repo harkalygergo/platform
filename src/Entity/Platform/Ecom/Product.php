@@ -5,6 +5,8 @@ namespace App\Entity\Platform\Ecom;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\Ecom\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -142,7 +144,12 @@ class Product
 
     #[ORM\ManyToMany(targetEntity: Website::class, inversedBy: 'products')]
     #[ORM\JoinTable(name: 'ecom_product_website')]
-    private $websites;
+    private Collection $websites;
+
+    public function __construct()
+    {
+        $this->websites = new ArrayCollection();
+    }
 
     // Getters and Setters
     public function getId(): ?int
@@ -608,7 +615,7 @@ class Product
         return $this;
     }
 
-    public function getWebsites()
+    public function getWebsites(): Collection
     {
         return $this->websites;
     }
