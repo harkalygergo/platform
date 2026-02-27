@@ -304,6 +304,9 @@ class WebsiteController extends PlatformController
                 $tempFilePath,
                 $slug . '.html'
             );
+
+            $flashText .= mb_strtoupper($this->translator->trans('web.product')) . ': ' . htmlspecialchars($product->getTitle()) . " FTP OK <br>";
+
         }
     }
 

@@ -74,5 +74,7 @@ web:
     pages: 'Oldalak'
     post: 'Bejegyzés'
     posts: 'Bejegyzések'
+    product: 'Termék'
+    products: 'Termékek'
     website: 'Honlap'
     webshop: 'Webáruház'

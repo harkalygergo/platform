@@ -67,5 +67,7 @@ web:
     pages: 'Pages'
     post: 'Post'
     posts: 'Posts'
+    product: 'Product'
+    products: 'Products'
     website: 'Website'
     webshop: 'Webshop'
