@@ -4,8 +4,8 @@ namespace App\Form\Platform\Ecom;
 
 use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Website\Website;
-use App\Entity\Platform\Website\WebsiteCategory;
-use App\Repository\Platform\Website\WebsiteCategoryRepository;
+use App\Entity\Platform\Website\WebsiteMedia;
+use App\Repository\Platform\Website\WebsiteMediaRepository;
 use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,6 +22,8 @@ class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $currentWebsite = $options['currentInstance']->getWebsites()->first();
+
         $builder
             ->add('name', TextType::class, [
                 'attr' => [
@@ -262,6 +264,21 @@ class ProductType extends AbstractType
                 'required' => false,
                 'label' => 'Weboldalak',
             ])
+            ->add('mainImage', EntityType::class, [
+                'class' => WebsiteMedia::class,
+                'choice_label' => 'originalName', // Adjust to the property you want to display
+                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                    return $er->createQueryBuilder('wm')
+                        ->where('wm.website = :website')
+                        ->setParameter('website', $currentWebsite->getId());
+                },
+                'required' => false,
+                'placeholder' => ' - select a main image - ',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+
         ;
     }
 
