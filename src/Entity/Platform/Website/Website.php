@@ -3,6 +3,7 @@
 namespace App\Entity\Platform\Website;
 
 use App\Entity\Platform\Ecom\Product;
+use App\Entity\Platform\Ecom\ProductCategory;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
 use App\Repository\Platform\Website\WebsiteRepository;
@@ -147,6 +148,9 @@ class Website
 
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'websites')]
     private Collection $products;
+
+    #[ORM\ManyToMany(targetEntity: ProductCategory::class, mappedBy: 'websites')]
+    private Collection $productCategories;
 
     public function __construct()
     {
@@ -682,6 +686,30 @@ class Website
     {
         if ($this->products->removeElement($product)) {
             $product->removeWebsite($this);
+        }
+
+        return $this;
+    }
+
+    public function getProductCategories(): Collection
+    {
+        return $this->productCategories;
+    }
+
+    public function addProductCategory(ProductCategory $productCategory): self
+    {
+        if (!$this->productCategories->contains($productCategory)) {
+            $this->productCategories[] = $productCategory;
+            $productCategory->addWebsite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductCategory(ProductCategory $productCategory): self
+    {
+        if ($this->productCategories->removeElement($productCategory)) {
+            $productCategory->removeWebsite($this);
         }
 
         return $this;

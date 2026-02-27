@@ -2,6 +2,7 @@
 
 namespace App\Entity\Platform\Ecom;
 
+use AllowDynamicProperties;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\Ecom\ProductRepository;
@@ -10,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[AllowDynamicProperties]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'ecom_product')]
 #[ORM\HasLifecycleCallbacks]
@@ -145,6 +147,9 @@ class Product
     #[ORM\ManyToMany(targetEntity: Website::class, inversedBy: 'products')]
     #[ORM\JoinTable(name: 'ecom_product_website')]
     private Collection $websites;
+
+    #[ORM\ManyToOne(targetEntity: ProductCategory::class, inversedBy: 'products')]
+    private ?ProductCategory $category = null;
 
     public function __construct()
     {
@@ -632,5 +637,16 @@ class Product
     {
         $this->websites->removeElement($website);
         return $this;
+    }
+
+    public function setCategory(?ProductCategory $param)
+    {
+            $this->category = $param;
+            return $this;
+    }
+
+    public function getCategory(): ?ProductCategory
+    {
+        return $this->category;
     }
 }
