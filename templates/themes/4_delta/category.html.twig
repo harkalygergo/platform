@@ -5,23 +5,28 @@
 {% endblock %}
 
 {% block body %}
-    <div class="p-5 bg-white border rounded shadow-sm">
-        <h1 class="fw-bold">{{ title|raw }}</h1>
-        <div class="row row-cols-1 row-cols-md-1 g-4">
-            {% for post in content.posts %}
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="/{{ category.slug }}/{{ post.slug }}" class="text-decoration-none text-dark" title="{{ post.title }} részletei">
-                                    {{ post.title }} &raquo;
-                                </a>
-                            </h5>
-                            {{ post.content|raw }}
+    <div class="col-12 col-lg-8">
+        <div class="p-5 bg-white border rounded shadow-sm">
+            <h1 class="fw-bold">{{ title|raw }}</h1>
+            <div class="row row-cols-1 row-cols-md-1 g-4">
+                {% for post in content.posts %}
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/{{ category.slug }}/{{ post.slug }}" class="text-decoration-none text-dark" title="{{ post.title }} részletei">
+                                        {{ post.title }} &raquo;
+                                    </a>
+                                </h5>
+                                {{ post.content|raw }}
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
+    </div>
+    <div class="col-12 col-lg-4">
+        {% include 'themes/4_delta/sidebar.html.twig' %}
     </div>
 {% endblock %}

@@ -90,13 +90,8 @@
 
 <div class="container">
     <div class="row my-5 mx-2">
-        <div class="col-12 col-lg-8">
-            {% block body %}
-            {% endblock %}
-        </div>
-        <div class="col-12 col-lg-4">
-            {% include 'themes/4_delta/sidebar.html.twig' %}
-        </div>
+        {% block body %}
+        {% endblock %}
     </div>
 </div>
 

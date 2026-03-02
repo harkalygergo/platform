@@ -5,19 +5,24 @@
 {% endblock %}
 
 {% block body %}
-    <div class="p-5 bg-white border rounded shadow-sm">
-        <div class="mb-4">
-            <h1 class="fw-bold">{{ title|raw }}</h1>
-            <small class="text-muted">
-                <i class="bi bi-folder2-open"></i> {{ post.categories|first.title }}
-                <i class="bi bi-clock ms-3"></i> {{ post.createdAt|date('Y.m.d.') }}
-            </small>
-        </div>
-        {% if post.featuredImage %}
+    <div class="col-12 col-lg-8">
+        <div class="p-5 bg-white border rounded shadow-sm">
             <div class="mb-4">
-                <img src="/media/{{ post.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
+                <h1 class="fw-bold">{{ title|raw }}</h1>
+                <small class="text-muted">
+                    <i class="bi bi-folder2-open"></i> {{ post.categories|first.title }}
+                    <i class="bi bi-clock ms-3"></i> {{ post.createdAt|date('Y.m.d.') }}
+                </small>
             </div>
-        {% endif %}
-        {{ content|raw }}
+            {% if post.featuredImage %}
+                <div class="mb-4">
+                    <img src="/media/{{ post.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
+                </div>
+            {% endif %}
+            {{ content|raw }}
+        </div>
+    </div>
+    <div class="col-12 col-lg-4">
+        {% include 'themes/4_delta/sidebar.html.twig' %}
     </div>
 {% endblock %}
