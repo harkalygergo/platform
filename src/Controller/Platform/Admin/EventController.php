@@ -10,15 +10,18 @@ use App\Repository\Platform\EventRepository;
 use App\Entity\Platform\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Geocoder\Query\GeocodeQuery;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\SubmitButton;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Validator\Constraints\File;
 
-#[Route('/admin/event')]
+#[Route('/{_locale}/admin/v1/event')]
 #[IsGranted(User::ROLE_ADMIN)]
 final class EventController extends PlatformController
 {
@@ -49,8 +52,211 @@ final class EventController extends PlatformController
                 'new',
                 'edit',
                 'delete',
+                'import',
             ],
         ]);
+    }
+
+    #[Route('/import', name: 'admin_event_import', methods: ['GET', 'POST'])]
+    public function import(Request $request, EntityManagerInterface $em): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('csvFile', FileType::class, [
+                'label' => 'CSV File (CSV header with columns: startAt;performer;locationName;location;title;ticketUrl;description)',
+                'mapped' => false,
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'text/csv',
+                            'text/plain',
+                            'application/csv',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid CSV file',
+                    ])
+                ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Import',
+                'attr' => ['class' => 'btn btn-primary'],
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $csvFile */
+            $csvFile = $form->get('csvFile')->getData();
+
+            if ($csvFile) {
+                $importedCount = $this->processCSVImport($csvFile, $em);
+                $this->addFlash('success', sprintf('%d events imported successfully.', $importedCount));
+                return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'title' => 'Import Events from CSV',
+            'form' => $form,
+        ]);
+    }
+
+    private function processCSVImport(UploadedFile $csvFile, EntityManagerInterface $em): int
+    {
+        $importedCount = 0;
+        $handle = fopen($csvFile->getPathname(), 'r');
+
+        if ($handle === false) {
+            throw new \RuntimeException('Could not open CSV file');
+        }
+
+        // Read header row
+        $header = fgetcsv($handle, 0, ';');
+        if ($header === false) {
+            fclose($handle);
+            throw new \RuntimeException('Could not read CSV header');
+        }
+
+        // Normalize header names (trim whitespace)
+        $header = array_map('trim', $header);
+
+        // Get default website
+        $defaultWebsite = null;
+        $websites = $this->currentInstance->getWebsites();
+        if (count($websites) > 0) {
+            $defaultWebsite = $websites->first();
+        }
+
+        $headerCount = count($header);
+
+        // Process each row
+        while (($row = fgetcsv($handle, 0, ';')) !== false) {
+            // Skip empty rows
+            if (empty($row) || (count($row) === 1 && empty($row[0]))) {
+                continue;
+            }
+
+            $rowCount = count($row);
+
+            // Accept rows with exact column count or missing last column (description)
+            if ($rowCount === $headerCount || ($rowCount + 1) === $headerCount) {
+                // Pad with empty string if last column is missing
+                if ($rowCount < $headerCount) {
+                    $row[] = '';
+                }
+            } else {
+                // Skip rows with unexpected column count
+                continue;
+            }
+
+            $data = array_combine($header, $row);
+
+            $event = new Event();
+            $event->setCreatedAt(new \DateTimeImmutable());
+
+            // Map CSV columns to Event entity properties
+            if (isset($data['startAt']) && !empty($data['startAt'])) {
+                try {
+                    $event->setStartAt($this->parseDateTime($data['startAt']));
+                } catch (\Exception $e) {
+                    continue; // Skip if date parsing fails
+                }
+            } else {
+                continue; // startAt is required
+            }
+
+            if (isset($data['endAt']) && !empty($data['endAt'])) {
+                try {
+                    $event->setEndAt($this->parseDateTime($data['endAt']));
+                } catch (\Exception $e) {
+                    // endAt is optional, continue without it
+                }
+            }
+
+            if (isset($data['performer'])) {
+                $event->setPerformer($data['performer']);
+            }
+
+            if (isset($data['title']) && !empty($data['title'])) {
+                $event->setTitle($data['title']);
+            } else {
+                continue; // title is required
+            }
+
+            if (isset($data['slug'])) {
+                $event->setSlug($data['slug']);
+            }
+
+            if (isset($data['locationName'])) {
+                $event->setLocationName($data['locationName']);
+            }
+
+            if (isset($data['location']) && !empty($data['location'])) {
+                $event->setLocation($data['location']);
+
+                // Try to geocode the location
+                $locationObject = $this->getLocation($data['location']);
+                if ($locationObject) {
+                    $event->setLatitude($locationObject->getLatitude());
+                    $event->setLongitude($locationObject->getLongitude());
+                    $event->setLocationEntity($locationObject);
+                }
+            }
+
+            if (isset($data['ticketUrl'])) {
+                $event->setTicketUrl($data['url'] ?? $data['ticketUrl']);
+            }
+
+            if (isset($data['description'])) {
+                $event->setDescription($data['description']);
+            }
+
+            if (isset($data['leadDescription'])) {
+                $event->setLeadDescription($data['leadDescription']);
+            }
+
+            if (isset($data['imageUrl'])) {
+                $event->setImageUrl($data['imageUrl']);
+            }
+
+            // Set default website
+            $event->setWebsite($defaultWebsite);
+
+            $em->persist($event);
+            $importedCount++;
+        }
+
+        fclose($handle);
+        $em->flush();
+
+        return $importedCount;
+    }
+
+    /**
+     * Parse datetime string in various formats:
+     * - 2026.03.01. 12:00 (Hungarian format without seconds)
+     * - 2026-03-01 12:00 (ISO format without seconds)
+     * - 2026-03-01 12:00:00 (ISO format with seconds)
+     * - Any other format PHP DateTime can understand
+     */
+    private function parseDateTime(string $dateTimeString): \DateTime
+    {
+        $dateTimeString = trim($dateTimeString);
+
+        // Handle Hungarian format: 2026.03.01. 12:00
+        if (preg_match('/^(\d{4})\.(\d{2})\.(\d{2})\.\s+(\d{2}):(\d{2})$/', $dateTimeString, $matches)) {
+            return new \DateTime(sprintf('%s-%s-%s %s:%s:00', $matches[1], $matches[2], $matches[3], $matches[4], $matches[5]));
+        }
+
+        // Handle format without seconds: 2026-03-01 12:00
+        if (preg_match('/^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})$/', $dateTimeString, $matches)) {
+            return new \DateTime(sprintf('%s-%s-%s %s:%s:00', $matches[1], $matches[2], $matches[3], $matches[4], $matches[5]));
+        }
+
+        // Fallback to PHP's DateTime parsing
+        return new \DateTime($dateTimeString);
     }
 
     #[Route('/new', name: 'admin_event_new', methods: ['GET', 'POST'])]
