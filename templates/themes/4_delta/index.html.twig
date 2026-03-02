@@ -91,7 +91,7 @@
 
 
             {% if events is defined %}
-                <h2 class="mt-5">Közelgő események</h2>
+                <h2 class="text-center fw-bold p-5">Közelgő események</h2>
 
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-bordered">
@@ -130,29 +130,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                {% for event in events %}
-                    <div class="row p-1 mb-3 bg-white border rounded shadow-sm align-items-center">
-                        <div class="col-md-2 text-center event-date">
-                            <div class="event-day fw-bold">{{ event.startAt|date('Y.m.d.') }}</div>
-                            <div class="event-time">{{ event.startAt|date('H:i') }}</div>
-                        </div>
-                        <div class="col-7">
-                            <h5>{{ event.title }}</h5>
-                            <p class="mb-1 text-muted">
-                                <strong>Helyszín:</strong> {{ event.locationName }} ({{ event.location }})
-                            </p>
-                            <span class="text-muted">{{ event.description|raw }}</span>
-                        </div>
-                        <div class="col-3 text-end">
-                            <a href="{{ event.ticketUrl }}" class="btn btn-success rounded-0" target="_blank">
-                                <i class="bi bi-ticket-perforated"></i>
-                                Jegyvásárlás
-                            </a>
-                        </div>
-
-                    </div>
-                {% endfor %}
 
             {% endif %}
         </div>
