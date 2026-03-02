@@ -35,6 +35,7 @@ final class EventController extends PlatformController
         return $this->render('platform/backend/v1/list.html.twig', [
             'title' => 'Events',
             'tableHead' => [
+                'performer' => 'Performer',
                 'title' => 'Title',
                 'startAt' => 'Start',
                 'endAt' => 'End',
@@ -183,9 +184,12 @@ final class EventController extends PlatformController
             $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, $APIKey);
             $geocoder = new \Geocoder\StatefulGeocoder($provider, 'hu');
 
-            $result = $geocoder->geocodeQuery(GeocodeQuery::create($address));
-
-            if ($result->count() === 0) {
+            try {
+                $result = $geocoder->geocodeQuery(GeocodeQuery::create($address));
+                if ($result->count() === 0) {
+                    return null;
+                }
+            } catch (\Exception $e) {
                 return null;
             }
 

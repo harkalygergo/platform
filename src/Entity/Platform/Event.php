@@ -15,6 +15,10 @@ class Event
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
+    // add event performer
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $performer = null;
+
     #[ORM\Column(type: Types::STRING, length: 255)]
     #[Assert\NotBlank]
     private ?string $title = null;
@@ -80,6 +84,16 @@ class Event
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getPerformer(): ?string
+    {
+        return $this->performer;
+    }
+
+    public function setPerformer(?string $performer): void
+    {
+        $this->performer = $performer;
     }
 
     public function getTitle(): ?string
