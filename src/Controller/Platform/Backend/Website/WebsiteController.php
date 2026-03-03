@@ -226,7 +226,7 @@ class WebsiteController extends PlatformController
         */
 
         $this->deployStylesheet($website);
-        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $posts, $products);
+        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $posts, $products, $events);
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
         //$this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $pages, $menus, $posts, $products);
@@ -393,7 +393,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts, $products)
+    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts, $products, $events)
     {
         // create a '/tmp/' . $website->getId() . '/kategoria' directory if it doesn't exist
         $categoryDir = '/tmp/' . $website->getId() . '/kategoria';
