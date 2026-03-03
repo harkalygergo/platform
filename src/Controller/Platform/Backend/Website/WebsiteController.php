@@ -417,6 +417,7 @@ class WebsiteController extends PlatformController
                 'category' => $category,
                 'posts' => $posts,
                 'products' => $products,
+                'events' => $events,
             ]);
 
             if ($category->getSlug() === '') {
