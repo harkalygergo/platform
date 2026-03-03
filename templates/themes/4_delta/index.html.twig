@@ -7,8 +7,7 @@
 {% block body %}
     <div class="col-12">
 
-
-        <div class="p-5 bg-white border rounded shadow-sm">
+        <div class="p-3 p-lg-5 bg-white border rounded shadow-sm">
             <h1 class="fw-bold">{{ title|raw }}</h1>
 
             {{ content|raw }}
@@ -34,7 +33,8 @@
                         longitude: {{ event.longitude }},
                         location: {{ event.locationName|json_encode|raw }},
                         address: {{ event.location|json_encode|raw }},
-                        url: {{ event.ticketUrl|json_encode|raw }}
+                        url: {{ event.ticketUrl|json_encode|raw }},
+                        performer: {{ event.performer|json_encode|raw }}
                     }{{ loop.last ? '' : ',' }}
                     {% endfor %}
                 ];
@@ -62,12 +62,19 @@
                         const infoWindow = new google.maps.InfoWindow({
                             content: `
                         <div style="max-width: 250px;">
-                            <h3>${event.name}</h3>
-                            <p><strong>Helyszín:</strong> ${event.location}</p>
-                            <p><strong>Cím:</strong> ${event.address}</p>
-                            <p><strong>Időpont:</strong> ${new Date(event.date).toLocaleString('hu-HU')}</p>
+                            <p>
+                                <strong>
+                                    ${event.name}
+                                    <br><small><strong>${event.performer}</small>
+                                </strong>
+                            </p>
+                            <p>
+                                <i class="bi bi-calendar"></i> ${new Date(event.date).toLocaleString('hu-HU')}
+                                <br><i class="bi bi-building"></i> ${event.location}
+                                <br><i class="bi bi-geo-alt"></i> ${event.address}
+                            </p>
                             ${event.description ? `<p>${event.description}</p>` : ''}
-                            ${event.url ? `<a href="${event.url}" target="_blank">Jegyek</a>` : ''}
+                            ${event.url ? `<p><a class="btn btn-sm btn-dark" href="${event.url}" target="_blank"><i class="bi bi-ticket-perforated"></i> Jegyek, részletek</a></p>` : ''}
                         </div>
                     `
                         });

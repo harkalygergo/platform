@@ -52,7 +52,6 @@ final class EventController extends PlatformController
                 'new',
                 'edit',
                 'delete',
-                'import',
             ],
         ]);
     }
@@ -385,6 +384,8 @@ final class EventController extends PlatformController
 
         if (!$location) {
             $APIKey = $this->currentInstance->getWebsites()->first()->getGoogleApiKey();
+
+            $APIKey = getenv('GOOGLE_MAPS_API_KEY');
 
             $httpClient = new \Http\Discovery\Psr18Client();
             $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, $APIKey);
