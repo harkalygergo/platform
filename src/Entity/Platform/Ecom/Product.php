@@ -4,6 +4,7 @@ namespace App\Entity\Platform\Ecom;
 
 use AllowDynamicProperties;
 use App\Entity\Platform\Instance;
+use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\Ecom\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -102,8 +103,9 @@ class Product
     private string $dimensionUnit = 'cm';
 
     // Media
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $mainImage = null;
+    #[ORM\ManyToOne(targetEntity: Media::class)]
+    #[ORM\JoinColumn(name: "main_image_id", referencedColumnName: "id", nullable: true)]
+    private ?Media $mainImage = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $images = [];
@@ -437,12 +439,12 @@ class Product
         return $this;
     }
 
-    public function getMainImage(): ?string
+    public function getMainImage(): ?Media
     {
         return $this->mainImage;
     }
 
-    public function setMainImage(?string $mainImage): static
+    public function setMainImage(?Media $mainImage): static
     {
         $this->mainImage = $mainImage;
         return $this;

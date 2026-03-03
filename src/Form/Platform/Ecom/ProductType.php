@@ -3,9 +3,9 @@
 namespace App\Form\Platform\Ecom;
 
 use App\Entity\Platform\Ecom\Product;
+use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Website\Website;
-use App\Entity\Platform\Website\WebsiteMedia;
-use App\Repository\Platform\Website\WebsiteMediaRepository;
+use App\Repository\Platform\Media\MediaRepository;
 use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -265,12 +265,12 @@ class ProductType extends AbstractType
                 'label' => 'Weboldalak',
             ])
             ->add('mainImage', EntityType::class, [
-                'class' => WebsiteMedia::class,
+                'class' => Media::class,
                 'choice_label' => 'originalName', // Adjust to the property you want to display
-                'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                'query_builder' => function (MediaRepository $er) use ($currentWebsite) {
                     return $er->createQueryBuilder('wm')
-                        ->where('wm.website = :website')
-                        ->setParameter('website', $currentWebsite->getId());
+                        ->where('wm.instance = :instance')
+                        ->setParameter('instance', $currentWebsite->getInstance());
                 },
                 'required' => false,
                 'placeholder' => ' - select a main image - ',
