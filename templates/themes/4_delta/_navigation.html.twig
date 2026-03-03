@@ -6,7 +6,7 @@
                 <a class="nav-link px-2 dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ menu.title }}
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu bg-white">
                     {% for child in menu.children %}
                         {% if child.status %}
                             <li><a class="dropdown-item text-dark" href="{{ child.slug }}">{{ child.title }}</a></li>
