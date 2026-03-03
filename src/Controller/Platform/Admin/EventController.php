@@ -383,8 +383,7 @@ final class EventController extends PlatformController
         $location = $this->doctrine->getRepository(Location::class)->findOneBy(['name' => $address]);
 
         if (!$location) {
-            $APIKey = $this->currentInstance->getWebsites()->first()->getGoogleApiKey();
-
+            //$APIKey = $this->currentInstance->getWebsites()->first()->getGoogleApiKey();
             $APIKey = getenv('GOOGLE_MAPS_API_KEY');
 
             $httpClient = new \Http\Discovery\Psr18Client();
