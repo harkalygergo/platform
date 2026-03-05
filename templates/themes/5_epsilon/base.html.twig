@@ -52,9 +52,8 @@
                     <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
                         {% if website.logo %}
                             <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" class="me-2" style="max-height: 3rem;">
-                        {% else %}
-                            <span class="fs-4 fw-bold">{{ website.name }}</span>
                         {% endif %}
+                        <span class="fs-4 fw-bold">{{ website.name }}</span>
                     </a>
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 
