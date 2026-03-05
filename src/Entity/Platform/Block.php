@@ -3,6 +3,7 @@
 namespace App\Entity\Platform;
 
 use App\Repository\Platform\BlockRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BlockRepository::class)]
@@ -25,7 +26,7 @@ class Block
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $updatedBy = null;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -40,7 +41,6 @@ class Block
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int

@@ -10,7 +10,7 @@
                 <h5>Oldalak</h5>
                 <ul class="list-unstyled">
                     {% for page in pages %}
-                        <li><a href="{{ page.slug }}" class="text-white">{{ page.title }}</a></li>
+                        <li><a href="/{{ page.slug }}" class="text-white">{{ page.title }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

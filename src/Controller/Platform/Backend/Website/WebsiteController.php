@@ -464,7 +464,7 @@ class WebsiteController extends PlatformController
             foreach ($matches[1] as $blockId) {
                 $blockRepository = $this->doctrine->getRepository(Block::class);
                 $block = $blockRepository->findOneBy([
-                    'id' => $blockId,
+                    'id' => (int)$blockId,
                     'instance' => $this->currentInstance,
                     'status' => true
                 ]);
