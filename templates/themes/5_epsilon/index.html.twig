@@ -16,40 +16,45 @@
 
 {% block body %}
 
-    <h1>Termékek</h1>
+<div class="container">
+    <div class="row my-5 mx-2">
+        <div class="col-12">
+            <h2 class="text-center display-3 fw-bold">A Hello Roller kínálata</h2>
+            <div class="row row-cols-2 row-cols-sm-2 row-cols-lg-4 g-4 py-4">
+                {% for product in products %}
+                    <div class="col p-0">
+                        <div class="card m-0 p-0 mx-1 h-100">
+                            {% if product.mainImage is not null %}
+                                <a href="/termek/{{ product.slug }}">
+                                    <img src="/media/{{ product.mainImage.originalName }}" class="card-img-top" alt="{{ product.name }}" loading="lazy">
+                                </a>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title linear-gradient fw-bold">
+                                    <a href="/termek/{{ product.slug }}" class="text-dark text-decoration-none">
+                                        {{ product.name }}
+                                    </a>
+                                </h5>
+                                <p class="card-text">
+                                    {{ product.shortDescription }}
+                                </p>
+                                <p class="card-text">
+                                    <i class="bi bi-tag"></i>
+                                    {{ product.price }} {{ product.currency }}
+                                </p>
+                            </div>
+                            <div class="card-footer text-center bg-transparent d-grid">
+                                <a href="/termek/{{ product.slug }}" class="btn btn-sm btn-outline-dark btn-fluid">
+                                    <i class="bi bi-eye"></i>
+                                    megnézem
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="row row-cols-2 row-cols-sm-2 row-cols-lg-4 g-4 py-4">
-        {% for product in products %}
-            <div class="col p-0">
-                <div class="card m-0 p-0 mx-1 h-100">
-                    {% if product.mainImage is not null %}
-                        <a href="/termek/{{ product.slug }}">
-                            <img src="/media/{{ product.mainImage.originalName }}" class="card-img-top" alt="{{ product.name }}" loading="lazy">
-                        </a>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title linear-gradient fw-bold">
-                            <a href="/termek/{{ product.slug }}" class="text-dark text-decoration-none">
-                                {{ product.name }}
-                            </a>
-                        </h5>
-                        <p class="card-text">
-                            {{ product.shortDescription }}
-                        </p>
-                        <p class="card-text">
-                            <i class="bi bi-tag"></i>
-                            {{ product.price }} {{ product.currency }}
-                        </p>
-                    </div>
-                    <div class="card-footer text-center bg-transparent d-grid">
-                        <a href="/termek/{{ product.slug }}" class="btn btn-sm btn-success btn-fluid">
-                            <i class="bi bi-eye"></i>
-                            megnézem
-                        </a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
-
-        {% endfor %}
+        </div>
     </div>
+</div>
 {% endblock %}
