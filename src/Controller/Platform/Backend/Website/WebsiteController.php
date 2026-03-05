@@ -459,10 +459,6 @@ class WebsiteController extends PlatformController
     {
         $i = 0;
         foreach ($pages as $page) {
-            //dump($pages);
-
-            //dump($page);
-
             $pageContent = $page->getContent();
             preg_match_all('/\[block id="(\d+)"\]/', $pageContent, $matches);
             foreach ($matches[1] as $blockId) {

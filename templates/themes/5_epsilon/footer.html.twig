@@ -1,0 +1,22 @@
+<footer class="bg-dark text-white pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 py-3">
+                <h5>{{ website.title }}</h5>
+                <p class="lead">{{ website.slogan }}</p>
+                <p>{{ website.description }}</p>
+            </div>
+            <div class="col-md-6 py-3">
+                <h5>Oldalak</h5>
+                <ul class="list-unstyled">
+                    {% for page in pages %}
+                        <li><a href="{{ page.slug }}" class="text-white">{{ page.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center pt-5">
+        <small class="mb-0">&copy; {{ "now"|date("Y") }} {{ website.name|default('My Website') }}. Minden jog fenntartva!</small>
+    </div>
+</footer>

@@ -32,8 +32,8 @@
             <div class="col-md-3 py-3">
                 <h5>Oldalak</h5>
                 <ul class="list-unstyled">
-                    {% for menu in menus %}
-                        <li><a href="{{ menu.slug }}" class="text-white">{{ menu.title }}</a></li>
+                    {% for page in pages %}
+                        <li><a href="{{ page.slug }}" class="text-white">{{ page.title }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
