@@ -41,15 +41,15 @@
     </script>
     {{ website.headerHTML|raw }}
 </head>
-<body class="bg-light">
+<body class="bg-white">
 
-<div class="container-fluid" style="background-image: url('https://images.pexels.com/photos/4604713/pexels-photo-4604713.jpeg'); background-size: cover; background-position: center;height:40em;width:100%;">
+<div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="container">
 
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start py-4">
-                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
                         {% if website.logo %}
                             <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" class="me-2" style="max-height: 3rem;">
                         {% else %}
@@ -89,6 +89,9 @@
         </div>
     </div>
 </div>
+
+{% block header %}
+{% endblock %}
 
 {#% include 'themes/4_delta/header.html.twig' %#}
 

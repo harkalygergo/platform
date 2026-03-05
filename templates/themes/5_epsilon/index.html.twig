@@ -4,6 +4,16 @@
     {% include 'themes/5_epsilon/_navigation.html.twig' with { 'menus':menus } %}
 {% endblock %}
 
+{% block header %}
+    <div class="container">
+        <div class="p-5 mb-4 bg-body-tertiary rounded-3" style="background-image: url('/media/{{ page.featuredImage.originalName }}'); background-size: cover;">
+            <div class="col-md-6 py-5">
+                {{ page.content|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block body %}
 
     <h1>Termékek</h1>
@@ -11,9 +21,11 @@
     <div class="row row-cols-2 row-cols-sm-2 row-cols-lg-4 g-4 py-4">
         {% for product in products %}
             <div class="col p-0">
-                <div class="card m-0 p-0 mx-1 shadow h-100">
+                <div class="card m-0 p-0 mx-1 h-100">
                     {% if product.mainImage is not null %}
-                        <img src="/media/{{ product.mainImage.originalName }}" class="card-img-top" alt="{{ product.name }}" loading="lazy">
+                        <a href="/termek/{{ product.slug }}">
+                            <img src="/media/{{ product.mainImage.originalName }}" class="card-img-top" alt="{{ product.name }}" loading="lazy">
+                        </a>
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title linear-gradient fw-bold">
@@ -25,6 +37,7 @@
                             {{ product.shortDescription }}
                         </p>
                         <p class="card-text">
+                            <i class="bi bi-tag"></i>
                             {{ product.price }} {{ product.currency }}
                         </p>
                     </div>

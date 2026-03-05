@@ -3,8 +3,10 @@
 
 namespace App\Form\Platform\Website;
 
+use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Website\WebsiteMedia;
 use App\Entity\Platform\Website\WebsitePage;
+use App\Repository\Platform\Media\MediaRepository;
 use App\Repository\Platform\Website\WebsiteMediaRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -73,12 +75,12 @@ class WebsitePageType extends AbstractType
 
                 $builder
                     ->add('featuredImage', EntityType::class, [
-                        'class' => WebsiteMedia::class,
+                        'class' => Media::class,
                         'choice_label' => 'originalName', // Adjust to the property you want to display
-                        'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
-                            return $er->createQueryBuilder('wm')
-                                ->where('wm.website = :website')
-                                ->setParameter('website', $currentWebsite->getId());
+                        'query_builder' => function (MediaRepository $er) use ($currentWebsite) {
+                            return $er->createQueryBuilder('m')
+                                ->where('m.instance = :instance')
+                                ->setParameter('instance', $currentWebsite->getInstance());
                         },
                         'required' => false,
                         'placeholder' => ' - select a featured image - ',

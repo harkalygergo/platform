@@ -3,6 +3,7 @@
 namespace App\Entity\Platform\Website;
 
 use App\Entity\Platform\Instance;
+use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\User;
 use App\Repository\Platform\Website\WebsitePageRepository;
 use Doctrine\DBAL\Types\Types;
@@ -70,9 +71,9 @@ class WebsitePage
     #[ORM\Column(type: 'boolean', nullable: true)]
     private ?bool $homepage = false;
 
-    #[ORM\ManyToOne(targetEntity: WebsiteMedia::class)]
+    #[ORM\ManyToOne(targetEntity: Media::class)]
     #[ORM\JoinColumn(name: "featured_image_id")]
-    private ?WebsiteMedia $featuredImage = null;
+    private ?Media $featuredImage = null;
 
     public function __construct()
     {
@@ -263,12 +264,12 @@ class WebsitePage
         return $this;
     }
 
-    public function getFeaturedImage(): ?WebsiteMedia
+    public function getFeaturedImage(): ?Media
     {
         return $this->featuredImage;
     }
 
-    public function setFeaturedImage(?WebsiteMedia $featuredImage): self
+    public function setFeaturedImage(?Media $featuredImage): self
     {
         $this->featuredImage = $featuredImage;
 
