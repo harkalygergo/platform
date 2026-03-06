@@ -11,9 +11,16 @@
 
         <div class="card">
 
+            <div class="card-header d-flex justify-content-between align-items-center gap-2">
+                <h6 class="mb-0 text-uppercase fw-bold text-nowrap">{{ title }}</h6>
 
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 text-uppercase fw-bold">{{ title }}</h6>
+                <!-- Search input in the middle -->
+                <div class="input-group input-group-sm" style="max-width:30%;">
+
+                    <label for="dataListSearchInput" class="input-group-text"><i class="bi bi-search"></i></label>
+                    <input type="text" id="dataListSearchInput" class="form-control" placeholder="Keresés...">
+                </div>
+
                 <div class="btn-group" role="group">
 
                     {% if actions is defined %}
@@ -62,8 +69,6 @@
             </div>
 
             <div class="card-body">
-
-                <!--label for="searchInput">Keresés</label><input id="searchInput" name="searchInput" type="text"-->
 
                 <div class="table-responsive small">
 
@@ -282,16 +287,29 @@
         }
 
         window.addEventListener("load", (event) => {
-            dataListSortable();
-        });
-
-        function dataListSortable()
-        {
             const table = document.getElementById('dataList');
             const tbody = table.querySelector('tbody');         // ✅ defined here
             const headers = table.querySelectorAll('thead th');
-            //const searchInput = document.getElementById('searchInput');
+            const searchInput = document.getElementById('dataListSearchInput');
 
+            dataListSearch(tbody, headers, searchInput);
+            dataListSortable(table, tbody, headers);
+        });
+
+        function dataListSearch(tbody, headers, searchInput)
+        {
+            searchInput.addEventListener('input', () => {
+                const keyword = searchInput.value.toLowerCase();
+                tbody.querySelectorAll('tr').forEach(row => {
+                    row.style.display = row.textContent.toLowerCase().includes(keyword)
+                        ? ''
+                        : 'none';
+                });
+            });
+        }
+
+        function dataListSortable(table, tbody, headers)
+        {
             let sortAsc = true;
             let lastSortedCol = -1;
 
