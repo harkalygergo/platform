@@ -19,7 +19,7 @@ class APIController extends PlatformController
         $parameters = $request->request->all();
 
         // if the honeypot is filled, return error
-        if ($parameters['honeypot'] && $parameters['honeypot'] !== '') {
+        if (!array_key_exists('honeypot', $parameters) || ($parameters['honeypot'] && $parameters['honeypot'] !== '')) {
             return $this->json([
                 'status' => 'error',
                 'message' => 'Invalid request',
