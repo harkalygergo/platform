@@ -5,6 +5,7 @@ namespace App\Form\Platform\Webshop;
 use App\Entity\Platform\Webshop\ShippingMethod;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,11 +21,11 @@ class ShippingMethodType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('description', null, [
+            ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control summernote',
                 ],
             ])
             ->add('status', ChoiceType::class, [
@@ -59,20 +60,21 @@ class ShippingMethodType extends AbstractType
     public static function getChoices(): array
     {
         return [
+            'DHL' => 'dhl',
+            'DPD' => 'dpd',
+            'FámaFutár' => 'fama_futar',
+            'FedEx' => 'fedex',
+            'Foxpost' => 'foxpost',
             'GLS automata' => 'gls_automata',
             'GLS csomagpont' => 'gls_csomagpont',
             'GLS házhoz szállítás' => 'gls_hazhoz_szallitas',
-            'DPD' => 'dpd',
-            'FedEx' => 'fedex',
+            'Local Pickup' => 'local_pickup',
+            'MPL' => 'mpl',
+            'Other' => 'other',
+            'Packeta' => 'packeta',
+            'Posta.hu' => 'posta_hu',
             'UPS' => 'ups',
             'USPS' => 'usps',
-            'DHL' => 'dhl',
-            'Local Pickup' => 'local_pickup',
-            'Other' => 'other',
-            'Foxpost' => 'foxpost',
-            'Posta.hu' => 'posta_hu',
-            'MPL' => 'mpl',
-            'Packeta' => 'packeta',
         ];
     }
 }

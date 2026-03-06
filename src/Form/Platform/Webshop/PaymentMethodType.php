@@ -5,6 +5,7 @@ namespace App\Form\Platform\Webshop;
 use App\Entity\Platform\Webshop\PaymentMethod;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,11 +21,11 @@ class PaymentMethodType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('description', null, [
+            ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control summernote',
                 ],
             ])
             ->add('status', ChoiceType::class, [
