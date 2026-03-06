@@ -63,9 +63,11 @@
 
             <div class="card-body">
 
+                <!--label for="searchInput">Keresés</label><input id="searchInput" name="searchInput" type="text"-->
+
                 <div class="table-responsive small">
 
-                    <table class="table table-hover table-bordered table-sm table-striped mb-5">
+                    <table id="dataList" class="table table-hover table-bordered table-sm table-striped mb-5">
                         <thead>
                         <tr>
                             <th scope="col">
@@ -277,6 +279,58 @@
             if (confirm('Biztosan végrehajtod a műveletet a kijelölt elemekre?')) {
                 window.location.href = url + '/' + ids.join(',');
             }
+        }
+
+        window.addEventListener("load", (event) => {
+            dataListSortable();
+        });
+
+        function dataListSortable()
+        {
+            const table = document.getElementById('dataList');
+            const tbody = table.querySelector('tbody');         // ✅ defined here
+            const headers = table.querySelectorAll('thead th');
+            //const searchInput = document.getElementById('searchInput');
+
+            let sortAsc = true;
+            let lastSortedCol = -1;
+
+            // --- SORT ---
+            headers.forEach((th, colIndex) => {
+                th.addEventListener('click', () => {
+                    // Toggle direction if same column clicked again
+                    if (lastSortedCol === colIndex) {
+                        sortAsc = !sortAsc;
+                    } else {
+                        sortAsc = true;
+                        lastSortedCol = colIndex;
+                    }
+
+                    const rows = [...tbody.querySelectorAll('tr')];
+
+                    rows.sort((a, b) => {
+                        const aVal = a.cells[colIndex].textContent.trim();
+                        const bVal = b.cells[colIndex].textContent.trim();
+
+                        // Sort numbers correctly
+                        const aNum = parseFloat(aVal);
+                        const bNum = parseFloat(bVal);
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return sortAsc ? aNum - bNum : bNum - aNum;
+                        }
+
+                        return sortAsc
+                            ? aVal.localeCompare(bVal)
+                            : bVal.localeCompare(aVal);
+                    });
+
+                    rows.forEach(row => tbody.appendChild(row));
+
+                    // Update header arrows
+                    headers.forEach(h => h.textContent = h.textContent.replace(/ ▲| ▼/g, ''));
+                    th.textContent += sortAsc ? ' ▲' : ' ▼';
+                });
+            });
         }
     </script>
 
