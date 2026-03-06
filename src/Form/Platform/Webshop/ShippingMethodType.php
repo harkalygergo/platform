@@ -5,6 +5,7 @@ namespace App\Form\Platform\Webshop;
 use App\Entity\Platform\Webshop\ShippingMethod;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,6 +29,13 @@ class ShippingMethodType extends AbstractType
                     'class' => 'form-control summernote',
                 ],
             ])
+            ->add('fee', MoneyType::class, [
+                'label' => 'Fee',
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ]
+            ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
                     'Active' => true,
@@ -47,7 +55,8 @@ class ShippingMethodType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

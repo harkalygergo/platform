@@ -35,8 +35,7 @@ class ShippingMethod
     private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
-
+    private ?\DateTimeInterface $updatedAt;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
@@ -55,6 +54,10 @@ class ShippingMethod
     #[Assert\Choice(callback: [ShippingMethodType::class, 'getChoices'])]
     #[Groups(['webshop_shipping_method'])]
     private ?string $type;
+
+    // add fee for shipping
+    #[ORM\Column(type: 'integer')]
+    private int $fee;
 
     #[ORM\Column(type: 'boolean')]
     private bool $enabled = true;
@@ -168,6 +171,16 @@ class ShippingMethod
     {
         $this->type = $type;
         return $this;
+    }
+
+    public function getFee(): int
+    {
+        return $this->fee;
+    }
+
+    public function setFee(int $fee): void
+    {
+        $this->fee = $fee;
     }
 
     public function isEnabled(): bool

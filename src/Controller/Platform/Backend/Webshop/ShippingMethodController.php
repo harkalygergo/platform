@@ -27,8 +27,9 @@ class ShippingMethodController extends PlatformController
             'title' => 'Szállítási módok',
             'tableHead' => [
                 'name' => 'Név',
-                'description' => 'Leírás',
                 'type' => 'Típus',
+                'fee' => 'Díj',
+                'description' => 'Leírás',
                 'status' => 'Státusz',
             ],
             'tableBody' => $paymentMethods,
