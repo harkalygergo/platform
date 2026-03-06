@@ -23,7 +23,7 @@ class PaymentMethodType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control summernote',
                 ],

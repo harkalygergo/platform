@@ -27,8 +27,8 @@ class PaymentMethodController extends PlatformController
             'title' => 'Fizetési módok',
             'tableHead' => [
                 'name' => 'Név',
-                'description' => 'Leírás',
                 'type' => 'Típus',
+                'description' => 'Leírás',
                 'status' => 'Státusz',
             ],
             'tableBody' => $paymentMethods,

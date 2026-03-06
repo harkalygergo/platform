@@ -34,8 +34,17 @@
     </div>
 
     <script>
+        function getCart() {
+            const match = document.cookie.match(/(^| )cart=([^;]+)/);
+            return match ? JSON.parse(decodeURIComponent(match[2])) : [];
+        }
+
+        function saveCart(cart) {
+            document.cookie = "cart=" + encodeURIComponent(JSON.stringify(cart)) + ";path=/;max-age=604800";
+        }
+
         function addToCart(productName, price) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cart = getCart();
 
             const existing = cart.find(p => p.name === productName);
 
@@ -49,7 +58,7 @@
                 });
             }
 
-            localStorage.setItem('cart', JSON.stringify(cart));
+            saveCart(cart);
             alert("Termék kosárba helyezve.")
         }
     </script>
