@@ -93,16 +93,14 @@ class APIController extends PlatformController
                 // get all shipping methods of instance
                 $shippingMethods = $instance->getShippingMethods();
 
-                $json = $serializer->serialize($shippingMethods, 'json', [
-                    'circular_reference_handler' => function ($object) {
-                        return $object->getId();
-                    }
-                ]);
+                $return = "Szállítási módok:";
 
-                return new JsonResponse($json, 200, [], true);
+                foreach ($shippingMethods as $method) {
+                    $return .= $method->getName() . ', ';
+                }
 
-                //dump($shippingMethods);
-                //exit();
+                echo $return;
+                exit();
                 break;
             }
             case 'contact': {
