@@ -93,7 +93,7 @@
 
             let checkoutDOMContent = '';
             for (const cartItem of cartContents) {
-                checkoutDOMContent += cartItem.name+" - "+cartItem.price+" - "+cartItem.quantity+" - "+cartItem.price*cartItem.quantity+"<br>";
+                checkoutDOMContent += cartItem.name+" - "+cartItem.price+" - "+cartItem.qty+" - "+cartItem.price*cartItem.qty+"<br>";
             }
             checkoutDOM.innerHTML = checkoutDOMContent;
 
