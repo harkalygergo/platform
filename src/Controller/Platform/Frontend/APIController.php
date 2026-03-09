@@ -12,11 +12,18 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class APIController extends PlatformController
 {
+    public function __construct()
+    {
+        header("Access-Control-Allow-Origin: *");
+    }
+
     #[Route('/api/', name: 'api')]
     public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine)
     {
         $request = $requestStack->getCurrentRequest();
         $parameters = $request->request->all();
+
+        dd($parameters);
 
         // if the honeypot is filled, return error
         if (!array_key_exists('honeypot', $parameters) || ($parameters['honeypot'] && $parameters['honeypot'] !== '')) {
@@ -35,6 +42,17 @@ class APIController extends PlatformController
         } elseif (str_starts_with($HTTP_ORIGIN, 'http://')) {
             $domain = substr($HTTP_ORIGIN, 7);
         }
+
+        dump($HTTP_ORIGIN);
+        dump($domain);
+
+
+        $cart = json_decode($_COOKIE['cart'], true) ?? '[]';
+        foreach ($cart as $cartItem) {
+            dump($cartItem);
+        }
+        dump($_COOKIE);
+        dd($request->getContent());
 
         // find API by domain and key
         $api = $doctrine->getRepository(API::class)->findOneBy([
