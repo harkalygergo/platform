@@ -112,7 +112,7 @@
                 key: APIKey,
                 cart: checkoutDOMContent
             }).then(
-                data => checkoutDOM.append(data)
+                data => checkoutDOM.innerHTML += data
             );
 
             console.log(cartContents);
