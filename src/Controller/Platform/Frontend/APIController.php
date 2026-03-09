@@ -23,8 +23,6 @@ class APIController extends PlatformController
         $request = $requestStack->getCurrentRequest();
         $parameters = $request->request->all();
 
-        dd($parameters);
-
         // if the honeypot is filled, return error
         if (!array_key_exists('honeypot', $parameters) || ($parameters['honeypot'] && $parameters['honeypot'] !== '')) {
             return $this->json([
@@ -32,7 +30,6 @@ class APIController extends PlatformController
                 'message' => 'Invalid request',
             ]);
         }
-
 
         $key = $parameters['key'];
         $HTTP_ORIGIN = $request->server->get('HTTP_ORIGIN');
