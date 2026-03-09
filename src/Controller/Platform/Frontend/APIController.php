@@ -40,16 +40,12 @@ class APIController extends PlatformController
             $domain = substr($HTTP_ORIGIN, 7);
         }
 
-        dump($HTTP_ORIGIN);
-        dump($domain);
-
-
+        /*
         $cart = json_decode($_COOKIE['cart'], true) ?? '[]';
         foreach ($cart as $cartItem) {
             dump($cartItem);
         }
-        dump($_COOKIE);
-        dd($request->getContent());
+        */
 
         // find API by domain and key
         $api = $doctrine->getRepository(API::class)->findOneBy([
