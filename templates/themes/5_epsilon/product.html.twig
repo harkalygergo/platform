@@ -21,7 +21,7 @@
                 <p class="lead">{{ product.shortDescription|raw }}</p>
 
                 <div class="d-grid gap-2">
-                    <a href="#" class="btn btn-dark btn-fluid" onclick="addToCart('{{ product.name }}', {{ product.price }});"><i class="bi bi-cart-plus"></i> Kosárba</a>
+                    <a href="#" class="btn btn-dark btn-fluid" onclick="addToCart({{ product.id }}, '{{ product.name }}', {{ product.price }});"><i class="bi bi-cart-plus"></i> Kosárba</a>
                 </div>
 
             </div>
@@ -44,15 +44,16 @@
             document.cookie = "cart=" + encodeURIComponent(JSON.stringify(cart)) + ";path=/;max-age=604800";
         }
 
-        function addToCart(productName, price) {
+        function addToCart(productID, productName, price) {
             let cart = getCart();
 
-            const existing = cart.find(p => p.name === productName);
+            const existing = cart.find(p => p.ID === productID);
 
             if (existing) {
                 existing.qty += 1;
             } else {
                 cart.push({
+                    ID: productID,
                     name: productName,
                     price: price,
                     qty: 1
