@@ -56,7 +56,7 @@ class APIController extends PlatformController
         if (!$api) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Invalid API key',
+                'message' => 'Invalid API key: ' . $key . ", domain: " . $domain,
             ]);
         }
 
