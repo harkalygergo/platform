@@ -108,8 +108,9 @@
             // Usage
             postData('https://platform.harkalygergo.hu/api/', {
                 honeypot: '',
+                action: 'checkout',
                 key: APIKey,
-                cart: checkoutDOMContent,
+                cart: checkoutDOMContent
             }).then(data => console.warn(data));
 
             console.log(cartContents);

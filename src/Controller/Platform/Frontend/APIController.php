@@ -6,9 +6,11 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class APIController extends PlatformController
 {
@@ -18,7 +20,7 @@ class APIController extends PlatformController
     }
 
     #[Route('/api/', name: 'api')]
-    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine)
+    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer)
     {
         $request = $requestStack->getCurrentRequest();
         $parameters = $request->request->all();
@@ -87,6 +89,22 @@ class APIController extends PlatformController
         }
 
         switch ($parameters['action']) {
+            case 'checkout': {
+                // get all shipping methods of instance
+                $shippingMethods = $instance->getShippingMethods();
+
+                $json = $serializer->serialize($shippingMethods, 'json', [
+                    'circular_reference_handler' => function ($object) {
+                        return $object->getId();
+                    }
+                ]);
+
+                return new JsonResponse($json, 200, [], true);
+
+                //dump($shippingMethods);
+                //exit();
+                break;
+            }
             case 'contact': {
                 $name = $parameters['name'] ?? null;
                 $email = $parameters['email'] ?? null;
