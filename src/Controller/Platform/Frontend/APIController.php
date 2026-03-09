@@ -93,11 +93,12 @@ class APIController extends PlatformController
                 // get all shipping methods of instance
                 $shippingMethods = $instance->getShippingMethods();
 
-                $return = "Szállítási módok:";
+                $return = "<h2>Szállítási módok:</h2><ul>";
 
                 foreach ($shippingMethods as $method) {
-                    $return .= $method->getName() . ', ';
+                    $return .= "<li>".$method->getName() . ': ' . $method->getFee()  . '</li>';
                 }
+                $return .= "</ul>";
 
                 echo $return;
                 exit();

@@ -56,7 +56,7 @@
                 },
                 body: formBody,
             })
-                .then(response => response.json()) // or .text() if not JSON
+                //.then(response => response.json()) // or .text() if not JSON
                 .catch(error => console.error('Error:', error));
         }
 
@@ -111,7 +111,9 @@
                 action: 'checkout',
                 key: APIKey,
                 cart: checkoutDOMContent
-            }).then(data => console.warn(data));
+            }).then(
+                data => checkoutDOM.append(data)
+            );
 
             console.log(cartContents);
             //alert("vége");
