@@ -111,9 +111,10 @@
                 action: 'checkout',
                 key: APIKey,
                 cart: checkoutDOMContent
-            }).then(data => {
-                checkoutDOM.innerHTML = data;
-            });
+            }).then(response => response.text())
+                .then(html => {
+                    checkoutDOM.innerHTML = html;
+                });
 
             console.log(cartContents);
             //alert("vége");
