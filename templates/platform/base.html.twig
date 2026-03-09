@@ -37,6 +37,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/monokai.min.css" integrity="sha512-R6PH4vSzF2Yxjdvb2p2FA06yWul+U0PDDav4b/od/oXf9Iw37zl10plvwOXelrjV2Ai7Eo3vyHeyFUjhXdBCVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" integrity="sha512-8RnEqURPUc5aqFEN04aQEiPlSAdE0jlFS/9iGgUyNtwFnSKCXhmB6ZTNl7LnDtDWKabJIASzXrzD0K+LYexU9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js" integrity="sha512-LarNmzVokUmcA7aUDtqZ6oTS+YXmUKzpGdm8DxC46A6AHu+PQiYCUlwEGWidjVYMo/QXZMFMIadZtrkfApYp/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.15.4/beautify-html.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/node_modules/summernote/dist/summernote-bs5.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css">
 
@@ -66,6 +73,26 @@
             overflow-y: auto;
         }
         */
+
+        .note-editable script {
+            display: inline-table;
+            visibility: hidden;
+            height: 0 !important;
+            width: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 0 !important;
+        }
+        .note-editable script:before {
+            display: block;
+            width: 32px;
+            height: 32px;
+            content: "";
+            visibility: visible;
+            background-image: url(http://png-1.findicons.com/files/icons/1861/xml_docs_x_tended/128/crystal_js.png);
+            background-repeat: no-repeat;
+            background-size: 32px;
+        }
     </style>
 </head>
 <body class="bg-light h-100">
@@ -117,9 +144,77 @@
             });
         });
 
+
+        // Define the custom Prettify button
+        var PrettifyButton = function(context) {
+            var ui = $.summernote.ui;
+
+            var button = ui.button({
+                contents : '<i class="note-icon-magic"></i> Prettify',
+                tooltip  : 'Format / Prettify HTML code',
+                click    : function() {
+                    // Get the current raw HTML from the editor
+                    var html = context.invoke('code');
+
+                    // Beautify it
+                    var pretty = html_beautify(html, {
+                        indent_size          : 2,
+                        wrap_line_length     : 120,
+                        preserve_newlines    : false,
+                        indent_inner_html    : true,
+                        extra_liners         : ['head', 'body', '/html'],
+                        unformatted          : [],   // format everything, including <script>/<style>
+                        content_unformatted  : [],
+                    });
+
+                    // Write it back into the editor
+                    context.invoke('code', pretty);
+
+                    // If codeview is active, update CodeMirror instance too
+                    var $cm = context.layoutInfo.codable.data('CodeMirrorInstance');
+                    if ($cm) {
+                        $cm.setValue(pretty);
+                        $cm.refresh();
+                    }
+                }
+            });
+
+            return button.render();
+        };
+
         jQuery(document).ready(function() {
             jQuery('.summernote').summernote({
                 lang: 'hu-HU',
+                codeviewFilter: false,
+                codeviewIframeFilter: false,
+                toolbar:[
+                    ['style', ['style']],
+                    ['font',     ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['fontsizeunit', ['fontsizeunit']], // px / em / rem unit toggle
+                    ['color',    ['forecolor', 'backcolor']], // separate pickers
+                    ['para', ['ul','ol','paragraph','height']],
+                    ['table', ['table']],
+                    ['insert',   ['link', 'picture', 'video', 'hr']],
+                    ['view',     ['fullscreen', 'codeview', 'help']],
+                    ['misc', ['undo','redo']],
+                    ['custom', ['prettify']]
+                ],
+                height: 300,
+                codemirror: {
+                    mode         : 'text/html',   // HTML syntax highlighting
+                    htmlMode     : true,
+                    lineNumbers  : true,          // show gutter line numbers
+                    lineWrapping : true,          // soft wrap long lines
+                    theme        : 'monokai',     // any CodeMirror theme
+                    matchBrackets: true,          // highlight matching brackets
+                    indentWithTabs: true,
+                    tabSize      : 2,
+                },
+                buttons: {
+                    prettify: PrettifyButton,     // <-- register the button
+                }
             });
 
             jQuery.datetimepicker.setLocale('hu');
