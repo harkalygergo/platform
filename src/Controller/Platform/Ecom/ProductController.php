@@ -26,6 +26,7 @@ class ProductController extends PlatformController
                 'name' => 'Név',
                 'shortDescription' => 'Rövid leírás',
                 'sku' => 'SKU',
+                'websites' => 'Websites',
                 'price' => 'Ár',
                 'salePrice' => 'Akciós ár',
                 'saleStartDate' => 'Akció kezdete',
