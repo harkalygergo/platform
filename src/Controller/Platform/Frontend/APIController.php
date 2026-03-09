@@ -92,11 +92,19 @@ class APIController extends PlatformController
             case 'checkout': {
                 // get all shipping methods of instance
                 $shippingMethods = $instance->getShippingMethods();
+                $paymentMethods = $instance->getPaymentMethods();
 
-                $return = "<h2>Szállítási módok:</h2><ul>";
+                $return = "";
 
+                $return .= "<h2>Szállítási módok:</h2><ul>";
                 foreach ($shippingMethods as $method) {
                     $return .= "<li>".$method->getName() . ': ' . $method->getFee()  . '</li>';
+                }
+                $return .= "</ul>";
+
+                $return .= "<h2>Fizetési módok:</h2><ul>";
+                foreach ($paymentMethods as $method) {
+                    $return .= "<li>".$method->getName() . ': ' . $method->getType()  . '</li>';
                 }
                 $return .= "</ul>";
 

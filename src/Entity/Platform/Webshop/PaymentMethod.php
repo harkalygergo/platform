@@ -22,7 +22,7 @@ class PaymentMethod
     #[ORM\Column(type: 'boolean')]
     private bool $status;
 
-    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'paymentMethods')]
     private Instance $instance;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
@@ -36,7 +36,6 @@ class PaymentMethod
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
-
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]

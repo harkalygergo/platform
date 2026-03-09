@@ -4,6 +4,7 @@ namespace App\Entity\Platform;
 
 use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\Popup\Popup;
+use App\Entity\Platform\Webshop\PaymentMethod;
 use App\Entity\Platform\Webshop\ShippingMethod;
 use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\InstanceRepository;
@@ -79,6 +80,9 @@ class Instance
 
     #[ORM\OneToMany(targetEntity: ShippingMethod::class, mappedBy: 'instance')]
     private Collection $shippingMethods;
+
+    #[ORM\OneToMany(targetEntity: PaymentMethod::class, mappedBy: 'instance')]
+    private Collection $paymentMethods;
 
     public function __construct()
     {
@@ -414,5 +418,15 @@ class Instance
     public function setShippingMethods(Collection $shippingMethods): void
     {
         $this->shippingMethods = $shippingMethods;
+    }
+
+    public function getPaymentMethods(): Collection
+    {
+        return $this->paymentMethods;
+    }
+
+    public function setPaymentMethods(Collection $paymentMethods): void
+    {
+        $this->paymentMethods = $paymentMethods;
     }
 }
