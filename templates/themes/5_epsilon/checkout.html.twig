@@ -75,10 +75,12 @@
             <h4 class="fw-bold">Termék(ek)</h4>
             {% set sum = 2490 %}
             {% set quantity = 0 %}
+            {% set items = '' %}
             <ul>
                 {% for cartItem in cartItems %}
                     {% set sum = sum + (cartItem.qty*cartItem.price) %}
                     {% set quantity = quantity + cartItem.qty %}
+                    {% set items = items + cartItem.name + ", " %}
                     <li>
                         <strong>{{ cartItem.name }}</strong><br>
                         {{ cartItem.qty }} * {{ cartItem.price|format_number(locale='hu') }} = {{ (cartItem.qty * cartItem.price)|format_number(locale='hu') }}
@@ -94,5 +96,6 @@
     <input type="hidden" name="key" value="{{ key }}">
     <input type="hidden" name="quantity" value="{{ quantity }}">
     <input type="hidden" name="total" value="{{ sum }}">
+    <input type="hidden" name="items" value="{{ items }}">
     <input type="hidden" name="currency" value="HUF">
 </form>

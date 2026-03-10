@@ -202,6 +202,10 @@ class APIController extends PlatformController
                 $order->setBillingCity($parameters['billingCity']);
                 $order->setBillingAddress($parameters['billingAddress']);
 
+                if ($parameters['items']) {
+                    $order->setItems($parameters['items']);
+                }
+
                 // save order
                 $em = $doctrine->getManager();
                 $em->persist($order);
