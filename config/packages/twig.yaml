@@ -1,6 +1,7 @@
 twig:
     file_name_pattern: '*.twig'
-
+    globals:
+        APP_URL: '%env(APP_URL)%'
 when@test:
     twig:
         strict_variables: true

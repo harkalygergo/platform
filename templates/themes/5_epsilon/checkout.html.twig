@@ -1,4 +1,4 @@
-<form method="post" action="/">
+<form action="{{ APP_URL }}/api/" method="post">
     <div class="row">
         <div class="col col-12 col-md-8">
             <h5 class="fw-bold mt-4">Személyes adatok</h5>
@@ -34,24 +34,26 @@
             </div>
             <h5 class="fw-bold mt-4">Fizetés és szállítás</h5>
             <div class="mb-1">
-                <label for="paymentMethod" class="form-label">Fizetési mód *</label>
+                <label for="paymentMethod" class="form-label fw-bold">Fizetési mód *</label>
                 <br>
                 {% for paymentMethod in paymentMethods %}
-                    <input type="radio" id="{{ paymentMethod.name }}" name="paymentMethod" value="{{ paymentMethod.id }}" required {% if loop.first %} checked {% endif %}>
+                    <input type="radio" id="{{ paymentMethod.name }}" name="paymentMethod" value="{{ paymentMethod.name }}" required {% if loop.first %} checked {% endif %}>
                     <label for="{{ paymentMethod.name }}">{{ paymentMethod.name }}</label><br>
+                    <i>{{ paymentMethod.description|raw }}</i>
                 {% endfor %}
             </div>
             <div class="mb-1">
-                <label for="shippingMethod" class="form-label">Szállítási mód *</label>
+                <label for="shippingMethod" class="form-label fw-bold">Szállítási mód *</label>
                 <br>
                 {% for shippingMethod in shippingMethods %}
-                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.id }}" required {% if loop.first %} checked {% endif %}>
+                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.name }}" required {% if loop.first %} checked {% endif %}>
                     <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}: {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
+                    <i>{{ shippingMethod.description|raw }}</i>
                 {% endfor %}
             </div>
             <div class="mb-1 mt-4">
                 <label for="message" class="form-label">Megjegyzés *</label>
-                <textarea class="form-control" id="message" name="message" rows="4" required=""></textarea>
+                <textarea class="form-control" id="message" name="message" rows="4"></textarea>
             </div>
             <!-- create a checkbox for the terms and conditions -->
             <div class="mt-4 mb-3 form-check">
@@ -72,9 +74,11 @@
         <div class="col col-12 col-md-4 p-3 bg-light rounded">
             <h4 class="fw-bold">Termék(ek)</h4>
             {% set sum = 2490 %}
+            {% set quantity = 0 %}
             <ul>
                 {% for cartItem in cartItems %}
                     {% set sum = sum + (cartItem.qty*cartItem.price) %}
+                    {% set quantity = quantity + cartItem.qty %}
                     <li>
                         <strong>{{ cartItem.name }}</strong><br>
                         {{ cartItem.qty }} * {{ cartItem.price|format_number(locale='hu') }} = {{ (cartItem.qty * cartItem.price)|format_number(locale='hu') }}
@@ -85,4 +89,10 @@
             <p class="border-top text-center pt-4 fs-3 fw-bold">SUM: {{ sum|format_number(locale='hu') }},- forint</p>
         </div>
     </div>
+    <input type="hidden" name="honeypot" value="">
+    <input type="hidden" name="action" value="order">
+    <input type="hidden" name="key" value="{{ key }}">
+    <input type="hidden" name="quantity" value="{{ quantity }}">
+    <input type="hidden" name="total" value="{{ sum }}">
+    <input type="hidden" name="currency" value="HUF">
 </form>
