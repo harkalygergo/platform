@@ -2,6 +2,12 @@
 
 namespace App\Controller\Platform\Frontend;
 
+// TODO
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: *");
+header("Allow: *");
+
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\Instance;
