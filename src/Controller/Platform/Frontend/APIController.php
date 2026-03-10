@@ -203,7 +203,7 @@ class APIController extends PlatformController
                 $order->setBillingAddress($parameters['billingAddress']);
 
                 if ($parameters['items']) {
-                    $order->setItems($parameters['items']);
+                    $order->setItems(explode(',', $parameters['items']));
                 }
 
                 // save order
