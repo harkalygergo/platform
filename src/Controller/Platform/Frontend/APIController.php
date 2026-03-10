@@ -6,7 +6,6 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,10 +13,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class APIController extends PlatformController
 {
+    /*
     public function __construct()
     {
         header("Access-Control-Allow-Origin: *");
     }
+    */
 
     #[Route('/api/', name: 'api')]
     public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer)
@@ -90,6 +91,7 @@ class APIController extends PlatformController
                     'shippingMethods' => $shippingMethods,
                     'paymentMethods' => $paymentMethods,
                     'cartItems' => json_decode($parameters['cart'], true) ?? '[]',
+                    'key' => $parameters['key'],
                 ]);
 
                 /*
