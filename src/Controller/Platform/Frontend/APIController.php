@@ -42,13 +42,6 @@ class APIController extends PlatformController
             $domain = substr($HTTP_ORIGIN, 7);
         }
 
-        /*
-        $cart = json_decode($_COOKIE['cart'], true) ?? '[]';
-        foreach ($cart as $cartItem) {
-            dump($cartItem);
-        }
-        */
-
         // find API by domain and key
         $api = $doctrine->getRepository(API::class)->findOneBy([
             'domain' => $domain,
@@ -96,7 +89,7 @@ class APIController extends PlatformController
                 echo $this->renderView('themes/5_epsilon/checkout.html.twig', [
                     'shippingMethods' => $shippingMethods,
                     'paymentMethods' => $paymentMethods,
-                    'cartItems' => json_decode($_COOKIE['cart'], true) ?? '[]',
+                    'cartItems' => json_decode($parameters['cart'], true) ?? '[]',
                 ]);
 
                 /*
