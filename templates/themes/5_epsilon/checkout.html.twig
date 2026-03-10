@@ -37,7 +37,7 @@
                 <label for="paymentMethod" class="form-label">Fizetési mód *</label>
                 <br>
                 {% for paymentMethod in paymentMethods %}
-                    <input type="radio" id="{{ paymentMethod.name }}" name="paymentMethod" value="{{ paymentMethod.id }}" required>
+                    <input type="radio" id="{{ paymentMethod.name }}" name="paymentMethod" value="{{ paymentMethod.id }}" required {% if loop.first %} checked {% endif %}>
                     <label for="{{ paymentMethod.name }}">{{ paymentMethod.name }}</label><br>
                 {% endfor %}
             </div>
@@ -45,7 +45,7 @@
                 <label for="shippingMethod" class="form-label">Szállítási mód *</label>
                 <br>
                 {% for shippingMethod in shippingMethods %}
-                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.id }}" required>
+                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.id }}" required {% if loop.first %} checked {% endif %}>
                     <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}: {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
                 {% endfor %}
             </div>
