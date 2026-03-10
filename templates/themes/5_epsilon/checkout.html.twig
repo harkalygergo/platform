@@ -1,6 +1,6 @@
 <form method="post" action="/">
     <div class="row">
-        <div class="col col-12 col-md-4">
+        <div class="col col-12 col-md-8">
             <h5 class="fw-bold">Személyes adatok</h5>
             <div class="mb-1">
                 <label for="lastName" class="form-label">Vezetéknév *</label>
@@ -19,8 +19,6 @@
                 <label for="email" class="form-label">E-mail cím *</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="például: teszt.elek@domain.hu" required="">
             </div>
-        </div>
-        <div class="col col-12 col-md-4">
             <h5 class="fw-bold">Számlázás</h5>
             <div class="mb-1">
                 <label for="billingZip" class="form-label">Irányítószám *</label>
@@ -34,8 +32,6 @@
                 <label for="billingAddress" class="form-label">Utca, házszám, (emelet, ajtó, stb.) *</label>
                 <input type="text" class="form-control" id="billingAddress" name="billingAddress" required="">
             </div>
-        </div>
-        <div class="col col-12 col-md-4">
             <h5 class="fw-bold">Fizetés és szállítás</h5>
             <div class="mb-1">
                 <label for="paymentMethod" class="form-label">Fizetési mód *</label>
@@ -50,15 +46,12 @@
                     <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.id }}">
                     <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}</label><br>
                 {% endfor %}
-
             </div>
             <div class="mb-1">
                 <label for="message" class="form-label">Megjegyzés *</label>
                 <textarea class="form-control" id="message" name="message" rows="4" required=""></textarea>
             </div>
             <!-- create a checkbox for the terms and conditions -->
-        </div>
-        <div class="col-12">
             <div class="mt-4 mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="acceptTerms" name="acceptTerms" required="">
                 <label class="form-check-label" for="acceptTerms">
@@ -66,13 +59,20 @@
                 </label>
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-lg btn-primary btn-block">
+                <button type="submit" class="btn btn-lg btn-dark btn-block">
                     <i class="bi bi-shield-lock"></i> Biztonságos rendelés
                 </button>
             </div>
             <p class="mt-3">
                 <small>* kötelező</small>
             </p>
+        </div>
+        <div class="col col-12 col-md-4">
+            <ul>
+                {% for cartItem in cartItems %}
+                    <li>{{ cartItem.name }}: {{ cartItem.qty }} * {{ cartItem.price }}</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </form>
