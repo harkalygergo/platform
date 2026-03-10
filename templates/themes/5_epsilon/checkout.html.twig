@@ -80,7 +80,7 @@
                 {% for cartItem in cartItems %}
                     {% set sum = sum + (cartItem.qty*cartItem.price) %}
                     {% set quantity = quantity + cartItem.qty %}
-                    {% set items = items + cartItem.name + ", " %}
+                    {% set items = items ~ cartItem.name ~ ', ' %}
                     <li>
                         <strong>{{ cartItem.name }}</strong><br>
                         {{ cartItem.qty }} * {{ cartItem.price|format_number(locale='hu') }} = {{ (cartItem.qty * cartItem.price)|format_number(locale='hu') }}
