@@ -96,6 +96,7 @@ class APIController extends PlatformController
                 echo $this->renderView('themes/5_epsilon/checkout.html.twig', [
                     'shippingMethods' => $shippingMethods,
                     'paymentMethods' => $paymentMethods,
+                    'cartItems' => json_decode($_COOKIE['cart'], true) ?? '[]',
                 ]);
 
                 /*
