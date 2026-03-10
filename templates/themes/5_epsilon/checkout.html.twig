@@ -46,7 +46,7 @@
                 <br>
                 {% for shippingMethod in shippingMethods %}
                     <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.id }}" required>
-                    <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}</label><br>
+                    <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }} - {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
                 {% endfor %}
             </div>
             <div class="mb-1 mt-4">
