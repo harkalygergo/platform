@@ -46,7 +46,7 @@
                 <br>
                 {% for shippingMethod in shippingMethods %}
                     <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.id }}" required>
-                    <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }} - {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
+                    <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}: {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
                 {% endfor %}
             </div>
             <div class="mb-1 mt-4">
@@ -71,7 +71,7 @@
         </div>
         <div class="col col-12 col-md-4 p-3 bg-light rounded">
             <h4 class="fw-bold">Termék(ek)</h4>
-            {% set sum = 0 %}
+            {% set sum = 2490 %}
             <ul>
                 {% for cartItem in cartItems %}
                     {% set sum = sum + (cartItem.qty*cartItem.price) %}
@@ -81,6 +81,7 @@
                     </li>
                 {% endfor %}
             </ul>
+            <p class="border-top">Szállítás: 2 490,- forint</p>
             <p class="border-top text-center pt-4 fs-3 fw-bold">SUM: {{ sum|format_number(locale='hu') }},- forint</p>
         </div>
     </div>

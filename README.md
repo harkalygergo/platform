@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.10.5
+###### v2026.03.10.6
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -109,6 +109,8 @@ php bin/console cache:clear
 # set proper permissions
 chown -R $(stat -c '%U:%G' ..) .
 
-# all of these steps can be automated with a single command, like:
+# short deploy one line command:
+git status; git pull; php bin/console cache:clear; chown -R $(stat -c '%U:%G' ..) .;
+# all the steps with one line command:
 git status; git pull; composer update; npm update; composer dump-autoload -o; php bin/console doctrine:migrations:migrate; php bin/console doctrine:schema:validate; php bin/console doctrine:mapping:info; php bin/console cache:clear; chown -R $(stat -c '%U:%G' ..) .; git status;
 ```
