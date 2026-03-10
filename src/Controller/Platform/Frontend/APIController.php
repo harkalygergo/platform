@@ -90,12 +90,15 @@ class APIController extends PlatformController
 
         switch ($parameters['action']) {
             case 'checkout': {
-                // get all shipping methods of instance
                 $shippingMethods = $instance->getShippingMethods();
                 $paymentMethods = $instance->getPaymentMethods();
 
-                $return = "";
+                echo $this->renderView('themes/5_epsilon/checkout.html.twig', [
+                    'shippingMethods' => $shippingMethods,
+                    'paymentMethods' => $paymentMethods,
+                ]);
 
+                /*
                 $return .= "<h2>Szállítási módok:</h2><ul>";
                 foreach ($shippingMethods as $method) {
                     $return .= "<li>".$method->getName() . ': ' . $method->getFee()  . '</li>';
@@ -109,6 +112,7 @@ class APIController extends PlatformController
                 $return .= "</ul>";
 
                 echo $return;
+                */
                 exit();
                 break;
             }

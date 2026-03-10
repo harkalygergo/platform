@@ -1,0 +1,49 @@
+{% extends 'themes/5_epsilon/base.html.twig' %}
+
+{% block navigation %}
+    {% include 'themes/5_epsilon/_navigation.html.twig' with { 'menus':menus } %}
+{% endblock %}
+
+{% block body %}
+
+                    <form method="post" action="/">
+
+                        <div class="woocommerce-billing-fields">
+
+                            <h3>Számlázási adatok</h3>
+
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Vezetéknév</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Keresztnév</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Elfogadom az Általános szerződési feltételeket.</label>
+                            </div>
+
+                        </div>
+
+
+                        <p>Szállítási mód:</p>
+                        {% for shippingMethod in shippingMethods %}
+                            <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod"
+                                   value="{{ shippingMethod.id }}">
+                            <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}</label><br>
+                        {% endfor %}
+
+                        <br>
+
+                        <p>Fizetési mód:</p>
+                        {% for paymentMethod in paymentMethods %}
+                            <input type="radio" id="{{ paymentMethod.name }}" name="shippingMethod"
+                                   value="{{ paymentMethod.id }}">
+                            <label for="{{ paymentMethod.name }}">{{ paymentMethod.name }}</label><br>
+                        {% endfor %}
+
+                    </form>
+
+{% endblock %}
