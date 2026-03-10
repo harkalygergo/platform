@@ -1,39 +1,78 @@
-                    <form method="post" action="/">
+<form method="post" action="/">
+    <div class="row">
+        <div class="col col-12 col-md-4">
+            <h5 class="fw-bold">Személyes adatok</h5>
+            <div class="mb-1">
+                <label for="lastName" class="form-label">Vezetéknév *</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" required="">
+                <div style="position: relative !important; height: 0 !important; width: 0 !important; display: initial !important; float: left !important;" data-lastpass-icon-root=""></div>
+            </div>
+            <div class="mb-1">
+                <label for="firstName" class="form-label">Keresztnév *</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" required="">
+            </div>
+            <div class="mb-1">
+                <label for="phone" class="form-label">Telefonszám *</label>
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="például: +36123456789" required="">
+            </div>
+            <div class="mb-1">
+                <label for="email" class="form-label">E-mail cím *</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="például: teszt.elek@domain.hu" required="">
+            </div>
+        </div>
+        <div class="col col-12 col-md-4">
+            <h5 class="fw-bold">Számlázás</h5>
+            <div class="mb-1">
+                <label for="billingZip" class="form-label">Irányítószám *</label>
+                <input type="text" class="form-control" id="billingZip" name="billingZip" required="">
+            </div>
+            <div class="mb-1">
+                <label for="billingCity" class="form-label">Település *</label>
+                <input type="text" class="form-control" id="billingCity" name="billingCity" required="">
+            </div>
+            <div class="mb-1">
+                <label for="billingAddress" class="form-label">Utca, házszám, (emelet, ajtó, stb.) *</label>
+                <input type="text" class="form-control" id="billingAddress" name="billingAddress" required="">
+            </div>
+        </div>
+        <div class="col col-12 col-md-4">
+            <h5 class="fw-bold">Fizetés és szállítás</h5>
+            <div class="mb-1">
+                <label for="paymentMethod" class="form-label">Fizetési mód *</label>
+                {% for paymentMethod in paymentMethods %}
+                    <input type="radio" id="{{ paymentMethod.name }}" name="paymentMethod" value="{{ paymentMethod.id }}">
+                    <label for="{{ paymentMethod.name }}">{{ paymentMethod.name }}</label><br>
+                {% endfor %}
+            </div>
+            <div class="mb-1">
+                <label for="shippingMethod" class="form-label">Szállítási mód *</label>
+                {% for shippingMethod in shippingMethods %}
+                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.id }}">
+                    <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}</label><br>
+                {% endfor %}
 
-                        <div class="woocommerce-billing-fields">
-
-                            <h3>Számlázási adatok</h3>
-
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Vezetéknév</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Keresztnév</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
-                            </div>
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Elfogadom az Általános szerződési feltételeket.</label>
-                            </div>
-
-                        </div>
-
-
-                        <p>Szállítási mód:</p>
-                        {% for shippingMethod in shippingMethods %}
-                            <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod"
-                                   value="{{ shippingMethod.id }}">
-                            <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}</label><br>
-                        {% endfor %}
-
-                        <br>
-
-                        <p>Fizetési mód:</p>
-                        {% for paymentMethod in paymentMethods %}
-                            <input type="radio" id="{{ paymentMethod.name }}" name="shippingMethod"
-                                   value="{{ paymentMethod.id }}">
-                            <label for="{{ paymentMethod.name }}">{{ paymentMethod.name }}</label><br>
-                        {% endfor %}
-
-                    </form>
+            </div>
+            <div class="mb-1">
+                <label for="message" class="form-label">Megjegyzés *</label>
+                <textarea class="form-control" id="message" name="message" rows="4" required=""></textarea>
+            </div>
+            <!-- create a checkbox for the terms and conditions -->
+        </div>
+        <div class="col-12">
+            <div class="mt-4 mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="acceptTerms" name="acceptTerms" required="">
+                <label class="form-check-label" for="acceptTerms">
+                    Elfogadom az <!--a class="text-success fw-bold" href="#"-->Általános Szerződési Feltételek<!--/a-->et.
+                </label>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-lg btn-primary btn-block">
+                    <i class="bi bi-shield-lock"></i> Biztonságos rendelés
+                </button>
+            </div>
+            <p class="mt-3">
+                <small>* kötelező</small>
+            </p>
+        </div>
+    </div>
+</form>
