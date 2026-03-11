@@ -1,9 +1,28 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.10.14
+###### v2026.03.11.1
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
-## Templates
+#### ⫹⫺ PLATFORM is a Symfony-based web application which help for any type of entity (business, organization, etc.) to use today's minimum solutions (website, webshop, CRM, task management, etc.)
+
+Solutions:
+
+- website
+- webshop
+- newsletter
+- task manager
+
+---
+
+## 💾️ Requirements
+
+- Apache && / || nginx
+- PHP 8.4
+- SQL
+
+---
+
+## 🎨 Templates
 
 Backend has a fix template with light and dark mode. Frontend has multiple templates to choose from. You can change the template in the settings.
 
@@ -32,7 +51,11 @@ Backend has a fix template with light and dark mode. Frontend has multiple templ
 23. &psi; Psi
 24. &omega; Omega
 
-## How to develop?
+---
+
+## 📃 Developer documentation
+
+### How to develop?
 
 ```shell
 # update Composer packages
@@ -52,13 +75,13 @@ php bin/console doctrine:mapping:info
 php bin/console cache:clear
 ```
 
-## How to install?
+### How to install?
 
 ```shell
 # clone (or download) the repository
 git clone git@github.com:harkalygergo/platform.git
 # install Composer packages
-composer install
+composer install --no-dev --optimize-autoloader
 # install npm packages
 npm install
 # build assets
@@ -66,7 +89,7 @@ npm run build
 # create database
 php bin/console doctrine:database:create
 # apply database migrations
-php bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate --no-interaction
 # verify Doctrine mappings
 php bin/console doctrine:schema:validate
 php bin/console doctrine:mapping:info
@@ -74,7 +97,10 @@ php bin/console doctrine:mapping:info
 php bin/console cache:clear
 ```
 
-## How to activate?
+### How to activate?
+
+1. Setup basics
+
 
 ```shell
 # create .env.local file based on .env
@@ -88,18 +114,45 @@ symfony server:start
 php bin/console app:website:deploy [WEBSITE_ID]
 ```
 
-## How to update?
+2. Setup server functions
+
+```shell
+# Create a systemd service for Symfony Messenger
+sudo nano /etc/systemd/system/symfony-messenger.service
+##########################
+# ADD CODE BELOW CHANGING [USER] AND [DOMAIN]
+[Unit]
+Description=Symfony Messenger Worker
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/home/[USER]/web/[DOMAIN.TLD]/public_html
+ExecStart=/usr/bin/php bin/console messenger:consume async --memory-limit=256M --time-limit=3600
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+##########################
+# ENABLE AND RESTART IT
+sudo systemctl daemon-reload
+sudo systemctl enable symfony-messenger
+sudo systemctl start symfony-messenger
+```
+
+### How to update?
 
 ```shell
 # pull the latest changes from the repository
 git pull origin main
 # update Composer packages
-composer update
+composer update --no-dev --optimize-autoloader
 # update npm packages
 npm update
 # build assets
 npm run build
-# apply database migrations
+# apply database migrations || unattended mode: php bin/console doctrine:migrations:migrate --no-interaction
 php bin/console doctrine:migrations:migrate
 # verify Doctrine mappings
 php bin/console doctrine:schema:validate
@@ -108,9 +161,20 @@ php bin/console doctrine:mapping:info
 php bin/console cache:clear
 # set proper permissions
 chown -R $(stat -c '%U:%G' ..) .
+# finish current message, systemd automatically restarts it with new code
+php bin/console messenger:stop-workers
 
 # short deploy one line command:
 git status; git pull; php bin/console cache:clear; chown -R $(stat -c '%U:%G' ..) .;
 # all the steps with one line command:
-git status; git pull; composer update; npm update; composer dump-autoload -o; php bin/console doctrine:migrations:migrate; php bin/console doctrine:schema:validate; php bin/console doctrine:mapping:info; php bin/console cache:clear; chown -R $(stat -c '%U:%G' ..) .; git status;
+git status; git pull; composer update; npm update; composer dump-autoload -o; php bin/console doctrine:migrations:migrate; php bin/console doctrine:schema:validate; php bin/console doctrine:mapping:info; php bin/console cache:clear; chown -R $(stat -c '%U:%G' ..) .; php bin/console messenger:stop-workers; git status;
+```
+
+### How to check statues and logs?
+
+```shell
+# check Symfony Messenger status
+systemctl status symfony-messenger
+# check Symfony Messenger logs
+journalctl -u symfony-messenger -f
 ```
