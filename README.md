@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.11.2
+###### v2026.03.11.3
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -101,8 +101,7 @@ php bin/console cache:clear
 
 ### How to activate?
 
-1. Setup basics
-
+I. Setup basics
 
 ```shell
 # create .env.local file based on .env
@@ -116,7 +115,7 @@ symfony server:start
 php bin/console app:website:deploy [WEBSITE_ID]
 ```
 
-2. Setup server functions
+II. Setup server functions
 
 ```shell
 # Create a systemd service for Symfony Messenger

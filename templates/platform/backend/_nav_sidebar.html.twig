@@ -46,6 +46,50 @@
             KEDVENCEK
         </small>
 
+        <hr>
+
+        <small class="sidebar-heading d-flex text-white text-uppercase fw-bold small ps-2">
+            Szolgáltatások
+        </small>
+        <ul class="nav flex-column mb-auto p-0 m-0">
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path('admin_v1_domains') }}">
+                    <i class="bi bi-link-45deg"></i>
+                    Domain
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path('admin_v1_website_index') }}">
+                    <i class="bi bi-globe"></i>
+                    Honlap
+                </a>
+            </li>
+            <li class="nav-item">
+                <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                    <i class="bi bi-cart"></i>
+                    Webáruház
+                </span>
+            </li>
+            <li class="nav-item">
+                <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                    <i class="bi bi-window"></i>
+                    Webalkalmazás
+                </span>
+            </li>
+            <li class="nav-item">
+                <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                    <i class="bi bi-phone"></i>
+                    Mobilalkalmazás
+                </span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path('admin_v1_api_index') }}">
+                    <i class="bi bi-code-slash"></i>
+                    API
+                </a>
+            </li>
+        </ul>
+
     </div>
 
     <!-- CMS MENU -->
@@ -75,7 +119,7 @@
                 <div class="collapse submenu bg-black" id="blocks">
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_v1_block_index') }}">Összes blokk</a></li>
-                        <li class="nav-item"><a class="nav-link link-light" href="/hu/admin/v2/web/block/add/">Új blokk hozzáadása</a></li>
+                        <li class="nav-item"><a class="nav-link link-light" href="{{ path('admin_v1_block_new') }}">Új blokk hozzáadása</a></li>
                     </ul>
                 </div>
             </li>
@@ -131,7 +175,6 @@
                     </ul>
                 </div>
             </li>
-
             <li class="nav-item border-top2">
                 <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#pages" role="button" aria-expanded="false" aria-controls="pages">
                     <span>
@@ -146,7 +189,6 @@
                     </ul>
                 </div>
             </li>
-
             <li class="nav-item border-top2">
                 <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#comments" role="button" aria-expanded="false" aria-controls="comments">
                     <span>
@@ -179,84 +221,36 @@
                     </ul>
                 </div>
             </li>
-
             <li class="nav-item border-top2">
-                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#design2" role="button" aria-expanded="false" aria-controls="design">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#tools" role="button" aria-expanded="false" aria-controls="design">
                     <span>
                         <i class="pe-1 bi bi-wrench"></i>
                         Eszközök
                     </span>
                 </a>
-                <div class="collapse submenu bg-black p-0 m-0" id="design2">
+                <div class="collapse submenu bg-black p-0 m-0" id="tools">
                     <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link link-white-50" href="#">export</a></li>
-                        <li class="nav-item"><a class="nav-link link-white-50" href="#">import</a></li>
+                        <li class="nav-item"><a class="nav-link text-white-50" href="#">export</a></li>
+                        <li class="nav-item"><a class="nav-link text-white-50" href="#">import</a></li>
                     </ul>
                 </div>
             </li>
-
             <li class="nav-item border-top2">
-                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#design" role="button" aria-expanded="false" aria-controls="design">
+                <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#designSettings" role="button" aria-expanded="false" aria-controls="design">
                     <span>
                         <i class="pe-1 bi bi-sliders2-vertical"></i>
                         Beállítások
                     </span>
                 </a>
-                <div class="collapse submenu bg-black p-0 m-0" id="design">
+                <div class="collapse submenu bg-black p-0 m-0" id="designSettings">
                     <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link link-white-50" href="#">összes beállítás</a></li>
+                        <li class="nav-item"><a class="nav-link text-white-50" href="#">összes beállítás</a></li>
                     </ul>
                 </div>
             </li>
 
         </ul>
 
-        <hr>
-
-        <ul class="nav flex-column mb-auto p-0 m-0">
-
-            <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/domains">
-                    <i class="bi bi-link-45deg"></i>
-                    Domain
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/website/">
-                    <i class="bi bi-globe"></i>
-                    Honlap
-                </a>
-            </li>
-
-            <li class="nav-item">
-                                                                            <span class="nav-link d-flex align-items-center gap-2 text-white-50">
-                                            <i class="bi bi-cart"></i>
-                                            Webáruház
-                                        </span>
-            </li>
-
-            <li class="nav-item">
-                                                                            <span class="nav-link d-flex align-items-center gap-2 text-white-50">
-                                            <i class="bi bi-window"></i>
-                                            Webalkalmazás
-                                        </span>
-            </li>
-
-            <li class="nav-item">
-                <span class="nav-link d-flex align-items-center gap-2 text-white-50">
-                                            <i class="bi bi-phone"></i>
-                                            Mobilalkalmazás
-                                        </span>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/api/">
-                    <i class="bi bi-code-slash"></i>
-                    API
-                </a>
-            </li>
-        </ul>
     </div>
 
     <!-- ECOM MENU -->
@@ -406,28 +400,28 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/superadmin/users">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path('admin_v1_superadmin_users') }}">
                     <i class="bi bi-people"></i>
                     Felhasználók
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/superadmin/billing-profiles">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path('admin_v1_superadmin_billing_profiles') }}">
                     <i class="bi bi-receipt"></i>
                     Számlázási fiókok
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/superadmin/services">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path('admin_v1_superadmin_services') }}">
                     <i class="bi bi-boxes"></i>
                     Szolgáltatások
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 text-white" href="/hu/admin/v1/superadmin/orders">
+                <a class="nav-link d-flex align-items-center gap-2 text-white" href="{{ path('admin_v1_superadmin_orders') }}">
                     <i class="bi bi-cart"></i>
                     Rendelések
                 </a>
