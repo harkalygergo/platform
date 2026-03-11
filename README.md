@@ -1,9 +1,9 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.11.1
+###### v2026.03.11.2
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
-#### ⫹⫺ PLATFORM is a Symfony-based web application which help for any type of entity (business, organization, etc.) to use today's minimum solutions (website, webshop, CRM, task management, etc.)
+#### ⫹⫺ PLATFORM is a multisite and multilingual compatibility web application based on Symfony PHP Framework. It's ideal for managing and growing any entity (individual, business, organization, etc.) with online solutions.
 
 Solutions:
 
@@ -17,6 +17,8 @@ Solutions:
 ## 💾️ Requirements
 
 - Apache && / || nginx
+- Composer
+- npm
 - PHP 8.4
 - SQL
 
@@ -178,3 +180,9 @@ systemctl status symfony-messenger
 # check Symfony Messenger logs
 journalctl -u symfony-messenger -f
 ```
+
+---
+
+## Copyright
+
+⫹⫺ PLATFORM made with 💚 in Budapest (Hungary) by Gergő Harkály (@harkalygergo) full-stack web developer (https://www.harkalygergo.hu). All rights reserved!
