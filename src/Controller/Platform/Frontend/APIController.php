@@ -15,7 +15,9 @@ use App\Entity\Platform\Order;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class APIController extends PlatformController
 {
@@ -27,7 +29,7 @@ class APIController extends PlatformController
     */
 
     #[Route('/api/', name: 'api')]
-    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer)
+    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient)
     {
         $request = $requestStack->getCurrentRequest();
         $parameters = $request->request->all();
@@ -238,6 +240,11 @@ class APIController extends PlatformController
                 $fromAddress = $instance->getName() . ' <' . $instance->getOwner()->getEmail() . '>';
                 $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody, $fromAddress);
 
+                // initialize Saferpay payment page for Saferpay payment method
+                if ($order->getPaymentMethod() === 'credit_card') {
+                    $this->initSaferpayPaymentMethod($order, $key, $httpClient);
+                }
+
                 break;
             }
         }
@@ -248,6 +255,244 @@ class APIController extends PlatformController
             $this->redirectAway($HTTP_ORIGIN)
         );
     }
+
+
+
+
+
+
+
+
+
+    /* SAFERPAY */
+
+    // initialize Saferpay payment page for Saferpay payment method
+    public function initSaferpayPaymentMethod($order, $key, $httpClient)
+    {
+        $baseUrl = rtrim($_ENV['SAFERPAY_BASE_URL'] ?? 'https://test.saferpay.com/api', '/');
+        $customerId = $_ENV['SAFERPAY_CUSTOMER_ID'] ?? null;
+        $terminalId = $_ENV['SAFERPAY_TERMINAL_ID'] ?? null;
+        $username = $_ENV['SAFERPAY_USERNAME'] ?? null;
+        $password = $_ENV['SAFERPAY_PASSWORD'] ?? null;
+
+        if (!$customerId || !$terminalId || !$username || !$password) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Saferpay configuration is missing',
+            ], 500);
+        }
+
+        $amountValue = (int) round(((float) $order->getTotal()) * 100);
+        $currency = $order->getCurrency() ?: 'EUR';
+
+        $successUrl = $this->generateUrl(
+            'saferpay_return',
+            ['id' => $order->getId(), 'key' => $key, 'status' => 'success'],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+        $failUrl = $this->generateUrl(
+            'saferpay_return',
+            ['id' => $order->getId(), 'key' => $key, 'status' => 'fail'],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+        $abortUrl = $this->generateUrl(
+            'saferpay_return',
+            ['id' => $order->getId(), 'key' => $key, 'status' => 'abort'],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $notifyUrl = $this->generateUrl(
+            'saferpay_notify',
+            ['id' => $order->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $initializePayload = [
+            'RequestHeader' => [
+                'SpecVersion' => '1.19',
+                'CustomerId' => $customerId,
+            ],
+            'TerminalId' => $terminalId,
+            'Payment' => [
+                'Amount' => [
+                    'Value' => $amountValue,
+                    'Currency' => $currency,
+                ],
+                'OrderId' => (string) $order->getId(),
+                'Description' => 'Order #' . $order->getId(),
+            ],
+            'ReturnUrls' => [
+                'Success' => $successUrl,
+                'Fail' => $failUrl,
+                'Abort' => $abortUrl,
+            ],
+            'Notification' => [
+                'NotifyUrl' => $notifyUrl,
+            ],
+            'PaymentMethods' => [
+                'CARD',
+            ],
+        ];
+
+        try {
+            $response = $httpClient->request(
+                'POST',
+                $baseUrl . '/Payment/v1/PaymentPage/Initialize',
+                [
+                    'auth_basic' => [$username, $password],
+                    'json' => $initializePayload,
+                ]
+            );
+
+            $data = $response->toArray(false);
+
+            if (!isset($data['RedirectUrl'])) {
+                return $this->json([
+                    'status' => 'error',
+                    'message' => 'Saferpay initialization failed',
+                    'details' => $data,
+                ], 502);
+            }
+
+            return $this->redirect($data['RedirectUrl']);
+        } catch (\Throwable $e) {
+            $this->logger->error('Saferpay initialization error', [
+                'exception' => $e,
+            ]);
+
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Saferpay initialization error',
+            ], 502);
+        }
+    }
+
+    #[Route('/saferpay/return', name: 'saferpay_return', methods: ['GET'])]
+    public function saferpayReturn(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine)
+    {
+        $request = $requestStack->getCurrentRequest();
+        $orderId = $request->query->get('id');
+        $status = $request->query->get('status');
+
+        if ($orderId) {
+            $order = $doctrine->getRepository(Order::class)->find($orderId);
+            if ($order) {
+                // basic mapping of redirect status to internal payment status if notify did not run yet
+                if ($status === 'success' && !$order->getPaymentStatus()) {
+                    $order->setPaymentStatus('pending_confirmation');
+                    $em = $doctrine->getManager();
+                    $em->flush();
+                }
+            }
+        }
+
+        return $this->render(
+            'platform/frontend/index.html.twig',
+            ['content' => 'Köszönjük a rendelést! Fizetés feldolgozás alatt.']
+        );
+    }
+
+    #[Route('/saferpay/notify', name: 'saferpay_notify', methods: ['GET', 'POST'])]
+    public function saferpayNotify(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, HttpClientInterface $httpClient): Response
+    {
+        $request = $requestStack->getCurrentRequest();
+        $orderId = $request->get('id');
+        $token = $request->get('Token');
+
+        if (!$orderId || !$token) {
+            return new Response('Missing parameters', 400);
+        }
+
+        $order = $doctrine->getRepository(Order::class)->find($orderId);
+        if (!$order) {
+            return new Response('Order not found', 404);
+        }
+
+        $baseUrl = rtrim($_ENV['SAFERPAY_BASE_URL'] ?? 'https://test.saferpay.com/api', '/');
+        $customerId = $_ENV['SAFERPAY_CUSTOMER_ID'] ?? null;
+        $username = $_ENV['SAFERPAY_USERNAME'] ?? null;
+        $password = $_ENV['SAFERPAY_PASSWORD'] ?? null;
+
+        if (!$customerId || !$username || !$password) {
+            return new Response('Saferpay configuration is missing', 500);
+        }
+
+        $requestHeader = [
+            'SpecVersion' => '1.19',
+            'CustomerId' => $customerId,
+        ];
+
+        try {
+            // Assert transaction
+            $assertResponse = $httpClient->request(
+                'POST',
+                $baseUrl . '/Payment/v1/PaymentPage/Assert',
+                [
+                    'auth_basic' => [$username, $password],
+                    'json' => [
+                        'RequestHeader' => $requestHeader,
+                        'Token' => $token,
+                    ],
+                ]
+            );
+
+            $assertData = $assertResponse->toArray(false);
+
+            $transactionId = $assertData['Transaction']['Id'] ?? null;
+            $state = $assertData['Transaction']['Status'] ?? null;
+            $liabilityShift = $assertData['Liability']['LiabilityShift'] ?? null;
+
+            if ($transactionId && $state === 'AUTHORIZED' && $liabilityShift === 'YES') {
+                // Capture / finalize authorized transaction
+                $captureResponse = $httpClient->request(
+                    'POST',
+                    $baseUrl . '/Payment/v1/Transaction/Capture',
+                    [
+                        'auth_basic' => [$username, $password],
+                        'json' => [
+                            'RequestHeader' => $requestHeader,
+                            'TransactionReference' => [
+                                'TransactionId' => $transactionId,
+                            ],
+                        ],
+                    ]
+                );
+
+                $captureData = $captureResponse->toArray(false);
+                $captureStatus = $captureData['Status'] ?? null;
+
+                if ($captureStatus === 'CAPTURED') {
+                    $order->setPaymentStatus('paid');
+                } else {
+                    $order->setPaymentStatus('capture_error');
+                }
+            } else {
+                $order->setPaymentStatus('failed');
+            }
+
+            $em = $doctrine->getManager();
+            $em->flush();
+
+            return new Response('OK', 200);
+        } catch (\Throwable $e) {
+            $this->logger->error('Saferpay notify error', [
+                'exception' => $e,
+            ]);
+
+            return new Response('Error', 500);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public function redirectAway($url)
     {
