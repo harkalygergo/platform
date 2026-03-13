@@ -11,12 +11,15 @@ global:
     comment: 'Comment'
     message: 'Message'
     name: 'Name'
+    new: 'new'
     status: Status
     title: 'Title'
 action:
     view: view
     edit: edit
+    edited: edited
     delete: delete
+    deleted: deleted
     save: save
     saved: saved
     cancel: cancel

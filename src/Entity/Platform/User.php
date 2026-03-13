@@ -337,6 +337,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->instances = $instances;
     }
 
+    public function hasInstance(Instance $instance): bool
+    {
+        return $this->instances->contains($instance);
+    }
+
     public function getOwnInstances(): Collection
     {
         return $this->ownInstances;

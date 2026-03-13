@@ -36,6 +36,16 @@ class PlatformController extends AbstractController
         $this->currentInstance = $instance ?? null;
     }
 
+    protected function denyAccessUnlessUserHasInstance(): void
+    {
+        $user = $this->getUser();
+        $instance = $this->currentInstance;
+
+        if (!$user || !$instance || !$user->hasInstance($instance)) {
+            throw $this->createAccessDeniedException();
+        }
+    }
+
     public function getPlatformBasicEnviroments()
     {
         return [

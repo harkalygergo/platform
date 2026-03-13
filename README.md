@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.13.1
+###### v2026.03.13.2
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -75,6 +75,12 @@ php bin/console doctrine:schema:validate -v
 php bin/console doctrine:mapping:info
 # clear cache
 php bin/console cache:clear
+```
+
+Localhost develop simple command line:
+
+```shell
+composer update; npm update; composer dump-autoload -o; php bin/console cache:clear;
 ```
 
 ### How to install?

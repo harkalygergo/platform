@@ -19,12 +19,15 @@ global:
     comment: 'Megjegyzés'
     message: 'Üzenet'
     name: 'Név'
+    new: 'új'
     status: Státusz
     title: 'Megnevezés'
 action:
     view: megtekintés
     edit: szerkesztés
+    edited: szerkesztve
     delete: törlés
+    deleted: törölve
     save: mentés
     saved: mentve
     cancel: megszakítás
