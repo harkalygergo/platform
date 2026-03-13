@@ -6,6 +6,7 @@ use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\Popup\Popup;
 use App\Entity\Platform\Webshop\PaymentMethod;
 use App\Entity\Platform\Webshop\ShippingMethod;
+use App\Entity\Platform\Webshop\Webshop;
 use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\InstanceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -77,6 +78,9 @@ class Instance
     // websites
     #[ORM\OneToMany(targetEntity: Website::class, mappedBy: 'instance')]
     private Collection $websites;
+
+    #[ORM\OneToMany(targetEntity: Webshop::class, mappedBy: 'instance')]
+    private Collection $webshops;
 
     #[ORM\OneToMany(targetEntity: ShippingMethod::class, mappedBy: 'instance')]
     private Collection $shippingMethods;
@@ -408,6 +412,16 @@ class Instance
     public function setWebsites(Collection $websites): void
     {
         $this->websites = $websites;
+    }
+
+    public function getWebshops(): Collection
+    {
+        return $this->webshops;
+    }
+
+    public function setWebshops(Collection $webshops): void
+    {
+        $this->webshops = $webshops;
     }
 
     public function getShippingMethods(): Collection

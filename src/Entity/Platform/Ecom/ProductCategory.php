@@ -2,6 +2,7 @@
 
 namespace App\Entity\Platform\Ecom;
 
+use App\Entity\Platform\Webshop\Webshop;
 use App\Repository\Platform\Ecom\ProductCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -42,11 +43,15 @@ class ProductCategory
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private Collection $products;
 
+    #[ORM\ManyToMany(targetEntity: Webshop::class, mappedBy: 'productCategories')]
+    private Collection $webshops;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->subCategories = new ArrayCollection();
         $this->websites = new ArrayCollection();
+        $this->webshops = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,6 +184,27 @@ class ProductCategory
                 $product->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWebshops(): Collection
+    {
+        return $this->webshops;
+    }
+
+    public function addWebshop(Webshop $webshop): self
+    {
+        if (!$this->webshops->contains($webshop)) {
+            $this->webshops->add($webshop);
+        }
+
+        return $this;
+    }
+
+    public function removeWebshop(Webshop $webshop): self
+    {
+        $this->webshops->removeElement($webshop);
 
         return $this;
     }

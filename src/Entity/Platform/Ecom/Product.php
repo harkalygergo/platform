@@ -5,6 +5,7 @@ namespace App\Entity\Platform\Ecom;
 use AllowDynamicProperties;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Media\Media;
+use App\Entity\Platform\Webshop\Webshop;
 use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\Ecom\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -149,6 +150,9 @@ class Product
     #[ORM\ManyToMany(targetEntity: Website::class, inversedBy: 'products')]
     #[ORM\JoinTable(name: 'ecom_product_website')]
     private Collection $websites;
+
+    #[ORM\ManyToMany(targetEntity: Webshop::class, mappedBy: 'products')]
+    private Collection $webshops;
 
     #[ORM\ManyToOne(targetEntity: ProductCategory::class, inversedBy: 'products')]
     private ?ProductCategory $category = null;
@@ -638,6 +642,27 @@ class Product
     public function removeWebsite(Website $website): static
     {
         $this->websites->removeElement($website);
+        return $this;
+    }
+
+    public function getWebshops(): Collection
+    {
+        return $this->webshops;
+    }
+
+    public function addWebshop(Webshop $webshop): static
+    {
+        if (!$this->webshops->contains($webshop)) {
+            $this->webshops[] = $webshop;
+        }
+
+        return $this;
+    }
+
+    public function removeWebshop(Webshop $webshop): self
+    {
+        $this->webshops->removeElement($webshop);
+
         return $this;
     }
 
