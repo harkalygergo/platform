@@ -6,6 +6,7 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Instance\InstanceFeed;
 use App\Entity\Platform\User;
+use App\Form\Platform\InstanceType;
 use App\Repository\Platform\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -138,7 +139,7 @@ class InstanceController extends PlatformController
         $this->addFlash('success', $this->translator->trans('action.saved'));
         setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
 
-        return $this->redirectToRoute('admin_v1_website_index');
+        return $this->redirectToRoute('homepage');
     }
 
 

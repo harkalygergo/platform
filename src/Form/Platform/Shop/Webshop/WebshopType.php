@@ -22,6 +22,13 @@ class WebshopType extends AbstractType
         $currentInstance = $options['currentInstance'];
 
         $builder
+            ->add('status', CheckboxType::class, [
+                'label' => 'Status',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+            ])
             ->add('domain', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -256,13 +263,6 @@ class WebshopType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
-                ],
-            ])
-            ->add('status', CheckboxType::class, [
-                'label' => 'Status',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
                 ],
             ])
             ->add('googleApiKey', TextType::class, [

@@ -4,16 +4,14 @@ namespace App\Controller\Platform;
 
 use App\Controller\Platform\Backend\SidebarController;
 use App\Entity\Platform\Instance;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PlatformController extends AbstractController
@@ -23,7 +21,7 @@ class PlatformController extends AbstractController
 
     public function __construct(
         protected RequestStack $requestStack,
-        protected \Doctrine\Persistence\ManagerRegistry $doctrine,
+        protected ManagerRegistry $doctrine,
         protected TranslatorInterface $translator,
         protected KernelInterface $kernel,
         protected MailerInterface $mailer,
@@ -120,21 +118,5 @@ class PlatformController extends AbstractController
             $this->mailer->send($email);
             $this->logger->info('Sending email', ['email' => $emailBody.$emailUniqueBody]);
         }
-    }
-
-
-
-
-
-
-
-    #[Route('/homepage', name: 'homepage', methods: ['GET'])]
-    public function dashboard(Request $request): Response
-    {
-        return $this->render('platform/backend/v1/list.html.twig', [
-            'title' => 'Dashboard',
-            'tableHead' => [],
-            'tableBody' => [],
-        ]);
     }
 }
