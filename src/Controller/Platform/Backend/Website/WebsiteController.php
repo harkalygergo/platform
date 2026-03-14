@@ -656,6 +656,13 @@ RewriteEngine On
 #RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$ [NC]
 #RewriteCond %{REQUEST_URI} !/$
 #RewriteRule ^(.*)$ /$1/ [L,R=301]
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
 ';
 
         $i = 0;

@@ -19,7 +19,7 @@
                     <table class="table table-striped table-hover table-bordered">
                         <thead>
                         <tr>
-                            <th scope="col">X</th>
+                            <th scope="col">#</th>
                             <th scope="col">Dátum</th>
                             <th scope="col">Helyszín</th>
                             <th scope="col">Esemény</th>
@@ -29,7 +29,7 @@
                         <tbody>
                             {% for event in events %}
                                 <tr>
-                                    <td>{{ loop.index }}</td>
+                                    <td>{{ loop.index }}.</td>
                                     <td>{{ event.startAt|date('Y.m.d. H:i') }}</td>
                                     <td>{{ event.locationName }}<br><small><i>{{ event.location }}</i></small></td>
                                     <td>
