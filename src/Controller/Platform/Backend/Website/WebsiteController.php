@@ -212,7 +212,7 @@ class WebsiteController extends PlatformController
         $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true]);
         // get all menus of the website, order by position
         $menus = $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
-        $events = $this->doctrine->getRepository('App\Entity\Platform\Event')->findUpcoming($website, 100);
+        $events = $this->doctrine->getRepository('App\Entity\Platform\Event')->findUpcoming($website, 500);
 
         // get recent 10 posts of the website
         $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true], ['createdAt' => 'DESC'], 10);
@@ -656,6 +656,13 @@ RewriteEngine On
 #RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$ [NC]
 #RewriteCond %{REQUEST_URI} !/$
 #RewriteRule ^(.*)$ /$1/ [L,R=301]
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
 ';
 
         $i = 0;

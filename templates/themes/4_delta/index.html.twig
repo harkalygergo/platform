@@ -19,6 +19,7 @@
                     <table class="table table-striped table-hover table-bordered">
                         <thead>
                         <tr>
+                            <th scope="col">#</th>
                             <th scope="col">Dátum</th>
                             <th scope="col">Helyszín</th>
                             <th scope="col">Esemény</th>
@@ -28,13 +29,14 @@
                         <tbody>
                             {% for event in events %}
                                 <tr>
+                                    <td>{{ loop.index }}.</td>
                                     <td>{{ event.startAt|date('Y.m.d. H:i') }}</td>
                                     <td>{{ event.locationName }}<br><small><i>{{ event.location }}</i></small></td>
                                     <td>
-                                        <h5 class="fw-bold">{{ event.title }}</h5>
                                         {% if event.performer is not empty %}
-                                            <h6>{{ event.performer }}</h6>
+                                            <h5 class="fw-bold">{{ event.performer }}</h5>
                                         {% endif %}
+                                        <h6>{{ event.title }}</h6>
                                         <span class="text-muted ">{{ event.description|striptags }}</span>
                                     </td>
                                     <td class="text-end">
