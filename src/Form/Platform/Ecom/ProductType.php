@@ -3,6 +3,7 @@
 namespace App\Form\Platform\Ecom;
 
 use App\Entity\Platform\Ecom\Product;
+use App\Entity\Platform\Ecom\ProductMedia;
 use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\Media\MediaRepository;
@@ -16,6 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductType extends AbstractType
@@ -278,8 +281,70 @@ class ProductType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('gallery', EntityType::class, [
+                'class' => Media::class,
+                'choice_label' => 'originalName',
+                'query_builder' => function (MediaRepository $er) use ($options) {
+                    return $er->createQueryBuilder('m')
+                        ->where('m.instance = :instance')
+                        ->setParameter('instance', $options['currentInstance'])
+                        ->orderBy('m.originalName', 'ASC');
+                },
+                'multiple' => true,
+                'required' => false,
+                'mapped' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'Galéria képek',
+            ])
 
         ;
+
+        // Initialize gallery field from existing ProductMedias
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $product = $event->getData();
+            $form = $event->getForm();
+
+            if (!$product instanceof Product) {
+                return;
+            }
+
+            $medias = [];
+            foreach ($product->getProductMedias() as $productMedia) {
+                $medias[] = $productMedia->getMedia();
+            }
+
+            $form->get('gallery')->setData($medias);
+        });
+
+        // Sync selected medias back into ProductMedias
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            /** @var Product $product */
+            $product = $event->getData();
+            $form = $event->getForm();
+
+            if (!$product instanceof Product || !$form->has('gallery')) {
+                return;
+            }
+
+            $selectedMedias = $form->get('gallery')->getData();
+
+            // Clear existing relations
+            foreach ($product->getProductMedias() as $existing) {
+                $product->removeProductImage($existing);
+            }
+
+            $position = 0;
+            foreach ($selectedMedias as $media) {
+                $pm = new ProductMedia();
+                $pm->setProduct($product);
+                $pm->setMedia($media);
+                $pm->setPosition($position++);
+
+                $product->addProductImage($pm);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

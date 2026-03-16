@@ -108,8 +108,13 @@ class Product
     #[ORM\JoinColumn(name: "main_image_id", referencedColumnName: "id", nullable: true)]
     private ?Media $mainImage = null;
 
+    // TODO Deprecated: use productMedias relation instead
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $images = [];
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductMedia::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
+    private Collection $productMedias;
 
     // Status & Visibility
     #[ORM\Column(length: 20, options: ['default' => 'draft'])]
@@ -160,6 +165,7 @@ class Product
     public function __construct()
     {
         $this->websites = new ArrayCollection();
+        $this->productMedias = new ArrayCollection();
     }
 
     // Getters and Setters
@@ -462,6 +468,35 @@ class Product
     public function setImages(?array $images): static
     {
         $this->images = $images;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductMedia>
+     */
+    public function getProductMedias(): Collection
+    {
+        return $this->productMedias;
+    }
+
+    public function addProductImage(ProductMedia $productImage): static
+    {
+        if (!$this->productMedias->contains($productImage)) {
+            $this->productMedias->add($productImage);
+            $productImage->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductImage(ProductMedia $productImage): static
+    {
+        if ($this->productMedias->removeElement($productImage)) {
+            if ($productImage->getProduct() === $this) {
+                $productImage->setProduct(null);
+            }
+        }
+
         return $this;
     }
 

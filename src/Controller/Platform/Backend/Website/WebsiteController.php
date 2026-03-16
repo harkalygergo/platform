@@ -209,7 +209,7 @@ class WebsiteController extends PlatformController
         $filenames = [];
 
         $categories = $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteCategory')->findBy(['website' => $website, 'status' => true]);
-        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true]);
+        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true], ['title' => 'ASC']);
         // get all menus of the website, order by position
         $menus = $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
         $events = $this->doctrine->getRepository('App\Entity\Platform\Event')->findUpcoming($website, 500);
