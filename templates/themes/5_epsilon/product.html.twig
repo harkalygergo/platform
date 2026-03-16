@@ -58,10 +58,21 @@
 
             </div>
         </div>
-        <div class="row my-3 border-top">
-            <div class="col-12 py-3">
-                <h3 class="text-uppercase fw-bold fs-5">Termék leírása</h3>
+        <div class="row py-4 border-top">
+            <div class="col-12">
+                <h3 class="text-uppercase fw-bold fs-5 text-center">Termék leírása</h3>
                 {{ product.description|raw }}
+            </div>
+        </div>
+        <div class="row py-4 border-top">
+            <div class="col-12">
+                <h3 class="text-uppercase fw-bold fs-5 text-center">Galéria</h3>
+                {% for productImage in product.productMedias %}
+                    {% set media = productImage.media %}
+                        <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery">
+                            <img src="/media/{{ media.originalName }}" alt="{{ productImage.label ?? product.name }}" class="d-block w-100 py-3" loading="lazy">
+                        </a>
+                {% endfor %}
             </div>
         </div>
     </div>
