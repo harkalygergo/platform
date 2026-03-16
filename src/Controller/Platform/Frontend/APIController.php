@@ -241,9 +241,10 @@ class APIController extends PlatformController
                 $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody, $fromAddress);
 
                 // initialize Saferpay payment page for Saferpay payment method
-                if ($order->getPaymentMethod() === 'credit_card') {
-                    $this->initSaferpayPaymentMethod($order, $key, $httpClient);
+                if ($order->getPaymentMethod() === 'Worldline - Novopayment - Saferpay') {
+                    return $this->initSaferpayPaymentMethod($order, $key, $httpClient);
                 }
+                exit();
 
                 break;
             }
@@ -311,12 +312,14 @@ class APIController extends PlatformController
             'RequestHeader' => [
                 'SpecVersion' => '1.19',
                 'CustomerId' => $customerId,
+                'RequestId' => $order->getId(),
+                'RetryIndicator' => 1,
             ],
             'TerminalId' => $terminalId,
             'Payment' => [
                 'Amount' => [
                     'Value' => $amountValue,
-                    'Currency' => $currency,
+                    'CurrencyCode' => $currency,
                 ],
                 'OrderId' => (string) $order->getId(),
                 'Description' => 'Order #' . $order->getId(),
@@ -330,7 +333,7 @@ class APIController extends PlatformController
                 'NotifyUrl' => $notifyUrl,
             ],
             'PaymentMethods' => [
-                'CARD',
+                "VISA", "MASTERCARD",
             ],
         ];
 
