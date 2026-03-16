@@ -16,13 +16,12 @@
                                 <a href="/media/{{ product.mainImage.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
                                     <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.name }}" class="d-block w-100">
                                 </a>
-
                             {% endif %}
                         </div>
                         {% for productImage in product.productMedias %}
                             {% set media = productImage.media %}
                             <div class="carousel-item">
-                                <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery">
+                                <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
                                     <img src="/media/{{ media.originalName }}" alt="{{ productImage.label ?? product.name }}" class="d-block w-100" loading="lazy">
                                 </a>
                             </div>
@@ -67,10 +66,16 @@
         <div class="row py-4 border-top">
             <div class="col-12">
                 <h3 class="text-uppercase fw-bold fs-5 text-center">Galéria</h3>
+                {% if product.mainImage is not null %}
+                    <a href="/media/{{ product.mainImage.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
+                        <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.mainImage.description }}" class="d-block w-100" loading="lazy">
+                    </a>
+                {% endif %}
+
                 {% for productImage in product.productMedias %}
                     {% set media = productImage.media %}
-                        <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery">
-                            <img src="/media/{{ media.originalName }}" alt="{{ productImage.label ?? product.name }}" class="d-block w-100 py-3" loading="lazy">
+                        <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
+                            <img src="/media/{{ media.originalName }}" alt="{{ media.description }}" class="d-block w-100 py-3" loading="lazy">
                         </a>
                 {% endfor %}
             </div>
