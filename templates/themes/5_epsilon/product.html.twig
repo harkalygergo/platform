@@ -9,17 +9,22 @@
     <div class="container">
         <div class="row p-2">
             <div class="col-md-6">
-                <div id="productGallery" class="carousel slide">
+                <div id="productGallery" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             {% if product.mainImage is not null %}
-                                <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.name }}" class="d-block w-100">
+                                <a href="/media/{{ product.mainImage.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
+                                    <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.name }}" class="d-block w-100">
+                                </a>
+
                             {% endif %}
                         </div>
                         {% for productImage in product.productMedias %}
                             {% set media = productImage.media %}
                             <div class="carousel-item">
-                                <img src="/media/{{ media.originalName }}" alt="{{ productImage.label ?? product.name }}" class="d-block w-100">
+                                <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery">
+                                    <img src="/media/{{ media.originalName }}" alt="{{ productImage.label ?? product.name }}" class="d-block w-100" loading="lazy">
+                                </a>
                             </div>
                         {% endfor %}
                     </div>
@@ -60,7 +65,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{% block scripts %}
+    <script src="https://cdn.brandcomstudio.com/node_modules/bs5-lightbox/dist/index.bundle.min.js"></script>
     <script>
         function getCart() {
             const match = document.cookie.match(/(^| )cart=([^;]+)/);
@@ -90,6 +98,23 @@
             saveCart(cart);
             document.getElementById("addToCartSuccessAlert").style.display = "block";
         }
-    </script>
 
+        function lightBox()
+        {
+            const options = {
+                keyboard: true,
+                size: 'fullscreen'
+            };
+
+            document.querySelectorAll('[data-toggle="product-lightbox"]').forEach((el) => el.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lightbox = new Lightbox(el, options);
+                lightbox.show();
+            }));
+        }
+
+        window.addEventListener("load", (event) => {
+            lightBox();
+        });
+    </script>
 {% endblock %}
