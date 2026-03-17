@@ -2,16 +2,11 @@
 
 namespace App\Controller\Platform\Frontend;
 
-// TODO
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: *");
-header("Access-Control-Allow-Methods: *");
-header("Allow: *");
-
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
+use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,8 +24,21 @@ class APIController extends PlatformController
     */
 
     #[Route('/api/', name: 'api')]
-    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient)
+    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient, WebsiteRepository $websiteRepository): Response
     {
+        $websites = $websiteRepository->findAll();
+        $allowedOrigins = ['https://localhost'];
+        foreach($websites as $website){
+            $allowedOrigins[] = $website->getDomain();
+        }
+
+        if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
+            header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+            header("Access-Control-Allow-Credentials: true");
+        }
+        header("Access-Control-Allow-Headers: Content-Type");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
         $request = $requestStack->getCurrentRequest();
         $parameters = $request->request->all();
 
@@ -240,11 +248,13 @@ class APIController extends PlatformController
                 $fromAddress = $instance->getName() . ' <' . $instance->getOwner()->getEmail() . '>';
                 $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody, $fromAddress);
 
+                unset($_COOKIE['cart']);
                 // initialize Saferpay payment page for Saferpay payment method
                 if ($order->getPaymentMethod() === 'Worldline - Novopayment - Saferpay') {
-                    return $this->initSaferpayPaymentMethod($order, $key, $httpClient);
+                    return $this->initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN);
+
+                    exit();
                 }
-                exit();
 
                 break;
             }
@@ -268,7 +278,7 @@ class APIController extends PlatformController
     /* SAFERPAY */
 
     // initialize Saferpay payment page for Saferpay payment method
-    public function initSaferpayPaymentMethod($order, $key, $httpClient)
+    public function initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN)
     {
         $baseUrl = rtrim($_ENV['SAFERPAY_BASE_URL'] ?? 'https://test.saferpay.com/api', '/');
         $customerId = $_ENV['SAFERPAY_CUSTOMER_ID'] ?? null;
@@ -288,17 +298,17 @@ class APIController extends PlatformController
 
         $successUrl = $this->generateUrl(
             'saferpay_return',
-            ['id' => $order->getId(), 'key' => $key, 'status' => 'success'],
+            ['id' => $order->getId(), 'key' => $key, 'status' => 'success', 'HTTP_ORIGIN' => $HTTP_ORIGIN],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $failUrl = $this->generateUrl(
             'saferpay_return',
-            ['id' => $order->getId(), 'key' => $key, 'status' => 'fail'],
+            ['id' => $order->getId(), 'key' => $key, 'status' => 'fail', 'HTTP_ORIGIN' => $HTTP_ORIGIN],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $abortUrl = $this->generateUrl(
             'saferpay_return',
-            ['id' => $order->getId(), 'key' => $key, 'status' => 'abort'],
+            ['id' => $order->getId(), 'key' => $key, 'status' => 'abort', 'HTTP_ORIGIN' => $HTTP_ORIGIN],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
@@ -376,6 +386,7 @@ class APIController extends PlatformController
         $request = $requestStack->getCurrentRequest();
         $orderId = $request->query->get('id');
         $status = $request->query->get('status');
+        $HTTP_ORIGIN = $request->query->get('HTTP_ORIGIN');
 
         if ($orderId) {
             $order = $doctrine->getRepository(Order::class)->find($orderId);
@@ -391,7 +402,11 @@ class APIController extends PlatformController
 
         return $this->render(
             'platform/frontend/index.html.twig',
-            ['content' => 'Köszönjük a rendelést! Fizetés feldolgozás alatt.']
+            ['content' => '
+                <h1>Köszönjük a rendelést! Fizetés feldolgozás alatt.</h1>
+                <h2>Hamarosan visszairányítjuk a főoldalra.</h2>
+                <script>window.setTimeout(function() { window.location.href = "'.$HTTP_ORIGIN.'"; }, 5000);</script>
+            ']
         );
     }
 

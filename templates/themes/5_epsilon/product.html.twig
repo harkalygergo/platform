@@ -92,7 +92,7 @@
         }
 
         function saveCart(cart) {
-            document.cookie = "cart=" + encodeURIComponent(JSON.stringify(cart)) + ";path=/;max-age=604800";
+            document.cookie = "cart=" + encodeURIComponent(JSON.stringify(cart)) + ";path=/;max-age=604800;SameSite=None;Secure";
         }
 
         function addToCart(productID, productName, price) {

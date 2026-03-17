@@ -56,7 +56,9 @@
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: formBody,
+                credentials: "include"
             })
+                .then(response => response.text())
                 //.then(response => response.json()) // or .text() if not JSON
                 .catch(error => console.error('Error:', error));
         }
@@ -85,10 +87,9 @@
                 action: 'checkout',
                 key: APIKey,
                 cart: JSON.stringify(cartContents)
-            }).then(response => response.text())
-                .then(html => {
-                    checkoutDOM.innerHTML += html;
-                });
+            }).then(html => {
+                checkoutDOM.innerHTML += html;
+            });
         }
     </script>
 
