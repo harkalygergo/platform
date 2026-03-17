@@ -75,7 +75,7 @@ class InstanceController extends PlatformController
             ->add('owner', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (UserRepository $userRepository) use ($instance) {
-                    return $userRepository->findUsersByInstance($instance);
+                    return $userRepository->findByInstance($instance);
                 },
                 'choice_label' => function (User $user) {
                     return $user->getFullName(). ' '. $user->getPosition(). ' (' . $user->getPhone() . '; ' . $user->getEmail() . ')';

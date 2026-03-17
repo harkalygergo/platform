@@ -36,4 +36,18 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+
+    public function findByInstance($instance)
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.instances', 'i')
+            ->andWhere('i = :instance')
+            ->setParameter('instance', $instance)
+            ->addOrderBy('u.lastName', 'ASC')
+            ->addOrderBy('u.firstName', 'ASC')
+            ->addOrderBy('u.username', 'ASC')
+            //->getQuery()
+            //->getResult()
+        ;
+    }
 }
