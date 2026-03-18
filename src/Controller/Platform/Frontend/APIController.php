@@ -16,30 +16,55 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class APIController extends PlatformController
 {
-    /*
-    public function __construct()
+    private function corsResponse(Response $response, string $origin, array $allowedOrigins): Response
     {
-        header("Access-Control-Allow-Origin: *");
+        if ($origin && in_array($origin, $allowedOrigins)) {
+            $response->headers->set('Access-Control-Allow-Origin', $origin);
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        }
+
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        $response->headers->set('Vary', 'Origin');
+
+        return $response;
     }
-    */
 
     #[Route('/api/', name: 'api')]
     public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient, WebsiteRepository $websiteRepository): Response
     {
         $websites = $websiteRepository->findAll();
-        $allowedOrigins = ['https://localhost'];
-        foreach($websites as $website){
-            $allowedOrigins[] = $website->getDomain();
+
+        $allowedOrigins = [
+            'http://localhost',
+            'https://localhost'
+        ];
+
+        foreach ($websites as $website) {
+            $domain = $website->getDomain();
+
+            $allowedOrigins[] = 'https://' . $domain;
+            $allowedOrigins[] = 'http://' . $domain;
         }
 
-        if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins)) {
-            header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+        $request = $requestStack->getCurrentRequest();
+        //$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+        $origin = $request->headers->get('Origin');
+
+        if ($request->getMethod() === 'OPTIONS') {
+            return $this->corsResponse(new Response(), $origin, $allowedOrigins);
+        }
+
+        /*
+        if (in_array($origin, $allowedOrigins)) {
+            header("Access-Control-Allow-Origin: $origin");
             header("Access-Control-Allow-Credentials: true");
         }
         header("Access-Control-Allow-Headers: Content-Type");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        */
 
-        $request = $requestStack->getCurrentRequest();
+        //$request = $requestStack->getCurrentRequest();
         $parameters = $request->request->all();
 
         // if the honeypot is filled, return error
@@ -103,12 +128,26 @@ class APIController extends PlatformController
                 $shippingMethods = $instance->getShippingMethods();
                 $paymentMethods = $instance->getPaymentMethods();
 
+                /*
                 echo $this->renderView('themes/5_epsilon/checkout.html.twig', [
                     'shippingMethods' => $shippingMethods,
                     'paymentMethods' => $paymentMethods,
                     'cartItems' => json_decode($parameters['cart'], true) ?? '[]',
                     'key' => $parameters['key'],
                 ]);
+                */
+
+                return $this->corsResponse(
+                    new Response($this->renderView('themes/5_epsilon/checkout.html.twig', [
+                        'shippingMethods' => $shippingMethods,
+                        'paymentMethods' => $paymentMethods,
+                        'cartItems' => json_decode($parameters['cart'], true) ?? [],
+                        'key' => $parameters['key'],
+                    ])),
+                    $origin,
+                    $allowedOrigins
+                );
+
 
                 /*
                 $return .= "<h2>Szállítási módok:</h2><ul>";
