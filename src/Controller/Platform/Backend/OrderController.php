@@ -25,7 +25,7 @@ class OrderController extends PlatformBackendController
     {
         $orders = $this->doctrine->getRepository(Order::class)->findBy([
             'instance' => $this->currentInstance,
-        ]);
+        ], ['createdAt' => 'DESC']);
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
@@ -33,6 +33,7 @@ class OrderController extends PlatformBackendController
             'tableHead' => [
                 'id' => 'Azonosító',
                 'createdAt' => 'Dátum',
+                'paymentToken' => 'paymentToken',
                 'lastName' => 'Vezetéknév',
                 'firstName' => 'Keresztnév',
                 'phone' => 'Telefonszám',

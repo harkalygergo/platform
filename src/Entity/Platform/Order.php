@@ -79,6 +79,9 @@ class Order
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $paymentToken = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -327,5 +330,16 @@ class Order
     public function getName()
     {
         return "#{$this->id}";
+    }
+
+    public function getPaymentToken(): ?string
+    {
+        return $this->paymentToken;
+    }
+
+    public function setPaymentToken(?string $token): self
+    {
+        $this->paymentToken = $token;
+        return $this;
     }
 }

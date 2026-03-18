@@ -6,7 +6,11 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
+use App\Repository\OrderRepository;
 use App\Repository\Platform\Website\WebsiteRepository;
+use App\Service\SaferpayService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -31,7 +35,7 @@ class APIController extends PlatformController
     }
 
     #[Route('/api/', name: 'api')]
-    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient, WebsiteRepository $websiteRepository): Response
+    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient, WebsiteRepository $websiteRepository, SaferpayService $saferpay): Response
     {
         $websites = $websiteRepository->findAll();
 
@@ -254,6 +258,7 @@ class APIController extends PlatformController
                 if ($parameters['items']) {
                     $order->setItems(explode(',', $parameters['items']));
                 }
+                $order->setPaymentToken(uniqid());
 
                 // save order
                 $em = $doctrine->getManager();
@@ -290,10 +295,53 @@ class APIController extends PlatformController
                 unset($_COOKIE['cart']);
                 // initialize Saferpay payment page for Saferpay payment method
                 if ($order->getPaymentMethod() === 'Worldline - Novopayment - Saferpay') {
-                    return $this->initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN);
+                    $order->setPaymentToken(uniqid());
+
+                    //return $this->initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN);
+                    //dump($HTTP_ORIGIN);
+
+                    //$HTTP_ORIGIN = $request->getSchemeAndHttpHost();
+                    //dd($HTTP_ORIGIN);
+
+                    $result = $saferpay->initSaferpayPaymentMethod(
+                        $order,
+                        'card',
+                        $httpClient,
+                        $HTTP_ORIGIN
+                    );
+                    //dd($result);
+
+                    if (isset($result['redirectUrl'])) {
+                        return $this->redirect($result['redirectUrl']);
+                    }
+
+                    $order->setPaymentStatus('FAILED');
+                    $em->flush();
+
+                    throw new \Exception('Saferpay init failed');
 
                     exit();
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 break;
             }
@@ -315,6 +363,51 @@ class APIController extends PlatformController
 
 
     /* SAFERPAY */
+    #[Route('/api/payment/success', name: 'payment_success', methods: ['POST'])]
+    public function success(Request $request, SaferpayService $service, OrderRepository $repo, HttpClientInterface $httpClient): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $token = $data['Token'] ?? null;
+
+        $order = $repo->findOneBy(['saferpayToken' => $token]);
+        if (!$order) {
+            return new Response('Order not found', 404);
+        }
+
+        $service->handleNotify($order, true, $httpClient);
+
+        // flush entity manager here
+        return new Response('OK', 200);
+    }
+
+    #[Route('/api/payment/fail', name: 'payment_fail', methods: ['POST'])]
+    public function fail(Request $request, SaferpayService $service, OrderRepository $repo, HttpClientInterface $httpClient): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $token = $data['Token'] ?? null;
+
+        $order = $repo->findOneBy(['saferpayToken' => $token]);
+        if (!$order) {
+            return new Response('Order not found', 404);
+        }
+
+        $service->handleNotify($order, false, $httpClient);
+
+        // flush entity manager here
+        return new Response('OK', 200);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     // initialize Saferpay payment page for Saferpay payment method
     public function initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN)
@@ -359,7 +452,7 @@ class APIController extends PlatformController
 
         $initializePayload = [
             'RequestHeader' => [
-                'SpecVersion' => '1.19',
+                'SpecVersion' => '1.51',
                 'CustomerId' => $customerId,
                 'RequestId' => $order->getId(),
                 'RetryIndicator' => 1,
@@ -379,11 +472,60 @@ class APIController extends PlatformController
                 'Abort' => $abortUrl,
             ],
             'Notification' => [
-                'NotifyUrl' => $notifyUrl,
+                'SuccessNotifyUrl' => $notifyUrl,
+                'FailNotifyUrl' => $notifyUrl,
             ],
             'PaymentMethods' => [
                 "VISA", "MASTERCARD",
             ],
+        ];
+
+        $initializePayload = [
+            'RequestHeader' => [
+                'SpecVersion'   => '1.51',
+                'CustomerId'    => $customerId,
+                'RequestId'     => uniqid('req_', true),
+                'RetryIndicator'=> 0,
+                'ClientInfo'    => [
+                    'ShopInfo' => 'My Shop',
+                ],
+            ],
+
+            'TerminalId' => $terminalId,
+
+            'PaymentMethods' => ['VISA', 'MASTERCARD'],
+
+            'Payment' => [
+                'Amount' => [
+                    'Value' => $amountValue,
+                    'CurrencyCode' => $currency,
+                ],
+                'OrderId' => (string) $order->getId(),
+                'Description' => 'Order #' . $order->getId(),
+            ],
+
+            'Payer' => [
+                'IpAddress'   => $_SERVER['REMOTE_ADDR'],
+                'LanguageCode'=> 'hu',
+            ],
+
+            // user redirect (frontend)
+            'ReturnUrl' => [
+                'Url' => $notifyUrl, //'https://yourdomain.com/payment/return?orderId=' . $orderId,
+            ],
+
+            // server-side tracking (REQUIRED for success/fail storage)
+            'Notification' => [
+                'SuccessNotifyUrl' => $successUrl,
+                'FailNotifyUrl' => $failUrl,
+            ],
+
+            /*
+            // optional but recommended
+            'BillingAddressForm' => [
+                'AddressSource' => 'SAFERPAY',
+            ],
+            */
         ];
 
         try {
@@ -419,6 +561,29 @@ class APIController extends PlatformController
         }
     }
 
+    #[Route('/payment/return/{HTTP_ORIGIN}/{order}/{orderToken}', name: 'payment_return')]
+    public function return(EntityManagerInterface $em, Request $request, OrderRepository $repo, SaferpayService $service, HttpClientInterface $httpClient, string $HTTP_ORIGIN, Order $order, string $orderToken): Response
+    {
+        if (!$order) {
+            return new Response('Order not found', 404);
+        }
+
+        // call Assert to check final status
+        $service->handleNotify($order, true, $httpClient);
+
+        $status = $order->getPaymentStatus();
+        $em->flush();
+
+        $HTTP_ORIGIN = 'https://' .$HTTP_ORIGIN;
+
+        return match($status) {
+            'SUCCESS' => $this->redirectToRoute('saferpay_return', ['id' => $order->getId(), 'status' => $status, 'HTTP_ORIGIN' => $HTTP_ORIGIN]),
+            'FAILED'  => $this->redirectToRoute('saferpay_return',  ['id' => $order->getId(), 'status' => $status, 'HTTP_ORIGIN' => $HTTP_ORIGIN]),
+            'CANCELED'=> $this->redirectToRoute('saferpay_return',['id' => $order->getId(), 'status' => $status, 'HTTP_ORIGIN' => $HTTP_ORIGIN]),
+            default   => $this->redirectToRoute('saferpay_return',  ['id' => $order->getId(), 'status' => $status, 'HTTP_ORIGIN' => $HTTP_ORIGIN]),
+        };
+    }
+
     #[Route('/saferpay/return', name: 'saferpay_return', methods: ['GET'])]
     public function saferpayReturn(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine)
     {
@@ -435,6 +600,16 @@ class APIController extends PlatformController
                     $order->setPaymentStatus('pending_confirmation');
                     $em = $doctrine->getManager();
                     $em->flush();
+
+                    return $this->render(
+                        'platform/frontend/index.html.twig',
+                        ['content' => '
+                            <h1>Köszönjük a rendelést! Fizetés sikeres, rendelés feldolgozás alatt.</h1>
+                            <h2>Hamarosan visszairányítjuk a főoldalra.</h2>
+                            <script>window.setTimeout(function() { window.location.href = "'.$HTTP_ORIGIN.'"; }, 5000);</script>
+                        ']
+                    );
+
                 }
             }
         }
@@ -442,7 +617,7 @@ class APIController extends PlatformController
         return $this->render(
             'platform/frontend/index.html.twig',
             ['content' => '
-                <h1>Köszönjük a rendelést! Fizetés feldolgozás alatt.</h1>
+                <h1>Köszönjük a rendelést! Fizetés sikertelen.</h1>
                 <h2>Hamarosan visszairányítjuk a főoldalra.</h2>
                 <script>window.setTimeout(function() { window.location.href = "'.$HTTP_ORIGIN.'"; }, 5000);</script>
             ']
