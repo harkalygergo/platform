@@ -2,11 +2,12 @@
 
 namespace App\Controller\Platform\Backend;
 
-use App\Controller\Platform\PlatformController;
+use App\Controller\Platform\PlatformBackendController;
 use App\Entity\Platform\BillingProfile;
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Service;
 use App\Entity\Platform\User;
+use App\Form\Platform\Shop\Webshop\OrderType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,8 +16,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 #[IsGranted(User::ROLE_USER)]
 #[\Symfony\Component\Routing\Attribute\Route('/{_locale}/admin/v1/order')]
-class OrderController extends PlatformController
+class OrderController extends PlatformBackendController
 {
+    private const string redirectToRoute = 'admin_v1_order_index';
+
     #[Route('/', name: 'admin_v1_order_index')]
     public function index(Request $request): Response
     {
@@ -48,6 +51,8 @@ class OrderController extends PlatformController
             ],
             'tableBody' => $orders,
             'actions' => [
+                'new',
+                'edit',
                 'delete'
             ],
         ]);
@@ -65,6 +70,27 @@ class OrderController extends PlatformController
         ]);
     }
 
+    #[Route('/new/', name: 'admin_v1_order_new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
+    {
+        $form = $this->createForm(OrderType::class, null, [
+            'currentInstance' => $this->currentInstance,
+        ]);
+
+        return $this->platformBackendNew($request, $form, self::redirectToRoute);
+    }
+
+    #[Route('/edit/{entity}', name: 'admin_v1_order_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Order $entity): Response
+    {
+        $form = $this->createForm(OrderType::class, $entity, [
+            'currentInstance' => $this->currentInstance,
+        ]);
+
+        return $this->platformBackendEdit($request, $form, $entity, self::redirectToRoute);
+    }
+
+    /*
     #[Route('/edit/{id}/', name: 'admin_v1_order_edit')]
     public function edit(Request $request, int $id): Response
     {
@@ -76,6 +102,7 @@ class OrderController extends PlatformController
             'order' => $order,
         ]);
     }
+    */
 
     #[Route('/delete/{id}', name: 'admin_v1_order_delete')]
     public function delete(Request $request, Order $id): Response

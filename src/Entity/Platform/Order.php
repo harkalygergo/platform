@@ -323,4 +323,9 @@ class Order
 
         return $this;
     }
+
+    public function getName()
+    {
+        return "#{$this->id}";
+    }
 }
