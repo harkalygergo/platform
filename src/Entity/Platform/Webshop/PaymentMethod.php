@@ -44,6 +44,9 @@ class PaymentMethod
     private string $name;
 
     #[ORM\Column(type: 'string', length: 255)]
+    private string $code;
+
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     #[Groups(['webshop_payment_method'])]
@@ -144,6 +147,18 @@ class PaymentMethod
     public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
         return $this;
     }
 

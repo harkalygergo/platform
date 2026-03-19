@@ -56,7 +56,7 @@ class APIType extends AbstractType
                     new NotBlank(['message' => 'Domain is required']),
                     new Regex([
                         'pattern' => '/^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(:\d+)?(\/.*)?$/i',
-                        'message' => 'Please enter a valid domain URL',
+                        'message' => 'Valid domain URL!!!',
                     ]),
                 ],
             ])
