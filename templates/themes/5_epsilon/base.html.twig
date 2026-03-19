@@ -169,6 +169,32 @@
 
 {% block scripts %}
 {% endblock %}
+<script>
+    function deleteCookie(cookieName)
+    {
+        document.cookie = cookieName +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    /*
+    const form = document.getElementById("checkout-form");
+
+    form.addEventListener("submit", function (event) {
+        if (form.checkValidity()) {
+            // Form is valid → run your function
+            onlyIfValidForm();
+        } else {
+            // Form is invalid → prevent submission + show browser errors
+            event.preventDefault();
+            form.reportValidity();
+        }
+    });
+
+    function onlyIfValidForm() {
+        deleteCookie("cart");
+    }
+    */
+</script>
+
 
 <!-- Generated: {{ 'now'|date('Y.m.d. H:i:s | U') }} -->
 

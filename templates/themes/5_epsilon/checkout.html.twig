@@ -1,4 +1,4 @@
-<form action="{{ APP_URL }}/api/" method="post">
+<form action="{{ APP_URL }}/api/" method="post" id="checkout-form">
     <div class="row">
         <div class="col col-12 col-md-8">
             <h5 class="fw-bold mt-4">Személyes adatok</h5>
@@ -37,8 +37,8 @@
                 <label for="paymentMethod" class="form-label fw-bold">Fizetési mód *</label>
                 <br>
                 {% for paymentMethod in paymentMethods %}
-                    <input type="radio" id="{{ paymentMethod.name }}" name="paymentMethod" value="{{ paymentMethod.name }}" required {% if loop.first %} checked {% endif %}>
-                    <label for="{{ paymentMethod.name }}">{{ paymentMethod.name }}</label><br>
+                    <input type="radio" id="{{ paymentMethod.code }}" name="paymentMethod" value="{{ paymentMethod.code }}" required {% if loop.first %} checked {% endif %}>
+                    <label for="{{ paymentMethod.code }}">{{ paymentMethod.name }}</label><br>
                     <i>{{ paymentMethod.description|raw }}</i>
                 {% endfor %}
             </div>
@@ -63,7 +63,7 @@
                 </label>
             </div>
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-lg btn-dark btn-block">
+                <button type="submit" class="btn btn-lg btn-dark btn-block" onclick="deleteCookie('cart');">
                     <i class="bi bi-shield-lock"></i> Biztonságos rendelés
                 </button>
             </div>
