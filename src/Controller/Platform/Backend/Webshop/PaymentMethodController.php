@@ -28,6 +28,7 @@ class PaymentMethodController extends PlatformController
             'tableHead' => [
                 'name' => 'Név',
                 'type' => 'Típus',
+                'code' => 'Code',
                 'description' => 'Leírás',
                 'status' => 'Státusz',
             ],

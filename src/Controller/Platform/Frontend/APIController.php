@@ -294,7 +294,7 @@ class APIController extends PlatformController
 
                 unset($_COOKIE['cart']);
                 // initialize Saferpay payment page for Saferpay payment method
-                if ($order->getPaymentMethod() === 'Worldline - Novopayment - Saferpay') {
+                if ($parameters['paymentMethod'] === 'worldline_novopayment_saferpay') {
                     $order->setPaymentToken(uniqid());
 
                     //return $this->initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN);

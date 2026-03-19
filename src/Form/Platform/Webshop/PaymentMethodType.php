@@ -78,6 +78,7 @@ class PaymentMethodType extends AbstractType
     public static function getCodes(): array
     {
         return [
+            ' - ' => '-',
             'Worldline - Novopayment - Saferpay' => 'worldline_novopayment_saferpay',
         ];
     }
