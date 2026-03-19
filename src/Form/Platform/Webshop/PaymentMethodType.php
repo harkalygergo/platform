@@ -21,6 +21,21 @@ class PaymentMethodType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('type', ChoiceType::class, [
+                'label' => 'Payment Method Type',
+                'placeholder' => 'Select a type',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'choices' => self::getChoices(),
+            ])
+            ->add('code', ChoiceType::class, [
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'choices' => self::getCodes(),
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => false,
@@ -40,14 +55,7 @@ class PaymentMethodType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('type', ChoiceType::class, [
-                'choices' => PaymentMethodType::getChoices(),
-                'label' => 'Payment Method Type',
-                'placeholder' => 'Select a type',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -64,6 +72,13 @@ class PaymentMethodType extends AbstractType
             'PayPal' => 'paypal',
             'Bank Transfer' => 'bank_transfer',
             'Cash on Delivery' => 'cash_on_delivery',
+        ];
+    }
+
+    public static function getCodes(): array
+    {
+        return [
+            'Worldline - Novopayment - Saferpay' => 'worldline_novopayment_saferpay',
         ];
     }
 }
