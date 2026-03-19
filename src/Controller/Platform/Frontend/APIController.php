@@ -290,7 +290,7 @@ class APIController extends PlatformController
 
                 // send email
                 $fromAddress = $instance->getName() . ' <' . $instance->getOwner()->getEmail() . '>';
-                $this->sendMail($toAddresses, $domain. ' új megrendelés: #'. $order->getId(), $emailBody, $fromAddress);
+                $this->sendMail($toAddresses, $domain. ' #'. $order->getId(). " | ".$order->getFirstName() . " " . $order->getLastName(), $emailBody, $fromAddress);
 
                 unset($_COOKIE['cart']);
                 // initialize Saferpay payment page for Saferpay payment method
