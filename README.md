@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.20.2
+###### v2026.03.20.3
 
 ![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -185,6 +185,15 @@ systemctl status symfony-messenger
 # check Symfony Messenger logs
 journalctl -u symfony-messenger -f
 ```
+
+---
+ 
+## 3rd party libraries, documentation and tutorials
+
+- Bootstrap: https://getbootstrap.com
+- Saferpay: https://novopayment.hu/ecom/#saferpay
+- Symfony: https://symfony.com
+- Twig: https://twig.symfony.com
 
 ---
 
