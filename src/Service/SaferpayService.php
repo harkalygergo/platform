@@ -16,18 +16,6 @@ class SaferpayService
     public function initSaferpayPaymentMethod(object $order, PaymentMethod $paymentMethod, string $key, HttpClientInterface $httpClient, string $HTTP_ORIGIN): array
     {
         if ($paymentMethod->getCardStatus()) {
-            $this->setApiBase($paymentMethod->getCardBaseUrlTest());
-            $this->setCustomerId($paymentMethod->getCardCustomerTest());
-            $this->setTerminalId($paymentMethod->getCardTerminalTest());
-            $this->setUsername($paymentMethod->getCardUsernameTest());
-            $this->setPassword($paymentMethod->getCardPasswordTest());
-
-            $this->apiBase    = rtrim($paymentMethod->getCardBaseUrlTest(), '/');
-            $this->customerId = $paymentMethod->getCardCustomerTest();
-            $this->terminalId = $paymentMethod->getCardTerminalTest();
-            $this->username   = $paymentMethod->getCardUsernameTest();
-            $this->password   = $paymentMethod->getCardPasswordTest();
-        } else {
             $this->setApiBase($paymentMethod->getCardBaseUrlLive());
             $this->setCustomerId($paymentMethod->getCardCustomerLive());
             $this->setTerminalId($paymentMethod->getCardTerminalLive());
@@ -39,6 +27,18 @@ class SaferpayService
             $this->terminalId = $paymentMethod->getCardTerminalLive();
             $this->username   = $paymentMethod->getCardUsernameLive();
             $this->password   = $paymentMethod->getCardPasswordLive();
+        } else {
+            $this->setApiBase($paymentMethod->getCardBaseUrlTest());
+            $this->setCustomerId($paymentMethod->getCardCustomerTest());
+            $this->setTerminalId($paymentMethod->getCardTerminalTest());
+            $this->setUsername($paymentMethod->getCardUsernameTest());
+            $this->setPassword($paymentMethod->getCardPasswordTest());
+
+            $this->apiBase    = rtrim($paymentMethod->getCardBaseUrlTest(), '/');
+            $this->customerId = $paymentMethod->getCardCustomerTest();
+            $this->terminalId = $paymentMethod->getCardTerminalTest();
+            $this->username   = $paymentMethod->getCardUsernameTest();
+            $this->password   = $paymentMethod->getCardPasswordTest();
         }
 
         $payload = [
