@@ -64,34 +64,34 @@ class PaymentMethod
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $cardStatus;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardBaseUrlTest;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardCustomerTest;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardTerminalTest;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardUsernameTest;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardPasswordTest;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardBaseUrlLive;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255,)]
     private string $cardCustomerLive;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardTerminalLive;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardUsernameLive;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $cardPasswordLive;
 
     public function __construct()
@@ -244,9 +244,10 @@ class PaymentMethod
         return $this->cardBaseUrlTest;
     }
 
-    public function setCardBaseUrlTest(string $cardBaseUrlTest): void
+    public function setCardBaseUrlTest(string $cardBaseUrlTest): self
     {
         $this->cardBaseUrlTest = $cardBaseUrlTest;
+        return $this;
     }
 
     public function getCardCustomerTest(): string
@@ -254,9 +255,10 @@ class PaymentMethod
         return $this->cardCustomerTest;
     }
 
-    public function setCardCustomerTest(string $cardCustomerTest): void
+    public function setCardCustomerTest(string $cardCustomerTest): self
     {
         $this->cardCustomerTest = $cardCustomerTest;
+        return $this;
     }
 
     public function getCardTerminalTest(): string
@@ -264,9 +266,10 @@ class PaymentMethod
         return $this->cardTerminalTest;
     }
 
-    public function setCardTerminalTest(string $cardTerminalTest): void
+    public function setCardTerminalTest(string $cardTerminalTest): self
     {
         $this->cardTerminalTest = $cardTerminalTest;
+        return $this;
     }
 
     public function getCardUsernameTest(): string
@@ -274,9 +277,10 @@ class PaymentMethod
         return $this->cardUsernameTest;
     }
 
-    public function setCardUsernameTest(string $cardUsernameTest): void
+    public function setCardUsernameTest(string $cardUsernameTest): self
     {
         $this->cardUsernameTest = $cardUsernameTest;
+        return $this;
     }
 
     public function getCardPasswordTest(): string
@@ -284,9 +288,10 @@ class PaymentMethod
         return $this->cardPasswordTest;
     }
 
-    public function setCardPasswordTest(string $cardPasswordTest): void
+    public function setCardPasswordTest(string $cardPasswordTest): self
     {
         $this->cardPasswordTest = $cardPasswordTest;
+        return $this;
     }
 
     public function getCardBaseUrlLive(): string
@@ -294,9 +299,10 @@ class PaymentMethod
         return $this->cardBaseUrlLive;
     }
 
-    public function setCardBaseUrlLive(string $cardBaseUrlLive): void
+    public function setCardBaseUrlLive(string $cardBaseUrlLive): self
     {
         $this->cardBaseUrlLive = $cardBaseUrlLive;
+        return $this;
     }
 
     public function getCardCustomerLive(): string
@@ -304,9 +310,10 @@ class PaymentMethod
         return $this->cardCustomerLive;
     }
 
-    public function setCardCustomerLive(string $cardCustomerLive): void
+    public function setCardCustomerLive(string $cardCustomerLive): self
     {
         $this->cardCustomerLive = $cardCustomerLive;
+        return $this;
     }
 
     public function getCardTerminalLive(): string
@@ -314,9 +321,10 @@ class PaymentMethod
         return $this->cardTerminalLive;
     }
 
-    public function setCardTerminalLive(string $cardTerminalLive): void
+    public function setCardTerminalLive(string $cardTerminalLive): self
     {
         $this->cardTerminalLive = $cardTerminalLive;
+        return $this;
     }
 
     public function getCardUsernameLive(): string
@@ -324,9 +332,10 @@ class PaymentMethod
         return $this->cardUsernameLive;
     }
 
-    public function setCardUsernameLive(string $cardUsernameLive): void
+    public function setCardUsernameLive(string $cardUsernameLive): self
     {
         $this->cardUsernameLive = $cardUsernameLive;
+        return $this;
     }
 
     public function getCardPasswordLive(): string
@@ -334,9 +343,10 @@ class PaymentMethod
         return $this->cardPasswordLive;
     }
 
-    public function setCardPasswordLive(string $cardPasswordLive): void
+    public function setCardPasswordLive(string $cardPasswordLive): self
     {
         $this->cardPasswordLive = $cardPasswordLive;
+        return $this;
     }
 
     public function toString()
