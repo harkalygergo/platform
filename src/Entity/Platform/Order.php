@@ -2,6 +2,7 @@
 
 namespace App\Entity\Platform;
 
+use App\Entity\Platform\Webshop\PaymentMethod;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -54,9 +55,9 @@ class Order
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $shippingAddress = null;
 
-    // add payment method as string, but nullable and default null
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $paymentMethod = null;
+    #[ORM\ManyToOne(targetEntity: PaymentMethod::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?PaymentMethod $paymentMethod = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?BillingProfile $billingProfile = null;
@@ -231,12 +232,12 @@ class Order
         return $this;
     }
 
-    public function getPaymentMethod(): ?string
+    public function getPaymentMethod(): ?PaymentMethod
     {
         return $this->paymentMethod;
     }
 
-    public function setPaymentMethod(?string $paymentMethod): static
+    public function setPaymentMethod(?PaymentMethod $paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
 

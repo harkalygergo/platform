@@ -6,7 +6,9 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
+use App\Entity\Platform\Webshop\PaymentMethod;
 use App\Repository\OrderRepository;
+use App\Repository\Platform\Webshop\PaymentMethodRepository;
 use App\Repository\Platform\Website\WebsiteRepository;
 use App\Service\SaferpayService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +37,7 @@ class APIController extends PlatformController
     }
 
     #[Route('/api/', name: 'api')]
-    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient, WebsiteRepository $websiteRepository, SaferpayService $saferpay): Response
+    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient, WebsiteRepository $websiteRepository, SaferpayService $saferpay, PaymentMethodRepository $paymentMethodRepository): Response
     {
         $websites = $websiteRepository->findAll();
 
@@ -238,12 +240,17 @@ class APIController extends PlatformController
 
             case 'order':
             {
+                /**
+                 * @var PaymentMethod $paymentMethod
+                 */
+                $paymentMethod = $paymentMethodRepository->find($parameters['paymentMethod']);
+
                 $order = new Order();
                 $order->setInstance($instance);
                 $order->setComment($parameters['message']);
                 $order->setTotal($parameters['quantity']);
                 $order->setCreatedAt(new \DateTimeImmutable());
-                $order->setPaymentMethod($parameters['paymentMethod']);
+                $order->setPaymentMethod($paymentMethod);
                 $order->setShippingMethod($parameters['shippingMethod']);
                 $order->setFirstName($parameters['firstName']);
                 $order->setLastName($parameters['lastName']);
@@ -279,7 +286,7 @@ class APIController extends PlatformController
                 $emailBody .= 'Számlázás település: ' . $parameters['billingCity'] . "\n";
                 $emailBody .= 'Számlázás cím: ' . $parameters['billingAddress'] . "\n";
                 $emailBody .= 'Mennyiség: ' . $parameters['quantity'] . "\n";
-                $emailBody .= 'Fizetési mód: ' . $parameters['paymentMethod'] . "\n";
+                $emailBody .= 'Fizetési mód: ' . $paymentMethod->getName() . "\n";
                 $emailBody .= 'Szállítási mód: ' . $parameters['shippingMethod'] . "\n";
                 $emailBody .= 'Végösszeg: ' . $parameters['total'] . "\n";
                 $emailBody .= 'Megjegyzés: ' . $parameters['message'] . "\n";
@@ -294,7 +301,7 @@ class APIController extends PlatformController
 
                 unset($_COOKIE['cart']);
                 // initialize Saferpay payment page for Saferpay payment method
-                if ($parameters['paymentMethod'] === 'worldline_novopayment_saferpay') {
+                if ($paymentMethod->getCode() === 'worldline_novopayment_saferpay') {
                     $order->setPaymentToken(uniqid());
 
                     //return $this->initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN);
@@ -305,6 +312,7 @@ class APIController extends PlatformController
 
                     $result = $saferpay->initSaferpayPaymentMethod(
                         $order,
+                        $paymentMethod,
                         'card',
                         $httpClient,
                         $HTTP_ORIGIN

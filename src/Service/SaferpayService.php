@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Platform\Webshop\PaymentMethod;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SaferpayService
@@ -12,17 +13,34 @@ class SaferpayService
     private string $password;
     private string $apiBase;
 
-    public function __construct()
+    public function initSaferpayPaymentMethod(object $order, PaymentMethod $paymentMethod, string $key, HttpClientInterface $httpClient, string $HTTP_ORIGIN): array
     {
-        $this->customerId = $_ENV['SAFERPAY_CUSTOMER_ID'] ?? null;
-        $this->terminalId = $_ENV['SAFERPAY_TERMINAL_ID'] ?? null;
-        $this->username   = $_ENV['SAFERPAY_USERNAME'] ?? null;
-        $this->password   = $_ENV['SAFERPAY_PASSWORD'] ?? null;
-        $this->apiBase    = rtrim($_ENV['SAFERPAY_BASE_URL'] ?? 'https://test.saferpay.com/api', '/'); // prod: https://www.saferpay.com/api
-    }
+        if ($paymentMethod->getCardStatus()) {
+            $this->setApiBase($paymentMethod->getCardBaseUrlTest());
+            $this->setCustomerId($paymentMethod->getCardCustomerTest());
+            $this->setTerminalId($paymentMethod->getCardTerminalTest());
+            $this->setUsername($paymentMethod->getCardUsernameTest());
+            $this->setPassword($paymentMethod->getCardPasswordTest());
 
-    public function initSaferpayPaymentMethod(object $order, string $key, HttpClientInterface $httpClient, string $HTTP_ORIGIN): array
-    {
+            $this->apiBase    = rtrim($paymentMethod->getCardBaseUrlTest(), '/');
+            $this->customerId = $paymentMethod->getCardCustomerTest();
+            $this->terminalId = $paymentMethod->getCardTerminalTest();
+            $this->username   = $paymentMethod->getCardUsernameTest();
+            $this->password   = $paymentMethod->getCardPasswordTest();
+        } else {
+            $this->setApiBase($paymentMethod->getCardBaseUrlLive());
+            $this->setCustomerId($paymentMethod->getCardCustomerLive());
+            $this->setTerminalId($paymentMethod->getCardTerminalLive());
+            $this->setUsername($paymentMethod->getCardUsernameLive());
+            $this->setPassword($paymentMethod->getCardPasswordLive());
+
+            $this->apiBase    = rtrim($paymentMethod->getCardBaseUrlLive(), '/');
+            $this->customerId = $paymentMethod->getCardCustomerLive();
+            $this->terminalId = $paymentMethod->getCardTerminalLive();
+            $this->username   = $paymentMethod->getCardUsernameLive();
+            $this->password   = $paymentMethod->getCardPasswordLive();
+        }
+
         $payload = [
             'RequestHeader' => [
                 'SpecVersion'    => '1.51',
@@ -102,5 +120,55 @@ class SaferpayService
         } else {
             $order->setPaymentStatus('FAILED: '.$data['ErrorMessage']);
         }
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function getCustomerId(): string
+    {
+        return $this->customerId;
+    }
+
+    public function setCustomerId(string $customerId): void
+    {
+        $this->customerId = $customerId;
+    }
+
+    public function getTerminalId(): string
+    {
+        return $this->terminalId;
+    }
+
+    public function setTerminalId(string $terminalId): void
+    {
+        $this->terminalId = $terminalId;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
+
+    public function getApiBase(): string
+    {
+        return $this->apiBase;
+    }
+
+    public function setApiBase(string $apiBase): void
+    {
+        $this->apiBase = $apiBase;
     }
 }

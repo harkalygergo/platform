@@ -37,8 +37,8 @@
                 <label for="paymentMethod" class="form-label fw-bold">Fizetési mód *</label>
                 <br>
                 {% for paymentMethod in paymentMethods %}
-                    <input type="radio" id="{{ paymentMethod.code }}" name="paymentMethod" value="{{ paymentMethod.code }}" required {% if loop.first %} checked {% endif %}>
-                    <label for="{{ paymentMethod.code }}">{{ paymentMethod.name }}</label><br>
+                    <input type="radio" id="{{ paymentMethod.id }}" name="paymentMethod" value="{{ paymentMethod.id }}" required {% if loop.first %} checked {% endif %}>
+                    <label for="{{ paymentMethod.id }}">{{ paymentMethod.name }}</label><br>
                     <i>{{ paymentMethod.description|raw }}</i>
                 {% endfor %}
             </div>

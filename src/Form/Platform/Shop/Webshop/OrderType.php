@@ -3,6 +3,8 @@
 namespace App\Form\Platform\Shop\Webshop;
 
 use App\Entity\Platform\Order;
+use App\Entity\Platform\Webshop\PaymentMethod;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -15,7 +17,6 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $currentInstance = $options['currentInstance'];
-
 
         $builder
             ->add('total', TextType::class, [
@@ -77,12 +78,42 @@ class OrderType extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
-            ->add('paymentMethod', TextType::class, [
+            /*
+            ->add('paymentMethod', EntityType::class, [
+                'class' => PaymentMethod::class,
+                'choice_label' => 'name',
+                'placeholder' => ' - payment method - ',
                 'required' => false,
+                'query_builder' => function (EntityRepository $er) use ($currentInstance) {
+                    $qb = $er->createQueryBuilder('pm')
+                        ->orderBy('pm.name', 'ASC');
+
+                    if ($currentInstance !== null) {
+                        $qb->andWhere('pm.instance = :instance')
+                            ->setParameter('instance', $currentInstance);
+                    }
+
+                    return $qb;
+                }
+            ])
+            */
+
+
+
+            ->add('paymentMethod', EntityType::class, [
+                'class' => PaymentMethod::class,
+                'query_builder' => function ($repository) use ($currentInstance) {
+                    return $repository->createQueryBuilder('w')
+                        ->where('w.instance = :instance')
+                        ->setParameter('instance', $currentInstance);
+                },
+                'choice_label' => 'name',
                 'attr' => [
                     'class' => 'form-control',
-                ]
+                ],
+                'required' => true,
             ])
+
             ->add('paymentStatus', TextType::class, [
                 'required' => false,
                 'attr' => [
