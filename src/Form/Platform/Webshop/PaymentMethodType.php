@@ -46,7 +46,6 @@ class PaymentMethodType extends AbstractType
                     'Inactive' => false,
                 ],
                 'label' => 'Status',
-                'expanded' => true,
                 'multiple' => false,
                 'attr' => [
                     'class' => 'form-control',
@@ -69,10 +68,10 @@ class PaymentMethodType extends AbstractType
                     ])
                     ->add('cardStatus', ChoiceType::class, [
                         'choices' => [
-                            'Active' => true,
-                            'Inactive' => false,
+                            'Test' => false,
+                            'Live' => true,
                         ],
-                        'expanded' => true,
+                        'expanded' => false,
                         'multiple' => false,
                         'attr' => [
                             'class' => 'form-control',
