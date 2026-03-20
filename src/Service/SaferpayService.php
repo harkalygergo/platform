@@ -7,11 +7,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SaferpayService
 {
-    private string $customerId;
-    private string $terminalId;
-    private string $username;
-    private string $password;
-    private string $apiBase;
+    private ?string $customerId = null;
+    private ?string $terminalId = null;
+    private ?string $username = null;
+    private ?string $password = null;
+    private ?string $apiBase = null;
 
     public function initSaferpayPaymentMethod(object $order, PaymentMethod $paymentMethod, string $key, HttpClientInterface $httpClient, string $HTTP_ORIGIN): array
     {
@@ -122,52 +122,52 @@ class SaferpayService
         }
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    public function setPassword(?string $password): void
     {
         $this->password = $password;
     }
 
-    public function getCustomerId(): string
+    public function getCustomerId(): ?string
     {
         return $this->customerId;
     }
 
-    public function setCustomerId(string $customerId): void
+    public function setCustomerId(?string $customerId): void
     {
         $this->customerId = $customerId;
     }
 
-    public function getTerminalId(): string
+    public function getTerminalId(): ?string
     {
         return $this->terminalId;
     }
 
-    public function setTerminalId(string $terminalId): void
+    public function setTerminalId(?string $terminalId): void
     {
         $this->terminalId = $terminalId;
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setUsername(string $username): void
+    public function setUsername(?string $username): void
     {
         $this->username = $username;
     }
 
-    public function getApiBase(): string
+    public function getApiBase(): ?string
     {
         return $this->apiBase;
     }
 
-    public function setApiBase(string $apiBase): void
+    public function setApiBase(?string $apiBase): void
     {
         $this->apiBase = $apiBase;
     }
