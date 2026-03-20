@@ -13,7 +13,7 @@ class SaferpayService
     private ?string $password = null;
     private ?string $apiBase = null;
 
-    public function initializeVariables($paymentMethod): void
+    public function initializeVariables(PaymentMethod $paymentMethod): void
     {
         if ($paymentMethod->getCardStatus()) {
             $this->setApiBase($paymentMethod->getCardBaseUrlLive());
@@ -21,24 +21,12 @@ class SaferpayService
             $this->setTerminalId($paymentMethod->getCardTerminalLive());
             $this->setUsername($paymentMethod->getCardUsernameLive());
             $this->setPassword($paymentMethod->getCardPasswordLive());
-
-            $this->apiBase    = rtrim($paymentMethod->getCardBaseUrlLive(), '/');
-            $this->customerId = $paymentMethod->getCardCustomerLive();
-            $this->terminalId = $paymentMethod->getCardTerminalLive();
-            $this->username   = $paymentMethod->getCardUsernameLive();
-            $this->password   = $paymentMethod->getCardPasswordLive();
         } else {
             $this->setApiBase($paymentMethod->getCardBaseUrlTest());
             $this->setCustomerId($paymentMethod->getCardCustomerTest());
             $this->setTerminalId($paymentMethod->getCardTerminalTest());
             $this->setUsername($paymentMethod->getCardUsernameTest());
             $this->setPassword($paymentMethod->getCardPasswordTest());
-
-            $this->apiBase    = rtrim($paymentMethod->getCardBaseUrlTest(), '/');
-            $this->customerId = $paymentMethod->getCardCustomerTest();
-            $this->terminalId = $paymentMethod->getCardTerminalTest();
-            $this->username   = $paymentMethod->getCardUsernameTest();
-            $this->password   = $paymentMethod->getCardPasswordTest();
         }
     }
 
@@ -177,6 +165,6 @@ class SaferpayService
 
     public function setApiBase(?string $apiBase): void
     {
-        $this->apiBase = $apiBase;
+        $this->apiBase = rtrim($apiBase, '/');
     }
 }
