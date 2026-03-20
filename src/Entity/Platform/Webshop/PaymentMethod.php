@@ -4,7 +4,7 @@ namespace  App\Entity\Platform\Webshop;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
-use App\Form\Platform\Webshop\PaymentMethodType;
+use App\Enum\Platform\PaymentMethodTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -54,12 +54,45 @@ class PaymentMethod
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     #[Assert\NotBlank]
-    #[Assert\Choice(callback: [PaymentMethodType::class, 'getChoices'])]
+    #[Assert\Choice(callback: [PaymentMethodTypeEnum::class, 'getTypeValues'])]
     #[Groups(['webshop_payment_method'])]
     private ?string $type;
 
     #[ORM\Column(type: 'boolean')]
     private bool $enabled = true;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private string $cardStatus;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardBaseUrlTest;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardCustomerTest;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardTerminalTest;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardUsernameTest;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardPasswordTest;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardBaseUrlLive;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardCustomerLive;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardTerminalLive;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardUsernameLive;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cardPasswordLive;
 
     public function __construct()
     {
@@ -193,5 +226,131 @@ class PaymentMethod
     {
         $this->enabled = $enabled;
         return $this;
+    }
+
+    public function getCardStatus(): string
+    {
+        return $this->cardStatus;
+    }
+
+    public function setCardStatus(string $cardStatus): self
+    {
+        $this->cardStatus = $cardStatus;
+        return $this;
+    }
+
+    public function getCardBaseUrlTest(): string
+    {
+        return $this->cardBaseUrlTest;
+    }
+
+    public function setCardBaseUrlTest(string $cardBaseUrlTest): self
+    {
+        $this->cardBaseUrlTest = $cardBaseUrlTest;
+        return $this;
+    }
+
+    public function getCardCustomerTest(): string
+    {
+        return $this->cardCustomerTest;
+    }
+
+    public function setCardCustomerTest(string $cardCustomerTest): self
+    {
+        $this->cardCustomerTest = $cardCustomerTest;
+        return $this;
+    }
+
+    public function getCardTerminalTest(): string
+    {
+        return $this->cardTerminalTest;
+    }
+
+    public function setCardTerminalTest(string $cardTerminalTest): self
+    {
+        $this->cardTerminalTest = $cardTerminalTest;
+        return $this;
+    }
+
+    public function getCardUsernameTest(): string
+    {
+        return $this->cardUsernameTest;
+    }
+
+    public function setCardUsernameTest(string $cardUsernameTest): self
+    {
+        $this->cardUsernameTest = $cardUsernameTest;
+        return $this;
+    }
+
+    public function getCardPasswordTest(): string
+    {
+        return $this->cardPasswordTest;
+    }
+
+    public function setCardPasswordTest(string $cardPasswordTest): self
+    {
+        $this->cardPasswordTest = $cardPasswordTest;
+        return $this;
+    }
+
+    public function getCardBaseUrlLive(): string
+    {
+        return $this->cardBaseUrlLive;
+    }
+
+    public function setCardBaseUrlLive(string $cardBaseUrlLive): self
+    {
+        $this->cardBaseUrlLive = $cardBaseUrlLive;
+        return $this;
+    }
+
+    public function getCardCustomerLive(): string
+    {
+        return $this->cardCustomerLive;
+    }
+
+    public function setCardCustomerLive(string $cardCustomerLive): self
+    {
+        $this->cardCustomerLive = $cardCustomerLive;
+        return $this;
+    }
+
+    public function getCardTerminalLive(): string
+    {
+        return $this->cardTerminalLive;
+    }
+
+    public function setCardTerminalLive(string $cardTerminalLive): self
+    {
+        $this->cardTerminalLive = $cardTerminalLive;
+        return $this;
+    }
+
+    public function getCardUsernameLive(): string
+    {
+        return $this->cardUsernameLive;
+    }
+
+    public function setCardUsernameLive(string $cardUsernameLive): self
+    {
+        $this->cardUsernameLive = $cardUsernameLive;
+        return $this;
+    }
+
+    public function getCardPasswordLive(): string
+    {
+        return $this->cardPasswordLive;
+    }
+
+    public function setCardPasswordLive(string $cardPasswordLive): self
+    {
+        $this->cardPasswordLive = $cardPasswordLive;
+        return $this;
+    }
+
+    public function toString()
+    {
+        return $this->name;
     }
 }
