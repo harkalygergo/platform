@@ -6,6 +6,7 @@ use App\Entity\Platform\Webshop\PaymentMethod;
 use App\Enum\Platform\PaymentMethodTypeEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -101,7 +102,7 @@ class PaymentMethodType extends AbstractType
                             'class' => 'form-control',
                         ]
                     ])
-                    ->add('cardPasswordTest', null, [
+                    ->add('cardPasswordTest', PasswordType::class, [
                         'required' => false,
                         'attr' => [
                             'class' => 'form-control',
@@ -131,7 +132,7 @@ class PaymentMethodType extends AbstractType
                             'class' => 'form-control',
                         ]
                     ])
-                    ->add('cardPasswordLive', null, [
+                    ->add('cardPasswordLive', PasswordType::class, [
                         'required' => false,
                         'attr' => [
                             'class' => 'form-control',
