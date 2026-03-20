@@ -1,7 +1,7 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.20.10
+###### v2026.03.20.11
 
-![PLATFORM dashboard](/docs/images/platform.png?raw=true "PLATFORM dashboard")
+![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
 #### ⫹⫺ PLATFORM is a multisite and multilingual compatibility web application based on Symfony PHP Framework. It's ideal for managing and growing any entity (individual, business, organization, etc.) with online solutions.
 
