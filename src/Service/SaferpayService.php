@@ -13,7 +13,7 @@ class SaferpayService
     private ?string $password = null;
     private ?string $apiBase = null;
 
-    public function initSaferpayPaymentMethod(object $order, PaymentMethod $paymentMethod, string $key, HttpClientInterface $httpClient, string $HTTP_ORIGIN): array
+    public function initializeVariables($paymentMethod): void
     {
         if ($paymentMethod->getCardStatus()) {
             $this->setApiBase($paymentMethod->getCardBaseUrlLive());
@@ -40,6 +40,11 @@ class SaferpayService
             $this->username   = $paymentMethod->getCardUsernameTest();
             $this->password   = $paymentMethod->getCardPasswordTest();
         }
+    }
+
+    public function initSaferpayPaymentMethod(object $order, PaymentMethod $paymentMethod, string $key, HttpClientInterface $httpClient, string $HTTP_ORIGIN): array
+    {
+        $this->initializeVariables($paymentMethod);
 
         $payload = [
             'RequestHeader' => [
@@ -96,9 +101,12 @@ class SaferpayService
             return;
         }
 
+        $paymentMethod = $order->getPaymentMethod();
+        $this->initializeVariables($paymentMethod);
+
         // verify with Assert
-        $response = $httpClient->request('POST', $this->apiBase . '/Payment/v1/PaymentPage/Assert', [
-            'auth_basic' => [$this->username, $this->password],
+        $response = $httpClient->request('POST', $this->getApiBase() . '/Payment/v1/PaymentPage/Assert', [
+            'auth_basic' => [$this->getUsername(), $this->getPassword()],
             'json' => [
                 'RequestHeader' => [
                     'SpecVersion'    => '1.51',
