@@ -2,9 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 py-3">
-                <h5>{{ website.title }}</h5>
-                <p class="lead">{{ website.slogan }}</p>
-                <p>{{ website.description }}</p>
+                <h5>{{ website.title|raw }}</h5>
+                <p class="lead">{{ website.slogan|raw }}</p>
+                <p>{{ website.description|raw }}</p>
             </div>
             <div class="col-md-3 py-3">
                 <h5>Csatlakozz!</h5>
