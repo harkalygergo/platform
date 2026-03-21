@@ -14,9 +14,13 @@
 
             {% if events is defined %}
                 <h2 class="text-center fw-bold p-5">Közelgő események</h2>
+                <div class="input-group input-group-sm pb-3">
+                    <label for="eventsSearchInput" class="input-group-text"><i class="bi bi-search"></i></label>
+                    <input type="text" id="eventsSearchInput" class="form-control" placeholder="Keresés...">
+                </div>
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered">
+                    <table class="table table-striped table-hover table-bordered" id="events">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -59,5 +63,29 @@
             {% endif %}
         </div>
     </div>
+
+    <script>
+        window.addEventListener("load", (event) => {
+            const table = document.getElementById('events');
+            const tbody = table.querySelector('tbody');
+            const headers = table.querySelectorAll('thead th');
+            const searchInput = document.getElementById('eventsSearchInput');
+
+            dataListSearch(tbody, headers, searchInput);
+        });
+
+        function dataListSearch(tbody, headers, searchInput)
+        {
+            searchInput.addEventListener('input', () => {
+                const keyword = searchInput.value.toLowerCase();
+                tbody.querySelectorAll('tr').forEach(row => {
+                    row.style.display = row.textContent.toLowerCase().includes(keyword)
+                        ? ''
+                        : 'none';
+                });
+            });
+        }
+
+    </script>
 
 {% endblock %}
