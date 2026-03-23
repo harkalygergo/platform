@@ -7,9 +7,10 @@
 {% block body %}
 
     <div class="container">
-        <div class="row p-2">
+        <div class="row py-4">
             <div class="col-md-6">
-                <div id="productGallery" class="carousel slide" data-bs-ride="carousel">
+                {% if product.mainImage is not null %}
+                    <div id="productGallery" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             {% if product.mainImage is not null %}
@@ -38,6 +39,7 @@
                         </button>
                     {% endif %}
                 </div>
+                {% endif %}
             </div>
             <div class="col-md-6">
                 <h1 class="fw-bold">{{ product.name }}</h1>
@@ -63,23 +65,25 @@
                 {{ product.description|raw }}
             </div>
         </div>
-        <div class="row py-4 border-top">
-            <div class="col-12">
-                <h3 class="text-uppercase fw-bold fs-5 text-center">Galéria</h3>
-                {% if product.mainImage is not null %}
-                    <a href="/media/{{ product.mainImage.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
-                        <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.mainImage.description }}" class="d-block w-100" loading="lazy">
-                    </a>
-                {% endif %}
-
-                {% for productImage in product.productMedias %}
-                    {% set media = productImage.media %}
-                        <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
-                            <img src="/media/{{ media.originalName }}" alt="{{ media.description }}" class="d-block w-100 py-3" loading="lazy">
+        {% if product.mainImage is not null or product.productMedias is not empty %}
+            <div class="row py-4 border-top">
+                <div class="col-12">
+                    <h3 class="text-uppercase fw-bold fs-5 text-center">Galéria</h3>
+                    {% if product.mainImage is not null %}
+                        <a href="/media/{{ product.mainImage.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
+                            <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.mainImage.description }}" class="d-block w-100" loading="lazy">
                         </a>
-                {% endfor %}
+                    {% endif %}
+
+                    {% for productImage in product.productMedias %}
+                        {% set media = productImage.media %}
+                            <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
+                                <img src="/media/{{ media.originalName }}" alt="{{ media.description }}" class="d-block w-100 py-3" loading="lazy">
+                            </a>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
 
