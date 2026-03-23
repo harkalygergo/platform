@@ -1,5 +1,6 @@
 framework:
-    default_locale: en
+    # TODO change to en and setup based on login form selection
+    default_locale: hu
     translator:
         default_path: '%kernel.project_dir%/translations'
         providers:
