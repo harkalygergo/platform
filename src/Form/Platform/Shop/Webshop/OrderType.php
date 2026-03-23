@@ -4,21 +4,40 @@ namespace App\Form\Platform\Shop\Webshop;
 
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Webshop\PaymentMethod;
+use App\Enum\Platform\OrderStatusEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OrderType extends AbstractType
 {
+    private TranslatorInterface $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $currentInstance = $options['currentInstance'];
 
         $builder
+            ->add('status', EnumType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'placeholder' => ' - status - ',
+                'class' => OrderStatusEnum::class,
+                'choice_label' => fn(OrderStatusEnum $status) => $this->translator->trans($status->label()),
+                'required' => true,
+            ])
             ->add('total', TextType::class, [
                 'required' => false,
                 'attr' => [

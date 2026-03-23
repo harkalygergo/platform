@@ -33,7 +33,7 @@ class OrderController extends PlatformBackendController
             'tableHead' => [
                 'id' => 'Azonosító',
                 'createdAt' => 'Dátum',
-                'paymentToken' => 'paymentToken',
+                'status' => 'Státusz',
                 'lastName' => 'Vezetéknév',
                 'firstName' => 'Keresztnév',
                 'phone' => 'Telefonszám',
@@ -49,6 +49,7 @@ class OrderController extends PlatformBackendController
                 'billingCity' => 'Számlázás település',
                 'billingAddress' => 'Számlázás cím',
                 'items' => 'Tételek',
+                'paymentToken' => 'paymentToken',
             ],
             'tableBody' => $orders,
             'actions' => [
@@ -87,6 +88,8 @@ class OrderController extends PlatformBackendController
         $form = $this->createForm(OrderType::class, $entity, [
             'currentInstance' => $this->currentInstance,
         ]);
+
+        // TODO if order status changes, send email to user
 
         return $this->platformBackendEdit($request, $form, $entity, self::redirectToRoute);
     }

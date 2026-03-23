@@ -119,6 +119,8 @@
                                             {% elseif attribute(td, thKey) is instanceof('DateTime') or attribute(td, thKey) is instanceof('DateTimeImmutable') %}
                                                 {{ attribute(td, thKey).format('Y-m-d') }}
                                                 {# is object #}
+                                            {% elseif variable is instanceof('App\\Enum\\Platform\\OrderStatusEnum') %}
+                                                {{ variable.label()|trans }}
                                             {% elseif variable is instanceof('App\\Enum\\NewsletterStatusEnum') or variable is instanceof('App\\Entity\\Platform\\Webshop\\PaymentMethod') %}
                                                 {{ variable.toString()|trans }}
                                             {% else %}

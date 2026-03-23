@@ -7,6 +7,7 @@ use App\Entity\Platform\API\API;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Webshop\PaymentMethod;
+use App\Enum\Platform\OrderStatusEnum;
 use App\Repository\OrderRepository;
 use App\Repository\Platform\Webshop\PaymentMethodRepository;
 use App\Repository\Platform\Website\WebsiteRepository;
@@ -266,6 +267,7 @@ class APIController extends PlatformController
                     $order->setItems(explode(',', $parameters['items']));
                 }
                 $order->setPaymentToken(uniqid());
+                $order->setStatus(OrderStatusEnum::PENDING);
 
                 // save order
                 $em = $doctrine->getManager();
@@ -303,6 +305,7 @@ class APIController extends PlatformController
                 // initialize Saferpay payment page for Saferpay payment method
                 if ($paymentMethod->getCode() === 'worldline_novopayment_saferpay') {
                     $order->setPaymentToken(uniqid());
+                    $order->setStatus(OrderStatusEnum::PROCESSING);
 
                     //return $this->initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN);
                     //dump($HTTP_ORIGIN);
@@ -319,12 +322,13 @@ class APIController extends PlatformController
                     );
                     //dd($result);
 
+                    $order->setPaymentStatus('FAILED');
+                    $em->flush();
+
                     if (isset($result['redirectUrl'])) {
                         return $this->redirect($result['redirectUrl']);
                     }
 
-                    $order->setPaymentStatus('FAILED');
-                    $em->flush();
 
                     throw new \Exception('Saferpay init failed');
 
@@ -372,7 +376,7 @@ class APIController extends PlatformController
 
     /* SAFERPAY */
     #[Route('/api/payment/success', name: 'payment_success', methods: ['POST'])]
-    public function success(Request $request, SaferpayService $service, OrderRepository $repo, HttpClientInterface $httpClient): Response
+    public function success(EntityManagerInterface $em, Request $request, SaferpayService $service, OrderRepository $repo, HttpClientInterface $httpClient): Response
     {
         $data = json_decode($request->getContent(), true);
         $token = $data['Token'] ?? null;
@@ -383,13 +387,14 @@ class APIController extends PlatformController
         }
 
         $service->handleNotify($order, true, $httpClient);
+        $em->flush();
 
         // flush entity manager here
         return new Response('OK', 200);
     }
 
     #[Route('/api/payment/fail', name: 'payment_fail', methods: ['POST'])]
-    public function fail(Request $request, SaferpayService $service, OrderRepository $repo, HttpClientInterface $httpClient): Response
+    public function fail(EntityManagerInterface $em, Request $request, SaferpayService $service, OrderRepository $repo, HttpClientInterface $httpClient): Response
     {
         $data = json_decode($request->getContent(), true);
         $token = $data['Token'] ?? null;
@@ -400,6 +405,7 @@ class APIController extends PlatformController
         }
 
         $service->handleNotify($order, false, $httpClient);
+        $em->flush();
 
         // flush entity manager here
         return new Response('OK', 200);
@@ -604,8 +610,7 @@ class APIController extends PlatformController
             $order = $doctrine->getRepository(Order::class)->find($orderId);
             if ($order) {
                 // basic mapping of redirect status to internal payment status if notify did not run yet
-                if ($status === 'success' && !$order->getPaymentStatus()) {
-                    $order->setPaymentStatus('pending_confirmation');
+                if ($status === "SUCCESS") {
                     $em = $doctrine->getManager();
                     $em->flush();
 

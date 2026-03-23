@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Platform\Webshop\PaymentMethod;
+use App\Enum\Platform\OrderStatusEnum;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SaferpayService
@@ -113,9 +114,12 @@ class SaferpayService
             ($data['Transaction']['Status'] ?? null) === 'AUTHORIZED'
         ) {
             $order->setPaymentStatus('SUCCESS');
+            $order->setStatus(OrderStatusEnum::PROCESSING);
         } else {
             $order->setPaymentStatus('FAILED: '.$data['ErrorMessage']);
+            $order->setStatus(OrderStatusEnum::PENDING);
         }
+        dump($order->getPaymentStatus());
     }
 
     public function getPassword(): ?string

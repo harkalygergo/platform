@@ -44,6 +44,15 @@ payment:
 page:
     page: 'Page'
     pages: 'Pages'
+order:
+    status:
+        draft: "draft"
+        pending: "pending"
+        processing: "processing"
+        completed: "completed"
+        canceled: "canceled"
+        failed: "failed"
+        refunded: "refunded"
 user:
     namePrefix: 'Name prefix'
     firstName: 'First name'

@@ -51,6 +51,15 @@ page:
     pages: 'Oldalak'
 payment:
     annual: éves
+order:
+    status:
+        draft: "vázlat"
+        pending: "függőben"
+        processing: "folyamatban"
+        completed: "teljesítve"
+        canceled: "törölve"
+        failed: "sikertelen"
+        refunded: "visszatérítve"
 user:
     namePrefix: 'Név előtag'
     firstName: 'Keresztnév'

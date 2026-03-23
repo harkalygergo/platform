@@ -3,8 +3,10 @@
 namespace App\Entity\Platform;
 
 use App\Entity\Platform\Webshop\PaymentMethod;
+use App\Enum\Platform\OrderStatusEnum;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -82,6 +84,9 @@ class Order
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $paymentToken = null;
+
+    #[ORM\Column(enumType: OrderStatusEnum::class, options: ['default' => 'draft'])]
+    private OrderStatusEnum $status = OrderStatusEnum::DRAFT;
 
     public function getId(): ?int
     {
@@ -342,5 +347,30 @@ class Order
     {
         $this->paymentToken = $token;
         return $this;
+    }
+
+    public function getStatus(): OrderStatusEnum
+    {
+        return $this->status;
+    }
+
+    public function setStatus(OrderStatusEnum $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function canBeCompleted(): bool
+    {
+        return $this->status === OrderStatusEnum::PROCESSING;
+    }
+
+    public function complete(): void
+    {
+        if (!$this->canBeCompleted()) {
+            // TODO translate message
+            throw new \LogicException('Order cannot be completed.');
+        }
+
+        $this->status = OrderStatusEnum::COMPLETED;
     }
 }
