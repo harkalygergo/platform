@@ -18,9 +18,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[\Symfony\Component\Routing\Attribute\Route('/{_locale}/admin/v1/order')]
 class OrderController extends PlatformBackendController
 {
-    private const string redirectToRoute = 'admin_v1_order_index';
+    private const string redirectToRoute = 'ecom_order_index';
 
-    #[Route('/', name: 'admin_v1_order_index')]
+    #[Route('/', name: 'ecom_order_index')]
     public function index(Request $request): Response
     {
         $orders = $this->doctrine->getRepository(Order::class)->findBy([
@@ -54,25 +54,50 @@ class OrderController extends PlatformBackendController
             'tableBody' => $orders,
             'actions' => [
                 'new',
+                'view',
                 'edit',
                 'delete'
             ],
         ]);
     }
 
-    #[Route('/view/{id}', name: 'admin_v1_order_view')]
+    #[Route('/view/{id}', name: 'ecom_order_index_view')]
     public function view(Request $request, int $id): Response
     {
         $order = $this->doctrine->getRepository(Order::class)->find($id);
 
-        return $this->render('platform/backend/v1/view.html.twig', [
+        $content = $order->getFirstName().' '.$order->getLastName()
+            .'<br>'.$order->getPhone()
+            .'<br>'.$order->getEmail()
+            .'<br>'.$order->getTotal().' '.$order->getCurrency()
+            .'<br>'.$order->getComment()
+            .'<hr><h2>Számlázás</h2>'
+            .'<br>'.$order->getBillingProfile()
+            .'<br>'.$order->getBillingCountry()
+            .'<br>'.$order->getBillingZip()
+            .'<br>'.$order->getBillingCity()
+            .'<br>'.$order->getBillingAddress()
+            .'<hr><h2>Szállítás</h2>'
+            .'<br>'.$order->getShippingAddress()
+            .'<br>'.$order->getShippingMethod()
+        ;
+
+        if (!is_null($order->getItems())) {
+            $content .= '<hr><h2>Tételek</h2><ul>';
+            foreach($order->getItems() as $item) {
+                $content .= '<li>'.$item.'</li>';
+            }
+            $content .= '</ul>';
+        }
+
+        return $this->render('platform/backend/v1/content.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
-            'title' => 'Rendelés megtekintése',
-            'order' => $order,
+            'title' => $order->getName(). ' rendelés megtekintése',
+            'content' => $content
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_order_new', methods: ['GET', 'POST'])]
+    #[Route('/new/', name: 'ecom_order_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $form = $this->createForm(OrderType::class, null, [
@@ -82,7 +107,7 @@ class OrderController extends PlatformBackendController
         return $this->platformBackendNew($request, $form, self::redirectToRoute);
     }
 
-    #[Route('/edit/{entity}', name: 'admin_v1_order_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{entity}', name: 'ecom_order_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Order $entity): Response
     {
         $form = $this->createForm(OrderType::class, $entity, [
@@ -95,7 +120,7 @@ class OrderController extends PlatformBackendController
     }
 
     /*
-    #[Route('/edit/{id}/', name: 'admin_v1_order_edit')]
+    #[Route('/edit/{id}/', name: 'ecom_order_edit')]
     public function edit(Request $request, int $id): Response
     {
         $order = $this->doctrine->getRepository(Order::class)->find($id);
@@ -108,30 +133,30 @@ class OrderController extends PlatformBackendController
     }
     */
 
-    #[Route('/delete/{id}', name: 'admin_v1_order_delete')]
+    #[Route('/delete/{id}', name: 'ecom_order_delete')]
     public function delete(Request $request, Order $id): Response
     {
         // check if order instance matches current instance
         if ($id->getInstance() !== $this->currentInstance) {
             $this->addFlash('danger', $this->translator->trans('You do not have permission'));
-            return $this->redirectToRoute('admin_v1_order_index');
+            return $this->redirectToRoute('ecom_order_index');
             //throw $this->createAccessDeniedException($this->translator->trans('You do not have permission'));
         }
 
         // check if order exists
         if (!$id) {
             $this->addFlash('error', 'Rendelés nem található.');
-            return $this->redirectToRoute('admin_v1_order_index');
+            return $this->redirectToRoute('ecom_order_index');
         }
 
         // remove order
         $this->doctrine->getManager()->remove($id);
         $this->doctrine->getManager()->flush();
 
-        return $this->redirectToRoute('admin_v1_order_index');
+        return $this->redirectToRoute('ecom_order_index');
     }
 
-    #[Route('/multiple/{action}/{ids}', name: 'admin_v1_order_multiple')]
+    #[Route('/multiple/{action}/{ids}', name: 'ecom_order_multiple')]
     public function multiple(Request $request, string $action, string $ids): Response
     {
         $idsArray = explode(',', $ids);
@@ -151,10 +176,10 @@ class OrderController extends PlatformBackendController
 
         $this->doctrine->getManager()->flush();
 
-        return $this->redirectToRoute('admin_v1_order_index');
+        return $this->redirectToRoute('ecom_order_index');
     }
 
-    #[Route('/create', name: 'admin_v1_order_create')]
+    #[Route('/create', name: 'ecom_order_create')]
     public function create(Request $request, SerializerInterface $serializer): Response
     {
         // get billing profile object based on posted integer id
