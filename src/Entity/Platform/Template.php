@@ -110,9 +110,9 @@ class Template
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->name;
+        return html_entity_decode($this->name);
     }
 
     public function __clone()

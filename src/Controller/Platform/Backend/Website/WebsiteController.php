@@ -32,6 +32,7 @@ class WebsiteController extends PlatformController
                 'name' => $this->translator->trans('global.name'),
                 'title' => $this->translator->trans('global.title'),
                 'theme' => 'Téma',
+                'template' => 'Sablon',
                 'FTPHost' => 'FTP host',
                 'FTPPath' => 'FTP path',
                 'FTPUser' => 'FTP user',

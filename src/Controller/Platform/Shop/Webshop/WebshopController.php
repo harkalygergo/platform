@@ -30,6 +30,7 @@ class WebshopController extends PlatformBackendController
             'name' => $this->translator->trans('global.name'),
             'title' => $this->translator->trans('global.title'),
             'theme' => 'Téma',
+            'template' => 'Sablon',
             'FTPHost' => 'FTP host',
             'FTPUser' => 'FTP user',
             'FTPPath' => 'FTP path',

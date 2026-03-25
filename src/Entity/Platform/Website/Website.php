@@ -5,6 +5,7 @@ namespace App\Entity\Platform\Website;
 use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Ecom\ProductCategory;
 use App\Entity\Platform\Instance;
+use App\Entity\Platform\Template;
 use App\Entity\Platform\User;
 use App\Repository\Platform\Website\WebsiteRepository;
 use Doctrine\Common\Collections\Collection;
@@ -103,6 +104,9 @@ class Website
 
     #[ORM\Column(length: 16, nullable: true)]
     private ?string $theme;
+
+    #[ORM\ManyToOne(targetEntity: Template::class)]
+    private ?Template $template;
 
     #[ORM\Column(length: 8, nullable: true)]
     private ?string $language;
@@ -495,6 +499,18 @@ class Website
     public function setTheme(?string $theme): self
     {
         $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?Template
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?Template $template): self
+    {
+        $this->template = $template;
 
         return $this;
     }

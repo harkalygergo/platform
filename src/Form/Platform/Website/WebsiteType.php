@@ -2,6 +2,7 @@
 
 namespace App\Form\Platform\Website;
 
+use App\Entity\Platform\Template;
 use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsiteMedia;
 use App\Repository\Platform\Website\WebsiteMediaRepository;
@@ -26,8 +27,10 @@ class WebsiteType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'label' => 'Domain',
             ])
             ->add('name', TextType::class, [
+                'label' => 'Name',
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -186,6 +189,14 @@ class WebsiteType extends AbstractType
                     '22. Chi' => '22_chi',
                     '23. Psi' => '23_psi',
                     '24. Omega' => '24_omega',
+                ],
+            ])
+            ->add('template', EntityType::class, [
+                'class' => Template::class,
+                'required' => false,
+                'placeholder' => ' - choose - ',
+                'attr' => [
+                    'class' => 'form-control',
                 ],
             ])
             ->add('FTPHost', TextType::class, [

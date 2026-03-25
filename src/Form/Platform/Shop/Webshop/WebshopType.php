@@ -3,6 +3,7 @@
 namespace App\Form\Platform\Shop\Webshop;
 
 use App\Entity\Platform\Media\Media;
+use App\Entity\Platform\Template;
 use App\Entity\Platform\Webshop\Webshop;
 use App\Repository\Platform\Media\MediaRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -193,6 +194,14 @@ class WebshopType extends AbstractType
                     '22. Chi' => '22_chi',
                     '23. Psi' => '23_psi',
                     '24. Omega' => '24_omega',
+                ],
+            ])
+            ->add('template', EntityType::class, [
+                'class' => Template::class,
+                'required' => false,
+                'placeholder' => ' - choose - ',
+                'attr' => [
+                    'class' => 'form-control',
                 ],
             ])
             ->add('FTPHost', TextType::class, [
