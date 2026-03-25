@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.25.3
+###### v2026.03.25.4
 
 ![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -106,7 +106,7 @@ php bin/console cache:clear
 # set proper permissions
 chown -R $(stat -c '%U:%G' ..) .
 # load fix data with fixtures
-php bin/console doctrine:fixtures:load --group=group1 --append
+php bin/console doctrine:fixtures:load --append
 ```
 
 ### How to activate?
