@@ -45,7 +45,6 @@ final class Version20260325165337 extends AbstractMigration
 (23, 'Psi &psi;', 'psi', '', 23, 'psi.jpg', 1),
 (24, 'Omega &omega;', 'omega', '', 24, 'omega.jpg', 1);
     ");
-        $this->addSql("ALTER TABLE `_template` ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_B9A05AE377153098` (`code`);");
         $this->addSql("ALTER TABLE `_template` MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;");
     }
 
