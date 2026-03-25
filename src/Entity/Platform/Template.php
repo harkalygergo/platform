@@ -21,9 +21,6 @@ class Template
     #[ORM\Column(length: 128, unique: true)]
     private string $code;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private string $content;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -61,18 +58,6 @@ class Template
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
 
         return $this;
     }
