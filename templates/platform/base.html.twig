@@ -7,6 +7,7 @@
         {% endif %}
     {% endfor %}
 {% endif %}
+{% set currentRouteParameters = app.request.attributes.get('_route')|split('_') %}
 <!DOCTYPE html>
 <html lang="{{ app.locale }}" data-bs-theme="{% if app.user is null %}dark{% else %}auto{% endif %}">
 <head>
@@ -98,7 +99,6 @@
 <body class="bg-light h-100">
 
     <div class="h-100 d-flex">
-
 
         {% include 'platform/backend/_nav_icons.html.twig' %}
 
