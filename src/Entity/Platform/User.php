@@ -388,4 +388,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $parts = array_filter([$this->namePrefix, $this->firstName, $this->middleName, $this->lastName]);
         return implode(' ', $parts) ?: null;
     }
+
+    public function __toString(): string
+    {
+        return $this->getFullName() ?: $this->username;
+    }
 }

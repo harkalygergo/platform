@@ -31,6 +31,8 @@ class InstanceController extends PlatformController
             'title' => 'Instances',
             'tableHead' => [
                 'name' => 'Name',
+                'email' => 'Email',
+                'owner' => 'Owner',
                 'type' => 'Type',
                 'status' => 'Status',
             ],
@@ -114,6 +116,7 @@ class InstanceController extends PlatformController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $instance->setUpdatedAt(new \DateTimeImmutable('now'));
             $this->doctrine->getManager()->persist($instance);
             $this->doctrine->getManager()->flush();
 
