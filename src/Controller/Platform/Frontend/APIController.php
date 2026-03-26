@@ -298,7 +298,7 @@ class APIController extends PlatformController
                 }
 
                 // send email
-                $fromAddress = $instance->getName() . ' <' . $instance->getOwner()->getEmail() . '>';
+                $fromAddress = $instance->getName() . ' <' . $instance->getEmail() . '>';
                 $this->sendMail($toAddresses, $domain. ' #'. $order->getId(). " | ".$order->getFirstName() . " " . $order->getLastName(), $emailBody, $fromAddress);
 
                 unset($_COOKIE['cart']);

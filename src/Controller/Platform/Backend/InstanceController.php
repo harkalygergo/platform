@@ -72,6 +72,21 @@ class InstanceController extends PlatformController
                 ],
                 'required' => true,
             ])
+            ->add('email', TextType::class, [
+                'label' => 'E-mail',
+                'required' => true,
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'form-control',
+                    'placeholder' => '',
+                    'type' => 'email',
+                    'autocomplete' => 'email',
+                    'autofocus' => true,
+                    'spellcheck' => 'false',
+                    'autocapitalize' => 'off',
+                    'autocorrect' => 'off',
+                ]
+            ])
             ->add('owner', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (UserRepository $userRepository) use ($instance) {

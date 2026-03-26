@@ -40,6 +40,9 @@ class Instance
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $updatedAt;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $email = null;
+
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'instances')]
     private Collection $users;
 
@@ -185,6 +188,16 @@ class Instance
         $this->status = $status;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
+
     public function getUsers(): Collection
     {
         return $this->users;
@@ -194,6 +207,7 @@ class Instance
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
+            // TODO
             $user->addInstance($this);
         }
 
@@ -203,6 +217,7 @@ class Instance
     public function removeUser(User $user): self
     {
         if ($this->users->removeElement($user)) {
+            // TODO
             $user->removeInstance($this);
         }
 
