@@ -22,6 +22,13 @@ final class EventType extends AbstractType
                     'class' => 'form-control slugSource',
                 ],
             ])
+            ->add('performer', TextType::class, [
+                'label' => 'Performer',
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'form-control',
+                ]
+            ])
             /*
             ->add('slug', TextType::class, [
                 'label' => 'Slug',
