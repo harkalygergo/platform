@@ -36,7 +36,7 @@
                                 <tr>
                                     <td>{{ loop.index }}.</td>
                                     <td>{{ event.startAt|date('Y.m.d. H:i') }}</td>
-                                    <td>{{ event.locationEntity.city }}</td>
+                                    <td>{% if event.locationEntity %}{{ event.locationEntity.city }}{% endif %}</td>
                                     <td>{{ event.locationName }}<br><small><i>{{ event.location }}</i></small></td>
                                     <td>
                                         {% if event.performer is not empty %}
