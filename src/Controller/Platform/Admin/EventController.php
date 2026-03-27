@@ -61,7 +61,7 @@ final class EventController extends PlatformController
     {
         $form = $this->createFormBuilder()
             ->add('csvFile', FileType::class, [
-                'label' => 'CSV File (CSV header with columns: startAt;performer;locationName;location;title;ticketUrl;description)',
+                'label' => 'CSV File (UTF-8 CSV header with columns: startAt;performer;locationName;location;title;ticketUrl;description)',
                 'mapped' => false,
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
@@ -90,6 +90,11 @@ final class EventController extends PlatformController
             $csvFile = $form->get('csvFile')->getData();
 
             if ($csvFile) {
+                $content = file_get_contents($csvFile->getPathname());
+                if (!mb_check_encoding($content, 'UTF-8')) {
+                    $this->addFlash('danger', 'The CSV file is not UTF-8 encoded. Please convert it to UTF-8 before importing.');
+                    return $this->redirectToRoute('admin_event_import', [], Response::HTTP_SEE_OTHER);
+                }
                 $importedCount = $this->processCSVImport($csvFile, $em);
                 $this->addFlash('success', sprintf('%d events imported successfully.', $importedCount));
                 return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
@@ -233,28 +238,39 @@ final class EventController extends PlatformController
         return $importedCount;
     }
 
-    /**
-     * Parse datetime string in various formats:
-     * - 2026.03.01. 12:00 (Hungarian format without seconds)
-     * - 2026-03-01 12:00 (ISO format without seconds)
-     * - 2026-03-01 12:00:00 (ISO format with seconds)
-     * - Any other format PHP DateTime can understand
-     */
     private function parseDateTime(string $dateTimeString): \DateTime
     {
         $dateTimeString = trim($dateTimeString);
 
-        // Handle Hungarian format: 2026.03.01. 12:00
-        if (preg_match('/^(\d{4})\.(\d{2})\.(\d{2})\.\s+(\d{2}):(\d{2})$/', $dateTimeString, $matches)) {
-            return new \DateTime(sprintf('%s-%s-%s %s:%s:00', $matches[1], $matches[2], $matches[3], $matches[4], $matches[5]));
+        $formats = [
+            'Y.m.d. H:i:s',
+            'Y.m.d. H:i',
+            'Y.m.d H:i:s',
+            'Y.m.d H:i',
+            'Y.m.d.',
+            'Y.m.d',
+            'Y-m-d H:i:s',
+            'Y-m-d H:i',
+            'Y-m-d',
+            'd/m/Y H:i:s',
+            'd/m/Y H:i',
+            'd/m/Y',
+            'd.m.Y H:i:s',
+            'd.m.Y H:i',
+            'd.m.Y',
+        ];
+
+        foreach ($formats as $format) {
+            $dt = \DateTime::createFromFormat($format, $dateTimeString);
+            if ($dt !== false) {
+                // Reset seconds/microseconds when format has no seconds
+                if (!str_contains($format, ':s') && !str_contains($format, 'H:i:s')) {
+                    $dt->setTime((int)$dt->format('H'), (int)$dt->format('i'), 0);
+                }
+                return $dt;
+            }
         }
 
-        // Handle format without seconds: 2026-03-01 12:00
-        if (preg_match('/^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})$/', $dateTimeString, $matches)) {
-            return new \DateTime(sprintf('%s-%s-%s %s:%s:00', $matches[1], $matches[2], $matches[3], $matches[4], $matches[5]));
-        }
-
-        // Fallback to PHP's DateTime parsing
         return new \DateTime($dateTimeString);
     }
 
