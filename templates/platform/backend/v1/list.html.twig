@@ -317,6 +317,7 @@
 
             // --- SORT ---
             headers.forEach((th, colIndex) => {
+                if (colIndex === 0) return;
                 th.addEventListener('click', () => {
                     // Toggle direction if same column clicked again
                     if (lastSortedCol === colIndex) {
