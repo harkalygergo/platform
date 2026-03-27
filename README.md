@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.03.27.1
+###### v2026.03.27.2
 
 ![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -148,6 +148,12 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl enable symfony-messenger
 sudo systemctl start symfony-messenger
+```
+
+Run cleanup command to remove old events and newsletters:
+
+```shell
+php bin/console app:event:cleanup
 ```
 
 ### How to update?

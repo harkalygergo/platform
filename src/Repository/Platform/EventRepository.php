@@ -17,6 +17,16 @@ final class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+    public function deleteExpired(): int
+    {
+        return $this->createQueryBuilder('e')
+            ->delete()
+            ->where('e.startAt < :today')
+            ->setParameter('today', new \DateTimeImmutable('today'))
+            ->getQuery()
+            ->execute();
+    }
+
     /**
      * @return Event[]
      */
