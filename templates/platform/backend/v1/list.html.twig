@@ -332,6 +332,16 @@
                         const aVal = a.cells[colIndex].textContent.trim();
                         const bVal = b.cells[colIndex].textContent.trim();
 
+                        // Sort dates correctly (Y-m-d or Y-m-d H:i:s)
+                        const datePattern = /^\d{4}-\d{2}-\d{2}/;
+                        if (datePattern.test(aVal) && datePattern.test(bVal)) {
+                            const aDate = new Date(aVal);
+                            const bDate = new Date(bVal);
+                            if (!isNaN(aDate) && !isNaN(bDate)) {
+                                return sortAsc ? aDate - bDate : bDate - aDate;
+                            }
+                        }
+
                         // Sort numbers correctly
                         const aNum = parseFloat(aVal);
                         const bNum = parseFloat(bVal);
