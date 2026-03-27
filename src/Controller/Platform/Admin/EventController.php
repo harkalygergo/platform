@@ -44,6 +44,7 @@ final class EventController extends PlatformController
                 'endAt' => 'End',
                 'location' => 'Location',
                 'locationName' => 'Location Name',
+                'description' => 'Description',
                 'latitude' => 'Latitude',
                 'longitude' => 'Longitude',
             ],
