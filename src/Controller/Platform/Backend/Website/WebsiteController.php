@@ -187,6 +187,31 @@ class WebsiteController extends PlatformController
         return $this->redirectToRoute('admin_v1_website_index');
     }
 
+    #[Route('/deploy/post/{id}', name: 'admin_v1_website_posts_deploy')]
+    public function deployWebsitePost(WebsitePost $websitePost): Response
+    {
+        $website = $websitePost->getWebsite();
+        $posts = [$websitePost];
+
+        $categories = $this->getCategoriesToDeploy($website);
+        $menus = $this->getMenusToDeploy($website);
+        $events = $this->getEventsToDeploy($website);
+        // get recent 10 posts of the website
+        $pages = $this->getPagesToDeploy($website);
+        // get products of the website buy ProductRepository findByWebsiteAndStatus()
+        $products = $this->getProductsToDeploy($website);
+
+        $slugger = new AsciiSlugger();
+        // check if the directory exists
+        if (!is_dir('/tmp/' . $website->getId())) {
+            mkdir('/tmp/' . $website->getId());
+        }
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+
+        $this->addFlash('success', 'bejegyzés sikeresen közzétéve');
+        return $this->redirectToRoute('admin_v1_website_posts');
+    }
+
     #[Route('/deploy/page/{id}', name: 'admin_v1_website_page_deploy')]
     public function deployPage(WebsitePage $websitePage): Response
     {

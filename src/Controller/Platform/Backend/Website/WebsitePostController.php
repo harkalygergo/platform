@@ -41,6 +41,12 @@ class WebsitePostController extends PlatformController
                 'edit',
                 'delete',
             ],
+            'extraActions' => [
+                'deploy' => [
+                    'route' => 'admin_v1_website_posts_deploy',
+                    'label' => '&lt/&gt; Deploy',
+                ]
+            ]
         ]);
     }
 
