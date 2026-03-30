@@ -187,6 +187,62 @@ class WebsiteController extends PlatformController
         return $this->redirectToRoute('admin_v1_website_index');
     }
 
+    #[Route('/deploy/page/{id}', name: 'admin_v1_website_page_deploy')]
+    public function deployPage(WebsitePage $websitePage): Response
+    {
+        $website = $websitePage->getWebsite();
+        $pages = [$websitePage];
+
+        $categories = $this->getCategoriesToDeploy($website);
+        $menus = $this->getMenusToDeploy($website);
+        $events = $this->getEventsToDeploy($website);
+        // get recent 10 posts of the website
+        $posts = $this->getPostsToDeploy($website);
+        // get products of the website buy ProductRepository findByWebsiteAndStatus()
+        $products = $this->getProductsToDeploy($website);
+
+        $slugger = new AsciiSlugger();
+        // check if the directory exists
+        if (!is_dir('/tmp/' . $website->getId())) {
+            mkdir('/tmp/' . $website->getId());
+        }
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+
+        $this->addFlash('success', 'oldal sikeresen közzétéve');
+        return $this->redirectToRoute('admin_v1_website_pages');
+    }
+
+    private function getCategoriesToDeploy(Website $website): array
+    {
+        return $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteCategory')->findBy(['website' => $website, 'status' => true]);
+    }
+
+    private function getPagesToDeploy(Website $website): array
+    {
+        return $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true], ['title' => 'ASC']);
+    }
+
+    private function getMenusToDeploy(Website $website): array
+    {
+        return $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
+    }
+
+    private function getEventsToDeploy(Website $website): array
+    {
+        return $this->doctrine->getRepository('App\Entity\Platform\Event')->findUpcoming($website, 500);
+    }
+
+    private function getPostsToDeploy(Website $website): array
+    {
+        return $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true], ['createdAt' => 'DESC'], 10);
+    }
+
+    private function getProductsToDeploy(Website $website): array
+    {
+        // TODO modify to findBy with array website and status
+        return $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findByWebsiteAndStatus($website, true);;
+    }
+
     #[Route('/deploy/{id}', name: 'admin_v1_website_deploy')]
     public function deploy(Website $id): \Symfony\Component\HttpFoundation\RedirectResponse|null
     {
@@ -209,17 +265,14 @@ class WebsiteController extends PlatformController
         $urls = [];
         $filenames = [];
 
-        $categories = $this->doctrine->getRepository('App\Entity\Platform\Website\WebsiteCategory')->findBy(['website' => $website, 'status' => true]);
-        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true], ['title' => 'ASC']);
-        // get all menus of the website, order by position
-        $menus = $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
-        $events = $this->doctrine->getRepository('App\Entity\Platform\Event')->findUpcoming($website, 500);
-
+        $categories = $this->getCategoriesToDeploy($website);
+        $pages = $this->getPagesToDeploy($website);
+        $menus = $this->getMenusToDeploy($website);
+        $events = $this->getEventsToDeploy($website);
         // get recent 10 posts of the website
-        $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true], ['createdAt' => 'DESC'], 10);
-
+        $posts = $this->getPostsToDeploy($website);
         // get products of the website buy ProductRepository findByWebsiteAndStatus()
-        $products = $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findByWebsiteAndStatus($website, true);
+        $products = $this->getProductsToDeploy($website);
 
         /*
         $productRepository = $this->doctrine->getRepository(Product::class);

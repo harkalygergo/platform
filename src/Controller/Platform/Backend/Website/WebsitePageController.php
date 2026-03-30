@@ -68,6 +68,12 @@ class WebsitePageController extends PlatformController
                 'edit',
                 'delete',
             ],
+            'extraActions' => [
+                'deploy' => [
+                    'route' => 'admin_v1_website_page_deploy',
+                    'label' => 'deployPage'
+                ]
+            ]
         ]);
     }
 
