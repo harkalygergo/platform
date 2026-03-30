@@ -38,6 +38,12 @@ class ProductController extends PlatformController
             'actions' => [
                 'new', 'edit', 'delete'
             ],
+            'extraActions' => [
+                'deploy' => [
+                    'route' => 'admin_v1_ecom_product_deploy',
+                    'label' => '&lt/&gt; Deploy',
+                ]
+            ]
         ]);
     }
 

@@ -208,8 +208,34 @@ class WebsiteController extends PlatformController
         }
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
 
-        $this->addFlash('success', 'bejegyzés sikeresen közzétéve');
+        $this->addFlash('success', '<strong>'.$websitePost->getTitle().'</strong> bejegyzés sikeresen közzétéve');
         return $this->redirectToRoute('admin_v1_website_posts');
+    }
+
+
+    #[Route('/deploy/product/{id}', name: 'admin_v1_ecom_product_deploy')]
+    public function deployProduct(Product $product): Response
+    {
+        $website = $product->getWebsites()->first();
+        $products = [$product];
+
+        $categories = $this->getCategoriesToDeploy($website);
+        $menus = $this->getMenusToDeploy($website);
+        $events = $this->getEventsToDeploy($website);
+        // get recent 10 posts of the website
+        $pages = $this->getPagesToDeploy($website);
+        // get products of the website buy ProductRepository findByWebsiteAndStatus()
+        $posts = $this->getPostsToDeploy($website);
+
+        $slugger = new AsciiSlugger();
+        // check if the directory exists
+        if (!is_dir('/tmp/' . $website->getId())) {
+            mkdir('/tmp/' . $website->getId());
+        }
+        $this->deployProducts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+
+        $this->addFlash('success', '<strong>'.$product->getName().'</strong> termék sikeresen közzétéve');
+        return $this->redirectToRoute('ecom_v1_products');
     }
 
     #[Route('/deploy/page/{id}', name: 'admin_v1_website_page_deploy')]
@@ -233,7 +259,8 @@ class WebsiteController extends PlatformController
         }
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
 
-        $this->addFlash('success', 'oldal sikeresen közzétéve');
+        $this->addFlash('success', '<strong>'.$websitePage->getTitle(). '</strong> oldal sikeresen közzétéve');
+
         return $this->redirectToRoute('admin_v1_website_pages');
     }
 
