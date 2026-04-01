@@ -45,6 +45,7 @@ class OrderController extends PlatformBackendController
                 'comment' => 'Megjegyzés',
                 'total' => 'Összeg',
                 'currency' => 'Pénznem',
+                'billingVatNumber' => 'Adószám',
                 'billingZip' => 'Számlázás irányítószám',
                 'billingCity' => 'Számlázás település',
                 'billingAddress' => 'Számlázás cím',
