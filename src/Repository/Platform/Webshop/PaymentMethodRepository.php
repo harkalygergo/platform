@@ -4,6 +4,8 @@ namespace App\Repository\Platform\Webshop;
 
 use App\Entity\Platform\Webshop\PaymentMethod;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 class PaymentMethodRepository extends ServiceEntityRepository

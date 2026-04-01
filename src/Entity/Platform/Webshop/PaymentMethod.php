@@ -58,6 +58,9 @@ class PaymentMethod
     #[Groups(['webshop_payment_method'])]
     private ?string $type;
 
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    private int $position = 0;
+
     #[ORM\Column(type: 'boolean')]
     private bool $enabled = true;
 
@@ -225,6 +228,17 @@ class PaymentMethod
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+        return $this;
+    }
+
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
         return $this;
     }
 

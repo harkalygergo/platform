@@ -89,6 +89,7 @@ class Instance
     private Collection $shippingMethods;
 
     #[ORM\OneToMany(targetEntity: PaymentMethod::class, mappedBy: 'instance')]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $paymentMethods;
 
     public function __construct()

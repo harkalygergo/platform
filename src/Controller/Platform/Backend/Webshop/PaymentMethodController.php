@@ -20,12 +20,13 @@ class PaymentMethodController extends PlatformController
     {
         $paymentMethods = $this->doctrine->getRepository(PaymentMethod::class)->findBy([
             'instance' => $this->currentInstance,
-        ]);
+        ], ['position' => 'ASC']);
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => 'Fizetési módok',
             'tableHead' => [
+                'position' => 'Sorrend',
                 'name' => 'Név',
                 'type' => 'Típus',
                 'code' => 'Code',
