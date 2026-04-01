@@ -77,6 +77,7 @@ class OrderController extends PlatformBackendController
             .'<br>'.$order->getBillingZip()
             .'<br>'.$order->getBillingCity()
             .'<br>'.$order->getBillingAddress()
+            .'<br>'.$order->getBillingVatNumber()
             .'<hr><h2>Szállítás</h2>'
             .'<br>'.$order->getShippingAddress()
             .'<br>'.$order->getShippingMethod()

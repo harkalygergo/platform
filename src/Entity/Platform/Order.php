@@ -77,6 +77,9 @@ class Order
     private ?string $billingAddress = null;
 
     #[ORM\Column(length: 32, nullable: true)]
+    private ?string $billingVatNumber = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
     private ?string $paymentStatus = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -233,6 +236,18 @@ class Order
     public function setShippingAddress(?string $shippingAddress): static
     {
         $this->shippingAddress = $shippingAddress;
+
+        return $this;
+    }
+
+    public function getBillingVatNumber(): ?string
+    {
+        return $this->billingVatNumber;
+    }
+
+    public function setBillingVatNumber(?string $billingVatNumber): static
+    {
+        $this->billingVatNumber = $billingVatNumber;
 
         return $this;
     }

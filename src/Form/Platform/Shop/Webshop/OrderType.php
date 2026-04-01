@@ -97,6 +97,12 @@ class OrderType extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
+            ->add('billingNumber', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ]
+            ])
             /*
             ->add('paymentMethod', EntityType::class, [
                 'class' => PaymentMethod::class,
