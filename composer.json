@@ -9,7 +9,7 @@
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.18.2",
         "doctrine/doctrine-migrations-bundle": "^3.7",
-        "doctrine/orm": "^3.6.2",
+        "doctrine/orm": "^3.6.3",
         "geocoder-php/google-maps-provider": "^4.8",
         "lelyfoto/twig-instanceof": "^1.2",
         "nelmio/cors-bundle": "^2.6.1",
