@@ -1,0 +1,26 @@
+{% set crumbs = breadcrumbs() %}
+
+{% if crumbs|length > 1 %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% for crumb in crumbs %}
+                {% if crumb.active %}
+                    <li class="breadcrumb-item active small" aria-current="page">
+                        {{ crumb.label }}
+                    </li>
+                {% else %}
+                    <li class="breadcrumb-item small">
+                        {% if crumb.route is not null %}
+                            <a class="link-dark" href="{{ path(crumb.route) }}">{{ crumb.label }}</a>
+                        {% else %}
+                            {{ crumb.label }}
+                        {% endif %}
+                        {% if not loop.first %}
+                            <i class="fas fa-chevron-left"></i>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    </nav>
+{% endif %}

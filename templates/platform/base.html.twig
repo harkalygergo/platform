@@ -94,17 +94,35 @@
             background-repeat: no-repeat;
             background-size: 32px;
         }
+
+        .row {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display:         flex;
+            flex-wrap: wrap;
+        }
+        .row > [class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body class="bg-light h-100">
 
-    <div class="h-100 d-flex">
+    <div class="container-fluid h-100">
+        <div class="row h-100">
 
-        {% include 'platform/backend/_nav_icons.html.twig' %}
 
-        {% include 'platform/backend/_nav_sidebar.html.twig' %}
 
-        <div class="col-91 p-0 m-0 flex-grow-1">
+        {#% include 'platform/backend/_nav_icons.html.twig' %}
+
+        {% include 'platform/backend/_nav_sidebar.html.twig' %#}
+
+        {% include 'platform/backend/v1/partials/_sidebar.html.twig' %}
+
+
+        <div class="col-9 p-0 m-0">
 
             {% include 'platform/backend/_header.html.twig' %}
 
@@ -240,6 +258,48 @@
                 //format:'d.m.Y'
             });
         });
+
+
+        function sidebarToggle() {
+            const icons = document.getElementById('sidebar_icons');
+            const menu = document.getElementById('sidebar_menu');
+            const header_toggle_icon = document.getElementById('header_toggle_icon');
+            if (icons.style.display === 'none') {
+                icons.setAttribute("style", "display:flex !important;");
+                menu.setAttribute("style", "display:block !important");
+                header_toggle_icon.setAttribute("style", "display:none !important");
+            } else {
+                icons.setAttribute("style", "display:none !important");
+                menu.setAttribute("style", "display:none !important");
+                header_toggle_icon.setAttribute("style", "display:flex !important");
+            }
+        }
+
+        function sidebarMenu(section)
+        {
+            let sectionMenu = document.getElementById("sidebar_menu_"+section);
+
+            // check if it is not null
+            if (!sectionMenu)
+            {
+                return;
+            }
+
+            if(sectionMenu.style.display === "none" || sectionMenu.style.display === "")
+            {
+                closeAllSidebarMenus();
+                sectionMenu.style.display = "block";
+            }
+        }
+
+        function closeAllSidebarMenus()
+        {
+            let menus = document.getElementsByClassName("sidebar_menu_section");
+            for(let i = 0; i < menus.length; i++)
+            {
+                menus[i].style.display = "none";
+            }
+        }
 
     </script>
 

@@ -1,0 +1,88 @@
+{% set menu = sidebar_menu() %}
+
+<div class="col-1 bg-black" id="sidebar_icons">
+    <button class="btn btn-lg border-orange bg-orange text-white m-2" data-section="projects" title="Platform" onclick="sidebarToggle()">
+        <span class="p-0 m-0 fs-4">⫹⫺</span>
+    </button>
+    {% for topMenu in menu %}
+        <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="tools" title="{{ topMenu.label }}" onclick="sidebarMenu('{{ topMenu.label|slug }}')">
+            <i class="{{ topMenu.icon }} p-0 m-0 fs-4"></i>
+        </button>
+    {% endfor %}
+</div>
+
+<div class="col-2 bg-dark p-0" id="sidebar_menu">
+    <nav class="sidebar">
+        {% for sub1menu in menu %}
+
+            <div class="sidebar_menu_section" id="sidebar_menu_{{ sub1menu.label|slug }}" style="display: {% if loop.first %}display{% else %}none{% endif %};">
+
+                {% if sub1menu.children is defined %}
+
+                    <div class="d-flex align-items-center text-white border-bottom mb-3 ps-2">
+                        <i class="{{ sub1menu.icon }} fs-3 m-2"></i>
+                        <div class="lh-1">
+                            <span class="fw-bold text-uppercase">{{ sub1menu.label }}</span>
+                            <br><small class="text-uppercase">{{ sub1menu.subtitle }}</small>
+                        </div>
+                    </div>
+
+                    {% for sub2menu in sub1menu.children %}
+                        <small class="sidebar-heading d-flex text-white text-uppercase fw-bold small ps-2">
+                            {{ sub2menu.label }}
+                        </small>
+                        {% if sub2menu.children is defined %}
+                            <ul class="nav flex-column text-white p-0 m-0">
+                            {% for sub3menu in sub2menu.children %}
+                                <li class="nav-item">
+                                    {% if sub3menu.route is not null %}
+                                        <a class="nav-link d-flex align-items-center gap-2 text-white" href="{% if sub3menu.route is not null %}{{ path(sub3menu.route) }}{% endif %}">
+                                            {% if sub3menu.children is defined %}
+                                                {{ dump(sub3menu) }}
+                                            {% else %}
+                                                <i class="{{ sub3menu.icon }}"></i>
+                                                {{ sub3menu.label }}
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                        {% if sub3menu.children is defined %}
+                                            <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#{{ sub1menu.label|slug }}{{ sub3menu.label|slug }}" role="button" aria-expanded="false" aria-controls="{{ sub3menu.label }}">
+                                                <span>
+                                                    <i class="{{ sub3menu.icon }} pe-1"></i>
+                                                    {{ sub3menu.label }}
+                                                </span>
+                                            </a>
+                                            <div class="collapse submenu bg-black" id="{{ sub1menu.label|slug }}{{ sub3menu.label|slug }}">
+                                                <ul class="nav flex-column">
+                                                    {% for sub4menu in sub3menu.children %}
+                                                        <li class="nav-item">
+                                                            {% if sub4menu.route is not null %}
+                                                                <a class="nav-link link-light" href="{{ path(sub4menu.route) }}">{{ sub4menu.label }}</a>
+                                                            {% else %}
+                                                                <span class="nav-link text-white-50">{{ sub4menu.label }}</span>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% else %}
+                                            <span class="nav-link d-flex align-items-center gap-2 text-white-50">
+                                                <i class="{{ sub3menu.icon }}"></i>
+                                                {{ sub3menu.label }}
+                                            </span>
+                                        {% endif %}
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                            </ul>
+                            <hr class="sidebar-divider text-white-50">
+                        {% endif %}
+
+                    {% endfor %}
+
+                {% endif %}
+            </div>
+
+        {% endfor %}
+    </nav>
+</div>
