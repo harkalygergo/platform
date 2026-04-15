@@ -21,7 +21,7 @@
                     {{ form_errors(form) }}
                     {#{ form_widget(form) }#}
                     {% for field in form %}
-                        {% if field.vars.name != '_token' %}
+                        {% if field.vars.name != '_token' and field.vars.block_prefixes[1] != 'submit' %}
                             {% set prefix = field.vars.row_attr['data-prefix'] ?? null %}
                             {% set suffix = field.vars.row_attr['data-suffix'] ?? null %}
                             {% set help = field.vars.help ?? null %}
@@ -53,6 +53,9 @@
                     <button type="submit" class="btn btn-success my-3">
                         <i class="bi bi-save mx-1"></i> {{ 'action.save'|trans }}
                     </button>
+                    {% if form.saveAndDeploy is defined %}
+                        {{ form_widget(form.saveAndDeploy) }}
+                    {% endif %}
                     {{ form_end(form) }}
                 </div>
             </div>

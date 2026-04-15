@@ -95,6 +95,12 @@ class WebsitePostController extends PlatformController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
 
+            if ($form->get('saveAndDeploy')->isClicked()) {
+                return $this->redirectToRoute('admin_v1_website_posts_deploy', [
+                    'id' => $post->getId(),
+                ]);
+            }
+
             return $this->redirectToRoute('admin_v1_website_posts', [
                 'id' => $id->getId(),
             ]);

@@ -11,6 +11,7 @@ use App\Repository\Platform\Website\WebsiteMediaRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -99,6 +100,12 @@ class WebsitePostType extends AbstractType
             ->add('content', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control summernote',
+                ],
+            ])
+            ->add('saveAndDeploy', SubmitType::class, [
+                'label' => '</> Save and deploy',
+                'attr' => [
+                    'class' => 'btn btn-outline-success my-3 ms-2',
                 ],
             ])
         ;
