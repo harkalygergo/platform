@@ -198,7 +198,7 @@ class MenuBuilder
                 'label' => 'CMS',
                 'subtitle' => 'Tartalomkezelés',
                 'icon'  => 'bi bi-globe',
-                'route' => 'ecom_v1_products',
+                'route' => null,
                 'roles' => ['ROLE_USER'],
                 'children' => [
                     [
