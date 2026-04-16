@@ -48,15 +48,17 @@
                         <div class="col col-12">
                             <h5>Hogyan szeretne vásárolni?</h5>
                         </div>
-                        <div class="col col-12">
+                        <div class="col col-12 col-md-6 p-1">
 
                             <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" value="person" checked onclick="document.getElementById('billingVatNumberInput').style.display = 'none';">
-                            <label class="btn btn-lg btn-outline-success p-5" for="success-outlined">
+                            <label class="w-100 btn btn-lg btn-outline-success p-5" for="success-outlined">
                                 <i class="bi bi-person"></i> Magánszemély
                             </label>
+                        </div>
+                        <div class="col col-12 col-md-6 p-1">
 
-                            <input type="radio" class="btn-check" name="options-outlined" id="secondary-outlined" value="company" autocomplete="off" onclick="document.getElementById('billingVatNumberInput').style.display = 'block';">
-                            <label class="btn btn-lg btn-outline-secondary p-5" for="secondary-outlined">
+                            <input type="radio" class="btn-check" name="options-outlined" id="dark-outlined" value="company" autocomplete="off" onclick="document.getElementById('billingVatNumberInput').style.display = 'block';">
+                            <label class="w-100 btn btn-lg btn-outline-dark p-5" for="dark-outlined">
                                 <i class="bi bi-building"></i> Vállalkozás
                             </label>
 
@@ -68,23 +70,34 @@
                 </div>
                 <div class="tab-pane fade" id="base-tab-pane" role="tabpanel" aria-labelledby="base-tab" tabindex="1">
 
-                    <div class="mb-1">
-                        <label for="lastName" class="form-label">Vezetéknév *</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" required="">
-                        <div style="position: relative !important; height: 0 !important; width: 0 !important; display: initial !important; float: left !important;" data-lastpass-icon-root=""></div>
+                    <div class="row">
+                        <div class="col col-12 col-md-6">
+                            <div class="mb-1">
+                                <label for="lastName" class="form-label">Vezetéknév *</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" required="">
+                                <div style="position: relative !important; height: 0 !important; width: 0 !important; display: initial !important; float: left !important;" data-lastpass-icon-root=""></div>
+                            </div>
+                        </div>
+                        <div class="col col-12 col-md-6">
+                            <div class="mb-1">
+                                <label for="firstName" class="form-label">Keresztnév *</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" required="">
+                            </div>
+                        </div>
+                        <div class="col col-12 col-md-6">
+                            <div class="mb-1">
+                                <label for="phone" class="form-label">Telefonszám *</label>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="például: +36123456789" required="">
+                            </div>
+                        </div>
+                        <div class="col col-12 col-md-6">
+                            <div class="mb-1">
+                                <label for="email" class="form-label">E-mail cím *</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="például: teszt.elek@domain.hu" required="">
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-1">
-                        <label for="firstName" class="form-label">Keresztnév *</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" required="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="phone" class="form-label">Telefonszám *</label>
-                        <input type="text" class="form-control" id="phone" name="phone" placeholder="például: +36123456789" required="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="email" class="form-label">E-mail cím *</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="például: teszt.elek@domain.hu" required="">
-                    </div>
+
                     <p class="mt-3">
                         <small>* kötelező</small>
                     </p>
@@ -97,22 +110,33 @@
 
                 <div class="tab-pane fade" id="billing-tab-pane" role="tabpanel" aria-labelledby="billing-tab" tabindex="2">
 
-                    <div class="mb-1">
-                        <label for="billingZip" class="form-label">Irányítószám *</label>
-                        <input type="text" class="form-control" id="billingZip" name="billingZip" required="">
+                    <div class="row">
+                        <div class="col col-12 col-md-6">
+                            <div class="mb-1">
+                                <label for="billingZip" class="form-label">Irányítószám *</label>
+                                <input type="text" class="form-control" id="billingZip" name="billingZip" required="">
+                            </div>
+                        </div>
+                        <div class="col col-12 col-md-6">
+                            <div class="mb-1">
+                                <label for="billingCity" class="form-label">Település *</label>
+                                <input type="text" class="form-control" id="billingCity" name="billingCity" required="">
+                            </div>
+                        </div>
+                        <div class="col col-12 col-md-6">
+                            <div class="mb-1">
+                                <label for="billingAddress" class="form-label">Utca, házszám, (emelet, ajtó, stb.) *</label>
+                                <input type="text" class="form-control" id="billingAddress" name="billingAddress" required="">
+                            </div>
+                        </div>
+                        <div class="col col-12 col-md-6">
+                            <div class="mb-1" id="billingVatNumberInput" style="display: none;">
+                                <label for="billingVatNumber" class="form-label">Adószám (opcionális)</label>
+                                <input type="text" class="form-control" id="billingVatNumber" name="billingVatNumber">
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-1">
-                        <label for="billingCity" class="form-label">Település *</label>
-                        <input type="text" class="form-control" id="billingCity" name="billingCity" required="">
-                    </div>
-                    <div class="mb-1">
-                        <label for="billingAddress" class="form-label">Utca, házszám, (emelet, ajtó, stb.) *</label>
-                        <input type="text" class="form-control" id="billingAddress" name="billingAddress" required="">
-                    </div>
-                    <div class="mb-1" id="billingVatNumberInput" style="display: none;">
-                        <label for="billingVatNumber" class="form-label">Adószám (opcionális)</label>
-                        <input type="text" class="form-control" id="billingVatNumber" name="billingVatNumber">
-                    </div>
+
 
                     <div class="col col-12 text-end">
                         <button type="button" class="btn btn-outline-dark" onclick="document.getElementById('shipping-tab').click();">Tovább &raquo;</button>
