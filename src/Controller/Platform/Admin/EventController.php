@@ -92,6 +92,14 @@ final class EventController extends PlatformController
 
             if ($csvFile) {
                 $content = file_get_contents($csvFile->getPathname());
+
+                // remove UTF-8 BOM if present
+                $bom = "\xEF\xBB\xBF";
+                if (strncmp($content, $bom, 3) === 0) {
+                    $content = substr($content, 3);
+                }
+                file_put_contents($csvFile->getPathname(), $content);
+
                 if (!mb_check_encoding($content, 'UTF-8')) {
                     $this->addFlash('danger', 'The CSV file is not UTF-8 encoded. Please convert it to UTF-8 before importing.');
                     return $this->redirectToRoute('admin_event_import', [], Response::HTTP_SEE_OTHER);
