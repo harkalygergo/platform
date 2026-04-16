@@ -142,7 +142,7 @@ class MenuBuilder
                             [
                                 'label' => 'áttekintés',
                                 'icon' => 'bi bi-house',
-                                'route' => 'admin_v1_shop_webshop_index'
+                                'route' => 'homepage'
                             ],
                             [
                                 'label' => 'intranet',
