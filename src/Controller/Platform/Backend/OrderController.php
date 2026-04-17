@@ -5,8 +5,10 @@ namespace App\Controller\Platform\Backend;
 use App\Controller\Platform\PlatformBackendController;
 use App\Entity\Platform\BillingProfile;
 use App\Entity\Platform\Order;
+use App\Entity\Platform\Order\OrderEmailTemplate;
 use App\Entity\Platform\Service;
 use App\Entity\Platform\User;
+use App\Enum\Platform\OrderStatusEnum;
 use App\Form\Platform\Shop\Webshop\OrderType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -112,13 +114,56 @@ class OrderController extends PlatformBackendController
     #[Route('/edit/{entity}', name: 'ecom_order_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Order $entity): Response
     {
+        $this->denyAccessUnlessUserHasInstance();
+
+        $originalStatus = $entity->getStatus();
+
         $form = $this->createForm(OrderType::class, $entity, [
             'currentInstance' => $this->currentInstance,
         ]);
+        $form->handleRequest($request);
 
-        // TODO if order status changes, send email to user
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->doctrine->getManager()->flush();
+            $this->addFlash('success', $this->translator->trans('action.edited') . ': ' . $entity->getName());
 
-        return $this->platformBackendEdit($request, $form, $entity, self::redirectToRoute);
+            if ($entity->getStatus() !== $originalStatus) {
+                $this->sendOrderStatusEmail($entity, $entity->getStatus());
+            }
+
+            return $this->redirectToRoute(self::redirectToRoute);
+        }
+
+        return $this->render('platform/backend/v1/form.html.twig', [
+            'title' => $this->translator->trans('action.edit') . ': ' . $entity->getName(),
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    private function sendOrderStatusEmail(Order $order, OrderStatusEnum $newStatus): void
+    {
+        if ($order->getEmail() === null) {
+            return;
+        }
+
+        $template = $this->doctrine->getRepository(OrderEmailTemplate::class)->findOneBy([
+            'instance' => $this->currentInstance,
+            'orderStatus' => $newStatus,
+            'isActive' => true,
+        ]);
+
+        if ($template === null) {
+            return;
+        }
+
+        $this->sendMail(
+            [$order->getEmail()],
+            $template->getSubject(),
+            $template->getPlainTextContent() ?? '',
+            null,
+            $template->getHtmlContent() ?? ''
+        );
     }
 
     /*

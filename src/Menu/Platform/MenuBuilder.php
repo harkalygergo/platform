@@ -405,10 +405,6 @@ class MenuBuilder
                                         'label' => 'összes rendelés',
                                         'route' => 'ecom_order_index'
                                     ],
-                                    [
-                                        'label' => 'rendelés e-mail sablonok',
-                                        'route' => 'admin_v1_order_email_index',
-                                    ]
                                 ]
                             ],
                         ],
@@ -430,6 +426,10 @@ class MenuBuilder
                                         'label' => 'szállítási módok',
                                         'route' => 'admin_v1_webshop_shippingmethod_index'
                                     ],
+                                    [
+                                        'label' => 'rendelés e-mail sablonok',
+                                        'route' => 'admin_v1_order_email_index',
+                                    ]
                                 ]
                             ],
                         ],
