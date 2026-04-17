@@ -111,6 +111,8 @@
                     ID: productID,
                     name: productName,
                     price: price,
+                    image: "{{ product.mainImage.originalName }}",
+                    url: "{{ product.slug }}",
                     qty: 1
                 });
             }
