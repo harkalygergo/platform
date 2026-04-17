@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[IsGranted(User::ROLE_USER)]
-#[\Symfony\Component\Routing\Attribute\Route('/{_locale}/admin/v1/order')]
+#[Route('/{_locale}/admin/v1/order')]
 class OrderController extends PlatformBackendController
 {
     private const string redirectToRoute = 'ecom_order_index';
@@ -141,21 +141,21 @@ class OrderController extends PlatformBackendController
         // check if order instance matches current instance
         if ($id->getInstance() !== $this->currentInstance) {
             $this->addFlash('danger', $this->translator->trans('You do not have permission'));
-            return $this->redirectToRoute('ecom_order_index');
+            return $this->redirectToRoute(self::redirectToRoute);
             //throw $this->createAccessDeniedException($this->translator->trans('You do not have permission'));
         }
 
         // check if order exists
         if (!$id) {
-            $this->addFlash('error', 'Rendelés nem található.');
-            return $this->redirectToRoute('ecom_order_index');
+            $this->addFlash('error', 'Entitás nem található.');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         // remove order
         $this->doctrine->getManager()->remove($id);
         $this->doctrine->getManager()->flush();
 
-        return $this->redirectToRoute('ecom_order_index');
+        return $this->redirectToRoute(self::redirectToRoute);
     }
 
     #[Route('/multiple/{action}/{ids}', name: 'ecom_order_multiple')]
