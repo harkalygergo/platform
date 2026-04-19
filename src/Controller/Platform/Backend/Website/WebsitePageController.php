@@ -97,6 +97,12 @@ class WebsitePageController extends PlatformController
             $this->doctrine->getManager()->persist($websitePage);
             $this->doctrine->getManager()->flush();
 
+            if ($form->get('saveAndDeploy')->isClicked()) {
+                return $this->redirectToRoute('admin_v1_website_page_deploy', [
+                    'id' => $websitePage->getId(),
+                ]);
+            }
+
             return $this->redirectToRoute('admin_v1_website_pages', [
                 //'id' => $id->getId(),
             ]);
@@ -118,6 +124,12 @@ class WebsitePageController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
+
+            if ($form->get('saveAndDeploy')->isClicked()) {
+                return $this->redirectToRoute('admin_v1_website_page_deploy', [
+                    'id' => $page->getId(),
+                ]);
+            }
 
             return $this->redirectToRoute('admin_v1_website_pages', [
                 //'id' => $id->getId(),

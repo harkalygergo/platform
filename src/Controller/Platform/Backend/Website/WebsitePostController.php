@@ -69,6 +69,12 @@ class WebsitePostController extends PlatformController
             $this->doctrine->getManager()->persist($websitePost);
             $this->doctrine->getManager()->flush();
 
+            if ($form->get('saveAndDeploy')->isClicked()) {
+                return $this->redirectToRoute('admin_v1_website_posts_deploy', [
+                    'id' => $websitePost->getId(),
+                ]);
+            }
+
             return $this->redirectToRoute('admin_v1_website_posts', [
                 'id' => $id->getId(),
             ]);

@@ -16,10 +16,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WebsitePostType extends AbstractType
 {
     private $website;
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -103,7 +110,7 @@ class WebsitePostType extends AbstractType
                 ],
             ])
             ->add('saveAndDeploy', SubmitType::class, [
-                'label' => '</> Save and deploy',
+                'label' => '</> '.$this->translator->trans('action.save'). ' & deploy',
                 'attr' => [
                     'class' => 'btn btn-outline-success my-3 ms-2',
                 ],
