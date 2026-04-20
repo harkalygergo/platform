@@ -26,6 +26,13 @@ class PaymentMethodType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('code', null, [
+                'label' => 'Payment Method code',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('type', ChoiceType::class, [
                 'label' => 'Payment Method Type',
                 'placeholder' => 'Select a type',
