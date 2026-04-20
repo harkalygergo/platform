@@ -15,6 +15,14 @@
     <nav class="sidebar">
         {% for sub1menu in menu %}
 
+            {% if currentRouteParameters["0"] == sub1menu.label|slug %}
+            <script>
+                window.addEventListener("load", (event) => {
+                    document.getElementById("sidebar_menu_{{ sub1menu.label|slug }}").style.display = "block";
+                });
+            </script>
+            {% endif %}
+
             <div class="sidebar_menu_section" id="sidebar_menu_{{ sub1menu.label|slug }}" style="display: {% if loop.first %}display{% else %}none{% endif %};">
 
                 {% if sub1menu.children is defined %}

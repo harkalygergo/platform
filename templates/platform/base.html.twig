@@ -299,8 +299,10 @@
         function showActiveSidebarMenu()
         {
             let activeSidebarItem = document.getElementsByClassName("nav-link active")["0"];
-            activeSidebarItem.parentElement.parentElement.parentElement.classList += " show ";
-            sidebarMenu(activeSidebarItem.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id.replace("sidebar_menu_", ""));
+            if (activeSidebarItem) {
+                activeSidebarItem.parentElement.parentElement.parentElement.classList += " show ";
+                sidebarMenu(activeSidebarItem.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id.replace("sidebar_menu_", ""));
+            }
         }
 
         window.addEventListener("load", (event) => {
