@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Platform\Backend\Superadmin;
+namespace App\Controller\Platform\Backend\CMS;
 
 use App\Controller\Platform\PlatformBackendController;
 use App\Entity\Platform\User;
@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted(User::ROLE_SUPERADMIN)]
-#[Route('/{_locale}/admin/v1/superadmin/templates')]
-class SuperAdminTemplateController extends PlatformBackendController
+#[IsGranted(User::ROLE_USER)]
+#[Route('/{_locale}/admin/v1/cms/templates')]
+class TemplateController extends PlatformBackendController
 {
-    #[Route('/', name: 'admin_v1_superadmin_templates_index')]
-    public function superAdminTemplateIndex(): Response
+    #[Route('/', name: 'admin_v1_cms_templates_index')]
+    public function index(): Response
     {
         $tableBody = $this->doctrine->getRepository('App\Entity\Platform\Template')->findAll();
 
@@ -25,7 +25,7 @@ class SuperAdminTemplateController extends PlatformBackendController
                 'code' => 'Kód',
                 'description' => 'leírás',
                 'position' => 'Pozíció',
-                'imagePath' => 'imagePath',
+                //'imagePath' => 'imagePath',
                 'isActive' => 'Státusz'
             ],
             'tableBody' => $tableBody,

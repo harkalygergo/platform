@@ -327,12 +327,16 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Megjelenés',
-                                'icon'  => 'bi bi-brush-fill',
+                                'icon'  => 'bi bi-palette-fill',
                                 'route' => null,
                                 'children' => [
                                     [
                                         'label' => 'Menük',
                                         'route' => 'admin_v1_website_menus'
+                                    ],
+                                    [
+                                        'label' => 'Sablonok',
+                                        'route' => 'admin_v1_cms_templates_index',
                                     ],
                                 ]
                             ],
@@ -629,11 +633,6 @@ class MenuBuilder
                                 'label' => 'Rendelések',
                                 'icon' => 'bi bi-cart',
                                 'route' => 'admin_v1_superadmin_orders',
-                            ],
-                            [
-                                'label' => 'Sablonok',
-                                'icon' => 'bi bi-palette',
-                                'route' => 'admin_v1_superadmin_templates_index',
                             ],
                         ]
                     ]
