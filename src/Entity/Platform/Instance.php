@@ -28,6 +28,9 @@ class Instance
     #[ORM\Column(type: 'boolean')]
     private bool $status;
 
+    #[ORM\Column(length: 255, nullable: true, options: ['default' => 'free'])]
+    private ?string $plan = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $intranet = null;
 
@@ -187,6 +190,16 @@ class Instance
     public function setStatus(bool $status): void
     {
         $this->status = $status;
+    }
+
+    public function getPlan(): ?string
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?string $plan): void
+    {
+        $this->plan = $plan;
     }
 
     public function getEmail(): ?string

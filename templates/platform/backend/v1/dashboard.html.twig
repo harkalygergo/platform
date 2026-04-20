@@ -107,6 +107,15 @@
                                     <table class="table table-sm">
                                         <tbody>
                                         <tr>
+                                            <td>Díjcsomag:</td>
+                                            <td class="fw-bold">
+                                                {{ currentInstance.plan }}
+                                                {% if currentInstance.plan === 'free' %}
+                                                    <a class="text-decoration-none text-success" target="_blank" href="https://buymeacoffee.com/harkalygergo">☕ Hívj meg egy kávéra!</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>Rendszer tárhely:</td>
                                             <td class="fw-bold">10000 / ? MB</td>
                                         </tr>
