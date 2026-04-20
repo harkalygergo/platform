@@ -630,6 +630,11 @@ class MenuBuilder
                                 'icon' => 'bi bi-cart',
                                 'route' => 'admin_v1_superadmin_orders',
                             ],
+                            [
+                                'label' => 'Sablonok',
+                                'icon' => 'bi bi-palette',
+                                'route' => 'admin_v1_superadmin_templates_index',
+                            ],
                         ]
                     ]
                 ]

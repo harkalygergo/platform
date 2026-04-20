@@ -2,7 +2,7 @@
 
 namespace App\Controller\Platform\Backend\Superadmin;
 
-use App\Controller\Platform\PlatformController;
+use App\Controller\Platform\PlatformBackendController;
 use App\Entity\Platform\User;
 use App\Form\Platform\InstanceType;
 use App\Repository\OrderRepository;
@@ -15,9 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_SUPERADMIN)]
-class SuperAdminController extends PlatformController
+#[Route('/{_locale}/admin/v1/superadmin')]
+class SuperAdminController extends PlatformBackendController
 {
-    #[Route('/{_locale}/admin/v1/superadmin/users/', name: 'admin_v1_superadmin_users')]
+    #[Route('/users/', name: 'admin_v1_superadmin_users')]
     public function index(): Response
     {
         // if user is not logged in, redirect to login
@@ -53,7 +54,7 @@ class SuperAdminController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/superadmin/billing-profiles', name: 'admin_v1_superadmin_billing_profiles')]
+    #[Route('/billing-profiles', name: 'admin_v1_superadmin_billing_profiles')]
     public function superAdminBillingProfileList(): Response
     {
         // if user is not logged in, redirect to login
@@ -79,7 +80,7 @@ class SuperAdminController extends PlatformController
     }
 
     // get all orders
-    #[Route('/{_locale}/admin/v1/superadmin/orders/', name: 'admin_v1_superadmin_orders')]
+    #[Route('/orders/', name: 'admin_v1_superadmin_orders')]
     public function superAdminOrderList(): Response
     {
         // if user is not logged in, redirect to login
@@ -102,7 +103,7 @@ class SuperAdminController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/superadmin/services/', name: 'admin_v1_superadmin_services')]
+    #[Route('/services/', name: 'admin_v1_superadmin_services')]
     public function superAdminServiceList(): Response
     {
         // if user is not logged in, redirect to login
@@ -128,7 +129,7 @@ class SuperAdminController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/superadmin/instances/', name: 'admin_v1_superadmin_instances')]
+    #[Route('/instances/', name: 'admin_v1_superadmin_instances')]
     public function superAdminInstanceList(): Response
     {
         // if user is not logged in, redirect to login
@@ -154,7 +155,7 @@ class SuperAdminController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/superadmin/instances/new/', name: 'admin_v1_superadmin_instances_new')]
+    #[Route('/instances/new/', name: 'admin_v1_superadmin_instances_new')]
     public function superAdminInstanceNew(Request $request): Response
     {
         $instance = new \App\Entity\Platform\Instance();
@@ -177,5 +178,4 @@ class SuperAdminController extends PlatformController
         ]);
 
     }
-
 }
