@@ -75,6 +75,7 @@ class BackendController extends PlatformController
         return new Response('Kiküldve');
     }
 
+    /*
     #[Route('/{_locale}/admin/v1/dashboard', name: 'admin_v1_dashboard')]
     public function index(newsletterSubscriberRepository $newsletterSubscriberRepository): Response
     {
@@ -133,4 +134,5 @@ class BackendController extends PlatformController
             'feed' => $this->doctrine->getRepository(InstanceFeed::class)->findBy(['instance' => $instance], ['createdAt' => 'DESC']),
         ]);
     }
+    */
 }

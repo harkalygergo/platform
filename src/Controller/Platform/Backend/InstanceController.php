@@ -250,7 +250,7 @@ class InstanceController extends PlatformController
 
         return $this->render('platform/backend/v1/content.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
-            'title' => 'Intranet',
+            'title' => $this->currentInstance->getName(). ' intranet',
             'content' => $instance->getIntranet(),
         ]);
     }

@@ -147,7 +147,7 @@ class MenuBuilder
                             [
                                 'label' => 'intranet',
                                 'icon' => 'bi bi-info-square',
-                                'route' => null
+                                'route' => 'admin_v1_instances_intranet'
                             ],
                         ]
                     ],
