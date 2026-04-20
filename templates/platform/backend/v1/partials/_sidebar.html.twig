@@ -36,7 +36,11 @@
                             {% for sub3menu in sub2menu.children %}
                                 <li class="nav-item">
                                     {% if sub3menu.route is not null %}
-                                        <a class="nav-link d-flex align-items-center gap-2 text-white" href="{% if sub3menu.route is not null %}{{ path(sub3menu.route) }}{% endif %}">
+                                        {% set isCurrentRoute = '' %}
+                                        {% if app.request.attributes.get('_route') == sub3menu.route %}
+                                            {% set isCurrentRoute = 'active' %}
+                                        {% endif %}
+                                        <a class="nav-link d-flex align-items-center gap-2 text-white {{ isCurrentRoute }}" href="{% if sub3menu.route is not null %}{{ path(sub3menu.route) }}{% endif %}">
                                             {% if sub3menu.children is defined %}
                                                 {{ dump(sub3menu) }}
                                             {% else %}
@@ -57,7 +61,11 @@
                                                     {% for sub4menu in sub3menu.children %}
                                                         <li class="nav-item">
                                                             {% if sub4menu.route is not null %}
-                                                                <a class="nav-link link-light" href="{{ path(sub4menu.route) }}">{{ sub4menu.label }}</a>
+                                                                {% set isCurrentRoute = '' %}
+                                                                {% if app.request.attributes.get('_route') == sub4menu.route %}
+                                                                    {% set isCurrentRoute = 'active' %}
+                                                                {% endif %}
+                                                                <a class="nav-link link-light {{ isCurrentRoute }}" href="{{ path(sub4menu.route) }}">{{ sub4menu.label }}</a>
                                                             {% else %}
                                                                 <span class="nav-link text-white-50">{{ sub4menu.label }}</span>
                                                             {% endif %}
