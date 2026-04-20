@@ -1,6 +1,6 @@
 {% set menu = sidebar_menu() %}
 
-<div class="col-1 bg-black" id="sidebar_icons">
+<div class="flex-shrink-0 bg-black text-center" style="width: 80px;" id="sidebar_icons">
     <button class="btn btn-lg border-orange bg-orange text-white m-2" data-section="projects" title="Platform" onclick="sidebarToggle()">
         <span class="p-0 m-0 fs-4">⫹⫺</span>
     </button>
@@ -11,7 +11,7 @@
     {% endfor %}
 </div>
 
-<div class="col-2 bg-dark p-0" id="sidebar_menu">
+<div class="flex-shrink-0 bg-dark text-truncate" style="width: 220px;" id="sidebar_menu">
     <nav class="sidebar">
         {% for sub1menu in menu %}
 

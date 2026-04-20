@@ -110,20 +110,14 @@
 </head>
 <body class="bg-light h-100">
 
-    <div class="container-fluid h-100">
-        <div class="row h-100">
-
-
+    <div class="d-flex w-100 align-items-stretch min-vh-100">
 
         {#% include 'platform/backend/_nav_icons.html.twig' %}
-
         {% include 'platform/backend/_nav_sidebar.html.twig' %#}
 
         {% include 'platform/backend/v1/partials/_sidebar.html.twig' %}
 
-
-        <div class="col-9 p-0 m-0">
-
+        <div class="flex-grow-1">
             {% include 'platform/backend/_header.html.twig' %}
 
             {% block main %}
@@ -265,12 +259,12 @@
             const menu = document.getElementById('sidebar_menu');
             const header_toggle_icon = document.getElementById('header_toggle_icon');
             if (icons.style.display === 'none') {
-                icons.setAttribute("style", "display:flex !important;");
-                menu.setAttribute("style", "display:block !important");
+                icons.style.display = 'block';
+                menu.style.display = 'block';
                 header_toggle_icon.setAttribute("style", "display:none !important");
             } else {
-                icons.setAttribute("style", "display:none !important");
-                menu.setAttribute("style", "display:none !important");
+                icons.style.display = 'none';
+                menu.style.display = 'none';
                 header_toggle_icon.setAttribute("style", "display:flex !important");
             }
         }
