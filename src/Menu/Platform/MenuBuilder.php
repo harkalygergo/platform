@@ -261,6 +261,10 @@ class MenuBuilder
                                         'route' => 'admin_event_import'
                                     ],
                                     [
+                                        'label' => 'esemény helyszínek',
+                                        'route' => 'admin_v1_cms_location_index'
+                                    ],
+                                    [
                                         'label' => 'esemény kategóriák',
                                         'route' => null
                                     ],
