@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.04.21.1
+###### v2026.04.21.2
 
 ![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -33,7 +33,7 @@ Backend has a fix template with light and dark mode. Frontend has multiple templ
 3. **&gamma; Gamma:** basic template with header and footer
 4. **&delta; Delta:** ideal for events and conferences
 5. **&epsilon; Epsilon:** ideal for webshop
-6. &zeta; Zeta: advanced template with sidebar and widgets, ideal for CV
+6. **&zeta; Zeta:** advanced template with sidebar and widgets, ideal for CV
 7. &eta; Eta
 8. &theta; Theta
 9. &iota; Iota
