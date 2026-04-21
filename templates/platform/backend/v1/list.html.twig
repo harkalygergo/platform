@@ -169,6 +169,15 @@
 
                                             {% if actions is defined and actions is not empty %}
 
+                                                {% if 'edit' in actions %}
+                                                        <a class="btn btn-sm text-nowrap btn-outline-secondary" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
+                                                            <small>
+                                                                <i class="bi bi-pencil text-primary"></i>
+                                                            </small>
+                                                        </a>
+                                                {% endif %}
+
+
                                                     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         <i class="bi bi-gear-fill"></i>
                                                     </button>
@@ -198,7 +207,7 @@
                                                             <li>
                                                                 <a class="dropdown-item text-nowrap text-primary" title="{{ 'action.edit'|trans }}" href="edit/{{ td.id}}">
                                                                     <small>
-                                                                        <i class="bi bi-pen"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
+                                                                        <i class="bi bi-pencil"></i> <span class="d-none d-sm-inline-block">{{ 'action.edit'|trans }}</span>
                                                                     </small>
                                                                 </a>
                                                             </li>
