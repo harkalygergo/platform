@@ -485,6 +485,12 @@ class MenuBuilder
                                 'route' => 'admin_event_import',
                                 'icon' => 'bi bi-calendar-event',
                             ],
+                            [
+                                'label' => 'WordPress importálása',
+                                'route' => 'admin_v1_wordpress_import',
+                                'icon' => 'bi bi-wordpress',
+                            ],
+
                         ]
                     ],
                 ]
