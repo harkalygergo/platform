@@ -162,9 +162,6 @@ class WebsiteType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'choices' => [
-                    'alpha (onepager)' => 'alpha',
-                    'beta (CV)' => 'beta',
-                    'gamma' => 'gamma',
                     '01. Alpha (empty)' => '1_alpha',
                     '02. Beta (head)' => '2_beta',
                     '03. Gamma (with sidebar)' => '3_gamma',
