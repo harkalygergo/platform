@@ -191,10 +191,15 @@ class WebsiteType extends AbstractType
             ->add('template', EntityType::class, [
                 'class' => Template::class,
                 'required' => false,
+                'label_html' => true,
+                'expanded' => true,
                 'placeholder' => ' - choose - ',
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'choice_label' => function (Template $template) {
+                    return $template->getName() . ' - <small><i>' . $template->getDescription().'</i></small>';
+                },
                 'query_builder' => function (\Doctrine\ORM\EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->where('t.isActive = :active')

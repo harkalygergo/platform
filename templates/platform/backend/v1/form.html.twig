@@ -46,7 +46,7 @@
                                 </div>
                             {% else %}
                                 {# Standard rendering #}
-                                {{ form_row(field) }}
+                                {{ form_row(field, {'label_html': true}) }}
                             {% endif %}
                         {% endif %}
                     {% endfor %}
