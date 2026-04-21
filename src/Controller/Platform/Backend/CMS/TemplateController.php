@@ -22,9 +22,9 @@ class TemplateController extends PlatformBackendController
             'title' => 'Sablonok',
             'tableHead' => [
                 'name' => 'Megnevezés',
-                'code' => 'Kód',
                 'description' => 'leírás',
                 'position' => 'Pozíció',
+                'code' => 'Kód',
                 //'imagePath' => 'imagePath',
                 'isActive' => 'Státusz'
             ],

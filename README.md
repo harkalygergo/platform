@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.04.20.9
+###### v2026.04.21.1
 
 ![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -29,11 +29,11 @@ Solutions:
 Backend has a fix template with light and dark mode. Frontend has multiple templates to choose from. You can change the template in the settings.
 
 1. **&alpha; Alpha:** pure empty template
-2. **&beta; Beta:** basic template with header and footer
-3. **&gamma; Gamma:** advanced template with sidebar and widgets, ideal for CV
+2. **&beta; Beta:** coming soon / under construction / working on template
+3. **&gamma; Gamma:** basic template with header and footer
 4. **&delta; Delta:** ideal for events and conferences
 5. **&epsilon; Epsilon:** ideal for webshop
-6. &zeta; Zeta
+6. &zeta; Zeta: advanced template with sidebar and widgets, ideal for CV
 7. &eta; Eta
 8. &theta; Theta
 9. &iota; Iota
