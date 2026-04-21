@@ -195,6 +195,11 @@ class WebsiteType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'query_builder' => function (\Doctrine\ORM\EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->where('t.isActive = :active')
+                        ->setParameter('active', true);
+                },
             ])
             ->add('FTPHost', TextType::class, [
                 'label' => 'FTP host',
