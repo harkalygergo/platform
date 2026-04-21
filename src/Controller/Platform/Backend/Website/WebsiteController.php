@@ -31,7 +31,6 @@ class WebsiteController extends PlatformController
                 'domain' => 'Domain',
                 'name' => $this->translator->trans('global.name'),
                 'title' => $this->translator->trans('global.title'),
-                'theme' => 'Téma',
                 'template' => 'Sablon',
                 'FTPHost' => 'FTP host',
                 'FTPPath' => 'FTP path',
@@ -317,6 +316,8 @@ class WebsiteController extends PlatformController
         $urls = [];
         $filenames = [];
 
+        $websiteTemplate = $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode();
+
         $categories = $this->getCategoriesToDeploy($website);
         $pages = $this->getPagesToDeploy($website);
         $menus = $this->getMenusToDeploy($website);
@@ -332,11 +333,11 @@ class WebsiteController extends PlatformController
         */
 
         $this->deployStylesheet($website);
-        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $posts, $products, $events);
-        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
-        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+        $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $posts, $products, $events, $websiteTemplate);
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate);
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate);
         //$this->deployEvents($website, $slugger, $urls, $filenames, $flashText, $categories, $events, $pages, $menus, $posts, $products);
-        $this->deployProducts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+        $this->deployProducts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate);
 
         //$this->addFlash('success', $flashText);
 
@@ -353,11 +354,11 @@ class WebsiteController extends PlatformController
     }
 
     // deploy products
-    public function deployProducts(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products)
+    public function deployProducts(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate)
     {
         foreach ($products as $product) {
             // render product template
-            $productContent = $this->renderView('themes/' . $website->getTheme() . '/product.html.twig', [
+            $productContent = $this->renderView('themes/' . $websiteTemplate . '/product.html.twig', [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
@@ -416,10 +417,10 @@ class WebsiteController extends PlatformController
         }
     }
 
-    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $pages, $menus, $posts, $products)
+    public function deployEvents(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $events, $pages, $menus, $posts, $products, $websiteTemplate)
     {
         foreach ($events as $event) {
-            $eventContent = $this->renderView('themes/' . $website->getTheme() . '/event.html.twig', [
+            $eventContent = $this->renderView('themes/' . $websiteTemplate . '/event.html.twig', [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
@@ -499,7 +500,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts, $products, $events)
+    private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts, $products, $events, $websiteTemplate)
     {
         // create a '/tmp/' . $website->getId() . '/kategoria' directory if it doesn't exist
         $categoryDir = '/tmp/' . $website->getId() . '/kategoria';
@@ -509,7 +510,7 @@ class WebsiteController extends PlatformController
 
         // get website categories
         foreach ($categories as $category) {
-            $htmlContent = $this->renderView('themes/' . $website->getTheme() . '/category.html.twig', [
+            $htmlContent = $this->renderView('themes/' . $websiteTemplate . '/category.html.twig', [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
@@ -561,7 +562,7 @@ class WebsiteController extends PlatformController
 
     }
 
-    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products)
+    private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate)
     {
         $i = 0;
         foreach ($pages as $page) {
@@ -579,42 +580,16 @@ class WebsiteController extends PlatformController
                 }
             }
 
-            //dump($twig->loader->exists('themes/'. $website->getTheme() .'/homepage.html.twig'));
             // if page is homepage, use index.html.twig template
             $templateFile = 'index.html.twig';
 
-            /*
-            // if it is homepage and homepage.html.twig exists, use it
-            if ($page->isHomepage() && file_exists('themes/'. $website->getTheme() .'/homepage.html.twig')) {
-                $templateFile = 'homepage.html.twig';
-            }
-            if($page->isHomepage())
-            {
-                //dump(__FILE__);
-                //dump('themes/'. $website->getTheme() .'/homepage.html.twig');
-                //dump($website->getTheme());
-                //dump($page);
-                //dump($website);
-                //dump(file_exists('themes/'. $website->getTheme() .'/homepage.html.twig'));
-                //dd($templateFile);
-            }
-            */
             $projectDir = $this->getParameter('kernel.project_dir');
 
-            if (!$page->isHomepage() && file_exists($projectDir.'/templates/themes/'. $website->getTheme() .'/page.html.twig')) {
+            if (!$page->isHomepage() && file_exists($projectDir.'/templates/themes/'. $websiteTemplate .'/page.html.twig')) {
                 $templateFile = 'page.html.twig';
             }
 
-            /*
-            $templateFile = 'index.html.twig';
-            if (file_exists('themes/'. $website->getTheme() .'/page.html.twig')) {
-                $templateFile = 'page.html.twig';
-            }
-            */
-
-
-
-            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/'.$templateFile, [
+            $htmlContent = $this->renderView('themes/'. $websiteTemplate .'/'.$templateFile, [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
@@ -674,7 +649,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products)
+    private function deployPosts($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate)
     {
         $posts = $this->doctrine->getRepository(WebsitePost::class)->findBy(['website' => $website, 'status' => true]);
 
@@ -694,11 +669,11 @@ class WebsiteController extends PlatformController
             }
 
             $templateFile = 'index.html.twig';
-            if (file_exists('themes/'. $website->getTheme() .'/post.html.twig')) {
+            if (file_exists('themes/'. $websiteTemplate .'/post.html.twig')) {
                 $templateFile = 'post.html.twig';
             }
 
-            $htmlContent = $this->renderView('themes/'. $website->getTheme() .'/post.html.twig', [
+            $htmlContent = $this->renderView('themes/'. $websiteTemplate .'/post.html.twig', [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),

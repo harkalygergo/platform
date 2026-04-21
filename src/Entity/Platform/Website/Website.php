@@ -102,9 +102,6 @@ class Website
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $bluesky;
 
-    #[ORM\Column(length: 16, nullable: true)]
-    private ?string $theme;
-
     #[ORM\ManyToOne(targetEntity: Template::class)]
     private ?Template $template;
 
@@ -487,18 +484,6 @@ class Website
     public function setBluesky(?string $bluesky): self
     {
         $this->bluesky = $bluesky;
-
-        return $this;
-    }
-
-    public function getTheme(): ?string
-    {
-        return $this->theme;
-    }
-
-    public function setTheme(?string $theme): self
-    {
-        $this->theme = $theme;
 
         return $this;
     }
