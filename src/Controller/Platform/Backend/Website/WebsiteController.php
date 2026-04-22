@@ -21,7 +21,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 #[Route('/{_locale}/admin/v1/website')]
 class WebsiteController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_website_index', methods: ['GET'])]
+    #[Route('/', name: 'admin_v1_dashboard_website_index', methods: ['GET'])]
     public function index(WebsiteRepository $websiteRepository): Response
     {
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -45,34 +45,34 @@ class WebsiteController extends PlatformController
             ],
             'extraActions' => [
                 'deploy' => [
-                    'route' => 'admin_v1_website_deploy',
+                    'route' => 'admin_v1_dashboard_website_deploy',
                     'label' => '<i class="bi bi-code-slash"></i> Deploy',
                 ],
                 'posts' => [
-                    'route' => 'admin_v1_website_posts',
+                    'route' => 'admin_v1_cms_website_posts',
                     'label' => $this->translator->trans('web.posts'),
                 ],
                 'pages' => [
-                    'route' => 'admin_v1_website_pages',
+                    'route' => 'admin_v1_cms_website_pages',
                     'label' => $this->translator->trans('page.pages'),
                 ],
                 'categories' => [
-                    'route' => 'admin_v1_website_categories',
+                    'route' => 'admin_v1_cms_website_categories',
                     'label' => $this->translator->trans('web.categories'),
                 ],
                 'menus' => [
-                    'route' => 'admin_v1_website_menus',
+                    'route' => 'admin_v1_cms_website_menus',
                     'label' => $this->translator->trans('web.menus'),
                 ],
                 'media' => [
-                    'route' => 'admin_v1_website_media',
+                    'route' => 'admin_v1_cms_website_media',
                     'label' => $this->translator->trans('media'),
                 ]
             ],
         ]);
     }
 
-    #[Route('/new', name: 'admin_v1_website_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'admin_v1_dashboard_website_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         // handle form submission
@@ -85,7 +85,7 @@ class WebsiteController extends PlatformController
             $this->doctrine->getManager()->persist($website);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_website_index');
+            return $this->redirectToRoute('admin_v1_dashboard_website_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -95,7 +95,7 @@ class WebsiteController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_v1_website_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'admin_v1_dashboard_website_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Website $website): Response
     {
         $existingWebsite = $this->doctrine->getRepository(Website::class)->find($website->getId());
@@ -111,7 +111,7 @@ class WebsiteController extends PlatformController
 
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_website_index');
+            return $this->redirectToRoute('admin_v1_dashboard_website_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -122,7 +122,7 @@ class WebsiteController extends PlatformController
     }
 
     // delete
-    #[Route('/delete/{id}', name: 'admin_v1_website_delete')]
+    #[Route('/delete/{id}', name: 'admin_v1_dashboard_website_delete')]
     public function delete(Request $request, Website $website): Response
     {
         // delete all pages of the website
@@ -142,11 +142,11 @@ class WebsiteController extends PlatformController
         //    //$this->addFlash('danger', 'A honlap törlése sikertelen.');
         //}
 
-        return $this->redirectToRoute('admin_v1_website_index');
+        return $this->redirectToRoute('admin_v1_dashboard_website_index');
     }
 
     // multiple delete
-    #[Route('/multiple/{action}/{ids}', name: 'admin_v1_website_multiple')]
+    #[Route('/multiple/{action}/{ids}', name: 'admin_v1_cms_website_multiple')]
     public function multiple(Request $request, string $action, string $ids): Response
     {
         $idsArray = explode(',', $ids);
@@ -183,10 +183,10 @@ class WebsiteController extends PlatformController
             //$this->addFlash('success', 'A kiválasztott honlap(ok) sikeresen törölve.');
         }
 
-        return $this->redirectToRoute('admin_v1_website_index');
+        return $this->redirectToRoute('admin_v1_dashboard_website_index');
     }
 
-    #[Route('/deploy/post/{id}', name: 'admin_v1_website_posts_deploy')]
+    #[Route('/deploy/post/{id}', name: 'admin_v1_cms_website_posts_deploy')]
     public function deployWebsitePost(WebsitePost $websitePost): Response
     {
         $website = $websitePost->getWebsite();
@@ -208,7 +208,7 @@ class WebsiteController extends PlatformController
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode());
 
         $this->addFlash('success', '<strong>'.$websitePost->getTitle().'</strong> bejegyzés sikeresen közzétéve');
-        return $this->redirectToRoute('admin_v1_website_posts');
+        return $this->redirectToRoute('admin_v1_cms_website_posts');
     }
 
 
@@ -234,10 +234,10 @@ class WebsiteController extends PlatformController
         $this->deployProducts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode());
 
         $this->addFlash('success', '<strong>'.$product->getName().'</strong> termék sikeresen közzétéve');
-        return $this->redirectToRoute('ecom_v1_products');
+        return $this->redirectToRoute('admin_v1_shop_products');
     }
 
-    #[Route('/deploy/page/{id}', name: 'admin_v1_website_page_deploy')]
+    #[Route('/deploy/page/{id}', name: 'admin_v1_cms_website_page_deploy')]
     public function deployPage(WebsitePage $websitePage): Response
     {
         $website = $websitePage->getWebsite();
@@ -260,7 +260,7 @@ class WebsiteController extends PlatformController
 
         $this->addFlash('success', '<strong>'.$websitePage->getTitle(). '</strong> oldal sikeresen közzétéve');
 
-        return $this->redirectToRoute('admin_v1_website_pages');
+        return $this->redirectToRoute('admin_v1_cms_website_pages');
     }
 
     private function getCategoriesToDeploy(Website $website): array
@@ -294,7 +294,7 @@ class WebsiteController extends PlatformController
         return $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findByWebsiteAndStatus($website, true);;
     }
 
-    #[Route('/deploy/{id}', name: 'admin_v1_website_deploy')]
+    #[Route('/deploy/{id}', name: 'admin_v1_dashboard_website_deploy')]
     public function deploy(Website $id): \Symfony\Component\HttpFoundation\RedirectResponse|null
     {
         $website = $id;
@@ -349,7 +349,7 @@ class WebsiteController extends PlatformController
             return null;
         } else {
             $this->addFlash('success', $flashText);
-            return $this->redirectToRoute('admin_v1_website_index');
+            return $this->redirectToRoute('admin_v1_dashboard_website_index');
         }
     }
 

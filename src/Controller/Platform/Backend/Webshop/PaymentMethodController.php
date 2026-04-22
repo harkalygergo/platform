@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/webshop/payment-methods')]
 class PaymentMethodController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_webshop_paymentmethod_index')]
+    #[Route('/', name: 'admin_v1_shop_webshop_paymentmethod_index')]
     public function index(Request $request): Response
     {
         $paymentMethods = $this->doctrine->getRepository(PaymentMethod::class)->findBy([
@@ -42,7 +42,7 @@ class PaymentMethodController extends PlatformController
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_webshop_paymentmethod_add')]
+    #[Route('/new/', name: 'admin_v1_shop_webshop_paymentmethod_add')]
     public function add(Request $request): Response
     {
         $paymentMethod = new PaymentMethod();
@@ -55,7 +55,7 @@ class PaymentMethodController extends PlatformController
             $this->doctrine->getManager()->persist($paymentMethod);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_webshop_paymentmethod_index');
+            return $this->redirectToRoute('admin_v1_shop_webshop_paymentmethod_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -66,7 +66,7 @@ class PaymentMethodController extends PlatformController
     }
 
     // add edit and delete methods as needed
-    #[Route('/edit/{id}/', name: 'admin_v1_webshop_paymentmethod_edit')]
+    #[Route('/edit/{id}/', name: 'admin_v1_shop_webshop_paymentmethod_edit')]
     public function edit(Request $request, int $id): Response
     {
         $paymentMethod = $this->doctrine->getRepository(PaymentMethod::class)->find($id);
@@ -82,7 +82,7 @@ class PaymentMethodController extends PlatformController
             $paymentMethod->setUpdatedAt(new \DateTime());
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_webshop_paymentmethod_index');
+            return $this->redirectToRoute('admin_v1_shop_webshop_paymentmethod_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -92,19 +92,19 @@ class PaymentMethodController extends PlatformController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'admin_v1_webshop_paymentmethod_delete')]
+    #[Route('/delete/{id}', name: 'admin_v1_shop_webshop_paymentmethod_delete')]
     public function delete(Request $request, int $id): Response
     {
         $paymentMethod = $this->doctrine->getRepository(PaymentMethod::class)->find($id);
         if (!$paymentMethod) {
             $this->addFlash('error', 'Not found');
-            return $this->redirectToRoute('admin_v1_webshop_paymentmethod_index');
+            return $this->redirectToRoute('admin_v1_shop_webshop_paymentmethod_index');
         }
 
         // check if payment method instance matches current instance
         if ($paymentMethod->getInstance() !== $this->currentInstance) {
             $this->addFlash('danger', $this->translator->trans('You do not have permission'));
-            return $this->redirectToRoute('admin_v1_webshop_paymentmethod_index');
+            return $this->redirectToRoute('admin_v1_shop_webshop_paymentmethod_index');
         }
 
         // remove payment method
@@ -112,6 +112,6 @@ class PaymentMethodController extends PlatformController
         $em->remove($paymentMethod);
         $em->flush();
         $this->addFlash('success', 'Deleted successfully');
-        return $this->redirectToRoute('admin_v1_webshop_paymentmethod_index');
+        return $this->redirectToRoute('admin_v1_shop_webshop_paymentmethod_index');
     }
 }

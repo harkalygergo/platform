@@ -16,9 +16,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/shop/webshop')]
 class WebshopController extends PlatformBackendController
 {
-    private const string redirectToRoute = 'admin_v1_shop_webshop_index';
+    private const string redirectToRoute = 'admin_v1_dashboard_webshop_index';
 
-    #[Route('/', name: 'admin_v1_shop_webshop_index', methods: ['GET'])]
+    #[Route('/', name: 'admin_v1_dashboard_webshop_index', methods: ['GET'])]
     public function index(WebshopRepository $repository): Response
     {
         $data = $repository->findBy([

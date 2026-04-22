@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints\File;
 #[IsGranted(User::ROLE_ADMIN)]
 final class EventController extends PlatformController
 {
-    #[Route('/', name: 'admin_event_index', methods: ['GET'])]
+    #[Route('/', name: 'admin_v1_cms_event_index', methods: ['GET'])]
     public function index(EventRepository $events): Response
     {
         $data = $events->findBy([], ['startAt' => 'DESC']);
@@ -57,7 +57,7 @@ final class EventController extends PlatformController
         ]);
     }
 
-    #[Route('/import', name: 'admin_event_import', methods: ['GET', 'POST'])]
+    #[Route('/import', name: 'admin_v1_cms_event_import', methods: ['GET', 'POST'])]
     public function import(Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createFormBuilder()
@@ -102,11 +102,11 @@ final class EventController extends PlatformController
 
                 if (!mb_check_encoding($content, 'UTF-8')) {
                     $this->addFlash('danger', 'The CSV file is not UTF-8 encoded. Please convert it to UTF-8 before importing.');
-                    return $this->redirectToRoute('admin_event_import', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('admin_v1_cms_event_import', [], Response::HTTP_SEE_OTHER);
                 }
                 $importedCount = $this->processCSVImport($csvFile, $em);
                 $this->addFlash('success', sprintf('%d events imported successfully.', $importedCount));
-                return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('admin_v1_cms_event_index', [], Response::HTTP_SEE_OTHER);
             }
         }
 
@@ -283,7 +283,7 @@ final class EventController extends PlatformController
         return new \DateTime($dateTimeString);
     }
 
-    #[Route('/new', name: 'admin_event_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'admin_v1_cms_event_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $event = new Event();
@@ -320,10 +320,10 @@ final class EventController extends PlatformController
             /** @var SubmitButton $submit */
             $submit = $form->get('saveAndCreateNew');
             if ($submit->isClicked()) {
-                return $this->redirectToRoute('admin_event_new', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('admin_v1_cms_event_new', [], Response::HTTP_SEE_OTHER);
             }
 
-            return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_cms_event_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -333,7 +333,7 @@ final class EventController extends PlatformController
         ]);
     }
 
-    #[Route('/{id:event}', name: 'admin_event_show', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET'])]
+    #[Route('/{id:event}', name: 'admin_v1_cms_event_show', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET'])]
     public function show(Event $event): Response
     {
         return $this->render('platform/backend/event/show.html.twig', [
@@ -341,7 +341,7 @@ final class EventController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id:event}', name: 'admin_event_edit', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET', 'POST'])]
+    #[Route('/edit/{id:event}', name: 'admin_v1_cms_event_edit', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event, EntityManagerInterface $em): Response
     {
         $originalEvent = clone $event;
@@ -365,8 +365,8 @@ final class EventController extends PlatformController
             $em->flush();
             $this->addFlash('success', $this->translator->trans('action.updated'));
 
-            //return $this->redirectToRoute('admin_event_edit', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
-            return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
+            //return $this->redirectToRoute('admin_v1_cms_event_edit', ['id' => $event->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_cms_event_index', [], Response::HTTP_SEE_OTHER);
         }
 
         /*
@@ -383,14 +383,14 @@ final class EventController extends PlatformController
         ]);
     }
 
-    #[Route('/delete/{id:event}', name: 'admin_event_delete', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET'])]
+    #[Route('/delete/{id:event}', name: 'admin_v1_cms_event_delete', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET'])]
     public function delete(Request $request, Event $event, EntityManagerInterface $em): Response
     {
         /*
         $token = $request->getPayload()->get('token');
 
         if (!$this->isCsrfTokenValid('delete', $token)) {
-            return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_cms_event_index', [], Response::HTTP_SEE_OTHER);
         }
         */
 
@@ -399,7 +399,7 @@ final class EventController extends PlatformController
 
         $this->addFlash('success', 'event.deleted_successfully');
 
-        return $this->redirectToRoute('admin_event_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_v1_cms_event_index', [], Response::HTTP_SEE_OTHER);
     }
 
     private function getLocation(string $address): ?object

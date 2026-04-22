@@ -4,7 +4,7 @@
 {% block main %}
     <h1>{{ title }}</h1>
 
-    <a href="{{ path('admin_event_new') }}" class="btn btn-primary mb-3">New Event</a>
+    <a href="{{ path('admin_v1_cms_event_new') }}" class="btn btn-primary mb-3">New Event</a>
 
     <table class="table">
         <thead>
@@ -23,8 +23,8 @@
                     <td>{{ event.endAt ? event.endAt|date('Y-m-d H:i') : '' }}</td>
                     <td>{{ event.location }}</td>
                     <td>
-                        <a href="{{ path('admin_event_edit', {id: event.id}) }}" class="btn btn-sm btn-secondary">Edit</a>
-                        <form method="post" action="{{ path('admin_event_delete', {id: event.id}) }}" style="display:inline-block" onsubmit="return confirm('Are you sure?');">
+                        <a href="{{ path('admin_v1_cms_event_edit', {id: event.id}) }}" class="btn btn-sm btn-secondary">Edit</a>
+                        <form method="post" action="{{ path('admin_v1_cms_event_delete', {id: event.id}) }}" style="display:inline-block" onsubmit="return confirm('Are you sure?');">
                             <input type="hidden" name="token" value="{{ csrf_token('delete') }}">
                             <button class="btn btn-sm btn-danger">Delete</button>
                         </form>

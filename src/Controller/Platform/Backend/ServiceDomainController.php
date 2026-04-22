@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_ADMIN)]
 class ServiceDomainController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/domains/', name: 'admin_v1_domains')]
+    #[Route('/{_locale}/admin/v1/domains/', name: 'admin_v1_dashboard_domains')]
     public function index(Request $request): Response
     {
         // if user is not logged in, redirect to login
@@ -49,7 +49,7 @@ class ServiceDomainController extends PlatformController
     }
 
     // add new domain
-    #[Route('/{_locale}/admin/v1/domains/new', name: 'admin_v1_domains_new')]
+    #[Route('/{_locale}/admin/v1/domains/new', name: 'admin_v1_dashboard_domains_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $domain = new Service();
@@ -65,7 +65,7 @@ class ServiceDomainController extends PlatformController
             $entityManager->flush();
 
             $this->addFlash('success', $this->translator->trans('action.created'));
-            return $this->redirectToRoute('admin_v1_domains', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_dashboard_domains', [], Response::HTTP_SEE_OTHER);
         }
 
 
@@ -76,7 +76,7 @@ class ServiceDomainController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/domains/edit/{id}', name: 'admin_v1_domains_edit', requirements: ['id' => '\d+'])]
+    #[Route('/{_locale}/admin/v1/domains/edit/{id}', name: 'admin_v1_dashboard_domains_edit', requirements: ['id' => '\d+'])]
     public function edit(Request $request, Service $domain, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ServiceType::class, $domain);
@@ -87,7 +87,7 @@ class ServiceDomainController extends PlatformController
             $entityManager->flush();
 
             $this->addFlash('success', $this->translator->trans('action.updated'));
-            return $this->redirectToRoute('admin_v1_domains', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_dashboard_domains', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -98,7 +98,7 @@ class ServiceDomainController extends PlatformController
     }
 
     // delete
-    #[Route('/{_locale}/admin/v1/domains/delete/{id}', name: 'admin_v1_domains_delete', requirements: ['id' => '\d+'], methods: ['GET'])]
+    #[Route('/{_locale}/admin/v1/domains/delete/{id}', name: 'admin_v1_dashboard_domains_delete', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function delete(Request $request, Service $domain, EntityManagerInterface $entityManager): Response
     {
         //if ($this->isCsrfTokenValid('delete' . $domain->getId(), $request->request->get('_token'))) {
@@ -107,10 +107,10 @@ class ServiceDomainController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('Deleted successfully'));
 
-            return $this->redirectToRoute('admin_v1_domains', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_dashboard_domains', [], Response::HTTP_SEE_OTHER);
         //}
 
-        return $this->redirectToRoute('admin_v1_domains', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_v1_dashboard_domains', [], Response::HTTP_SEE_OTHER);
     }
 
 }

@@ -18,7 +18,7 @@ class BlockController extends PlatformController
 {
     private $instanceRepository;
 
-    #[Route('/', name: 'admin_v1_block_index', methods: ['GET'])]
+    #[Route('/', name: 'admin_v1_cms_block_index', methods: ['GET'])]
     public function index(BlockRepository $blockRepository): Response
     {
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -38,7 +38,7 @@ class BlockController extends PlatformController
         ]);
     }
 
-    #[Route('/new', name: 'admin_v1_block_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'admin_v1_cms_block_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $block = new Block();
@@ -51,7 +51,7 @@ class BlockController extends PlatformController
             $this->doctrine->getManager()->persist($block);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_block_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_cms_block_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -61,7 +61,7 @@ class BlockController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_v1_block_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'admin_v1_cms_lock_show', methods: ['GET'])]
     public function show(Block $block): Response
     {
         return $this->render('platform/backend/v1/view.html.twig', [
@@ -71,7 +71,7 @@ class BlockController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_v1_block_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'admin_v1_cms_block_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Block $block): Response
     {
         $form = $this->createForm(BlockType::class, $block);
@@ -81,7 +81,7 @@ class BlockController extends PlatformController
             $block->setUpdatedBy($this->getUser());
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_block_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_cms_block_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -91,7 +91,7 @@ class BlockController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_v1_block_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'admin_v1_cms_block_delete', methods: ['POST'])]
     public function delete(Request $request, Block $block): Response
     {
         if ($this->isCsrfTokenValid('delete' . $block->getId(), $request->request->get('_token'))) {
@@ -99,10 +99,10 @@ class BlockController extends PlatformController
             $this->doctrine->getManager()->flush();
         }
 
-        return $this->redirectToRoute('admin_v1_block_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_v1_cms_block_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/instances', name: 'admin_v1_block_instances', methods: ['GET'])]
+    #[Route('/{id}/instances', name: 'admin_v1_cms_block_instances', methods: ['GET'])]
     public function instances(Block $block): Response
     {
         $instances = $this->instanceRepository->findBy(['block' => $block]);

@@ -114,7 +114,7 @@ class UserController extends PlatformController
 
         $security->login($user, 'security.authenticator.form_login.main', 'main');
 
-        return $this->redirectToRoute('admin_v1_instances_switch', ['instance' => $user->getDefaultInstance()->getId()]);
+        return $this->redirectToRoute('admin_v1_dashboard_instances_switch', ['instance' => $user->getDefaultInstance()->getId()]);
     }
 
     // function to add new user by superadmin

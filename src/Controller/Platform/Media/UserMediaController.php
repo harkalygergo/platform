@@ -18,7 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[IsGranted(User::ROLE_USER)]
 class UserMediaController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_media_user_index')]
+    #[Route('/', name: 'admin_v1_cms_media_user_index')]
     public function index(Request $request, MediaRepository $mediaRepository): Response
     {
         $medias = $mediaRepository->findBy(['createdBy' => $this->getUser(), 'instance' => null]);
@@ -45,7 +45,7 @@ class UserMediaController extends PlatformController
         ]);
     }
 
-    #[Route('/new', name: 'admin_v1_media_user_new')]
+    #[Route('/new', name: 'admin_v1_cms_media_user_new')]
     public function new(Request $request, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(MediaType::class);
@@ -85,13 +85,13 @@ class UserMediaController extends PlatformController
                     } catch (FileException $e) {
                         // Handle exception if something happens during file upload
                         $this->addFlash('danger', 'Failed to upload file.');
-                        return $this->redirectToRoute('admin_v1_media_user_index');
+                        return $this->redirectToRoute('admin_v1_cms_media_user_index');
                     }
                 }
 
                 $this->addFlash('success', 'File(s) uploaded successfully.');
 
-                return $this->redirectToRoute('admin_v1_media_user_index');
+                return $this->redirectToRoute('admin_v1_cms_media_user_index');
             }
         }
 
@@ -102,7 +102,7 @@ class UserMediaController extends PlatformController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'admin_v1_media_user_delete')]
+    #[Route('/delete/{id}', name: 'admin_v1_cms_media_user_delete')]
     public function delete(int $id): Response
     {
         $media = $this->doctrine->getRepository(Media::class)->find($id);
@@ -116,6 +116,6 @@ class UserMediaController extends PlatformController
             $this->addFlash('danger', 'Media file not found or you do not have permission to delete it.');
         }
 
-        return $this->redirectToRoute('admin_v1_media_user_index');
+        return $this->redirectToRoute('admin_v1_cms_media_user_index');
     }
 }

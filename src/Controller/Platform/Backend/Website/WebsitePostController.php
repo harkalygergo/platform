@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/website/posts')]
 class WebsitePostController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_website_posts')]
+    #[Route('/', name: 'admin_v1_cms_website_posts')]
     public function index(WebsitePostRepository $websitePostRepository): Response
     {
         // get instance first website
@@ -43,14 +43,14 @@ class WebsitePostController extends PlatformController
             ],
             'extraActions' => [
                 'deploy' => [
-                    'route' => 'admin_v1_website_posts_deploy',
+                    'route' => 'admin_v1_cms_website_posts_deploy',
                     'label' => '&lt/&gt; Deploy',
                 ]
             ]
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_website_post_new')]
+    #[Route('/new/', name: 'admin_v1_cms_website_post_new')]
     public function new(Request $request): Response
     {
         $id = $this->currentInstance->getWebsites()->first();
@@ -70,12 +70,12 @@ class WebsitePostController extends PlatformController
             $this->doctrine->getManager()->flush();
 
             if ($form->get('saveAndDeploy')->isClicked()) {
-                return $this->redirectToRoute('admin_v1_website_posts_deploy', [
+                return $this->redirectToRoute('admin_v1_cms_website_posts_deploy', [
                     'id' => $websitePost->getId(),
                 ]);
             }
 
-            return $this->redirectToRoute('admin_v1_website_posts', [
+            return $this->redirectToRoute('admin_v1_cms_website_posts', [
                 'id' => $id->getId(),
             ]);
         }
@@ -88,7 +88,7 @@ class WebsitePostController extends PlatformController
     }
 
     // create edit function
-    #[Route('/edit/{post}', name: 'admin_v1_website_post_edit')]
+    #[Route('/edit/{post}', name: 'admin_v1_cms_website_post_edit')]
     public function edit(Request $request, WebsitePost $post): Response
     {
         $id = $this->currentInstance->getWebsites()->first();
@@ -102,12 +102,12 @@ class WebsitePostController extends PlatformController
             $this->doctrine->getManager()->flush();
 
             if ($form->get('saveAndDeploy')->isClicked()) {
-                return $this->redirectToRoute('admin_v1_website_posts_deploy', [
+                return $this->redirectToRoute('admin_v1_cms_website_posts_deploy', [
                     'id' => $post->getId(),
                 ]);
             }
 
-            return $this->redirectToRoute('admin_v1_website_posts', [
+            return $this->redirectToRoute('admin_v1_cms_website_posts', [
                 'id' => $id->getId(),
             ]);
         }
@@ -119,7 +119,7 @@ class WebsitePostController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/delete/{page}', name: 'admin_v1_website_post_delete')]
+    #[Route('/{id}/delete/{page}', name: 'admin_v1_cms_website_post_delete')]
     public function delete(Request $request, Website $id, WebsitePost $page): Response
     {
         // check if page's website is the same as the current website
@@ -137,12 +137,12 @@ class WebsitePostController extends PlatformController
         $this->doctrine->getManager()->flush();
         //}
 
-        return $this->redirectToRoute('admin_v1_website_posts', [
+        return $this->redirectToRoute('admin_v1_cms_website_posts', [
             'id' => $id->getId(),
         ]);
     }
 
-    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_website_post_multiple')]
+    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_cms_website_post_multiple')]
     public function multiple(Request $request, Website $id, string $action, string $ids)
     {
         $idsArray = explode(',', $ids);
@@ -161,7 +161,7 @@ class WebsitePostController extends PlatformController
                 throw new \Exception('Unknown action: ' . $action);
         }
 
-        return $this->redirectToRoute('admin_v1_website_posts', [
+        return $this->redirectToRoute('admin_v1_cms_website_posts', [
             'id' => $request->get('id'),
         ]);
     }

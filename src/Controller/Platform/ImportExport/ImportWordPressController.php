@@ -70,7 +70,7 @@ class ImportWordPressController extends PlatformController
             $categoryStructureToPostImport = $this->importCategoriesFromWordPress($domain, $website);
             $this->importPostsFromWordPress($domain, $website, $categoryStructureToPostImport);
 
-            return $this->redirectToRoute('admin_v1_website_index', [
+            return $this->redirectToRoute('admin_v1_dashboard_website_index', [
                 'id' => $website->getId(),
             ]);
         }

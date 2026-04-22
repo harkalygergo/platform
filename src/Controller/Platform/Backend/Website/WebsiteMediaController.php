@@ -20,7 +20,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[\Symfony\Component\Routing\Attribute\Route('/{_locale}/admin/v1/website/media')]
 class WebsiteMediaController extends PlatformController
 {
-    #[\Symfony\Component\Routing\Attribute\Route('/', name: 'admin_v1_website_media')]
+    #[\Symfony\Component\Routing\Attribute\Route('/', name: 'admin_v1_cms_website_media')]
     public function index(Request $request, WebsiteMediaRepository $websiteMediaRepository): Response
     {
         //$website = $id;
@@ -45,7 +45,7 @@ class WebsiteMediaController extends PlatformController
         ]);
     }
 
-    #[Route('/new', name: 'admin_v1_website_media_new')]
+    #[Route('/new', name: 'admin_v1_cms_website_media_new')]
     public function new(Request $request, SluggerInterface $slugger): Response
     {
         // get instance first website
@@ -134,14 +134,14 @@ class WebsiteMediaController extends PlatformController
                     } catch (FileException $e) {
                         // Handle exception if something happens during file upload
                         $this->addFlash('danger', 'Failed to upload file.');
-                        return $this->redirectToRoute('admin_v1_media_instance_index');
+                        return $this->redirectToRoute('admin_v1_cms_media_instance_index');
                     }
                     */
                 }
 
                 $this->addFlash('success', 'File(s) uploaded successfully.');
 
-                return $this->redirectToRoute('admin_v1_website_media', ['id' => $website->getId()]);
+                return $this->redirectToRoute('admin_v1_cms_website_media', ['id' => $website->getId()]);
             }
         }
 
@@ -186,7 +186,7 @@ class WebsiteMediaController extends PlatformController
     }
 
     // create delete function, not just delete record, but remove file from FTP server as well
-    #[Route('/{id}/delete/{websiteMedia}', name: 'admin_v1_website_media_delete', methods: ['GET', 'POST'])]
+    #[Route('/{id}/delete/{websiteMedia}', name: 'admin_v1_cms_website_media_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request, Website $id, WebsiteMedia $websiteMedia): Response
     {
         //if ($this->isCsrfTokenValid('delete' . $id->getId(), $request->request->get('_token'))) {
@@ -213,13 +213,13 @@ class WebsiteMediaController extends PlatformController
             }
         //}
 
-        return $this->redirectToRoute('admin_v1_website_media', ['id' => $id->getId()]);
+        return $this->redirectToRoute('admin_v1_cms_website_media', ['id' => $id->getId()]);
     }
 
     // multiple delete
     // http://platform.local/hu/admin/v1/website/media/9/multiple/delete/on,12,13,14
     //     #[Route('/{id}/delete/{websiteMedia}', name: 'admin_v1_website_media_delete', methods: ['GET', 'POST'])]
-    #[Route('/{website}/multiple/{action}/{ids}', name: 'admin_v1_website_media_multiple')]
+    #[Route('/{website}/multiple/{action}/{ids}', name: 'admin_v1_cms_website_media_multiple')]
     public function multiple(Request $request, WebsiteMediaRepository $websiteMediaRepository, Website $website, string $action, string $ids): Response
     {
         $idsArray = explode(',', $ids);
@@ -257,7 +257,7 @@ class WebsiteMediaController extends PlatformController
             $this->addFlash('success', 'A kiválasztott média sikeresen törölve.');
         }
 
-        return $this->redirectToRoute('admin_v1_website_media', ['id' => $website->getId()]);
+        return $this->redirectToRoute('admin_v1_cms_website_media', ['id' => $website->getId()]);
     }
 
 }

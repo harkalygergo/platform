@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/website/menus')]
 class MenuController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_website_menus')]
+    #[Route('/', name: 'admin_v1_cms_website_menus')]
     public function index(/*\App\Entity\Platform\Website\Website $id, */MenuRepository $menuRepository): Response
     {
         // get current instance first website
@@ -44,7 +44,7 @@ class MenuController extends PlatformController
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_website_menu_new')]
+    #[Route('/new/', name: 'admin_v1_cms_website_menu_new')]
     public function new(Request $request): Response
     {
         $id = $this->currentInstance->getWebsites()->first();
@@ -58,7 +58,7 @@ class MenuController extends PlatformController
             $this->doctrine->getManager()->persist($menu);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_website_menus', [
+            return $this->redirectToRoute('admin_v1_cms_website_menus', [
                 'id' => $id->getId(),
             ]);
         }
@@ -71,7 +71,7 @@ class MenuController extends PlatformController
     }
 
     // create edit and delete methods as needed
-    #[Route('/edit/{menu}/', name: 'admin_v1_website_menu_edit')]
+    #[Route('/edit/{menu}/', name: 'admin_v1_cms_website_menu_edit')]
     public function edit(Menu $menu, Request $request, MenuRepository $menuRepository): Response
     {
 
@@ -85,7 +85,7 @@ class MenuController extends PlatformController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_website_menus', [
+            return $this->redirectToRoute('admin_v1_cms_website_menus', [
                 //'id' => $id->getId(),
             ]);
         }
@@ -97,7 +97,7 @@ class MenuController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/delete/{menu}', name: 'admin_v1_website_menu_delete')]
+    #[Route('/{id}/delete/{menu}', name: 'admin_v1_cms_website_menu_delete')]
     public function delete(\App\Entity\Platform\Website\Website $id, Menu $menu, Request $request, MenuRepository $menuRepository): Response
     {
         if (!$menu) {
@@ -108,12 +108,12 @@ class MenuController extends PlatformController
         $em->remove($menu);
         $em->flush();
 
-        return $this->redirectToRoute('admin_v1_website_menus', [
+        return $this->redirectToRoute('admin_v1_cms_website_menus', [
             'id' => $id->getId(),
         ]);
     }
 
-    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_website_menu_multiple')]
+    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_cms_website_menu_multiple')]
     public function multiple(Request $request, \App\Entity\Platform\Website\Website $id, string $action, string $ids)
     {
         $idsArray = explode(',', $ids);
@@ -132,7 +132,7 @@ class MenuController extends PlatformController
                 throw new \Exception('Unknown action: ' . $action);
         }
 
-        return $this->redirectToRoute('admin_v1_website_menus', [
+        return $this->redirectToRoute('admin_v1_cms_website_menus', [
             'id' => $request->get('id'),
         ]);
     }

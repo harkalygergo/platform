@@ -19,7 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[\Symfony\Component\Routing\Attribute\Route('/{_locale}/admin/v1/media')]
 class MediaController extends PlatformController
 {
-    #[\Symfony\Component\Routing\Attribute\Route('/', name: 'admin_v1_media')]
+    #[\Symfony\Component\Routing\Attribute\Route('/', name: 'admin_v1_cms_media')]
     public function index(Request $request, MediaRepository $mediaRepository): Response
     {
         $medias = $mediaRepository->findBy(['instance' => $this->currentInstance]);
@@ -42,7 +42,7 @@ class MediaController extends PlatformController
         ]);
     }
 
-    #[Route('/new', name: 'admin_v1_media_new')]
+    #[Route('/new', name: 'admin_v1_cms_media_new')]
     public function new(Request $request, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(MediaType::class);
@@ -129,14 +129,14 @@ class MediaController extends PlatformController
                     } catch (FileException $e) {
                         // Handle exception if something happens during file upload
                         $this->addFlash('danger', 'Failed to upload file.');
-                        return $this->redirectToRoute('admin_v1_media_instance_index');
+                        return $this->redirectToRoute('admin_v1_cms_media_instance_index');
                     }
                     */
                 }
 
                 $this->addFlash('success', 'File(s) uploaded successfully.');
 
-                return $this->redirectToRoute('admin_v1_media');
+                return $this->redirectToRoute('admin_v1_cms_media');
             }
         }
 
@@ -181,13 +181,13 @@ class MediaController extends PlatformController
     }
 
     // create delete function, not just delete record, but remove file from FTP server as well
-    #[Route('/delete/{media}', name: 'admin_v1_media_delete', methods: ['GET', 'POST'])]
+    #[Route('/delete/{media}', name: 'admin_v1_cms_media_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request, Media $media): Response
     {
         // check if current logged in user has access current instance
         if ($media->getInstance()->getId() !== $this->currentInstance->getId()) {
             $this->addFlash('danger', 'Nincs jogosultságod törölni ezt a médiát.');
-            return $this->redirectToRoute('admin_v1_media');
+            return $this->redirectToRoute('admin_v1_cms_media');
         }
 
         //if ($this->isCsrfTokenValid('delete' . $id->getId(), $request->request->get('_token'))) {
@@ -216,7 +216,7 @@ class MediaController extends PlatformController
         }
         //}
 
-        return $this->redirectToRoute('admin_v1_media');
+        return $this->redirectToRoute('admin_v1_cms_media');
     }
 
     /*

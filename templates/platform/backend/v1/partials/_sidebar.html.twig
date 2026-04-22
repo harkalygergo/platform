@@ -5,7 +5,11 @@
         <span class="p-0 m-0 fs-4">⫹⫺</span>
     </button>
     {% for topMenu in menu %}
-        <button class="btn btn-lg border-dark bg-dark text-white m-2 py-2 px-3" data-section="tools" title="{{ topMenu.label }}" onclick="sidebarMenu('{{ topMenu.label|slug }}')">
+        {% set iconBackgroundColor = 'bg-dark' %}
+        {% if topMenu.label|slug|lower == currentRouteParameters["2"] %}
+            {% set iconBackgroundColor = 'bg-success' %}
+        {% endif %}
+        <button class="btn btn-lg border-dark {{ iconBackgroundColor}} text-white m-2 py-2 px-3" data-section="tools" title="{{ topMenu.label }}" onclick="sidebarMenu('{{ topMenu.label|slug }}')">
             <i class="{{ topMenu.icon }} p-0 m-0 fs-4"></i>
         </button>
     {% endfor %}

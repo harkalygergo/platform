@@ -44,7 +44,7 @@ class InstanceController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_v1_instances_edit')]
+    #[Route('/edit/{id}', name: 'admin_v1_dashboard_instances_edit')]
     public function edit(Request $request, Instance $id): Response
     {
         $instance = $id;
@@ -140,7 +140,7 @@ class InstanceController extends PlatformController
         ]);
     }
 
-    #[Route('/switch/{instance}', name: 'admin_v1_instances_switch')]
+    #[Route('/switch/{instance}', name: 'admin_v1_dashboard_instances_switch')]
     public function switch(Instance $instance)
     {
         $instance = $this->doctrine->getRepository(Instance::class)->find($instance);
@@ -157,11 +157,11 @@ class InstanceController extends PlatformController
         $this->addFlash('success', $this->translator->trans('action.saved'));
         setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('admin_v1_dashboard_homepage');
     }
 
 
-    #[Route('/add', name: 'admin_v1_instances_add')]
+    #[Route('/add', name: 'admin_v1_dashboard_instances_add')]
     public function add(Request $request): Response
     {
         $instance = new Instance();
@@ -184,7 +184,7 @@ class InstanceController extends PlatformController
     }
 
     // show instance users
-    #[Route('/users', name: 'admin_v1_instances_users')]
+    #[Route('/users', name: 'admin_v1_dashboard_instances_users')]
     public function showUsers(): Response
     {
         $instance = $this->doctrine->getRepository(Instance::class)->find($this->currentInstance);
@@ -229,7 +229,7 @@ class InstanceController extends PlatformController
     }
 
     // show current instance intranet content with content.html.twig template
-    #[Route('/intranet', name: 'admin_v1_instances_intranet')]
+    #[Route('/intranet', name: 'admin_v1_dashboard_instances_intranet')]
     public function intranet(): Response
     {
         $instance = $this->doctrine->getRepository(Instance::class)->find($this->currentInstance);

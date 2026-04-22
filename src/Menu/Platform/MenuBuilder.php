@@ -26,7 +26,7 @@ class MenuBuilder
         // Always start with Home
         $breadcrumbs[] = [
             'label' => 'Home',
-            'route' => 'admin_v1_shop_webshop_index',
+            'route' => 'admin_v1_dashboard_webshop_index',
             'url'   => null, // resolved in Twig via path()
             'active' => false, // ← add this
         ];
@@ -142,12 +142,12 @@ class MenuBuilder
                             [
                                 'label' => 'áttekintés',
                                 'icon' => 'bi bi-house',
-                                'route' => 'homepage'
+                                'route' => 'admin_v1_dashboard_homepage'
                             ],
                             [
                                 'label' => 'intranet',
                                 'icon' => 'bi bi-info-square',
-                                'route' => 'admin_v1_instances_intranet'
+                                'route' => 'admin_v1_dashboard_instances_intranet'
                             ],
                         ]
                     ],
@@ -163,17 +163,17 @@ class MenuBuilder
                             [
                                 'label' => 'Domain',
                                 'icon'  => 'bi bi-link-45deg',
-                                'route' => 'admin_v1_domains'
+                                'route' => 'admin_v1_dashboard_domains'
                             ],
                             [
                                 'label' => 'Honlap',
                                 'icon'  => 'bi bi-globe',
-                                'route' => 'admin_v1_website_index'
+                                'route' => 'admin_v1_dashboard_website_index'
                             ],
                             [
                                 'label' => 'Webáruház',
                                 'icon'  => 'bi bi-cart',
-                                'route' => 'admin_v1_shop_webshop_index'
+                                'route' => 'admin_v1_dashboard_webshop_index'
                             ],
                             [
                                 'label' => 'Webalkalmazás',
@@ -188,7 +188,7 @@ class MenuBuilder
                             [
                                 'label' => 'API',
                                 'icon'  => 'bi bi-code-slash',
-                                'route' => 'admin_v1_api_index'
+                                'route' => 'admin_v1_dashboard_api_index'
                             ],
                         ]
                     ],
@@ -212,11 +212,11 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'Összes blokk',
-                                        'route' => 'admin_v1_block_index'
+                                        'route' => 'admin_v1_cms_block_index'
                                     ],
                                     [
                                         'label' => 'új blokk hozzáadása',
-                                        'route' => 'admin_v1_block_new'
+                                        'route' => 'admin_v1_cms_block_new'
                                     ],
                                 ]
                             ],
@@ -227,15 +227,15 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'Összes bejegyzés',
-                                        'route' => 'admin_v1_website_posts'
+                                        'route' => 'admin_v1_cms_website_posts'
                                     ],
                                     [
                                         'label' => 'bejegyzés hozzáadása',
-                                        'route' => 'admin_v1_website_post_new'
+                                        'route' => 'admin_v1_cms_website_post_new'
                                     ],
                                     [
                                         'label' => 'bejegyzés kategóriák',
-                                        'route' => 'admin_v1_website_categories'
+                                        'route' => 'admin_v1_cms_website_categories'
                                     ],
                                     [
                                         'label' => 'címkék',
@@ -250,15 +250,15 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'Összes esemény',
-                                        'route' => 'admin_event_index'
+                                        'route' => 'admin_v1_cms_event_index'
                                     ],
                                     [
                                         'label' => 'esemény hozzáadása',
-                                        'route' => 'admin_event_new'
+                                        'route' => 'admin_v1_cms_event_new'
                                     ],
                                     [
                                         'label' => 'események importálása',
-                                        'route' => 'admin_event_import'
+                                        'route' => 'admin_v1_cms_event_import'
                                     ],
                                     [
                                         'label' => 'esemény helyszínek',
@@ -281,11 +281,11 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'Összes média',
-                                        'route' => 'admin_v1_media'
+                                        'route' => 'admin_v1_cms_media'
                                     ],
                                     [
                                         'label' => 'média hozzáadása',
-                                        'route' => 'admin_v1_media_new'
+                                        'route' => 'admin_v1_cms_media_new'
                                     ],
                                     [
                                         'label' => 'média kategóriák',
@@ -304,11 +304,11 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'Összes oldal',
-                                        'route' => 'admin_v1_website_pages'
+                                        'route' => 'admin_v1_cms_website_pages'
                                     ],
                                     [
                                         'label' => 'új oldal hozzáadása',
-                                        'route' => 'admin_v1_website_page_new'
+                                        'route' => 'admin_v1_cms_website_page_new'
                                     ],
                                 ]
                             ],
@@ -336,7 +336,7 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'Menük',
-                                        'route' => 'admin_v1_website_menus'
+                                        'route' => 'admin_v1_cms_website_menus'
                                     ],
                                     [
                                         'label' => 'Sablonok',
@@ -392,15 +392,15 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'minden termék',
-                                        'route' => 'ecom_v1_products'
+                                        'route' => 'admin_v1_shop_products'
                                     ],
                                     [
                                         'label' => 'új termék hozzáadás',
-                                        'route' => 'ecom_v1_products_new'
+                                        'route' => 'admin_v1_shop_products_new'
                                     ],
                                     [
                                         'label' => 'termék kategóriák',
-                                        'route' => 'ecom_v1_product_categories'
+                                        'route' => 'admin_v1_shop_product_categories'
                                     ],
                                 ]
                             ],
@@ -411,7 +411,7 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'összes rendelés',
-                                        'route' => 'ecom_order_index'
+                                        'route' => 'admin_v1_shop_order_index'
                                     ],
                                 ]
                             ],
@@ -428,15 +428,15 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'fizetési módok',
-                                        'route' => 'admin_v1_webshop_paymentmethod_index'
+                                        'route' => 'admin_v1_shop_webshop_paymentmethod_index'
                                     ],
                                     [
                                         'label' => 'szállítási módok',
-                                        'route' => 'admin_v1_webshop_shippingmethod_index'
+                                        'route' => 'admin_v1_shop_webshop_shippingmethod_index'
                                     ],
                                     [
                                         'label' => 'rendelés e-mail sablonok',
-                                        'route' => 'admin_v1_order_email_index',
+                                        'route' => 'admin_v1_shop_order_email_index',
                                     ]
                                 ]
                             ],
@@ -482,7 +482,7 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'események importálása',
-                                'route' => 'admin_event_import',
+                                'route' => 'admin_v1_cms_event_import',
                                 'icon' => 'bi bi-calendar-event',
                             ],
                             [
@@ -509,7 +509,7 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Személyes tárhely',
-                                'route' => 'admin_v1_media_user_index',
+                                'route' => 'admin_v1_cms_media_user_index',
                                 'icon' => 'bi bi-hdd',
 
                             ],

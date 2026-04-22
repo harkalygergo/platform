@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/webshop/shipping-methods')]
 class ShippingMethodController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_webshop_shippingmethod_index')]
+    #[Route('/', name: 'admin_v1_shop_webshop_shippingmethod_index')]
     public function index(Request $request): Response
     {
         $paymentMethods = $this->doctrine->getRepository(ShippingMethod::class)->findBy([
@@ -41,7 +41,7 @@ class ShippingMethodController extends PlatformController
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_webshop_shippingmethod_add')]
+    #[Route('/new/', name: 'admin_v1_shop_webshop_shippingmethod_add')]
     public function add(Request $request): Response
     {
         $paymentMethod = new ShippingMethod();
@@ -54,7 +54,7 @@ class ShippingMethodController extends PlatformController
             $this->doctrine->getManager()->persist($paymentMethod);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_webshop_shippingmethod_index');
+            return $this->redirectToRoute('admin_v1_shop_webshop_shippingmethod_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -65,7 +65,7 @@ class ShippingMethodController extends PlatformController
     }
 
     // add edit and delete methods as needed
-    #[Route('/edit/{id}/', name: 'admin_v1_webshop_shippingmethod_edit')]
+    #[Route('/edit/{id}/', name: 'admin_v1_shop_webshop_shippingmethod_edit')]
     public function edit(Request $request, int $id): Response
     {
         $paymentMethod = $this->doctrine->getRepository(ShippingMethod::class)->find($id);
@@ -81,7 +81,7 @@ class ShippingMethodController extends PlatformController
             $paymentMethod->setUpdatedAt(new \DateTime());
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_webshop_shippingmethod_index');
+            return $this->redirectToRoute('admin_v1_shop_webshop_shippingmethod_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -91,25 +91,25 @@ class ShippingMethodController extends PlatformController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'admin_v1_webshop_shippingmethod_delete')]
+    #[Route('/delete/{id}', name: 'admin_v1_shop_webshop_shippingmethod_delete')]
     public function delete(Request $request, int $id): Response
     {
         $paymentMethod = $this->doctrine->getRepository(ShippingMethod::class)->find($id);
         if (!$paymentMethod) {
             $this->addFlash('error', 'Not found');
-            return $this->redirectToRoute('admin_v1_webshop_shippingmethod_index');
+            return $this->redirectToRoute('admin_v1_shop_webshop_shippingmethod_index');
         }
 
         // check if payment method instance matches current instance
         if ($paymentMethod->getInstance() !== $this->currentInstance) {
             $this->addFlash('danger', $this->translator->trans('You do not have permission'));
-            return $this->redirectToRoute('admin_v1_webshop_shippingmethod_index');
+            return $this->redirectToRoute('admin_v1_shop_webshop_shippingmethod_index');
         }
 
         $em = $this->doctrine->getManager();
         $em->remove($paymentMethod);
         $em->flush();
         $this->addFlash('success', 'Deleted successfully');
-        return $this->redirectToRoute('admin_v1_webshop_shippingmethod_index');
+        return $this->redirectToRoute('admin_v1_shop_webshop_shippingmethod_index');
     }
 }

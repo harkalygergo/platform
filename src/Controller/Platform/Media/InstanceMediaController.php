@@ -18,7 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[IsGranted(User::ROLE_USER)]
 class InstanceMediaController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_media_instance_index')]
+    #[Route('/', name: 'admin_v1_cms_media_instance_index')]
     public function index(Request $request, MediaRepository $mediaRepository): Response
     {
         $medias = $mediaRepository->findBy(['instance' => $this->currentInstance]);
@@ -45,7 +45,7 @@ class InstanceMediaController extends PlatformController
         ]);
     }
 
-    #[Route('/new', name: 'admin_v1_media_instance_new')]
+    #[Route('/new', name: 'admin_v1_cms_media_instance_new')]
     public function new(Request $request, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(MediaType::class);
@@ -87,13 +87,13 @@ class InstanceMediaController extends PlatformController
                     } catch (FileException $e) {
                         // Handle exception if something happens during file upload
                         $this->addFlash('danger', 'Failed to upload file.');
-                        return $this->redirectToRoute('admin_v1_media_instance_index');
+                        return $this->redirectToRoute('admin_v1_cms_media_instance_index');
                     }
                 }
 
                 $this->addFlash('success', 'File(s) uploaded successfully.');
 
-                return $this->redirectToRoute('admin_v1_media_instance_index');
+                return $this->redirectToRoute('admin_v1_cms_media_instance_index');
             }
         }
 
@@ -104,13 +104,13 @@ class InstanceMediaController extends PlatformController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'admin_v1_media_instance_delete')]
+    #[Route('/delete/{id}', name: 'admin_v1_cms_media_instance_delete')]
     public function delete(int $id): Response
     {
         $media = $this->doctrine->getRepository(Media::class)->find($id);
         if (!$media) {
             $this->addFlash('danger', 'Media not found.');
-            return $this->redirectToRoute('admin_v1_media_instance_index');
+            return $this->redirectToRoute('admin_v1_cms_media_instance_index');
         }
 
         // remove the media file from the filesystem
@@ -124,6 +124,6 @@ class InstanceMediaController extends PlatformController
         $this->doctrine->getManager()->flush();
 
         $this->addFlash('success', 'Media deleted successfully.');
-        return $this->redirectToRoute('admin_v1_media_instance_index');
+        return $this->redirectToRoute('admin_v1_cms_media_instance_index');
     }
 }

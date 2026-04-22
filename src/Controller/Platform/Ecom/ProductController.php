@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends PlatformController
 {
-    #[Route('/{_locale}/ecom/v1/products/', name: 'ecom_v1_products')]
+    #[Route('/{_locale}/ecom/v1/products/', name: 'admin_v1_shop_products')]
     public function index(Request $request): Response
     {
         if (!$this->getUser()) {
@@ -47,7 +47,7 @@ class ProductController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/ecom/v1/products/new', name: 'ecom_v1_products_new')]
+    #[Route('/{_locale}/ecom/v1/products/new', name: 'admin_v1_shop_products_new')]
     public function new(Request $request): Response
     {
         // handle form submission
@@ -63,7 +63,7 @@ class ProductController extends PlatformController
             $this->doctrine->getManager()->persist($entity);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('ecom_v1_products');
+            return $this->redirectToRoute('admin_v1_shop_products');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -73,7 +73,7 @@ class ProductController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/ecom/v1/products/edit/{id}', name: 'ecom_v1_products_edit')]
+    #[Route('/{_locale}/ecom/v1/products/edit/{id}', name: 'admin_v1_shop_products_edit')]
     public function edit(Request $request, $id): Response
     {
         $product = $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->find($id);
@@ -90,7 +90,7 @@ class ProductController extends PlatformController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('ecom_v1_products');
+            return $this->redirectToRoute('admin_v1_shop_products');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [

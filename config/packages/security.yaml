@@ -27,7 +27,7 @@ security:
                 csrf_token_id: authenticate
                 username_parameter: _username
                 password_parameter: _password
-                default_target_path: homepage
+                default_target_path: admin_v1_dashboard_homepage
 
             remember_me:
                 secret: '%kernel.secret%'

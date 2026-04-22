@@ -24,7 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/admin/v1/website/pages')]
 class WebsitePageController extends PlatformController
 {
-    #[Route('/view/{id}', name: 'admin_v1_website_pages_view')]
+    #[Route('/view/{id}', name: 'admin_v1_cms_website_pages_view')]
     public function view(WebsitePage $id): Response
     {
         /*
@@ -41,7 +41,7 @@ class WebsitePageController extends PlatformController
         return $this->redirect($url);
     }
 
-    #[Route('/', name: 'admin_v1_website_pages')]
+    #[Route('/', name: 'admin_v1_cms_website_pages')]
     public function index(WebsitePageRepository $websitePageRepository): Response
     {
         //$pagesByWebsite = $websitePageRepository->findByWebsiteId($id->getId());
@@ -70,14 +70,14 @@ class WebsitePageController extends PlatformController
             ],
             'extraActions' => [
                 'deploy' => [
-                    'route' => 'admin_v1_website_page_deploy',
+                    'route' => 'admin_v1_cms_website_page_deploy',
                     'label' => '&lt/&gt; Deploy',
                 ]
             ]
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_website_page_new')]
+    #[Route('/new/', name: 'admin_v1_cms_website_page_new')]
     public function new(Request $request): Response
     {
         $form = $this->createForm(WebsitePageType::class);
@@ -98,12 +98,12 @@ class WebsitePageController extends PlatformController
             $this->doctrine->getManager()->flush();
 
             if ($form->get('saveAndDeploy')->isClicked()) {
-                return $this->redirectToRoute('admin_v1_website_page_deploy', [
+                return $this->redirectToRoute('admin_v1_cms_website_page_deploy', [
                     'id' => $websitePage->getId(),
                 ]);
             }
 
-            return $this->redirectToRoute('admin_v1_website_pages', [
+            return $this->redirectToRoute('admin_v1_cms_website_pages', [
                 //'id' => $id->getId(),
             ]);
         }
@@ -116,7 +116,7 @@ class WebsitePageController extends PlatformController
     }
 
     // create edit function
-    #[Route('/edit/{page}', name: 'admin_v1_website_page_edit')]
+    #[Route('/edit/{page}', name: 'admin_v1_cms_website_page_edit')]
     public function edit(Request $request, WebsitePage $page): Response
     {
         $form = $this->createForm(WebsitePageType::class, $page);
@@ -126,12 +126,12 @@ class WebsitePageController extends PlatformController
             $this->doctrine->getManager()->flush();
 
             if ($form->get('saveAndDeploy')->isClicked()) {
-                return $this->redirectToRoute('admin_v1_website_page_deploy', [
+                return $this->redirectToRoute('admin_v1_cms_website_page_deploy', [
                     'id' => $page->getId(),
                 ]);
             }
 
-            return $this->redirectToRoute('admin_v1_website_pages', [
+            return $this->redirectToRoute('admin_v1_cms_website_pages', [
                 //'id' => $id->getId(),
             ]);
         }
@@ -143,7 +143,7 @@ class WebsitePageController extends PlatformController
         ]);
     }
 
-    #[Route('/delete/{page}', name: 'admin_v1_website_page_delete')]
+    #[Route('/delete/{page}', name: 'admin_v1_cms_website_page_delete')]
     public function delete(Request $request, WebsitePage $page): Response
     {
         /*
@@ -163,7 +163,7 @@ class WebsitePageController extends PlatformController
             $this->doctrine->getManager()->flush();
         //}
 
-        return $this->redirectToRoute('admin_v1_website_pages', [
+        return $this->redirectToRoute('admin_v1_cms_website_pages', [
             //'id' => $id->getId(),
         ]);
     }
@@ -353,7 +353,7 @@ class WebsitePageController extends PlatformController
         return $this->render('platform/backend/v1/form.html.twig', $data);
     }
 
-    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_website_page_multiple')]
+    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_cms_website_page_multiple')]
     public function multiple(Request $request, \App\Entity\Platform\Website\Website $id, string $action, string $ids)
     {
         $idsArray = explode(',', $ids);
@@ -372,7 +372,7 @@ class WebsitePageController extends PlatformController
                 throw new \Exception('Unknown action: ' . $action);
         }
 
-        return $this->redirectToRoute('admin_v1_website_pages', [
+        return $this->redirectToRoute('admin_v1_cms_website_pages', [
             'id' => $request->get('id'),
         ]);
     }

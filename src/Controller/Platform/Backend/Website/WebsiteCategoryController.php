@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/website/categories')]
 class WebsiteCategoryController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_website_categories')]
+    #[Route('/', name: 'admin_v1_cms_website_categories')]
     public function index(/*\App\Entity\Platform\Website\Website $id, */WebsiteCategoryRepository $websiteCategoryRepository): Response
     {
         // get instance first website
@@ -41,7 +41,7 @@ class WebsiteCategoryController extends PlatformController
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_website_category_new')]
+    #[Route('/new/', name: 'admin_v1_cms_website_category_new')]
     public function new(Request $request/*, \App\Entity\Platform\Website\Website $id*/): Response
     {
         // get instance first website
@@ -56,7 +56,7 @@ class WebsiteCategoryController extends PlatformController
             $this->doctrine->getManager()->persist($websiteCategory);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_website_categories', [
+            return $this->redirectToRoute('admin_v1_cms_website_categories', [
                 'id' => $id->getId(),
             ]);
         }
@@ -69,7 +69,7 @@ class WebsiteCategoryController extends PlatformController
     }
 
     // create edit function
-    #[Route('/edit/{id}', name: 'admin_v1_website_category_edit')]
+    #[Route('/edit/{id}', name: 'admin_v1_cms_website_category_edit')]
     public function edit(Request $request, \App\Entity\Platform\Website\WebsiteCategory $id/*, WebsiteCategory $page*/): Response
     {
         $form = $this->createForm(WebsiteCategoryType::class, $id);
@@ -78,7 +78,7 @@ class WebsiteCategoryController extends PlatformController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_website_categories', [
+            return $this->redirectToRoute('admin_v1_cms_website_categories', [
                 'id' => $id->getId(),
             ]);
         }
@@ -90,7 +90,7 @@ class WebsiteCategoryController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/delete/{page}', name: 'admin_v1_website_category_delete')]
+    #[Route('/{id}/delete/{page}', name: 'admin_v1_cms_website_category_delete')]
     public function delete(Request $request, \App\Entity\Platform\Website\Website $id, WebsiteCategory $page): Response
     {
         // check if page's website is the same as the current website
@@ -108,12 +108,12 @@ class WebsiteCategoryController extends PlatformController
         $this->doctrine->getManager()->flush();
         //}
 
-        return $this->redirectToRoute('admin_v1_website_categories', [
+        return $this->redirectToRoute('admin_v1_cms_website_categories', [
             'id' => $id->getId(),
         ]);
     }
 
-    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_website_category_multiple')]
+    #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_cms_website_category_multiple')]
     public function multiple(Request $request, \App\Entity\Platform\Website\Website $id, string $action, string $ids): Response
     {
         $idsArray = explode(',', $ids);
@@ -133,7 +133,7 @@ class WebsiteCategoryController extends PlatformController
 
         $this->doctrine->getManager()->flush();
 
-        return $this->redirectToRoute('admin_v1_website_categories', [
+        return $this->redirectToRoute('admin_v1_cms_website_categories', [
             'id' => $id->getId(),
         ]);
     }

@@ -52,14 +52,14 @@ final class SecurityController extends AbstractController
                 setcookie('currentInstance', $defaultInstance->getId(), time() + 60 * 60 * 24 * 30, '/');
             }
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('admin_v1_dashboard_homepage');
         }
 
         // this statement solves an edge-case: if you change the locale in the login
         // page, after a successful login you are redirected to a page in the previous
         // locale. This code regenerates the referrer URL whenever the login page is
         // browsed, to ensure that its locale is always the current one.
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
+        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('admin_v1_dashboard_homepage'));
 
         return $this->render('platform/frontend/login.html.twig', [
             'title' => $_ENV['APP_TITLE'] ?? '',
