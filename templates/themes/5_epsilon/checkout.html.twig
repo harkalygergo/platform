@@ -202,7 +202,7 @@
                     {% set items = items ~ cartItem.name ~ ',' %}
                     <li>
                         <strong>{{ cartItem.name }}</strong><br>
-                        {{ cartItem.qty }} * {{ cartItem.price|format_number(locale='hu') }} = {{ (cartItem.qty * cartItem.price)|format_currency('HUF', { locale: 'hu' }) }}
+                        {{ cartItem.qty }} * {{ cartItem.price|format_number(locale='hu') }} = {{ (cartItem.qty * cartItem.price)|format_number(locale='hu') }}
                     </li>
                 {% endfor %}
                 <li><strong>Szállítás</strong><br>2 490,- forint</li>
