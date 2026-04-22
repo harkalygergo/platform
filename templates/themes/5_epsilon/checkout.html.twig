@@ -131,7 +131,7 @@
                         </div>
                         <div class="col col-12 col-md-6">
                             <div class="mb-1" id="billingVatNumberInput" style="display: none;">
-                                <label for="billingVatNumber" class="form-label">Adószám (opcionális)</label>
+                                <label for="billingVatNumber" class="form-label">Adószám *</label>
                                 <input type="text" class="form-control" id="billingVatNumber" name="billingVatNumber">
                             </div>
                         </div>
@@ -202,12 +202,12 @@
                     {% set items = items ~ cartItem.name ~ ',' %}
                     <li>
                         <strong>{{ cartItem.name }}</strong><br>
-                        {{ cartItem.qty }} * {{ cartItem.price|format_number(locale='hu') }} = {{ (cartItem.qty * cartItem.price)|format_number(locale='hu') }}
+                        {{ cartItem.qty }} x {{ cartItem.price|format_currency('HUF', {'fraction_digit': 0}, 'hu') }} = {{ (cartItem.qty * cartItem.price)|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}
                     </li>
                 {% endfor %}
-                <li><strong>Szállítás</strong><br>2 490,- forint</li>
+                <li><strong>Szállítás</strong><br>{{ shippingMethods.first.fee|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</li>
             </ul>
-            <p class="border-top text-center pt-4 fs-3 fw-bold">{{ sum|format_number(locale='hu') }},- forint</p>
+            <p class="border-top text-center pt-4 fs-3 fw-bold">{{ sum|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</p>
         </div>
     </div>
     <input type="hidden" name="honeypot" value="">
