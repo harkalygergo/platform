@@ -205,7 +205,7 @@ class WebsiteController extends PlatformController
         if (!is_dir('/tmp/' . $website->getId())) {
             mkdir('/tmp/' . $website->getId());
         }
-        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+        $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode());
 
         $this->addFlash('success', '<strong>'.$websitePost->getTitle().'</strong> bejegyzés sikeresen közzétéve');
         return $this->redirectToRoute('admin_v1_website_posts');
@@ -231,7 +231,7 @@ class WebsiteController extends PlatformController
         if (!is_dir('/tmp/' . $website->getId())) {
             mkdir('/tmp/' . $website->getId());
         }
-        $this->deployProducts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+        $this->deployProducts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode());
 
         $this->addFlash('success', '<strong>'.$product->getName().'</strong> termék sikeresen közzétéve');
         return $this->redirectToRoute('ecom_v1_products');
@@ -256,7 +256,7 @@ class WebsiteController extends PlatformController
         if (!is_dir('/tmp/' . $website->getId())) {
             mkdir('/tmp/' . $website->getId());
         }
-        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products);
+        $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode());
 
         $this->addFlash('success', '<strong>'.$websitePage->getTitle(). '</strong> oldal sikeresen közzétéve');
 

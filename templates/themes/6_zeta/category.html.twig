@@ -6,7 +6,7 @@
     {% for post in content.posts %}
         <h2>{{ post.title|raw }}</h2>
         <p>{{ post.metaDescription|raw }}</p>
-        <p><a href="{{ content.slug }}/{{ post.slug }}">{{ post.title|raw }} &raquo;</a></p>
+        <p><a href="/{{ category.slug }}/{{ post.slug }}">{{ post.title|raw }} &raquo;</a></p>
         <hr>
     {% endfor %}
 
