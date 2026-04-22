@@ -1,0 +1,241 @@
+{% extends 'themes/7_eta/base.html.twig' %}
+
+{% block body %}
+
+    <!-- Featured Post -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Kiemelt cikk</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="featured-post card border-0 shadow-lg">
+                        <div class="row g-0">
+                            <div class="col-lg-6">
+                                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="img-fluid h-100 object-cover" alt="Detox program">
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card-body p-5">
+                                    <div class="post-meta mb-3">
+                                        <span class="badge bg-success me-2">Detox</span>
+                                        <span class="text-muted">2024. január 15.</span>
+                                    </div>
+                                    <h3 class="card-title fw-bold mb-3">Miért fontos a detox és hogyan kezdjük el?</h3>
+                                    <p class="card-text lead">A modern életmód során rengeteg káros anyag halmozódik fel a szervezetünkben. A detox programok segítenek megtisztítani a testet és újraéledni a természetes energiát.</p>
+                                    <p class="card-text">Ebben a cikkben megismerheti a detox alapjait, a juice fasting előnyeit és hogyan készüljön fel egy ilyen programra. Megosztjuk a legfontosabb tippeket és tanácsokat a sikeres detox programhoz.</p>
+                                    <div class="post-stats d-flex align-items-center mb-3">
+                                        <span class="text-muted me-3"><i class="fas fa-eye me-1"></i>1,234 megtekintés</span>
+                                        <span class="text-muted me-3"><i class="fas fa-comment me-1"></i>8 hozzászólás</span>
+                                        <span class="text-muted"><i class="fas fa-heart me-1"></i>24 kedvelés</span>
+                                    </div>
+                                    <a href="post.html" class="btn btn-success">Tovább olvasom</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Posts Grid -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Legfrissebb cikkek</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <!-- Blog Post 1 -->
+                <div class="col-lg-4">
+                    <div class="blog-card card h-100 border-0 shadow-sm">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="Juice receptek">
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="post-meta mb-3">
+                                <span class="badge bg-success me-2">Receptek</span>
+                                <span class="text-muted">2024. január 12.</span>
+                            </div>
+                            <h5 class="card-title fw-bold">5 finom detox juice recept</h5>
+                            <p class="card-text">Fedezze fel a legjobb juice recepteket, amelyek segítenek a szervezet tisztításában és energiával töltik fel a napot.</p>
+                            <div class="post-stats d-flex align-items-center mb-3">
+                                <span class="text-muted me-3"><i class="fas fa-eye me-1"></i>856</span>
+                                <span class="text-muted"><i class="fas fa-heart me-1"></i>12</span>
+                            </div>
+                            <a href="post.html" class="btn btn-outline-success">Olvasom</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 2 -->
+                <div class="col-lg-4">
+                    <div class="blog-card card h-100 border-0 shadow-sm">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="Yoga és meditáció">
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="post-meta mb-3">
+                                <span class="badge bg-success me-2">Wellness</span>
+                                <span class="text-muted">2024. január 10.</span>
+                            </div>
+                            <h5 class="card-title fw-bold">Yoga és meditáció a detox során</h5>
+                            <p class="card-text">Hogyan segít a yoga és meditáció a detox program során? Megismerheti a legfontosabb gyakorlatokat és technikákat.</p>
+                            <div class="post-stats d-flex align-items-center mb-3">
+                                <span class="text-muted me-3"><i class="fas fa-eye me-1"></i>1,045</span>
+                                <span class="text-muted"><i class="fas fa-heart me-1"></i>18</span>
+                            </div>
+                            <a href="post.html" class="btn btn-outline-success">Olvasom</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 3 -->
+                <div class="col-lg-4">
+                    <div class="blog-card card h-100 border-0 shadow-sm">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="Egészséges életmód">
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="post-meta mb-3">
+                                <span class="badge bg-success me-2">Életmód</span>
+                                <span class="text-muted">2024. január 8.</span>
+                            </div>
+                            <h5 class="card-title fw-bold">10 lépés az egészséges életmódhoz</h5>
+                            <p class="card-text">Egyszerű, de hatékony lépések, amelyek segítenek fenntartani az egészséges életmódot a detox program után is.</p>
+                            <div class="post-stats d-flex align-items-center mb-3">
+                                <span class="text-muted me-3"><i class="fas fa-eye me-1"></i>1,567</span>
+                                <span class="text-muted"><i class="fas fa-heart me-1"></i>32</span>
+                            </div>
+                            <a href="post.html" class="btn btn-outline-success">Olvasom</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 4 -->
+                <div class="col-lg-4">
+                    <div class="blog-card card h-100 border-0 shadow-sm">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="Stresszkezelés">
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="post-meta mb-3">
+                                <span class="badge bg-success me-2">Wellness</span>
+                                <span class="text-muted">2024. január 5.</span>
+                            </div>
+                            <h5 class="card-title fw-bold">Stresszkezelés természetes módszerekkel</h5>
+                            <p class="card-text">Megismerheti a stressz kezelésének természetes módszereit és hogyan segíthet a detox program a stressz csökkentésében.</p>
+                            <div class="post-stats d-flex align-items-center mb-3">
+                                <span class="text-muted me-3"><i class="fas fa-eye me-1"></i>923</span>
+                                <span class="text-muted"><i class="fas fa-heart me-1"></i>15</span>
+                            </div>
+                            <a href="post.html" class="btn btn-outline-success">Olvasom</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 5 -->
+                <div class="col-lg-4">
+                    <div class="blog-card card h-100 border-0 shadow-sm">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="Táplálkozás">
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="post-meta mb-3">
+                                <span class="badge bg-success me-2">Táplálkozás</span>
+                                <span class="text-muted">2024. január 3.</span>
+                            </div>
+                            <h5 class="card-title fw-bold">A zöldségek és gyümölcsök ereje</h5>
+                            <p class="card-text">Miért fontosak a friss zöldségek és gyümölcsök a detox során? Megismerheti a legfontosabb tápanyagokat és hatásukat.</p>
+                            <div class="post-stats d-flex align-items-center mb-3">
+                                <span class="text-muted me-3"><i class="fas fa-eye me-1"></i>1,234</span>
+                                <span class="text-muted"><i class="fas fa-heart me-1"></i>28</span>
+                            </div>
+                            <a href="post.html" class="btn btn-outline-success">Olvasom</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Post 6 -->
+                <div class="col-lg-4">
+                    <div class="blog-card card h-100 border-0 shadow-sm">
+                        <div class="blog-image">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" class="card-img-top" alt="Bogács gyógyvizek">
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="post-meta mb-3">
+                                <span class="badge bg-success me-2">Wellness</span>
+                                <span class="text-muted">2024. január 1.</span>
+                            </div>
+                            <h5 class="card-title fw-bold">Bogács gyógyvizei és hatásuk</h5>
+                            <p class="card-text">Ismerje meg Bogács természetes gyógyvizeinek gyógyító hatását és hogyan segítenek a detox programban.</p>
+                            <div class="post-stats d-flex align-items-center mb-3">
+                                <span class="text-muted me-3"><i class="fas fa-eye me-1"></i>1,456</span>
+                                <span class="text-muted"><i class="fas fa-heart me-1"></i>22</span>
+                            </div>
+                            <a href="post.html" class="btn btn-outline-success">Olvasom</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-5">
+                <button class="btn btn-success btn-lg">További cikkek betöltése</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="newsletter-card card border-0 shadow">
+                        <div class="card-body p-5">
+                            <h3 class="fw-bold mb-3">Iratkozzon fel hírlevelünkre</h3>
+                            <p class="lead mb-4">Kapjon értesítést a legfrissebb cikkekről és detox tippekről</p>
+                            <form id="newsletterForm" class="row g-3 justify-content-center">
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" placeholder="Email címe" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-success w-100">Feliratkozás</button>
+                                </div>
+                            </form>
+                            <small class="text-muted mt-3 d-block">Soha nem küldünk spam-et. Bármikor leiratkozhat.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Tags -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h3 class="fw-bold mb-4">Népszerű címkék</h3>
+                    <div class="tags d-flex flex-wrap justify-content-center gap-2">
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#detox</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#juice</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#wellness</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#egészség</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#yoga</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#meditáció</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#táplálkozás</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#receptek</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#életmód</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">#bogács</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

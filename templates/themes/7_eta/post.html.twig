@@ -1,0 +1,339 @@
+{% extends 'themes/7_eta/base.html.twig' %}
+
+{% block body %}
+
+    <!-- Breadcrumb -->
+    <section class="py-3 bg-light" style="margin-top: 80px;">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="index.html" class="text-success">Főoldal</a></li>
+                    <li class="breadcrumb-item"><a href="blog.html" class="text-success">Blog</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Miért fontos a detox és hogyan kezdjük el?</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Blog Post Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <article class="blog-post">
+                        <!-- Post Header -->
+                        <header class="post-header mb-5">
+                            <div class="post-meta mb-3">
+                                <span class="badge bg-success me-2">Detox</span>
+                                <span class="text-muted">2024. január 15.</span>
+                                <span class="text-muted ms-3">5 perc olvasás</span>
+                            </div>
+                            <h1 class="display-4 fw-bold mb-3">Miért fontos a detox és hogyan kezdjük el?</h1>
+                            <div class="post-stats d-flex align-items-center mb-4">
+                                <span class="text-muted me-4"><i class="fas fa-eye me-1"></i>1,234 megtekintés</span>
+                                <span class="text-muted me-4"><i class="fas fa-comment me-1"></i>8 hozzászólás</span>
+                                <span class="text-muted"><i class="fas fa-heart me-1"></i>24 kedvelés</span>
+                            </div>
+                            <div class="post-featured-image">
+                                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Detox program" class="img-fluid rounded shadow">
+                            </div>
+                        </header>
+
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <p class="lead">A modern életmód során rengeteg káros anyag halmozódik fel a szervezetünkben. A detox programok segítenek megtisztítani a testet és újraéledni a természetes energiát.</p>
+
+                            <p>A detox nem csak egy divatos trend, hanem egy olyan folyamat, amely segít a szervezetünknek megszabadulni a felhalmozódott méreganyagoktól, káros anyagoktól és toxinoktól. A mai világban, ahol környezeti szennyezés, feldolgozott ételek és stressz mindennaposak, a rendszeres detox programok egyre fontosabbak.</p>
+
+                            <h2 class="h3 fw-bold mt-5 mb-3">Miért van szükségünk detoxra?</h2>
+
+                            <p>A szervezetünk természetes méregtelenítő rendszerekkel rendelkezik, de a mai környezetben ezek gyakran túlterheltek. A következő tényezők növelik a toxinok felhalmozódását:</p>
+
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Feldolgozott ételek és adalékanyagok</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Környezeti szennyezés</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Stressz és gyors életmód</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Gyógyszerek és kémiai anyagok</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Alkohol és koffein túlzott fogyasztása</li>
+                            </ul>
+
+                            <h2 class="h3 fw-bold mt-5 mb-3">A detox előnyei</h2>
+
+                            <p>A rendszeres detox programok számos előnyt biztosítanak:</p>
+
+                            <div class="row g-4 my-4">
+                                <div class="col-md-6">
+                                    <div class="benefit-item d-flex align-items-start">
+                                        <div class="benefit-icon me-3">
+                                            <i class="fas fa-battery-full fa-2x text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold">Növelt energia</h5>
+                                            <p class="mb-0">A toxinok kiürítése után több energiát érzünk és jobban érezzük magunkat.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="benefit-item d-flex align-items-start">
+                                        <div class="benefit-icon me-3">
+                                            <i class="fas fa-brain fa-2x text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold">Jobb koncentráció</h5>
+                                            <p class="mb-0">A tisztított szervezet jobban tud koncentrálni és tisztábban gondolkodni.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="benefit-item d-flex align-items-start">
+                                        <div class="benefit-icon me-3">
+                                            <i class="fas fa-heart fa-2x text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold">Erősített immunrendszer</h5>
+                                            <p class="mb-0">A detox segít az immunrendszer erősítésében és a betegségek elleni védelemben.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="benefit-item d-flex align-items-start">
+                                        <div class="benefit-icon me-3">
+                                            <i class="fas fa-leaf fa-2x text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bold">Egészséges bőr</h5>
+                                            <p class="mb-0">A tisztított szervezet eredménye gyakran fényesebb, egészségesebb bőr.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2 class="h3 fw-bold mt-5 mb-3">Hogyan kezdjük el a detoxot?</h2>
+
+                            <p>A detox program megkezdése előtt fontos, hogy megfelelően felkészüljünk. Íme a legfontosabb lépések:</p>
+
+                            <h3 class="h4 fw-bold mt-4 mb-3">1. Előkészítés</h3>
+                            <p>Egy hét a detox előtt csökkentsük a koffein és alkohol fogyasztását. Kezdjük el több gyümölcsöt és zöldséget enni, kerüljük a feldolgozott ételeket.</p>
+
+                            <h3 class="h4 fw-bold mt-4 mb-3">2. Juice fasting program</h3>
+                            <p>A juice fasting során friss gyümölcsökből és zöldségekből készült juice-okat fogyasztunk. Ez biztosítja a szükséges vitaminokat és ásványi anyagokat, miközben a szervezet tisztul.</p>
+
+                            <div class="alert alert-success mt-4">
+                                <i class="fas fa-lightbulb me-2"></i>
+                                <strong>Tipp:</strong> A Vitalitásház Bogács 6, 8 és 10 napos detox programjai segítenek a biztonságos és hatékony méregtelenítésben.
+                            </div>
+
+                            <h3 class="h4 fw-bold mt-4 mb-3">3. Támogató tevékenységek</h3>
+                            <p>A detox során fontos a megfelelő testmozgás és relaxáció. Yoga, meditáció és természetjárás segíthet a folyamatban.</p>
+
+                            <h2 class="h3 fw-bold mt-5 mb-3">Mire számíthatunk a detox során?</h2>
+
+                            <p>A detox program első napjain éhségérzet és gyengeség tapasztalható, ami normális. A harmadik nap körül kezdődik a "detox krízis", amikor a szervezet elkezdi kiüríteni a káros anyagokat.</p>
+
+                            <p>A program közepén javul a közérzet, növekszik az energia és tisztább lesz a gondolkodás. A program végén teljes regenerálódás, magas energiaszint és új életmód iránti motiváció tapasztalható.</p>
+
+                            <h2 class="h3 fw-bold mt-5 mb-3">Program utáni tanácsok</h2>
+
+                            <p>A detox program után fontos a fokozatos visszatérés a normál táplálkozáshoz. Kezdjük könnyű, főleg zöldség alapú ételekkel, kerüljük a feldolgozott ételeket és cukrot.</p>
+
+                            <div class="call-to-action bg-light p-4 rounded mt-5">
+                                <h4 class="fw-bold mb-3">Készen állsz a változásra?</h4>
+                                <p class="mb-3">Csatlakozz a Vitalitásház Bogács detox programjaihoz és indulj el az egészséges életmód útján!</p>
+                                <a href="contact.html" class="btn btn-success">Foglalás most</a>
+                            </div>
+                        </div>
+
+                        <!-- Post Footer -->
+                        <footer class="post-footer mt-5 pt-4 border-top">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="post-tags">
+                                        <span class="fw-bold me-2">Címkék:</span>
+                                        <a href="#" class="btn btn-outline-secondary btn-sm me-1">#detox</a>
+                                        <a href="#" class="btn btn-outline-secondary btn-sm me-1">#juice</a>
+                                        <a href="#" class="btn btn-outline-secondary btn-sm me-1">#egészség</a>
+                                        <a href="#" class="btn btn-outline-secondary btn-sm">#életmód</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-md-end">
+                                    <div class="social-share">
+                                        <span class="fw-bold me-2">Ossza meg:</span>
+                                        <a href="#" class="btn btn-outline-primary btn-sm me-1"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="#" class="btn btn-outline-info btn-sm me-1"><i class="fab fa-twitter"></i></a>
+                                        <a href="#" class="btn btn-outline-success btn-sm me-1"><i class="fab fa-whatsapp"></i></a>
+                                        <a href="#" class="btn btn-outline-secondary btn-sm"><i class="fas fa-link"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+                    </article>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <div class="sidebar">
+                        <!-- Author Card -->
+                        <div class="sidebar-card card border-0 shadow-sm mb-4">
+                            <div class="card-body p-4">
+                                <div class="author-info text-center">
+                                    <div class="author-avatar mb-3">
+                                        <i class="fas fa-user-circle fa-4x text-success"></i>
+                                    </div>
+                                    <h5 class="fw-bold">Dr. Kovács Anna</h5>
+                                    <p class="text-muted mb-3">Orvos, Detox szakértő</p>
+                                    <p class="small">15 éves tapasztalattal a természetes gyógyászatban. Speciális területe a detox programok és az egészséges életmód tanácsadás.</p>
+                                    <div class="author-social">
+                                        <a href="#" class="text-success me-2"><i class="fab fa-linkedin"></i></a>
+                                        <a href="#" class="text-success me-2"><i class="fab fa-facebook"></i></a>
+                                        <a href="#" class="text-success"><i class="fab fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Related Posts -->
+                        <div class="sidebar-card card border-0 shadow-sm mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">Kapcsolódó cikkek</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="related-post p-3 border-bottom">
+                                    <h6 class="fw-bold mb-2">
+                                        <a href="post.html" class="text-decoration-none text-dark">5 finom detox juice recept</a>
+                                    </h6>
+                                    <small class="text-muted">2024. január 12.</small>
+                                </div>
+                                <div class="related-post p-3 border-bottom">
+                                    <h6 class="fw-bold mb-2">
+                                        <a href="post.html" class="text-decoration-none text-dark">Yoga és meditáció a detox során</a>
+                                    </h6>
+                                    <small class="text-muted">2024. január 10.</small>
+                                </div>
+                                <div class="related-post p-3">
+                                    <h6 class="fw-bold mb-2">
+                                        <a href="post.html" class="text-decoration-none text-dark">10 lépés az egészséges életmódhoz</a>
+                                    </h6>
+                                    <small class="text-muted">2024. január 8.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Newsletter Signup -->
+                        <div class="sidebar-card card border-0 shadow-sm mb-4">
+                            <div class="card-body p-4 text-center">
+                                <h5 class="fw-bold mb-3">Iratkozzon fel hírlevelünkre</h5>
+                                <p class="small text-muted mb-3">Kapjon értesítést a legfrissebb cikkekről és detox tippekről</p>
+                                <form class="newsletter-form">
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" placeholder="Email címe" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">Feliratkozás</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Popular Tags -->
+                        <div class="sidebar-card card border-0 shadow-sm">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">Népszerű címkék</h5>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="tags d-flex flex-wrap gap-1">
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">#detox</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">#juice</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">#wellness</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">#egészség</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">#yoga</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">#meditáció</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">#táplálkozás</a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">#receptek</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="comments-section">
+                        <h3 class="fw-bold mb-4">Hozzászólások (8)</h3>
+
+                        <!-- Comment 1 -->
+                        <div class="comment card border-0 shadow-sm mb-3">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-start">
+                                    <div class="comment-avatar me-3">
+                                        <i class="fas fa-user-circle fa-2x text-success"></i>
+                                    </div>
+                                    <div class="comment-content flex-grow-1">
+                                        <div class="comment-header d-flex justify-content-between align-items-center mb-2">
+                                            <h6 class="fw-bold mb-0">Kovács Mária</h6>
+                                            <small class="text-muted">2024. január 16.</small>
+                                        </div>
+                                        <p class="mb-2">Nagyon informatív cikk! Én is tervezek detox programot, és ez sokat segített a felkészülésben.</p>
+                                        <div class="comment-actions">
+                                            <a href="#" class="btn btn-outline-success btn-sm me-2">Válasz</a>
+                                            <a href="#" class="btn btn-outline-danger btn-sm"><i class="fas fa-heart"></i> 3</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comment 2 -->
+                        <div class="comment card border-0 shadow-sm mb-3">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-start">
+                                    <div class="comment-avatar me-3">
+                                        <i class="fas fa-user-circle fa-2x text-success"></i>
+                                    </div>
+                                    <div class="comment-content flex-grow-1">
+                                        <div class="comment-header d-flex justify-content-between align-items-center mb-2">
+                                            <h6 class="fw-bold mb-0">Nagy Péter</h6>
+                                            <small class="text-muted">2024. január 15.</small>
+                                        </div>
+                                        <p class="mb-2">Köszönöm a részletes leírást! A Vitalitásház programjai valóban kiválóak, én is ott voltam tavaly.</p>
+                                        <div class="comment-actions">
+                                            <a href="#" class="btn btn-outline-success btn-sm me-2">Válasz</a>
+                                            <a href="#" class="btn btn-outline-danger btn-sm"><i class="fas fa-heart"></i> 5</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add Comment Form -->
+                        <div class="add-comment card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-3">Hozzászólás írása</h5>
+                                <form class="comment-form">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" placeholder="Név" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="email" class="form-control" placeholder="Email cím" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <textarea class="form-control" rows="4" placeholder="Hozzászólás..." required></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-success">Hozzászólás küldése</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
