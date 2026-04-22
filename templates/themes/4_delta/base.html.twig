@@ -52,11 +52,11 @@
                 <div class="container-fluid">
 
                     <a href="/" class="navbar-brand d-flex align-items-center mb-2 mb-lg-0 text-dark text-center text-decoration-none">
-                        <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" style="max-height: 3rem;">
+                        {% if website.logo %}
+                            <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" style="max-height: 3rem;">
+                        {% endif %}
                         <span class="d-block fw-bold">{{ website.title|raw }}</span>
                     </a>
-
-
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
