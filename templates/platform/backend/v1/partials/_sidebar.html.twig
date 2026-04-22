@@ -27,7 +27,7 @@
             </script>
             {% endif %}
 
-            <div class="sidebar_menu_section" id="sidebar_menu_{{ sub1menu.label|slug }}" style="display: {% if loop.first %}display{% else %}none{% endif %};">
+            <div class="sidebar_menu_section" id="sidebar_menu_{{ sub1menu.label|slug|lower }}" style="display: {% if sub1menu.label|slug|lower == currentRouteParameters["2"] %}display{% else %}none{% endif %};">
 
                 {% if sub1menu.children is defined %}
 
