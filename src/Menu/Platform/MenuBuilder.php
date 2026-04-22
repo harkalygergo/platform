@@ -487,7 +487,7 @@ class MenuBuilder
                             ],
                             [
                                 'label' => 'WordPress importálása',
-                                'route' => 'admin_v1_wordpress_import',
+                                'route' => 'admin_v1_tools_wordpress_import',
                                 'icon' => 'bi bi-wordpress',
                             ],
 
@@ -509,7 +509,7 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Személyes tárhely',
-                                'route' => 'admin_v1_cms_media_user_index',
+                                'route' => 'admin_v1_profile_media_user_index',
                                 'icon' => 'bi bi-hdd',
 
                             ],
@@ -547,13 +547,13 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Profil szerkesztése',
-                                'route' => 'admin_v1_account_edit',
+                                'route' => 'admin_v1_profile_edit',
                                 'icon' => 'bi bi-person',
 
                             ],
                             [
                                 'label' => 'Jelszó módosítása',
-                                'route' => 'admin_v1_account_password_change',
+                                'route' => 'admin_v1_profile_password_change',
                                 'icon' => 'bi bi-calendar',
                             ],
                             [
@@ -580,7 +580,7 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Felhasználói kézikönyv',
-                                'route' => 'admin_v1_support',
+                                'route' => 'admin_v1_profile_support',
                                 'icon' => 'bi bi-person-badge',
 
                             ],

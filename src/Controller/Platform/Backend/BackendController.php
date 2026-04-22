@@ -76,7 +76,7 @@ class BackendController extends PlatformController
     }
 
     /*
-    #[Route('/{_locale}/admin/v1/dashboard', name: 'admin_v1_dashboard')]
+    #[Route('/{_locale}/admin/v1/dashboard', name: 'admin_v1_dashboard_homepage')]
     public function index(newsletterSubscriberRepository $newsletterSubscriberRepository): Response
     {
         $this->init();

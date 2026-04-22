@@ -18,7 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[IsGranted(User::ROLE_USER)]
 class UserMediaController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_cms_media_user_index')]
+    #[Route('/', name: 'admin_v1_profile_media_user_index')]
     public function index(Request $request, MediaRepository $mediaRepository): Response
     {
         $medias = $mediaRepository->findBy(['createdBy' => $this->getUser(), 'instance' => null]);
@@ -85,13 +85,13 @@ class UserMediaController extends PlatformController
                     } catch (FileException $e) {
                         // Handle exception if something happens during file upload
                         $this->addFlash('danger', 'Failed to upload file.');
-                        return $this->redirectToRoute('admin_v1_cms_media_user_index');
+                        return $this->redirectToRoute('admin_v1_profile_media_user_index');
                     }
                 }
 
                 $this->addFlash('success', 'File(s) uploaded successfully.');
 
-                return $this->redirectToRoute('admin_v1_cms_media_user_index');
+                return $this->redirectToRoute('admin_v1_profile_media_user_index');
             }
         }
 
@@ -116,6 +116,6 @@ class UserMediaController extends PlatformController
             $this->addFlash('danger', 'Media file not found or you do not have permission to delete it.');
         }
 
-        return $this->redirectToRoute('admin_v1_cms_media_user_index');
+        return $this->redirectToRoute('admin_v1_profile_media_user_index');
     }
 }

@@ -21,7 +21,7 @@ class ImportWordPressController extends PlatformController
     private string $pageURL = '/wp-json/wp/v2/pages';
     private string $categoryURL = '/wp-json/wp/v2/categories';
 
-    #[Route('/import/', name: 'admin_v1_wordpress_import')]
+    #[Route('/import/', name: 'admin_v1_tools_wordpress_import')]
     public function import(): Response
     {
         // create a new form with "domain" input and render with templates/platform/backend/v1/form.html.twig

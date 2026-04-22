@@ -36,6 +36,6 @@ class InstanceFeedController extends PlatformController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_v1_dashboard');
+        return $this->redirectToRoute('admin_v1_dashboard_homepage');
     }
 }

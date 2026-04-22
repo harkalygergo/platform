@@ -30,7 +30,7 @@ class UserController extends PlatformController
     }
     */
 
-    #[Route('/{_locale}/admin/v1/account/edit', name: 'admin_v1_account_edit')]
+    #[Route('/{_locale}/admin/v1/account/edit', name: 'admin_v1_profile_edit')]
     public function editAccount(
         #[CurrentUser] User $user,
         Request $request,
@@ -45,7 +45,7 @@ class UserController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('action.updated'));
 
-            return $this->redirectToRoute('admin_v1_account_edit', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_profile_edit', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -56,7 +56,7 @@ class UserController extends PlatformController
 
     }
 
-    #[Route('/{_locale}/admin/v1/account/password-change', name: 'admin_v1_account_password_change')]
+    #[Route('/{_locale}/admin/v1/account/password-change', name: 'admin_v1_profile_password_change')]
     public function changePassword(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
@@ -86,7 +86,7 @@ class UserController extends PlatformController
             // Add a success message and redirect
             $this->addFlash('success', $this->translator->trans('action.saved'));
 
-            return $this->redirectToRoute('admin_v1_account_password_change');
+            return $this->redirectToRoute('admin_v1_profile_password_change');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -108,7 +108,7 @@ class UserController extends PlatformController
             setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
         } else {
             $this->addFlash('danger', 'Nincs alapértelmezett instance.');
-            return $this->redirectToRoute('admin_v1_dashboard');
+            return $this->redirectToRoute('admin_v1_dashboard_homepage');
         }
 
 

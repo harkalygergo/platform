@@ -60,7 +60,7 @@ class InstanceController extends PlatformController
         if (!$user->getInstances()->contains($instance)) {
             $this->addFlash('danger', 'Önnek nincs jogosultsága.');
 
-            return $this->redirectToRoute('admin_v1_dashboard');
+            return $this->redirectToRoute('admin_v1_dashboard_homepage');
         }
 
         // use formBuilder to create a form for editing the intranet content
@@ -200,7 +200,7 @@ class InstanceController extends PlatformController
         if (!$user->getInstances()->contains($instance)) {
             $this->addFlash('danger', 'Önnek nincs jogosultsága.');
 
-            return $this->redirectToRoute('admin_v1_dashboard');
+            return $this->redirectToRoute('admin_v1_dashboard_homepage');
         }
 
         $users = $instance->getUsers();
@@ -245,7 +245,7 @@ class InstanceController extends PlatformController
         if (!$user->getInstances()->contains($instance)) {
             $this->addFlash('danger', 'Önnek nincs jogosultsága.');
 
-            return $this->redirectToRoute('admin_v1_dashboard');
+            return $this->redirectToRoute('admin_v1_dashboard_homepage');
         }
 
         return $this->render('platform/backend/v1/content.html.twig', [

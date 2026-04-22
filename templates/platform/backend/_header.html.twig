@@ -22,13 +22,13 @@
                     </li>
                 </ul>
 
-                <a class="btn text-white d-none d-sm-inline-block" href="/hu/admin/v1/dashboard">
+                <!--a class="btn text-white d-none d-sm-inline-block" href="/hu/admin/v1/dashboard">
                     <i class="bi bi-speedometer2"></i>
                 </a>
 
                 <a href="/hu/admin/v1/checkout" class="btn text-white position-relative">
                     <i class="bi bi-cart"></i>
-                </a>
+                </a-->
 
                 <div class="dropdown pt-1">
                     <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="true">
@@ -121,8 +121,8 @@
                         <span class="d-none d-sm-inline-block"> {{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ currentInstance.name }}</small></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
-                        <!--li><a class="dropdown-item" href="{{ path('admin_v1_account_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
-                        <li><a class="dropdown-item" href="{{ path('admin_v1_cms_media_user_index') }}">
+                        <!--li><a class="dropdown-item" href="{{ path('admin_v1_profile_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_v1_profile_media_user_index') }}">
                                 <i class="bi bi-usb-drive"></i> Személyes tárhely</a>
                         </li>
                         <li><hr class="dropdown-divider"></li-->
@@ -130,7 +130,7 @@
                         <li><a class="dropdown-item" href="{{ path('admin_v1_billing_profiles') }}"><i class="bi bi-receipt"></i> Számlázási profilok</a></li>
                         <li><a class="dropdown-item text-white-50" href="#"><i class="bi bi-gear"></i> Rendszereszközök</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ path('admin_v1_support') }}"><i class="bi bi-question-circle"></i> Támogatás és support</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_v1_profile_support') }}"><i class="bi bi-question-circle"></i> Támogatás és support</a></li>
                         <li><hr class="dropdown-divider"></li>
                         {#% if is_granted('ROLE_SUPERADMIN') %}
                             <li><a class="dropdown-item" href="{{ path('admin_v1_superadmin_services') }}"><i class="bi bi-stars"></i> Superadmin</a></li>

@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_USER)]
 class SupportController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/support', name: 'admin_v1_support')]
+    #[Route('/{_locale}/admin/v1/support', name: 'admin_v1_profile_support')]
     public function index(Request $request): Response
     {
         return $this->render('platform/backend/v1/support/index.html.twig', [
