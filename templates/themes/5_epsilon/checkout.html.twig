@@ -50,14 +50,14 @@
                         </div>
                         <div class="col col-12 col-md-6 p-1">
 
-                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" value="person" checked onclick="document.getElementById('billingVatNumberInput').style.display = 'none';">
+                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" value="person" checked onclick="document.getElementById('billingVatNumberInput').style.display = 'none';document.getElementById('billingVatNumberInput').removeAttribute('required');">
                             <label class="w-100 btn btn-lg btn-outline-success p-5" for="success-outlined">
                                 <i class="bi bi-person"></i> Magánszemély
                             </label>
                         </div>
                         <div class="col col-12 col-md-6 p-1">
 
-                            <input type="radio" class="btn-check" name="options-outlined" id="dark-outlined" value="company" autocomplete="off" onclick="document.getElementById('billingVatNumberInput').style.display = 'block';">
+                            <input type="radio" class="btn-check" name="options-outlined" id="dark-outlined" value="company" autocomplete="off" onclick="document.getElementById('billingVatNumberInput').style.display = 'block';document.getElementById('billingVatNumberInput').setAttribute('required');">
                             <label class="w-100 btn btn-lg btn-outline-dark p-5" for="dark-outlined">
                                 <i class="bi bi-building"></i> Vállalkozás
                             </label>
@@ -202,12 +202,12 @@
                     {% set items = items ~ cartItem.name ~ ',' %}
                     <li>
                         <strong>{{ cartItem.name }}</strong><br>
-                        {{ cartItem.qty }} * {{ cartItem.price|format_number(locale='hu') }} = {{ (cartItem.qty * cartItem.price)|format_number(locale='hu') }}
+                        {{ cartItem.qty }} * {{ cartItem.price|format_number(locale='hu') }} = {{ (cartItem.qty * cartItem.price)|format_currency('HUF', { locale: 'hu' }) }}
                     </li>
                 {% endfor %}
+                <li><strong>Szállítás</strong><br>2 490,- forint</li>
             </ul>
-            <p class="border-top">Szállítás: 2 490,- forint</p>
-            <p class="border-top text-center pt-4 fs-3 fw-bold">SUM: {{ sum|format_number(locale='hu') }},- forint</p>
+            <p class="border-top text-center pt-4 fs-3 fw-bold">{{ sum|format_number(locale='hu') }},- forint</p>
         </div>
     </div>
     <input type="hidden" name="honeypot" value="">
