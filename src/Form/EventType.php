@@ -71,7 +71,7 @@ final class EventType extends AbstractType
             ])
             ->add('location', TextType::class, [
                 'label' => 'Location',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => 'form-control',
                 ],
