@@ -270,6 +270,10 @@ class MenuBuilder
                                         'route' => 'admin_v1_cms_location_index'
                                     ],
                                     [
+                                        'label' => 'esemény jelentkezők',
+                                        'route' => 'admin_v1_cms_event_registration'
+                                    ],
+                                    [
                                         'label' => 'esemény kategóriák',
                                         'route' => null
                                     ],

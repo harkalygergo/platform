@@ -255,4 +255,9 @@ class Event
     {
         $this->locationEntity = $locationEntity;
     }
+
+    public function __toString()
+    {
+        return '#' . $this->id . ' ' . $this->title. ' (' . $this->startAt->format('Y-m-d') . ')';
+    }
 }
