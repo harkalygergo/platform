@@ -54,6 +54,12 @@ final class EventController extends PlatformController
                 'edit',
                 'delete',
             ],
+            'extraActions' => [
+                [
+                    'label' => 'duplicate',
+                    'route' => 'admin_v1_cms_event_duplicate',
+                ]
+            ]
         ]);
     }
 
@@ -400,6 +406,17 @@ final class EventController extends PlatformController
         $this->addFlash('success', 'event.deleted_successfully');
 
         return $this->redirectToRoute('admin_v1_cms_event_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/duplicate/{id:event}', name: 'admin_v1_cms_event_duplicate', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET'])]
+    public function duplicate(Request $request, Event $event, EntityManagerInterface $em): Response
+    {
+        $newEntity = clone $event;
+
+        $em->persist($newEntity);
+        $em->flush();
+
+        return $this->redirectToRoute('admin_v1_cms_event_edit', ['id' => $newEntity->getId()], Response::HTTP_SEE_OTHER);
     }
 
     private function getLocation(?string $address): ?object
