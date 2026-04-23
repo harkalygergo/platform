@@ -418,9 +418,11 @@ final class EventController extends PlatformController
                 $geocoder = new \Geocoder\StatefulGeocoder($provider, 'hu');
 
                 try {
-                    $result = $geocoder->geocodeQuery(GeocodeQuery::create($address));
-                    if ($result->count() === 0) {
-                        return null;
+                    if ($address) {
+                        $result = $geocoder->geocodeQuery(GeocodeQuery::create($address));
+                        if ($result->count() === 0) {
+                            return null;
+                        }
                     }
                 } catch (\Exception $e) {
                     return null;
