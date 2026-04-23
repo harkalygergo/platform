@@ -54,7 +54,9 @@
                                         {% endif %}
                                         <a class="nav-link d-flex align-items-center gap-2 text-white {{ isCurrentRoute }}" href="{% if sub3menu.route is not null %}{{ path(sub3menu.route) }}{% endif %}">
                                             {% if sub3menu.children is defined %}
-                                                {{ dump(sub3menu) }}
+                                                {% for child in sub3menu.children %}
+                                                    {{ child.label }}
+                                                {% endfor %}
                                             {% else %}
                                                 <i class="{{ sub3menu.icon }}"></i>
                                                 {{ sub3menu.label }}
