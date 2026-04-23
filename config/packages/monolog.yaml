@@ -47,7 +47,7 @@ when@prod:
                 type: symfony_mailer
                 from_email: "%env(EMAIL_FROM)%"
                 to_email: ["%env(MAIL_COPY)%"]
-                subject: '%env(APP_TITLE) ERROR: %%message%%'
+                subject: '%env(APP_TITLE)% ERROR: %%message%%'
                 level: debug
                 formatter: monolog.formatter.html
                 content_type: text/html
