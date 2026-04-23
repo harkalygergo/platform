@@ -34,20 +34,27 @@ when@prod:
         handlers:
             main:
                 type: fingers_crossed
-                # 500 errors are logged at the critical level
-                action_level: critical
-                # to also log 400 level errors (but not 404's):
-                # action_level: error
-                # excluded_http_codes: [404]
-                handler: deduplicated
+                action_level: error
+                handler: grouped
+
+            grouped:
+                type: group
+                members: [streamed, deduplicated]
+
+            streamed:
+                type: stream
+                path: "%kernel.logs_dir%/prod.log"
+                level: debug
+
             deduplicated:
                 type: deduplication
                 handler: symfony_mailer
+
             symfony_mailer:
                 type: symfony_mailer
                 from_email: "%env(EMAIL_FROM)%"
                 to_email: ["%env(MAIL_COPY)%"]
-                subject: '%env(APP_TITLE)% ERROR: %%message%%'
-                level: debug
+                subject: 'ERROR: %%message%%'
+                level: error
                 formatter: monolog.formatter.html
                 content_type: text/html
