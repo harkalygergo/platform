@@ -24,6 +24,7 @@ final class EventType extends AbstractType
             ])
             ->add('performer', TextType::class, [
                 'label' => 'Performer',
+                'required' => false,
                 'attr' => [
                     'maxlength' => 255,
                     'class' => 'form-control',

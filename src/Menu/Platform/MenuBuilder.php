@@ -190,6 +190,11 @@ class MenuBuilder
                                 'icon'  => 'bi bi-code-slash',
                                 'route' => 'admin_v1_dashboard_api_index'
                             ],
+                            [
+                                'label' => 'Tárhely',
+                                'route' => null,
+                                'icon' => 'bi bi-hdd',
+                            ],
                         ]
                     ],
                 ]
