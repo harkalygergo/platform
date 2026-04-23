@@ -402,50 +402,55 @@ final class EventController extends PlatformController
         return $this->redirectToRoute('admin_v1_cms_event_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    private function getLocation(string $address): ?object
+    private function getLocation(?string $address): ?object
     {
-        // check if location exists in database, if exists return the Location entity, otherwise return null
-        $location = $this->doctrine->getRepository(Location::class)->findOneBy(['name' => $address]);
+        if ($address === null) {
 
-        if (!$location) {
-            //$APIKey = $this->currentInstance->getWebsites()->first()->getGoogleApiKey();
-            $APIKey = $_ENV['GOOGLE_MAPS_API_KEY'] ?? getenv('GOOGLE_MAPS_API_KEY');
+            // check if location exists in database, if exists return the Location entity, otherwise return null
+            $location = $this->doctrine->getRepository(Location::class)->findOneBy(['name' => $address]);
 
-            $httpClient = new \Http\Discovery\Psr18Client();
-            $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, $APIKey);
-            $geocoder = new \Geocoder\StatefulGeocoder($provider, 'hu');
+            if (!$location) {
+                //$APIKey = $this->currentInstance->getWebsites()->first()->getGoogleApiKey();
+                $APIKey = $_ENV['GOOGLE_MAPS_API_KEY'] ?? getenv('GOOGLE_MAPS_API_KEY');
 
-            try {
-                $result = $geocoder->geocodeQuery(GeocodeQuery::create($address));
-                if ($result->count() === 0) {
+                $httpClient = new \Http\Discovery\Psr18Client();
+                $provider = new \Geocoder\Provider\GoogleMaps\GoogleMaps($httpClient, null, $APIKey);
+                $geocoder = new \Geocoder\StatefulGeocoder($provider, 'hu');
+
+                try {
+                    $result = $geocoder->geocodeQuery(GeocodeQuery::create($address));
+                    if ($result->count() === 0) {
+                        return null;
+                    }
+                } catch (\Exception $e) {
                     return null;
                 }
-            } catch (\Exception $e) {
-                return null;
+
+                //return $result->first();
+                $location = $this->addLocation($address, $result->first());
             }
+            /*
+            else {
+                return (object) [
+                    'coordinates' => (object) [
+                        'latitude' => $location->getLatitude(),
+                        'longitude' => $location->getLongitude(),
+                    ],
+                    'postalCode' => $location->getZip(),
+                    'locality' => $location->getCity(),
+                    'country' => (object) [
+                        'name' => $location->getCountry(),
+                    ],
+                    'streetName' => $location->getAddress(),
+                    'streetNumber' => '',
+                ];
+            }
+            */
 
-            //return $result->first();
-            $location = $this->addLocation($address, $result->first());
+            return $location;
         }
-        /*
-        else {
-            return (object) [
-                'coordinates' => (object) [
-                    'latitude' => $location->getLatitude(),
-                    'longitude' => $location->getLongitude(),
-                ],
-                'postalCode' => $location->getZip(),
-                'locality' => $location->getCity(),
-                'country' => (object) [
-                    'name' => $location->getCountry(),
-                ],
-                'streetName' => $location->getAddress(),
-                'streetNumber' => '',
-            ];
-        }
-        */
 
-        return $location;
+        return null;
     }
 
     private function addLocation($address, $geocode): Location
