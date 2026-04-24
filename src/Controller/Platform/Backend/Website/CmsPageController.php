@@ -22,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[IsGranted(User::ROLE_USER)]
 #[Route('/{_locale}/admin/v1/website/pages')]
-class WebsitePageController extends PlatformController
+class CmsPageController extends PlatformController
 {
     #[Route('/view/{id}', name: 'admin_v1_cms_website_pages_view')]
     public function view(CmsPage $id): Response
@@ -92,6 +92,7 @@ class WebsitePageController extends PlatformController
                 throw $this->createAccessDeniedException('You do not have permission to create a page because there is no website for the current instance.');
             }
             $websitePage->setWebsite($websites[0]);
+            $websitePage->setInstance($this->currentInstance);
 
             //$websitePage->setWebsite($id);
             $this->doctrine->getManager()->persist($websitePage);
