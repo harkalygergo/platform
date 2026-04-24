@@ -25,6 +25,7 @@ global:
     slogan: 'Szlogan'
 action:
     view: megtekintés
+    duplicate: duplikálás
     edit: szerkesztés
     edited: szerkesztve
     delete: törlés

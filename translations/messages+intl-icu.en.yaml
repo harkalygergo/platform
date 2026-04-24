@@ -17,6 +17,7 @@ global:
     slogan: 'Slogan'
 action:
     view: view
+    duplicate: duplicate
     edit: edit
     edited: edited
     delete: delete

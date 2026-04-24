@@ -52,14 +52,9 @@ final class EventController extends PlatformController
             'actions' => [
                 'new',
                 'edit',
+                'duplicate',
                 'delete',
             ],
-            'extraActions' => [
-                [
-                    'label' => 'duplicate',
-                    'route' => 'admin_v1_cms_event_duplicate',
-                ]
-            ]
         ]);
     }
 

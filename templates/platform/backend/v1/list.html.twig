@@ -213,6 +213,17 @@
                                                             </li>
                                                         {% endif %}
 
+                                                        {% if 'duplicate' in actions %}
+                                                            <li>
+                                                                <a class="dropdown-item text-nowrap text-secondary" title="{{ 'action.duplicate'|trans }}" href="duplicate/{{ td.id}}">
+                                                                    <small>
+                                                                        <i class="bi bi-copy"></i> <span class="d-none d-sm-inline-block">{{ 'action.duplicate'|trans }}</span>
+                                                                    </small>
+                                                                </a>
+                                                            </li>
+                                                        {% endif %}
+
+
                                                         <!-- if actions length greater than 2, add divider before delete -->
                                                         {% if actions|length > 2 and 'delete' in actions %}
                                                             <li><hr class="dropdown-divider"></li>
