@@ -174,6 +174,7 @@ final class EventController extends PlatformController
 
             $event = new Event();
             $event->setCreatedAt(new \DateTimeImmutable());
+            $event->setInstance($this->currentInstance);
 
             // Map CSV columns to Event entity properties
             if (isset($data['startAt']) && !empty($data['startAt'])) {
@@ -304,6 +305,7 @@ final class EventController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $event->setCreatedAt(new \DateTimeImmutable());
+            $event->setInstance($this->currentInstance);
 
             $locationObject = $this->getLocation($event->getLocation());
             if ($locationObject)            {

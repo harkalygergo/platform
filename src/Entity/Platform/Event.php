@@ -15,6 +15,9 @@ class Event
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    private Instance $instance;
+
     // add event performer
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $performer = null;
@@ -84,6 +87,16 @@ class Event
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getInstance(): Instance
+    {
+        return $this->instance;
+    }
+
+    public function setInstance(Instance $instance): void
+    {
+        $this->instance = $instance;
     }
 
     public function getPerformer(): ?string
