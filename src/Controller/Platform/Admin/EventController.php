@@ -258,6 +258,8 @@ final class EventController extends PlatformController
         $dateTimeString = trim($dateTimeString);
 
         $formats = [
+            'Y.m.d. - H:i:s',
+            'Y.m.d. - H:i',
             'Y.m.d. H:i:s',
             'Y.m.d. H:i',
             'Y.m.d H:i:s',
