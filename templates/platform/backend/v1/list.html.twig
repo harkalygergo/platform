@@ -14,7 +14,7 @@
         <div class="card">
 
             <div class="card-header d-flex justify-content-between align-items-center gap-2">
-                <h6 class="mb-0 text-uppercase fw-bold text-nowrap">{{ title }}</h6>
+                <h6 class="mb-0 text-uppercase fw-bold text-nowrap">{{ title }} <small>({{ tableBody|length }})</small></h6>
 
                 <!-- Search input in the middle -->
                 <div class="input-group input-group-sm" style="max-width:30%;">
@@ -215,7 +215,7 @@
 
                                                         {% if 'duplicate' in actions %}
                                                             <li>
-                                                                <a class="dropdown-item text-nowrap text-secondary" title="{{ 'action.duplicate'|trans }}" href="duplicate/{{ td.id}}">
+                                                                <a class="dropdown-item text-nowrap text-warning" title="{{ 'action.duplicate'|trans }}" href="duplicate/{{ td.id}}">
                                                                     <small>
                                                                         <i class="bi bi-copy"></i> <span class="d-none d-sm-inline-block">{{ 'action.duplicate'|trans }}</span>
                                                                     </small>
