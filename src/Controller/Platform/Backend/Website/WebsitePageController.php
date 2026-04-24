@@ -6,7 +6,7 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website;
 use App\Entity\Platform\Website\Website AS web;
-use App\Entity\Platform\Website\WebsitePage;
+use App\Entity\Platform\Website\CmsPage;
 use App\Form\Platform\Website\WebsitePageType;
 use App\Repository\Platform\Website\WebsitePageRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -25,7 +25,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class WebsitePageController extends PlatformController
 {
     #[Route('/view/{id}', name: 'admin_v1_cms_website_pages_view')]
-    public function view(WebsitePage $id): Response
+    public function view(CmsPage $id): Response
     {
         /*
         // check if website's instance is the same as the current instance
@@ -48,7 +48,7 @@ class WebsitePageController extends PlatformController
         $pages = $websitePageRepository->findAll();
 
         // find pages based on $this->currentInstance
-        $pages = array_filter($pages, function (WebsitePage $page) {
+        $pages = array_filter($pages, function (CmsPage $page) {
             return $page->getWebsite()->getInstance() === $this->currentInstance;
         });
 
@@ -117,7 +117,7 @@ class WebsitePageController extends PlatformController
 
     // create edit function
     #[Route('/edit/{page}', name: 'admin_v1_cms_website_page_edit')]
-    public function edit(Request $request, WebsitePage $page): Response
+    public function edit(Request $request, CmsPage $page): Response
     {
         $form = $this->createForm(WebsitePageType::class, $page);
         $form->handleRequest($request);
@@ -144,7 +144,7 @@ class WebsitePageController extends PlatformController
     }
 
     #[Route('/delete/{page}', name: 'admin_v1_cms_website_page_delete')]
-    public function delete(Request $request, WebsitePage $page): Response
+    public function delete(Request $request, CmsPage $page): Response
     {
         /*
         // check if page's website is the same as the current website
@@ -299,7 +299,7 @@ class WebsitePageController extends PlatformController
     #[Route('/{website}/pages/new/', name: 'admin_website_page_new')]
     public function newregi(Request $request, TranslatorInterface $translator, Website $website)
     {
-        $entity = new WebsitePage();
+        $entity = new CmsPage();
 
         $form = $this->createFormBuilder($entity)
             // add website as Website entity, set default value as $website
@@ -361,7 +361,7 @@ class WebsitePageController extends PlatformController
         switch ($action) {
             case 'delete':
                 foreach ($idsArray as $id) {
-                    $page = $this->doctrine->getRepository(WebsitePage::class)->find($id);
+                    $page = $this->doctrine->getRepository(CmsPage::class)->find($id);
                     if ($page) {
                         $this->doctrine->getManager()->remove($page);
                     }

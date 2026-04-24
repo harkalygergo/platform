@@ -5,7 +5,7 @@ namespace App\Controller\Platform\ImportExport;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\WebsiteCategory;
-use App\Entity\Platform\Website\WebsitePage;
+use App\Entity\Platform\Website\CmsPage;
 use App\Entity\Platform\Website\WebsitePost;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -91,7 +91,7 @@ class ImportWordPressController extends PlatformController
         $json = json_decode($json, true);
 
         foreach ($json as $pages) {
-            $page = new WebsitePage();
+            $page = new CmsPage();
 
             $page->setTitle($pages['title']['rendered']);
             $page->setContent($pages['content']['rendered']);

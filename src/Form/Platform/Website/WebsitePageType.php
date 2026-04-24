@@ -5,7 +5,7 @@ namespace App\Form\Platform\Website;
 
 use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Website\WebsiteMedia;
-use App\Entity\Platform\Website\WebsitePage;
+use App\Entity\Platform\Website\CmsPage;
 use App\Repository\Platform\Media\MediaRepository;
 use App\Repository\Platform\Website\WebsiteMediaRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -169,7 +169,7 @@ class WebsitePageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => WebsitePage::class,
+            'data_class' => CmsPage::class,
         ]);
     }
 

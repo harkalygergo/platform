@@ -153,6 +153,9 @@ class Website
     #[ORM\ManyToMany(targetEntity: ProductCategory::class, mappedBy: 'websites')]
     private Collection $productCategories;
 
+    #[ORM\ManyToOne(targetEntity: CmsPage::class, inversedBy: 'websites')]
+    private ?CmsPage $termsPage = null;
+
     public function __construct()
     {
         $this->status = true;

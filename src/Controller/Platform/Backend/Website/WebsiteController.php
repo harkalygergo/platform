@@ -7,7 +7,7 @@ use App\Entity\Platform\Block;
 use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\Website;
-use App\Entity\Platform\Website\WebsitePage;
+use App\Entity\Platform\Website\CmsPage;
 use App\Entity\Platform\Website\WebsitePost;
 use App\Form\Platform\Website\WebsiteType;
 use App\Repository\Platform\Website\WebsiteRepository;
@@ -126,7 +126,7 @@ class WebsiteController extends PlatformController
     public function delete(Request $request, Website $website): Response
     {
         // delete all pages of the website
-        $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website]);
+        $pages = $this->doctrine->getRepository(CmsPage::class)->findBy(['website' => $website]);
         foreach ($pages as $page) {
             $this->doctrine->getManager()->remove($page);
         }
@@ -156,7 +156,7 @@ class WebsiteController extends PlatformController
                 $website = $this->doctrine->getRepository(Website::class)->find($website);
 
                 // delete all pages of the website
-                $pages = $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website]);
+                $pages = $this->doctrine->getRepository(CmsPage::class)->findBy(['website' => $website]);
                 foreach ($pages as $page) {
                     $this->doctrine->getManager()->remove($page);
                 }
@@ -238,7 +238,7 @@ class WebsiteController extends PlatformController
     }
 
     #[Route('/deploy/page/{id}', name: 'admin_v1_cms_website_page_deploy')]
-    public function deployPage(WebsitePage $websitePage): Response
+    public function deployPage(CmsPage $websitePage): Response
     {
         $website = $websitePage->getWebsite();
         $pages = [$websitePage];
@@ -270,7 +270,7 @@ class WebsiteController extends PlatformController
 
     private function getPagesToDeploy(Website $website): array
     {
-        return $this->doctrine->getRepository(WebsitePage::class)->findBy(['website' => $website, 'status' => true], ['title' => 'ASC']);
+        return $this->doctrine->getRepository(CmsPage::class)->findBy(['website' => $website, 'status' => true], ['title' => 'ASC']);
     }
 
     private function getMenusToDeploy(Website $website): array

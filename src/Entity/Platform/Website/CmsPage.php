@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WebsitePageRepository::class)]
-class WebsitePage
+class CmsPage
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
