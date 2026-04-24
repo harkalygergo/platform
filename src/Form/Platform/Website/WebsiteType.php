@@ -3,8 +3,10 @@
 namespace App\Form\Platform\Website;
 
 use App\Entity\Platform\Template;
+use App\Entity\Platform\Website\CmsPage;
 use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsiteMedia;
+use App\Repository\Platform\Website\CmsPageRepository;
 use App\Repository\Platform\Website\WebsiteMediaRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -188,6 +190,20 @@ class WebsiteType extends AbstractType
                         ->setParameter('active', true);
                 },
             ])
+
+
+            ->add('termsAndConditions', EntityType::class, [
+                'class' => CmsPage::class,
+                'choice_label' => 'title',
+                'required' => false,
+                'query_builder' => function (CmsPageRepository $repo) use ($currentWebsite) {
+                    return $repo->createQueryBuilder('p')
+                        ->where('p.instance = :instance')
+                        ->setParameter('instance', $currentWebsite->getInstance());
+                },
+            ])
+
+
             ->add('FTPHost', TextType::class, [
                 'label' => 'FTP host',
                 'required' => false,

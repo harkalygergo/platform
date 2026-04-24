@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method CmsPage[]    findAll()
  * @method CmsPage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WebsitePageRepository extends ServiceEntityRepository
+class CmsPageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

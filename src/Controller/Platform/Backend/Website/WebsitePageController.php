@@ -8,7 +8,7 @@ use App\Entity\Platform\Website;
 use App\Entity\Platform\Website\Website AS web;
 use App\Entity\Platform\Website\CmsPage;
 use App\Form\Platform\Website\WebsitePageType;
-use App\Repository\Platform\Website\WebsitePageRepository;
+use App\Repository\Platform\Website\CmsPageRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -42,10 +42,10 @@ class WebsitePageController extends PlatformController
     }
 
     #[Route('/', name: 'admin_v1_cms_website_pages')]
-    public function index(WebsitePageRepository $websitePageRepository): Response
+    public function index(CmsPageRepository $CmsPageRepository): Response
     {
-        //$pagesByWebsite = $websitePageRepository->findByWebsiteId($id->getId());
-        $pages = $websitePageRepository->findAll();
+        //$pagesByWebsite = $CmsPageRepository->findByWebsiteId($id->getId());
+        $pages = $CmsPageRepository->findAll();
 
         // find pages based on $this->currentInstance
         $pages = array_filter($pages, function (CmsPage $page) {
@@ -180,7 +180,7 @@ class WebsitePageController extends PlatformController
     }
 
     #[Route('/{website}/pages/', name: 'admin_website_page_list')]
-    public function list(WebsitePageRepository $repository, Website $website, Request $request): Response
+    public function list(CmsPageRepository $repository, Website $website, Request $request): Response
     {
         $dataList = $repository->findByWebsiteId($website->getId());
 
@@ -196,7 +196,7 @@ class WebsitePageController extends PlatformController
 
     // create edit form for Website Page
     #[Route('/{website}/pages/edit/{id}', name: 'admin_website_page_edit')]
-    public function editregi(Request $request, WebsitePageRepository $repository, Website $website, int $id): Response
+    public function editregi(Request $request, CmsPageRepository $repository, Website $website, int $id): Response
     {
         $entity = $repository->find($id);
 

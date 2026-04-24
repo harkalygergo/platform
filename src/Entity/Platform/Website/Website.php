@@ -153,8 +153,9 @@ class Website
     #[ORM\ManyToMany(targetEntity: ProductCategory::class, mappedBy: 'websites')]
     private Collection $productCategories;
 
-    #[ORM\ManyToOne(targetEntity: CmsPage::class, inversedBy: 'websites')]
-    private ?CmsPage $termsPage = null;
+    #[ORM\ManyToOne(targetEntity: CmsPage::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?CmsPage $termsAndConditions = null;
 
     public function __construct()
     {
@@ -716,6 +717,17 @@ class Website
             $productCategory->removeWebsite($this);
         }
 
+        return $this;
+    }
+
+    public function getTermsAndConditions(): ?CmsPage
+    {
+        return $this->termsAndConditions;
+    }
+
+    public function setTermsAndConditions(?CmsPage $page): self
+    {
+        $this->termsAndConditions = $page;
         return $this;
     }
 }

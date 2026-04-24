@@ -5,11 +5,11 @@ namespace App\Entity\Platform\Website;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\User;
-use App\Repository\Platform\Website\WebsitePageRepository;
+use App\Repository\Platform\Website\CmsPageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: WebsitePageRepository::class)]
+#[ORM\Entity(repositoryClass: CmsPageRepository::class)]
 class CmsPage
 {
     #[ORM\Id]
