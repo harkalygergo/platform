@@ -146,6 +146,7 @@ class APIController extends PlatformController
 
                 return $this->corsResponse(
                     new Response($this->renderView('themes/5_epsilon/checkout.html.twig', [
+                        'website' => $instance->getWebsites()->first(),
                         'shippingMethods' => $shippingMethods,
                         'paymentMethods' => $paymentMethods,
                         'cartItems' => json_decode($parameters['cart'], true) ?? [],
