@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.04.27.1
+###### v2026.04.27.2
 
 ![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -77,7 +77,7 @@ php bin/console doctrine:mapping:info
 php bin/console cache:clear
 ```
 
-Localhost develop simple command line:
+Localhost developer single line command:
 
 ```shell
 composer update; npm update; composer dump-autoload -o; php bin/console cache:clear;

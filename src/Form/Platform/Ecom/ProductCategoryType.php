@@ -28,9 +28,16 @@ class ProductCategoryType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Név',
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control slugSource',
                 ],
             ])
+            ->add('slug', TextType::class, [
+                'attr' => ['class' => 'form-control slugTarget'],
+                'row_attr' => [
+                    'data-prefix' => 'termekkategoria/',
+                ],
+            ])
+
             ->add('description', TextType::class, [
                 'label' => 'Leírás',
                 'required' => false,

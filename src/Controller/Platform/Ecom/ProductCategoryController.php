@@ -31,6 +31,7 @@ class ProductCategoryController extends PlatformBackendController
             'title' => 'Termék kategóriák',
             'tableHead' => [
                 'name' => 'Név',
+                'slug' => 'Slug',
                 'description' => 'Leírás',
                 'parentCategory' => 'Szülő kategória',
             ],

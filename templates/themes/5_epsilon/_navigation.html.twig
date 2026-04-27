@@ -1,4 +1,20 @@
 <ul class="nav nav-pills">
+    {% if productCategories is defined and productCategories is not null %}
+        <li class="dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Kategóriák
+            </a>
+            <ul class="dropdown-menu bg-white">
+                {% for productCategory in productCategories %}
+                    <li>
+                        <a class="dropdown-item text-dark" href="/termekkategoria/{{ productCategory.slug }}">
+                            {{ productCategory.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
     {% for menu in menus %}
         {% if menu.parent is null %}
             {% if menu.hasChildren() %}

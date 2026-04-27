@@ -1,0 +1,50 @@
+{% extends 'themes/5_epsilon/base.html.twig' %}
+
+{% block navigation %}
+    {% include 'themes/5_epsilon/_navigation.html.twig' with { 'menus':menus } %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row my-5 mx-2">
+            <div class="col-12">
+                <h2 class="text-center display-3 fw-bold">{{ title }} termékkategória</h2>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 py-4">
+                    {% for product in products %}
+                        <div class="col p-0">
+                            <div class="card m-0 p-0 mx-1 h-100">
+                                {% if product.mainImage is not null %}
+                                    <a href="/termek/{{ product.slug }}">
+                                        <img src="/media/{{ product.mainImage.originalName }}" class="card-img-top" alt="{{ product.name }}" loading="lazy">
+                                    </a>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title linear-gradient fw-bold">
+                                        <a href="/termek/{{ product.slug }}" class="text-dark text-decoration-none">
+                                            {{ product.name }}
+                                        </a>
+                                    </h5>
+                                    <p class="card-text">
+                                        {{ product.shortDescription|slice(0,80) }} ...
+                                    </p>
+                                    <p class="card-text fs-5">
+                                        <i class="bi bi-tag"></i>
+                                        {{ product.price|format_number(locale='hu') }} {{ product.currency }}
+                                    </p>
+                                </div>
+                                <div class="card-footer text-center bg-transparent d-grid">
+                                    <a href="/termek/{{ product.slug }}" class="btn btn-sm btn-outline-dark btn-fluid" title="{{ product.name }} termék megtekintése">
+                                        <i class="bi bi-eye"></i>
+                                        megnézem
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

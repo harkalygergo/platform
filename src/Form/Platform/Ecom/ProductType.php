@@ -3,9 +3,11 @@
 namespace App\Form\Platform\Ecom;
 
 use App\Entity\Platform\Ecom\Product;
+use App\Entity\Platform\Ecom\ProductCategory;
 use App\Entity\Platform\Ecom\ProductMedia;
 use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Website\Website;
+use App\Repository\Platform\Ecom\ProductCategoryRepository;
 use App\Repository\Platform\Media\MediaRepository;
 use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -297,6 +299,19 @@ class ProductType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'label' => 'Galéria képek',
+            ])
+
+            // add ProductCategory
+            ->add('category', EntityType::class, [
+                'class' => ProductCategory::class,
+                'choice_label' => 'name',
+                'query_builder' => function (ProductCategoryRepository $er) use ($options) {
+                return $er->createQueryBuilder('pc')
+                    ->where('pc.instance = :instance')
+                    ->setParameter('instance', $options['currentInstance'])
+                    ->orderBy('pc.name', 'ASC');
+                },
+                //'multiple' => true,
             ])
 
         ;
