@@ -20,7 +20,7 @@ final class Version20260427165121 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX UNIQ_BE026B46989D9B62 ON ecom_product_category');
+        //$this->addSql('DROP INDEX UNIQ_BE026B46989D9B62 ON ecom_product_category');
         $this->addSql('ALTER TABLE location ADD district VARCHAR(255) DEFAULT NULL');
     }
 
