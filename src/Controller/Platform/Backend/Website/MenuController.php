@@ -97,8 +97,8 @@ class MenuController extends PlatformController
         ]);
     }
 
-    #[Route('/{id}/delete/{menu}', name: 'admin_v1_cms_website_menu_delete')]
-    public function delete(\App\Entity\Platform\Website\Website $id, Menu $menu, Request $request, MenuRepository $menuRepository): Response
+    #[Route('/delete/{menu}', name: 'admin_v1_cms_website_menu_delete')]
+    public function delete(Menu $menu, Request $request, MenuRepository $menuRepository): Response
     {
         if (!$menu) {
             throw $this->createNotFoundException('Menu not found');
@@ -108,9 +108,7 @@ class MenuController extends PlatformController
         $em->remove($menu);
         $em->flush();
 
-        return $this->redirectToRoute('admin_v1_cms_website_menus', [
-            'id' => $id->getId(),
-        ]);
+        return $this->redirectToRoute('admin_v1_cms_website_menus');
     }
 
     #[Route('/{id}/multiple/{action}/{ids}', name: 'admin_v1_cms_website_menu_multiple')]
