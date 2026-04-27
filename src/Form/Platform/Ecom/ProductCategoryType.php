@@ -30,12 +30,14 @@ class ProductCategoryType extends AbstractType
                 'attr' => [
                     'class' => 'form-control slugSource',
                 ],
+                'required' => true,
             ])
             ->add('slug', TextType::class, [
                 'attr' => ['class' => 'form-control slugTarget'],
                 'row_attr' => [
                     'data-prefix' => 'termekkategoria/',
                 ],
+                'required' => true,
             ])
 
             ->add('description', TextType::class, [
