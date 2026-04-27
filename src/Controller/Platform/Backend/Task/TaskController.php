@@ -21,7 +21,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/admin/v1/task')]
 class TaskController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_task_index', methods: ['GET'])]
+    private const string redirectToRoute = 'admin_v1_erp_task_index';
+
+    #[Route('/', name: 'admin_v1_erp_task_index', methods: ['GET'])]
     public function index(TaskRepository $repository, Request $request): Response
     {
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -43,7 +45,7 @@ class TaskController extends PlatformController
     }
 
     // create view function with content.html.twig, content is Task title and description
-    #[Route('/view/{id<\d+>}/', name: 'admin_v1_task_view')]
+    #[Route('/view/{id<\d+>}/', name: 'admin_v1_erp_task_view')]
     public function view(Task $task): Response
     {
         return $this->render('platform/backend/v1/content.html.twig', [
@@ -53,7 +55,7 @@ class TaskController extends PlatformController
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_task_new')]
+    #[Route('/new/', name: 'admin_v1_erp_task_new')]
     public function new(Request $request, TranslatorInterface $translator)
     {
         $entity = new Task();
@@ -70,7 +72,7 @@ class TaskController extends PlatformController
             $this->doctrine->getManager()->persist($entity);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_task_index');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -80,7 +82,7 @@ class TaskController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id<\d+>}/', name: 'admin_v1_task_edit')]
+    #[Route('/edit/{id<\d+>}/', name: 'admin_v1_erp_task_edit')]
     public function edit(Request $request, Task $task)
     {
         $form = $this->createForm(TaskType::class, $task, [
@@ -92,7 +94,7 @@ class TaskController extends PlatformController
             $this->doctrine->getManager()->persist($task);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_task_index');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -104,12 +106,12 @@ class TaskController extends PlatformController
     }
 
     // create delete function
-    #[Route('/delete/{id<\d+>}/', name: 'admin_v1_task_delete')]
+    #[Route('/delete/{id<\d+>}/', name: 'admin_v1_erp_task_delete')]
     public function delete(Task $task): Response
     {
         $this->doctrine->getManager()->remove($task);
         $this->doctrine->getManager()->flush();
 
-        return $this->redirectToRoute('admin_v1_task_index');
+        return $this->redirectToRoute(self::redirectToRoute);
     }
 }

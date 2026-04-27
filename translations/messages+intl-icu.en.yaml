@@ -83,5 +83,6 @@ web:
     posts: 'Posts'
     product: 'Product'
     products: 'Products'
+    productcategory: 'Product category'
     website: 'Website'
     webshop: 'Webshop'

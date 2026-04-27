@@ -90,5 +90,6 @@ web:
     posts: 'Bejegyzések'
     product: 'Termék'
     products: 'Termékek'
+    productcategory: 'Termékkategória'
     website: 'Honlap'
     webshop: 'Webáruház'

@@ -467,7 +467,31 @@ class MenuBuilder
                 'icon'  => 'bi bi-briefcase',
                 'route' => null,
                 'roles' => ['ROLE_USER'],
-                'children' => []
+                'children' => [
+                    [
+                        'label' => 'Feladatkezelés',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'Feladatok',
+                                'icon'  => 'bi bi-list-task',
+                                'route' => null,
+                                'children' => [
+                                    [
+                                        'label' => 'Összes feladat',
+                                        'route' => 'admin_v1_erp_task_index'
+                                    ],
+                                    [
+                                        'label' => 'új feladat hozzáadása',
+                                        'route' => 'admin_v1_erp_task_new'
+                                    ],
+                               ]
+                            ],
+                        ],
+                    ],
+
+                    //
+                ]
             ],
             [
                 'label' => 'analytics',
