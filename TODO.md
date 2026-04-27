@@ -4,3 +4,5 @@
 - Symfony Workflow bevezetés például az Order státuszváltáshoz https://symfony.com/doc/current/components/workflow.html
 - Doctrine Fixtures hozzáadása lokális teszteléshez
 - ingatlanportál rész megvalósítása
+- select2 kialakítás (például ProductType Website)
+- YouTube embed code

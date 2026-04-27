@@ -25,6 +25,7 @@ class LocationController extends PlatformBackendController
                 'description' => 'leírás',
                 'zip' => 'ZIP',
                 'city' => 'City',
+                'district' => 'District',
                 'address' => 'Address',
                 'number' => 'Number',
                 'country' => 'Country',

@@ -27,6 +27,9 @@ class Location
     private ?string $city = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    private ?string $district = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
     #[ORM\Column(length: 128, nullable: true)]
@@ -90,6 +93,18 @@ class Location
     public function setCity(?string $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getDistrict(): ?string
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?string $district): static
+    {
+        $this->district = $district;
 
         return $this;
     }

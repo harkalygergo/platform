@@ -420,7 +420,7 @@ final class EventController extends PlatformController
 
     private function getLocation(?string $address): ?object
     {
-        if ($address === null) {
+        if ($address !== null) {
 
             // check if location exists in database, if exists return the Location entity, otherwise return null
             $location = $this->doctrine->getRepository(Location::class)->findOneBy(['name' => $address]);
@@ -444,7 +444,6 @@ final class EventController extends PlatformController
                     return null;
                 }
 
-                //return $result->first();
                 $location = $this->addLocation($address, $result->first());
             }
             /*
@@ -477,6 +476,7 @@ final class EventController extends PlatformController
         $location->setName($address);
         $location->setZip($geocode->getPostalCode());
         $location->setCity($geocode->getLocality());
+        $location->setDistrict($geocode->getDistrict());
         $location->setAddress($geocode->getStreetName());
         $location->setNumber($geocode->getStreetNumber());
         $location->setCountry($geocode->getCountry()->getName());
