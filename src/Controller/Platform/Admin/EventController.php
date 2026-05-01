@@ -476,7 +476,13 @@ final class EventController extends PlatformController
         $location->setName($address);
         $location->setZip($geocode->getPostalCode());
         $location->setCity($geocode->getLocality());
-        $location->setDistrict($geocode->getDistrict());
+
+        // check if $geocode has getDistrict() function
+        if (method_exists($geocode, 'getDistrict'))
+        {
+            $location->setDistrict($geocode->getDistrict());
+        }
+
         $location->setAddress($geocode->getStreetName());
         $location->setNumber($geocode->getStreetNumber());
         $location->setCountry($geocode->getCountry()->getName());
