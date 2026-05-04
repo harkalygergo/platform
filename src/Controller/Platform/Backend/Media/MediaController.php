@@ -261,6 +261,54 @@ class MediaController extends PlatformController
         return $this->redirectToRoute('admin_v1_cms_media');
     }
 
+    #[Route('/multiple/{action}/{ids}', name: 'admin_v1_website_media_multiple')]
+    public function multiple(Request $request, MediaRepository $mediaRepository, string $action, string $ids): Response
+    {
+        $idsArray = explode(',', $ids);
+
+        if ($action === 'delete') {
+            foreach ($idsArray as $mediaId) {
+
+                $media = $mediaRepository->find($mediaId);
+
+                if ($media->getInstance()->getId() !== $this->currentInstance->getId()) {
+                    $this->addFlash('danger', 'Nincs jogosultságod törölni ezt a médiát.');
+                    return $this->redirectToRoute('admin_v1_cms_media');
+                }
+
+                //if ($this->isCsrfTokenValid('delete' . $id->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->doctrine->getManager();
+                //$websiteMedia = $entityManager->getRepository(WebsiteMedia::class)->find($id);
+
+                $website = $media->getInstance()->getWebsites()->first();
+
+                if ($media) {
+                    // Remove file from FTP server
+                    WebsiteController::removeFromFTP(
+                        $website->getFTPHost(),
+                        $website->getFTPUser(),
+                        $website->getFTPPassword(),
+                        $website->getFTPPath(),
+                        'media/' . $media->getPath()
+                    );
+
+                    // Remove record from database
+                    $entityManager->remove($media);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Média sikeresen törölve.');
+                } else {
+                    $this->addFlash('danger', 'A média nem található.');
+                }
+
+            }
+        }
+
+        return $this->redirectToRoute('admin_v1_cms_media');
+    }
+
+
+
     /*
     // multiple delete
     // http://platform.local/hu/admin/v1/website/media/9/multiple/delete/on,12,13,14
