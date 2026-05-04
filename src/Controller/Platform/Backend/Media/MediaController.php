@@ -10,6 +10,7 @@ use App\Entity\Platform\Website\Website;
 use App\Form\Platform\Media\MediaType;
 use App\Repository\Platform\Media\MediaRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -39,6 +40,46 @@ class MediaController extends PlatformController
                 'edit',
                 'delete',
             ],
+        ]);
+    }
+
+    #[\Symfony\Component\Routing\Attribute\Route('/picker', name: 'admin_v1_cms_media_picker', methods: ['GET'])]
+    public function picker(Request $request, MediaRepository $mediaRepository): JsonResponse
+    {
+        $q = trim((string) $request->query->get('q', ''));
+        $onlyImages = $request->query->getBoolean('onlyImages', true);
+
+        $qb = $mediaRepository->createQueryBuilder('m')
+            ->where('m.instance = :instance')
+            ->setParameter('instance', $this->currentInstance)
+            ->orderBy('m.id', 'DESC');
+
+        if ($q !== '') {
+            $qb
+                ->andWhere('LOWER(m.originalName) LIKE :q OR LOWER(m.description) LIKE :q')
+                ->setParameter('q', '%' . mb_strtolower($q) . '%');
+        }
+
+        if ($onlyImages) {
+            $qb->andWhere('m.type LIKE :img')->setParameter('img', 'image/%');
+        }
+
+        $items = [];
+        foreach ($qb->getQuery()->getResult() as $media) {
+            if (!$media instanceof Media) {
+                continue;
+            }
+            $items[] = [
+                'id' => $media->getId(),
+                'originalName' => $media->getOriginalName(),
+                'type' => $media->getType(),
+                'description' => $media->getDescription(),
+                'url' => 'http://localhost/media/' . $media->getOriginalName(),
+            ];
+        }
+
+        return $this->json([
+            'items' => $items,
         ]);
     }
 

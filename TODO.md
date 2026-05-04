@@ -9,3 +9,4 @@
 - ingatlanportál rész megvalósítása
 - select2 kialakítás (például ProductType Website)
 - YouTube embed code
+- MediaController /picker route refactor, plus + form.html.twig "Media picker modal (used by Product gallery chooser)" part refactor

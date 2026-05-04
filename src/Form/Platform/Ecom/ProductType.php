@@ -330,7 +330,28 @@ class ProductType extends AbstractType
                 $medias[] = $productMedia->getMedia();
             }
 
-            $form->get('gallery')->setData($medias);
+            // Re-add field with explicit data so the rendered <select> has the right selected options.
+            // (Calling setData() on an existing child can be overridden by later initialization.)
+            $form->add('gallery', EntityType::class, [
+                'class' => Media::class,
+                'choice_label' => 'originalName',
+                'query_builder' => function (MediaRepository $er) use ($event) {
+                    /** @var array $rootConfig */
+                    $rootConfig = $event->getForm()->getConfig()->getOptions();
+                    return $er->createQueryBuilder('m')
+                        ->where('m.instance = :instance')
+                        ->setParameter('instance', $rootConfig['currentInstance'])
+                        ->orderBy('m.originalName', 'ASC');
+                },
+                'multiple' => true,
+                'required' => false,
+                'mapped' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'Galéria képek',
+                'data' => $medias,
+            ]);
         });
 
         // Sync selected medias back into ProductMedias

@@ -26,7 +26,41 @@
                             {% set suffix = field.vars.row_attr['data-suffix'] ?? null %}
                             {% set help = field.vars.help ?? null %}
 
-                            {% if prefix or suffix %}
+                            {% if field.vars.name == 'gallery' %}
+                                <div class="mb-3">
+                                    {{ form_label(field) }}
+
+                                    <div class="d-flex flex-wrap align-items-center gap-2">
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-primary btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#mediaPickerModal"
+                                            data-media-picker-trigger="gallery"
+                                        >
+                                            <i class="bi bi-images me-1"></i> Képek kiválasztása
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-secondary btn-sm"
+                                            data-media-picker-clear="gallery"
+                                        >
+                                            <i class="bi bi-x-circle me-1"></i> Kiválasztás törlése
+                                        </button>
+                                        <small class="text-muted">Kattints a képekre a kijelöléshez.</small>
+                                    </div>
+
+                                    <div class="mt-2" data-media-picker-preview="gallery"></div>
+
+                                    <div class="d-none">
+                                        {{ form_widget(field) }}
+                                    </div>
+                                    {{ form_errors(field) }}
+                                    {% if help %}
+                                        <div class="form-text">{{ help }}</div>
+                                    {% endif %}
+                                </div>
+                            {% elseif prefix or suffix %}
                                 {# Custom rendering with input group #}
                                 <div class="mb-3{{ field.vars.row_attr.class is defined ? ' ' ~ field.vars.row_attr.class : '' }}">
                                     {{ form_label(field) }}
@@ -60,6 +94,264 @@
                 </div>
             </div>
 
+            {# Media picker modal (used by Product gallery chooser) #}
+            <div class="modal fade" id="mediaPickerModal" tabindex="-1" aria-labelledby="mediaPickerModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mediaPickerModalLabel">Média kiválasztása</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+                                <input
+                                    type="search"
+                                    class="form-control form-control-sm"
+                                    style="max-width: 420px;"
+                                    placeholder="Keresés fájlnév / leírás alapján..."
+                                    data-media-picker-search
+                                >
+                                <div class="form-check form-switch ms-auto">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="mediaPickerOnlyImages" checked>
+                                    <label class="form-check-label" for="mediaPickerOnlyImages">csak képek</label>
+                                </div>
+                            </div>
+
+                            <div class="row g-2" data-media-picker-grid></div>
+                            <div class="text-center text-muted small mt-3 d-none" data-media-picker-empty>
+                                Nincs találat.
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="me-auto small text-muted" data-media-picker-selected-count></div>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Mégse</button>
+                            <button type="button" class="btn btn-primary" data-media-picker-apply>Kiválasztás mentése</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .media-picker-thumb {
+                    width: 100%;
+                    aspect-ratio: 1 / 1;
+                    object-fit: cover;
+                    border-radius: .5rem;
+                    background: #f1f3f5;
+                }
+                .media-picker-card {
+                    cursor: pointer;
+                    border: 1px solid rgba(0,0,0,.08);
+                    border-radius: .75rem;
+                    overflow: hidden;
+                    background: #fff;
+                    transition: transform .05s ease-in-out, box-shadow .05s ease-in-out;
+                }
+                .media-picker-card:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 16px rgba(0,0,0,.08);
+                }
+                .media-picker-card.is-selected {
+                    outline: 3px solid rgba(13, 110, 253, .35);
+                    border-color: rgba(13, 110, 253, .55);
+                }
+                .media-picker-preview {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+                    gap: .5rem;
+                }
+                .media-picker-preview img {
+                    width: 100%;
+                    aspect-ratio: 1 / 1;
+                    object-fit: cover;
+                    border-radius: .5rem;
+                    border: 1px solid rgba(0,0,0,.08);
+                }
+            </style>
+            <script>
+                window.addEventListener('load', () => {
+                    const pickerUrl = {{ path('admin_v1_cms_media_picker')|json_encode|raw }};
+                    const modalEl = document.getElementById('mediaPickerModal');
+                    if (!modalEl) return;
+
+                    const gridEl = modalEl.querySelector('[data-media-picker-grid]');
+                    const emptyEl = modalEl.querySelector('[data-media-picker-empty]');
+                    const searchEl = modalEl.querySelector('[data-media-picker-search]');
+                    const onlyImagesEl = modalEl.querySelector('#mediaPickerOnlyImages');
+                    const applyBtn = modalEl.querySelector('[data-media-picker-apply]');
+                    const selectedCountEl = modalEl.querySelector('[data-media-picker-selected-count]');
+
+                    let activeFieldName = null;
+                    let activeSelectEl = null;
+                    let lastItems = [];
+                    let selectedIds = new Set();
+                    let inflight = null;
+
+                    function getSelectForField(fieldName) {
+                        const byId = document.querySelector(`select[id$="_${fieldName}"]`);
+                        if (byId) return byId;
+                        return document.querySelector(`select[name$="[${fieldName}][]"], select[name$="[${fieldName}]"]`);
+                    }
+
+                    function readSelectedFromSelect(selectEl) {
+                        selectedIds = new Set(Array.from(selectEl.options).filter(o => o.selected).map(o => o.value));
+                    }
+
+                    function setSelectedOnSelect(selectEl, ids) {
+                        const idSet = new Set(Array.from(ids).map(String));
+                        Array.from(selectEl.options).forEach(opt => {
+                            opt.selected = idSet.has(String(opt.value));
+                        });
+                        selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+                    }
+
+                    function renderPreview(fieldName, items) {
+                        const previewEl = document.querySelector(`[data-media-picker-preview="${fieldName}"]`);
+                        if (!previewEl) return;
+
+                        const selected = Array.from(selectedIds);
+                        if (selected.length === 0) {
+                            previewEl.innerHTML = '<div class="text-muted small mt-2">Nincs kiválasztott kép.</div>';
+                            return;
+                        }
+
+                        const selectedItems = selected
+                            .map(id => items.find(i => String(i.id) === String(id)))
+                            .filter(Boolean);
+
+                        previewEl.innerHTML = `
+                            <div class="media-picker-preview">
+                                ${selectedItems.map(i => `
+                                    <img src="${i.url}" alt="${(i.originalName || '').replaceAll('"', '&quot;')}" loading="lazy">
+                                `).join('')}
+                            </div>
+                        `;
+                    }
+
+                    function renderGrid(items) {
+                        gridEl.innerHTML = '';
+                        if (!items || items.length === 0) {
+                            emptyEl.classList.remove('d-none');
+                            selectedCountEl.textContent = '';
+                            return;
+                        }
+                        emptyEl.classList.add('d-none');
+
+                        items.forEach(item => {
+                            const col = document.createElement('div');
+                            col.className = 'col-6 col-sm-4 col-md-3 col-lg-2';
+
+                            const card = document.createElement('div');
+                            card.className = 'media-picker-card p-2';
+                            card.dataset.mediaId = String(item.id);
+
+                            const img = document.createElement('img');
+                            img.className = 'media-picker-thumb';
+                            img.loading = 'lazy';
+                            img.src = item.url;
+                            img.alt = item.originalName || '';
+
+                            const name = document.createElement('div');
+                            name.className = 'small text-truncate mt-2';
+                            name.textContent = item.originalName || ('#' + item.id);
+
+                            card.appendChild(img);
+                            card.appendChild(name);
+                            col.appendChild(card);
+                            gridEl.appendChild(col);
+
+                            card.addEventListener('click', () => {
+                                const id = String(item.id);
+                                if (selectedIds.has(id)) {
+                                    selectedIds.delete(id);
+                                } else {
+                                    selectedIds.add(id);
+                                }
+                                card.classList.toggle('is-selected', selectedIds.has(id));
+                                selectedCountEl.textContent = `${selectedIds.size} kiválasztva`;
+                            });
+                        });
+
+                        gridEl.querySelectorAll('.media-picker-card').forEach(card => {
+                            card.classList.toggle('is-selected', selectedIds.has(card.dataset.mediaId));
+                        });
+                        selectedCountEl.textContent = `${selectedIds.size} kiválasztva`;
+                    }
+
+                    async function loadItems() {
+                        const q = (searchEl.value || '').trim();
+                        const onlyImages = onlyImagesEl.checked ? '1' : '0';
+                        const url = new URL(pickerUrl, window.location.origin);
+                        if (q) url.searchParams.set('q', q);
+                        url.searchParams.set('onlyImages', onlyImages);
+
+                        if (inflight) {
+                            try { inflight.abort(); } catch (e) {}
+                        }
+                        inflight = new AbortController();
+
+                        const res = await fetch(url.toString(), { credentials: 'include', signal: inflight.signal });
+                        if (!res.ok) throw new Error('Failed to load media');
+                        const data = await res.json();
+                        lastItems = (data && data.items) ? data.items : [];
+                        renderGrid(lastItems);
+                        if (activeFieldName) renderPreview(activeFieldName, lastItems);
+                    }
+
+                    document.querySelectorAll('[data-media-picker-trigger]').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            activeFieldName = btn.getAttribute('data-media-picker-trigger');
+                            activeSelectEl = getSelectForField(activeFieldName);
+                            if (!activeSelectEl) return;
+                            readSelectedFromSelect(activeSelectEl);
+                            selectedCountEl.textContent = `${selectedIds.size} kiválasztva`;
+                            loadItems().catch(() => {});
+                        });
+                    });
+
+                    document.querySelectorAll('[data-media-picker-clear]').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const fieldName = btn.getAttribute('data-media-picker-clear');
+                            const selectEl = getSelectForField(fieldName);
+                            if (!selectEl) return;
+                            setSelectedOnSelect(selectEl, []);
+                            selectedIds = new Set();
+                            renderPreview(fieldName, lastItems);
+                        });
+                    });
+
+                    applyBtn.addEventListener('click', () => {
+                        if (!activeSelectEl || !activeFieldName) return;
+                        setSelectedOnSelect(activeSelectEl, selectedIds);
+                        renderPreview(activeFieldName, lastItems);
+                        const modal = bootstrap.Modal.getInstance(modalEl);
+                        if (modal) modal.hide();
+                    });
+
+                    let searchTimer = null;
+                    searchEl.addEventListener('input', () => {
+                        clearTimeout(searchTimer);
+                        searchTimer = setTimeout(() => loadItems().catch(() => {}), 250);
+                    });
+                    onlyImagesEl.addEventListener('change', () => loadItems().catch(() => {}));
+
+                    const initialSelect = getSelectForField('gallery');
+                    if (initialSelect) {
+                        activeFieldName = 'gallery';
+                        activeSelectEl = initialSelect;
+                        readSelectedFromSelect(activeSelectEl);
+                        loadItems().then(() => {
+                            renderPreview('gallery', lastItems);
+                        }).catch(() => {
+                            const previewEl = document.querySelector('[data-media-picker-preview="gallery"]');
+                            if (previewEl) previewEl.innerHTML = '<div class="text-muted small mt-2">Nincs kiválasztott kép.</div>';
+                        }).finally(() => {
+                            activeFieldName = null;
+                            activeSelectEl = null;
+                        });
+                    }
+                });
+            </script>
 
         </div>
 
