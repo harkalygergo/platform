@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7fa5c2bcfca24bd47b54e9f53e37fac",
+    "content-hash": "4992a9e028dcc4dc9a63611ae6d8a368",
     "packages": [
         {
             "name": "composer/semver",
@@ -1385,21 +1385,21 @@
         },
         {
             "name": "lelyfoto/twig-instanceof",
-            "version": "v1.2",
+            "version": "v1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lelyfoto/twig-instanceof.git",
-                "reference": "faeb866e8b92c763a3ef6e981fd135e7a38eb26b"
+                "reference": "7f98a21a60c5178b8f69730b8dc1ad5aeec60684"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lelyfoto/twig-instanceof/zipball/faeb866e8b92c763a3ef6e981fd135e7a38eb26b",
-                "reference": "faeb866e8b92c763a3ef6e981fd135e7a38eb26b",
+                "url": "https://api.github.com/repos/lelyfoto/twig-instanceof/zipball/7f98a21a60c5178b8f69730b8dc1ad5aeec60684",
+                "reference": "7f98a21a60c5178b8f69730b8dc1ad5aeec60684",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0",
-                "symfony/framework-bundle": "^5.4 || ^6.0 || ^7.0",
+                "symfony/framework-bundle": "^5.4 || ^6.0 || ^7.0 || ^8.0",
                 "twig/twig": "^3.0"
             },
             "type": "symfony-bundle",
@@ -1427,9 +1427,9 @@
             ],
             "support": {
                 "issues": "https://github.com/lelyfoto/twig-instanceof/issues",
-                "source": "https://github.com/lelyfoto/twig-instanceof/tree/v1.2"
+                "source": "https://github.com/lelyfoto/twig-instanceof/tree/v1.3"
             },
-            "time": "2024-01-02T09:05:44+00:00"
+            "time": "2026-05-02T12:12:29+00:00"
         },
         {
             "name": "monolog/monolog",

@@ -1,5 +1,6 @@
 # TODO
 
+- látogatottsági statisztika
 - Shop felhasználói fiók létrehozása, Epsilon sablon esetén beveztés
 - Web deploy utemezes azonnali vegrehajtas helyett
 - emlékeztető levél, ha már X ideje nem lépett be ("Közben több hasznos újdonságunk is lett, érdemes ránézni! Ha segítség kell, írj bátran a hello @ domain.tld címre és segítünk!)
