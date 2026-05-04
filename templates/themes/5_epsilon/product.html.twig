@@ -11,34 +11,34 @@
             <div class="col-md-6">
                 {% if product.mainImage is not null %}
                     <div id="productGallery" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            {% if product.mainImage is not null %}
-                                <a href="/media/{{ product.mainImage.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
-                                    <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.name }}" class="d-block w-100">
-                                </a>
-                            {% endif %}
-                        </div>
-                        {% for productImage in product.productMedias %}
-                            {% set media = productImage.media %}
-                            <div class="carousel-item">
-                                <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen">
-                                    <img src="/media/{{ media.originalName }}" alt="{{ productImage.label ?? product.name }}" class="d-block w-100" loading="lazy">
-                                </a>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                {% if product.mainImage is not null %}
+                                    <a href="/media/{{ product.mainImage.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen" class="lightboxGalleryImage">
+                                        <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.name }}" class="d-block w-100">
+                                    </a>
+                                {% endif %}
                             </div>
-                        {% endfor %}
+                            {% for productImage in product.productMedias %}
+                                {% set media = productImage.media %}
+                                <div class="carousel-item">
+                                    <a href="/media/{{ media.originalName }}" data-toggle="product-lightbox" data-gallery="product-gallery" data-size="fullscreen" class="lightboxGalleryImage">
+                                        <img src="/media/{{ media.originalName }}" alt="{{ productImage.label ?? product.name }}" class="d-block w-100" loading="lazy">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if product.productMedias is not empty %}
+                            <button class="carousel-control-prev" type="button" data-bs-target="#productGallery" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#productGallery" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        {% endif %}
                     </div>
-                    {% if product.productMedias is not empty %}
-                        <button class="carousel-control-prev" type="button" data-bs-target="#productGallery" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#productGallery" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    {% endif %}
-                </div>
                 {% endif %}
             </div>
             <div class="col-md-6">
@@ -89,6 +89,13 @@
 
 {% block scripts %}
     <script src="https://cdn.brandcomstudio.com/node_modules/bs5-lightbox/dist/index.bundle.min.js"></script>
+
+    <script src="https://cdn.brandcomstudio.com/node_modules/lightgallery/lightgallery.umd.js"></script>
+
+    <script src="https://cdn.brandcomstudio.com/node_modules/lightgallery/plugins/thumbnail/lg-thumbnail.umd.js"></script>
+
+    <script src="https://cdn.brandcomstudio.com/node_modules/lightgallery/plugins/zoom/lg-zoom.umd.js"></script>
+
     <script>
         function getCart() {
             const match = document.cookie.match(/(^| )cart=([^;]+)/);
@@ -121,6 +128,7 @@
             document.getElementById("addToCartSuccessAlert").style.display = "block";
         }
 
+        /*
         function lightBox()
         {
             const options = {
@@ -134,9 +142,16 @@
                 lightbox.show();
             }));
         }
+        */
 
         window.addEventListener("load", (event) => {
-            lightBox();
+            //lightBox();
+            lightGallery(document.getElementById('productGallery'), {
+                plugins: [lgZoom, lgThumbnail],
+                speed: 500,
+                selector: '.lightboxGalleryImage'
+                //licenseKey: 'your_license_key'
+            });
         });
     </script>
 {% endblock %}
