@@ -74,7 +74,8 @@ class MediaController extends PlatformController
                 'originalName' => $media->getOriginalName(),
                 'type' => $media->getType(),
                 'description' => $media->getDescription(),
-                'url' => 'http://localhost/media/' . $media->getOriginalName(),
+                // TODO multiple instead of first domain
+                'url' => 'https://'.$this->currentInstance->getWebsites()->first()->getDomain().'/media/' . $media->getOriginalName(),
             ];
         }
 
