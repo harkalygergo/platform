@@ -3,6 +3,7 @@
 namespace App\Controller\Platform\Ecom;
 
 use App\Controller\Platform\PlatformController;
+use App\Entity\Platform\Ecom\Product;
 use App\Form\Platform\Ecom\ProductType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -99,6 +100,17 @@ class ProductController extends PlatformController
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/{_locale}/ecom/v1/products/delete/{product}', name: 'admin_v1_shop_products_edit')]
+    public function delete(Product $product): Response
+    {
+        if ($product->getInstance() === $this->currentInstance) {
+            $this->doctrine->getManager()->remove($product);
+            $this->doctrine->getManager()->flush();
+        }
+
+        return $this->redirectToRoute('admin_v1_shop_products');
     }
 }
 
