@@ -1,0 +1,72 @@
+
+<!--script src="assets/js/googlemap.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLP7vS2Gto8vLFtVv-H28mTsK0V9MzM8E&callback=initMap"></script>
+<script src="assets/js/jquery-3.2.1.min.js"></script>
+<script src='assets/js/jquery.shuffle.min.js'></script>
+<script src="assets/js/imagesloaded.pkgd.min.js"></script>
+<script src='assets/js/bootstrap.bundle.min.js'></script>
+<script src='assets/js/owl.carousel.min.js'></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/validator.min.js"></script>
+<script src="assets/js/form-scripts.js"></script>
+<script src="assets/js/main.js"></script-->
+
+<script src="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.brandcomstudio.com/vendor/components/jquery/jquery.min.js"></script>
+<script src="https://cdn.brandcomstudio.com/node_modules/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<!--script src="//cdn.brandcomstudio.com/vendor/components/modernizr/modernizr.js"></script-->
+<script src='/jquery.shuffle.modernizr.min.js'></script>
+<script src='/jquery.shuffle.min.js'></script>
+<!--script src="//cdn.brandcomstudio.com/node_modules/shufflejs/dist/shuffle.min.js"></script-->
+<script src="https://cdn.brandcomstudio.com/assets/OwlCarousel2-2.3.4/dist/owl.carousel.min.js"></script>
+<script src="https://cdn.brandcomstudio.com/node_modules/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+<script src="https://cdn.brandcomstudio.com/node_modules/swiper/swiper.min.js"></script>
+
+
+<script src="/footer-script.js"></script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y748BEB0VW"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-Y748BEB0VW');
+</script>
+
+
+<script>
+    function getCart() {
+        const match = document.cookie.match(/(^| )cart=([^;]+)/);
+        return match ? JSON.parse(decodeURIComponent(match[2])) : [];
+    }
+
+    function saveCart(cart) {
+        document.cookie = "cart=" + encodeURIComponent(JSON.stringify(cart)) + ";path=/;max-age=604800;SameSite=None;Secure";
+    }
+
+    function addToCart(productID, productName, price) {
+        let cart = getCart();
+
+        const existing = cart.find(p => p.ID === productID);
+
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({
+                ID: productID,
+                name: productName,
+                price: price,
+                qty: 1
+            });
+        }
+
+        saveCart(cart);
+        alert("Termék sikeresen kosárba helyezve.");
+    }
+
+    window.addEventListener("load", (event) => {
+    });
+</script>

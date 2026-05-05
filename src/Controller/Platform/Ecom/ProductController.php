@@ -105,9 +105,13 @@ class ProductController extends PlatformController
     #[Route('/{_locale}/ecom/v1/products/delete/{product}', name: 'admin_v1_shop_products_edit')]
     public function delete(Product $product): Response
     {
+        $productName = $product->getName();
+
         if ($product->getInstance() === $this->currentInstance) {
             $this->doctrine->getManager()->remove($product);
             $this->doctrine->getManager()->flush();
+
+            $this->addFlash('success', $productName . ' ' . $this->translator->trans('action.deleted'));
         }
 
         return $this->redirectToRoute('admin_v1_shop_products');
