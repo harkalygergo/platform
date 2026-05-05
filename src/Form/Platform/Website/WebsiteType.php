@@ -192,18 +192,6 @@ class WebsiteType extends AbstractType
             ])
 
 
-            ->add('termsAndConditions', EntityType::class, [
-                'class' => CmsPage::class,
-                'choice_label' => 'title',
-                'required' => false,
-                'query_builder' => function (CmsPageRepository $repo) use ($currentWebsite) {
-                    return $repo->createQueryBuilder('p')
-                        ->where('p.instance = :instance')
-                        ->setParameter('instance', $currentWebsite->getInstance());
-                },
-            ])
-
-
             ->add('FTPHost', TextType::class, [
                 'label' => 'FTP host',
                 'required' => false,
@@ -292,6 +280,16 @@ class WebsiteType extends AbstractType
 
         if ($currentWebsite) {
             $builder
+                ->add('termsAndConditions', EntityType::class, [
+                    'class' => CmsPage::class,
+                    'choice_label' => 'title',
+                    'required' => false,
+                    'query_builder' => function (CmsPageRepository $repo) use ($currentWebsite) {
+                        return $repo->createQueryBuilder('p')
+                            ->where('p.instance = :instance')
+                            ->setParameter('instance', $currentWebsite->getInstance());
+                    },
+                ])
                 ->add('favicon', EntityType::class, [
                     'class' => WebsiteMedia::class,
                     'choice_label' => 'originalName', // Adjust to the property you want to display
