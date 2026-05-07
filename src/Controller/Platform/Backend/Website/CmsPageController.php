@@ -56,6 +56,7 @@ class CmsPageController extends PlatformController
             'title' => ' oldalak',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
+                'featuredImage' => 'Kiemelt kép',
                 'title' => 'Cím',
                 'slug' => 'Slug',
                 'status' => 'Státusz',

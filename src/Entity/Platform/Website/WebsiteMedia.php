@@ -212,4 +212,17 @@ class WebsiteMedia
         $this->isPublic = $isPublic;
         return $this;
     }
+
+    public function __toString(): string
+    {
+        $imageTypes = ['image/jpeg', 'image/webp', 'image/png', 'image/gif'];
+
+        if (in_array($this->type, $imageTypes)) {
+            return '<a target="_blank" href="//'.$this->instance->getWebsites()->first()->getDomain().'/media/' . $this->originalName . '">
+                <img style="width:50px;height:auto;" alt="" src="//'.$this->instance->getWebsites()->first()->getDomain().'/media/' . $this->originalName . '" />
+            </a>';
+        }
+
+        return '';
+    }
 }

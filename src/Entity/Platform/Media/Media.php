@@ -197,9 +197,9 @@ class Media
         return $this;
     }
 
-    public function preview()
+    public function __toString(): string
     {
-        $imageTypes = ['image/jpeg', 'image/webp'];
+        $imageTypes = ['image/jpeg', 'image/webp', 'image/png', 'image/gif'];
 
         if (in_array($this->type, $imageTypes)) {
             return '<a target="_blank" href="//'.$this->instance->getWebsites()->first()->getDomain().'/media/' . $this->originalName . '">
@@ -207,6 +207,11 @@ class Media
             </a>';
         }
 
-        return null;
+        return '';
+    }
+
+    public function preview(): string
+    {
+        return $this->__toString();
     }
 }

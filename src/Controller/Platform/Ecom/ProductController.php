@@ -24,6 +24,7 @@ class ProductController extends PlatformController
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => 'Termékek',
             'tableHead' => [
+                'mainImage' => 'Kiemelt kép',
                 'name' => 'Név',
                 'shortDescription' => 'Rövid leírás',
                 'sku' => 'SKU',
