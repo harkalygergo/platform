@@ -101,7 +101,9 @@ class WebsiteController extends PlatformController
         $existingWebsite = $this->doctrine->getRepository(Website::class)->find($website->getId());
         $existingWebsitePassword = $existingWebsite->getFTPPassword();
 
-        $form = $this->createForm(WebsiteType::class, $website);
+        $form = $this->createForm(WebsiteType::class, $website, [
+            'currentInstance' => $this->currentInstance,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

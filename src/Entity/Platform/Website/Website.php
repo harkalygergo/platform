@@ -5,6 +5,7 @@ namespace App\Entity\Platform\Website;
 use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Ecom\ProductCategory;
 use App\Entity\Platform\Instance;
+use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Template;
 use App\Entity\Platform\User;
 use App\Repository\Platform\Website\WebsiteRepository;
@@ -61,13 +62,13 @@ class Website
     #[ORM\Column(length: 320, nullable: true)]
     private ?string $description;
 
-    #[ORM\ManyToOne(targetEntity: WebsiteMedia::class)]
+    #[ORM\ManyToOne(targetEntity: Media::class)]
     #[ORM\JoinColumn(nullable: true)]
-    private ?WebsiteMedia $favicon = null;
+    private ?Media $favicon = null;
 
-    #[ORM\ManyToOne(targetEntity: WebsiteMedia::class)]
+    #[ORM\ManyToOne(targetEntity: Media::class)]
     #[ORM\JoinColumn(nullable: true)]
-    private ?WebsiteMedia $logo = null;
+    private ?Media $logo = null;
 
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $phone;
@@ -348,24 +349,24 @@ class Website
         return $this;
     }
 
-    public function getFavicon(): ?WebsiteMedia
+    public function getFavicon(): ?Media
     {
         return $this->favicon;
     }
 
-    public function setFavicon(?WebsiteMedia $favicon): self
+    public function setFavicon(?Media $favicon): self
     {
         $this->favicon = $favicon;
 
         return $this;
     }
 
-    public function getLogo(): ?WebsiteMedia
+    public function getLogo(): ?Media
     {
         return $this->logo;
     }
 
-    public function setLogo(?WebsiteMedia $logo): self
+    public function setLogo(?Media $logo): self
     {
         $this->logo = $logo;
 

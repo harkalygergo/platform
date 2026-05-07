@@ -2,12 +2,12 @@
 
 namespace App\Form\Platform\Website;
 
+use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Template;
 use App\Entity\Platform\Website\CmsPage;
 use App\Entity\Platform\Website\Website;
-use App\Entity\Platform\Website\WebsiteMedia;
+use App\Repository\Platform\Media\MediaRepository;
 use App\Repository\Platform\Website\CmsPageRepository;
-use App\Repository\Platform\Website\WebsiteMediaRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -31,6 +31,7 @@ class WebsiteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $currentWebsite = $options['data'] ?? null; // Get the current Website entity
+        $currentInstance = $options['currentInstance'];
 
         $builder
             ->add('domain', TextType::class, [
@@ -291,12 +292,12 @@ class WebsiteType extends AbstractType
                     },
                 ])
                 ->add('favicon', EntityType::class, [
-                    'class' => WebsiteMedia::class,
+                    'class' => Media::class,
                     'choice_label' => 'originalName', // Adjust to the property you want to display
-                    'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                    'query_builder' => function (MediaRepository $er) use ($currentInstance) {
                         return $er->createQueryBuilder('wm')
-                            ->where('wm.website = :website')
-                            ->setParameter('website', $currentWebsite->getId());
+                            ->where('wm.instance = :instance')
+                            ->setParameter('instance', $currentInstance);
                     },
                     'required' => false,
                     'placeholder' => 'Select a favicon',
@@ -305,12 +306,12 @@ class WebsiteType extends AbstractType
                     ],
                 ])
                 ->add('logo', EntityType::class, [
-                    'class' => WebsiteMedia::class,
+                    'class' => Media::class,
                     'choice_label' => 'originalName', // Adjust to the property you want to display
-                    'query_builder' => function (WebsiteMediaRepository $er) use ($currentWebsite) {
+                    'query_builder' => function (MediaRepository $er) use ($currentInstance) {
                         return $er->createQueryBuilder('wm')
-                            ->where('wm.website = :website')
-                            ->setParameter('website', $currentWebsite->getId());
+                            ->where('wm.instance = :instance')
+                            ->setParameter('instance', $currentInstance);
                     },
                     'required' => false,
                     'placeholder' => 'Select a logo',
@@ -326,6 +327,7 @@ class WebsiteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Website::class,
+            'currentInstance' => null,
         ]);
     }
 }
