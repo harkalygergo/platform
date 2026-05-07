@@ -79,6 +79,9 @@ class Webshop
     #[ORM\Column(length: 320, nullable: true)]
     private ?string $address;
 
+    #[ORM\Column(length: 320, nullable: true)]
+    private ?string $googleMapsLink;
+
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $facebook;
 
@@ -396,6 +399,16 @@ class Webshop
         $this->address = $address;
 
         return $this;
+    }
+
+    public function getGoogleMapsLink(): ?string
+    {
+        return $this->googleMapsLink;
+    }
+
+    public function setGoogleMapsLink(?string $googleMapsLink): void
+    {
+        $this->googleMapsLink = $googleMapsLink;
     }
 
     public function getFacebook(): ?string

@@ -84,6 +84,13 @@ class WebsiteType extends AbstractType
                 ],
                 'label' => $this->translator->trans('address.address'),
             ])
+            ->add('googleMapsLink', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'Google Maps URL',
+            ])
             ->add('facebook', TextType::class, [
                 'required' => false,
                 'attr' => [

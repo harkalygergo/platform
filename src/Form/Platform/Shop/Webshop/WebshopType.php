@@ -73,6 +73,13 @@ class WebshopType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('googleMapsLink', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'Google Maps URL',
+            ])
             ->add('facebook', TextType::class, [
                 'required' => false,
                 'attr' => [
