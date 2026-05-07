@@ -131,7 +131,7 @@
                                                         {{ item.title }}{% if not loop.last %}, {% endif %}
                                                     {% endfor %}
                                                 {% else %}
-                                                    {{ variable }}
+                                                    {{ variable|raw }}
                                                 {% endif %}
                                             {% endif %}
                                         </td>

@@ -29,6 +29,7 @@ class MediaController extends PlatformController
             'title' => ' media',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
+                'preview' => 'Előnézet',
                 'originalName' => 'Eredeti név',
                 'type' => 'Típus',
                 'size' => 'Méret (bytes)',

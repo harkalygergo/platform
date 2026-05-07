@@ -196,4 +196,17 @@ class Media
         $this->isPublic = $isPublic;
         return $this;
     }
+
+    public function preview()
+    {
+        $imageTypes = ['image/jpeg', 'image/webp'];
+
+        if (in_array($this->type, $imageTypes)) {
+            return '<a target="_blank" href="//'.$this->instance->getWebsites()->first()->getDomain().'/media/' . $this->originalName . '">
+                <img style="width:50px;height:auto;" alt="" src="//'.$this->instance->getWebsites()->first()->getDomain().'/media/' . $this->originalName . '" />
+            </a>';
+        }
+
+        return null;
+    }
 }
