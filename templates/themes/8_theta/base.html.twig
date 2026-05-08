@@ -4,14 +4,16 @@
 {% include 'themes/8_theta/head.html.twig' %}
 
 <body>
-<div class="bg-title">
+<div class="container-fluid">
+    <div class="row">
 
-    {% include 'themes/8_theta/sidebar.html.twig' %}
+        {% include 'themes/8_theta/sidebar.html.twig' %}
 
-    {% block body %}
-    {% endblock %}
+        {% block body %}
+        {% endblock %}
 
-</div> <!-- /.bg-title  -->
+    </div>
+</div>
 
 {% include 'themes/8_theta/footer.html.twig' %}
 

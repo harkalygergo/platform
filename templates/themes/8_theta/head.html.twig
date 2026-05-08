@@ -1,16 +1,16 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ website.title }}</title>
-    <meta name="description" content="A 3525 Miskolc, Dózsa György 27. alatt található viking tematikájú street food büfénkben nemcsak olyan különleges hamburgerek érhetőek el, mint például Lagertha, Björn vagy Floki, hanem csirkeszárnyak, gyros tál vagy akár pulled pork is.">
+    <meta name="description" content="{{ website.description }}">
     <meta name="robots" content="index,follow">
     <meta name="author" content="">
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.valhallacalling.hu" />
-    <meta property="og:title" content="Valhalla Calling viking tematikájú burgerező Miskolcon" />
-    <meta property="og:description" content="A 3525 Miskolc, Dózsa György 27. alatt található viking tematikájú street food büfénkben nemcsak olyan különleges hamburgerek érhetőek el, mint például Lagertha, Björn vagy Floki, hanem csirkeszárnyak, gyros tál vagy akár pulled pork is." />
+    <meta property="og:url" content="https://{{ website.domain }}" />
+    <meta property="og:title" content="{{ website.title }}" />
+    <meta property="og:description" content="{{ website.description }}" />
     <meta property="og:image" content="https://www.valhallacalling.hu/media/facebook.jpg" />
     <meta property="fb:app_id" content="1454931065532523" />
 
@@ -26,12 +26,31 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/components/font-awesome/css/fontawesome.min.css">
+    <!--link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/components/font-awesome/css/fontawesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/assets/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/assets/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/node_modules/magnific-popup/dist/magnific-popup.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/node_modules/swiper/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/node_modules/swiper/swiper.min.css"-->
 
     <link rel="stylesheet" type="text/css" href="/style.css">
+
+
+    <style>
+        :root {
+            --main-color: #b28647;
+        }
+        .text-bg-primary {
+            background-color: var(--main-color) !important;
+        }
+        .list-group-item{
+            background-color: transparent;
+        }
+        h2 {
+            color: var(--main-color) !important;
+        }
+        .border-primary {
+            border-color: var(--main-color) !important;
+        }
+    </style>
 
 </head>

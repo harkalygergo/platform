@@ -1,26 +1,45 @@
 <!-- Navigation -->
-<div class="col-lg-2 pd-left">
-    <div class="mobile-nav">
-        <i class="bi bi-list" aria-hidden="true"></i>
-    </div>
+<div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary text-center vh-100 py-3">
     <nav class="nav-menu">
-        <div class="header-menu">
-            <a class="menu-logo" href=""><img src="/favicon.png" alt="logo"></a>
-            <h3 class="text-dark nosifer-regular">Valhalla Calling</h3>
-        </div>
-        <ul class="menu-text clk">
-            <li><a href="#home">Kezdőlap</a></li>
-            <li><a href="#about">Étlap</a></li>
-            <li><a href="#portfolio">Galéria</a></li>
-            <li><a href="#resume">Történetünk</a></li>
-            <li><a href="#contact">Kapcsolat</a></li>
+        <a href="/">
+            <img class="img-fluid" src="/media/{{ website.logo.originalName }}" alt="logo">
+        </a>
+        <h1 class="text-dark fs-5 nosifer-regular p-3">{{ website.title }}</h1>
+
+        <ul class="list-group list-group-flush py-5">
+            {% for menu in menus %}
+                <li class="list-group-item">
+                    <a href="{{ menu.slug }}" class="badge rounded-pill text-bg-primary p-2 m-0 text-decoration-none">{{ menu.title }}</a>
+                </li>
+            {% endfor %}
         </ul>
 
+        <ul class="list-group list-group-horizontal py-5">
+            {% if website.bluesky != null and website.bluesky != '' %}
+                <li class="list-group-item"><a class="text-bg-primary" href="{{ website.bluesky }}" target="_blank" title="Bluesky"><i class="fs-3 px-1 bi bi-bluesky"></i></a></li>
+            {% endif %}
+            {% if website.facebook != null and website.facebook != '' %}
+                <li class="list-group-item"><a class="text-bg-primary" href="{{ website.facebook }}"  target="_blank" title="Facebook"><i class="fs-3 px-1 bi bi-facebook"></i></a></li>
+            {% endif %}
+            {% if website.instagram != null and website.instagram != '' %}
+                <li class="list-group-item"><a class="text-bg-primary" href="{{ website.instagram }}"  target="_blank" title="Instagram"><i class="fs-3 px-1 bi bi-instagram"></i></a></li>
+            {% endif %}
+            {% if website.linkedin != null and website.linkedin != '' %}
+                <li class="list-group-item"><a class="text-bg-primary" href="{{ website.linkedin }}"  target="_blank" title="LinkedIn"><i class="fs-3 px-1 bi bi-linkedin"></i></a></li>
+            {% endif %}
+            {% if website.threads != null and website.threads != '' %}
+                <li class="list-group-item"><a class="text-bg-primary" href="{{ website.threads }}"  target="_blank" title="Threads"><i class="fs-3 px-1 bi bi-threads"></i></a></li>
+            {% endif %}
+            {% if website.tiktok != null and website.tiktok != '' %}
+                <li class="list-group-item"><a class="text-bg-primary" href="{{ website.twitter }}"  target="_blank" title="Tiktok"><i class="fs-3 px-1 bi bi-tiktok"></i></a></li>
+            {% endif %}
+            {% if website.twitter != null and website.twitter != '' %}
+                <li class="list-group-item"><a class="text-bg-primary" href="{{ website.twitter }}"  target="_blank" title="X (Twitter)"><i class="fs-3 px-1 bi bi-twitter-x"></i></a></li>
+            {% endif %}
+            {% if website.googleMapsLink != null and website.googleMapsLink != '' %}
+                <li class="list-group-item"><a class="text-bg-primary" href="{{ website.googleMapsLink }}"  target="_blank" title="Google Maps"><i class="fs-3 px-1 bi bi-geo-alt-fill"></i></a></li>
+            {% endif %}
 
-        <ul class="social-links">
-            <li><a target="_blank" href="https://www.facebook.com/valhallacalling.hu"><i class="bi bi-facebook fs-3 px-1"></i></a></li>
-            <li><a target="_blank" href="https://www.tiktok.com/@ValhallaCalling_2024"><i class="bi bi-tiktok fs-3 px-1"></i></a></li>
-            <li><a target="_blank" href="https://maps.app.goo.gl/mooXPqUmd1PDpUNC8"><i class="bi bi-geo-alt-fill fs-3 px-1"></i></a></li>
         </ul>
     </nav>
 </div><!-- /.col-lg-2 -->

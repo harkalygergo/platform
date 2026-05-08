@@ -35,37 +35,7 @@
                         </div><!-- /.about-me -->
                     </div>
 
-                    {% if products is defined %}
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Megnevezés</th>
-                                        <th>Kategória</th>
-                                        <th>Ár</th>
-                                        <th>Kosárba</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for product in products %}
-                                        <tr>
-                                            <td>
-                                                <b>{{ product.name }}</b>
-                                                <br>{{ product.description|raw }}
-                                            </td>
-                                            <td>
-                                                {{ product.category.name }}
-                                            </td>
-                                            <td>{{ product.price|format_number(locale='hu') }} {{ product.currency }}</td>
-                                            <td class="text-end">
-                                                <a href="#" class="btn btn-sm btn-dark btn-fluid" onclick="addToCart({{ product.id }}, '{{ product.name }}', {{ product.price }});"><i class="bi bi-cart-plus"></i> Kosárba</a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% endif %}
+
 
                     <div class="col-sm-6">
                         <hr>

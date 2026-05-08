@@ -649,6 +649,13 @@ class WebsiteController extends PlatformController
                 }
             }
 
+            if (str_contains($pageContent, '[products_list_cart]')) {
+                $form = $this->renderView('shortcode/products_list_cart.html.twig', [
+                    'products' => $products,
+                ]);
+                $pageContent = str_replace(['<p>[products_list_cart]</p>', '[products_list_cart]'], $form, $pageContent);
+            }
+
             // if page is homepage, use index.html.twig template
             $templateFile = 'index.html.twig';
 
