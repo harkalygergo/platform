@@ -205,7 +205,7 @@
                         {{ cartItem.qty }} x {{ cartItem.price|format_currency('HUF', {'fraction_digit': 0}, 'hu') }} = {{ (cartItem.qty * cartItem.price)|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}
                     </li>
                 {% endfor %}
-                <li><strong>Szállítás</strong><br>{{ shippingMethods.first.fee|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</li>
+                <li><strong>Szállítás</strong><br>{{ shippingMethods["0"].fee|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</li>
             </ul>
             <p class="border-top text-center pt-4 fs-3 fw-bold">{{ sum|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</p>
         </div>

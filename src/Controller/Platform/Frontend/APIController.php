@@ -7,6 +7,7 @@ use App\Entity\Platform\API\API;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Webshop\PaymentMethod;
+use App\Entity\Platform\Webshop\ShippingMethod;
 use App\Enum\Platform\OrderStatusEnum;
 use App\Repository\OrderRepository;
 use App\Repository\Platform\Webshop\PaymentMethodRepository;
@@ -132,7 +133,11 @@ class APIController extends PlatformController
 
         switch ($parameters['action']) {
             case 'checkout': {
-                $shippingMethods = $instance->getShippingMethods();
+                //$shippingMethods = $instance->getShippingMethods();
+                $shippingMethods = $this->doctrine->getRepository(ShippingMethod::class)->findBy([
+                    'instance' => $instance,
+                    'status' => true,
+                ]);
                 $paymentMethods = $instance->getPaymentMethods();
 
                 /*
