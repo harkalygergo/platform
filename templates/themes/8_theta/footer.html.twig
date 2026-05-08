@@ -55,6 +55,30 @@
         alert("Termék sikeresen kosárba helyezve.");
     }
 
+    function checkout(APIKey)
+    {
+        const cartContents = getCartContents();
+        const checkoutDOM = document.getElementById('checkout');
+
+        /*
+        let checkoutDOMContent = '';
+        for (const cartItem of cartContents) {
+            checkoutDOMContent += cartItem.name+" - "+cartItem.price+" - "+cartItem.qty+" - "+cartItem.price*cartItem.qty+"<br>";
+        }
+        checkoutDOM.innerHTML = checkoutDOMContent;
+         */
+
+        // Usage
+        postData('{{ APP_URL }}/api/', {
+            honeypot: '',
+            action: 'checkout',
+            key: APIKey,
+            cart: JSON.stringify(cartContents)
+        }).then(html => {
+            checkoutDOM.innerHTML += html;
+        });
+    }
+
     window.addEventListener("load", (event) => {
     });
 </script>
