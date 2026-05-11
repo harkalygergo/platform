@@ -1,0 +1,14 @@
+{% extends 'themes/8_theta/base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-md-9 ms-sm-auto col-lg-10 p-3 p-md-5" style="background-image: url('/media/{{ page.featuredImage.originalName }}');background-size:cover;background-repeat:no-repeat;background-position:center center;background-attachment:fixed;">
+        <div class="p-5">
+            <p class="text-white display-6 nosifer-regular pb-0 mb-0">{{ title|raw }}</p>
+            <p class="text-white fs-5 fw-bold">{{ website.slogan|raw }}</p>
+        </div>
+        <div class="text-white p-5">{{ content|raw }}</div>
+        <a class="btn btn-dark fw-bold rounded-pill text-decoration-none" href="tel:{{ website.phone }}">📞 {{ website.phone }}</a>
+    </div>
+
+{% endblock %}

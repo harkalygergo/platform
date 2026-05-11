@@ -665,6 +665,10 @@ class WebsiteController extends PlatformController
                 $templateFile = 'page.html.twig';
             }
 
+            if ($page->isHomepage() && file_exists($projectDir.'/templates/themes/'. $websiteTemplate .'/homepage.html.twig')) {
+                $templateFile = 'homepage.html.twig';
+            }
+
             $htmlContent = $this->renderView('themes/'. $websiteTemplate .'/'.$templateFile, [
                 'website' => $website,
                 'charset' => $website->getCharset(),
