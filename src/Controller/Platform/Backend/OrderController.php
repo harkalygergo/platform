@@ -69,11 +69,13 @@ class OrderController extends PlatformBackendController
     {
         $order = $this->doctrine->getRepository(Order::class)->find($id);
 
-        $content = $order->getFirstName().' '.$order->getLastName()
-            .'<br>'.$order->getPhone()
-            .'<br>'.$order->getEmail()
-            .'<br>'.$order->getTotal().' '.$order->getCurrency()
-            .'<br>'.$order->getComment()
+        $content = 'Név: '.$order->getFirstName().' '.$order->getLastName()
+            .'<br>Telefon: '.$order->getPhone()
+            .'<br>E-mail: '.$order->getEmail()
+            .'<br>Összeg: '.$order->getTotal().' '.$order->getCurrency()
+            .'<br>Megjegyzés: '.$order->getComment()
+            .'<hr><h2>Fizetés</h2>'
+            .'<br>'.$order->getPaymentMethod()->getName()
             .'<hr><h2>Számlázás</h2>'
             .'<br>'.$order->getBillingProfile()
             .'<br>'.$order->getBillingCountry()
