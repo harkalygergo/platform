@@ -3,6 +3,7 @@
 namespace App\Entity\Platform;
 
 use App\Repository\Platform\ServiceRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -51,6 +52,9 @@ class Service
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
+
+    #[ORM\OneToMany(targetEntity: EmailAccount::class, mappedBy: 'service')]
+    private Collection $emailAccounts;
 
     public function __construct()
     {
@@ -205,4 +209,18 @@ class Service
         return $this;
     }
 
+    public function getEmailAccounts(): Collection
+    {
+        return $this->emailAccounts;
+    }
+
+    public function setEmailAccounts(Collection $emailAccounts): void
+    {
+        $this->emailAccounts = $emailAccounts;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

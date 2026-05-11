@@ -95,6 +95,9 @@ class Instance
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $paymentMethods;
 
+    #[ORM\OneToMany(targetEntity: EmailAccount::class, mappedBy: 'instance')]
+    private Collection $emailAccounts;
+
     public function __construct()
     {
         $this->status = true;
@@ -471,5 +474,15 @@ class Instance
     public function setPaymentMethods(Collection $paymentMethods): void
     {
         $this->paymentMethods = $paymentMethods;
+    }
+
+    public function getEmailAccounts(): Collection
+    {
+        return $this->emailAccounts;
+    }
+
+    public function setEmailAccounts(Collection $emailAccounts): void
+    {
+        $this->emailAccounts = $emailAccounts;
     }
 }

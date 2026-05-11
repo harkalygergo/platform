@@ -202,7 +202,7 @@ class MenuBuilder
                             ],
                             [
                                 'label' => 'E-mail fiók',
-                                'route' => null,
+                                'route' => 'admin_v1_dashboard_email_account',
                                 'icon' => 'bi bi-envelope',
                             ],
                         ]
