@@ -192,7 +192,7 @@
         </div>
         <div class="col col-12 col-md-4 p-3 bg-light rounded">
             <h4 class="fw-bold">Termék(ek)</h4>
-            {% set sum = 2490 %}
+            {% set sum = shippingMethods|first.fee %}
             {% set quantity = 0 %}
             {% set items = '' %}
             <ul>
