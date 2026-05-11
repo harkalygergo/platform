@@ -549,7 +549,7 @@ class WebsiteController extends PlatformController
     private function deployStylesheet(Website $website)
     {
         $headerCSS = $website->getHeaderCSS();
-        if ($headerCSS) {
+        //if ($headerCSS) {
             $tempFilePath = '/tmp/' . $website->getId() . '/style.css';
             file_put_contents($tempFilePath, $headerCSS);
 
@@ -562,10 +562,10 @@ class WebsiteController extends PlatformController
                 'style.css',
             );
 
-            //$this->addFlash('success', 'style.css FTP OK.');
-        } else {
+            $this->addFlash('success', 'style.css FTP OK.');
+        //} else {
             //$this->addFlash('warning', 'No header CSS found.');
-        }
+        //}
     }
 
     private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts, $products, $events, $websiteTemplate, $productCategories)
