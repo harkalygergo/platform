@@ -195,6 +195,16 @@ class MenuBuilder
                                 'route' => null,
                                 'icon' => 'bi bi-hdd',
                             ],
+                            [
+                                'label' => 'Rendszerfelhasználó',
+                                'route' => null,
+                                'icon' => 'bi bi-people',
+                            ],
+                            [
+                                'label' => 'E-mail fiók',
+                                'route' => null,
+                                'icon' => 'bi bi-envelope',
+                            ],
                         ]
                     ],
                 ]

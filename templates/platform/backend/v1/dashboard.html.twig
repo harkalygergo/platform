@@ -97,158 +97,198 @@
                     </div>
                 </div>
                 <div class="col-4">
-                    <div class="row row-cols-1 py-2">
-                        <div class="col m-1">
-                            <div class="card h-100">
-                                <div class="card-header text-uppercase fw-bold">
-                                    Szolgáltatás áttekintés
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-sm">
-                                        <tbody>
-                                        <tr>
-                                            <td>Díjcsomag:</td>
-                                            <td class="fw-bold">
-                                                {{ currentInstance.plan }}
-                                                {% if currentInstance.plan === 'free' %}
-                                                    <a class="text-decoration-none text-success" target="_blank" href="https://buymeacoffee.com/harkalygergo">☕ Hívj meg egy kávéra!</a>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Rendszer tárhely:</td>
-                                            <td class="fw-bold">10000 / ? MB</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Domain:</td>
-                                            <td class="fw-bold">
-                                                {% set domainCount = 0 %}
-                                                {% for s in currentInstance.services %}
-                                                    {% if s.type == "domain" %}
-                                                        {% set domainCount = domainCount + 1 %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                                <a class="text-black" href="{{ path('admin_v1_dashboard_domains') }}">
-                                                    {{ domainCount }}
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Aldomain:</td>
-                                            <td class="fw-bold">?</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Honlap:</td>
-                                            <td class="fw-bold">?</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Webshop:</td>
-                                            <td class="fw-bold">?</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Webalkalmazás:</td>
-                                            <td class="fw-bold">0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mobilalkalmazás:</td>
-                                            <td class="fw-bold">0</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header text-uppercase fw-bold">
+                            Szolgáltatások díjazása
                         </div>
-                        <div class="col m-1">
-                            <div class="card h-100">
-                                <div class="card-header text-uppercase fw-bold">
-                                    Szervezeti áttekintés
-                                </div>
+                        <div class="card-body">
+                            <p>A szolgáltatások számlázása előre, adott hónapra történik, minden hónap elsején. 1 kredit = 1.000,- forint.</p>
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td>Domain:</td>
+                                        <td class="fw-bold">1 kredit / hó</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Honlap:</td>
+                                        <td class="fw-bold">1 kredit / hó</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Webáruház:</td>
+                                        <td class="fw-bold">2 kredit / hó</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Webalkalmazás:</td>
+                                        <td class="fw-bold">3 kredit / hó</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mobilalkalmazás:</td>
+                                        <td class="fw-bold">4 kredit / hó</td>
+                                    </tr>
+                                    <tr>
+                                        <td>API:</td>
+                                        <td class="fw-bold">1 kredit / hó</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tárhely:</td>
+                                        <td class="fw-bold">1 kredit / hó / GB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rendszerfelhasználó:</td>
+                                        <td class="fw-bold">1 kredit / hó</td>
+                                    </tr>
+                                    <tr>
+                                        <td>E-mail fiók:</td>
+                                        <td class="fw-bold">1 kredit / hó</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header text-uppercase fw-bold">
+                            Szolgáltatás áttekintés
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm">
+                                <tbody>
+                                <tr>
+                                    <td>Díjcsomag:</td>
+                                    <td class="fw-bold">
+                                        {{ currentInstance.plan }}
+                                        {% if currentInstance.plan === 'free' %}
+                                            <a class="text-decoration-none text-success" target="_blank" href="https://buymeacoffee.com/harkalygergo">☕ Hívj meg egy kávéra!</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Rendszer tárhely:</td>
+                                    <td class="fw-bold">10000 / ? MB</td>
+                                </tr>
+                                <tr>
+                                    <td>Domain:</td>
+                                    <td class="fw-bold">
+                                        {% set domainCount = 0 %}
+                                        {% for s in currentInstance.services %}
+                                            {% if s.type == "domain" %}
+                                                {% set domainCount = domainCount + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <a class="text-black" href="{{ path('admin_v1_dashboard_domains') }}">
+                                            {{ domainCount }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Aldomain:</td>
+                                    <td class="fw-bold">?</td>
+                                </tr>
+                                <tr>
+                                    <td>Honlap:</td>
+                                    <td class="fw-bold">?</td>
+                                </tr>
+                                <tr>
+                                    <td>Webshop:</td>
+                                    <td class="fw-bold">?</td>
+                                </tr>
+                                <tr>
+                                    <td>Webalkalmazás:</td>
+                                    <td class="fw-bold">0</td>
+                                </tr>
+                                <tr>
+                                    <td>Mobilalkalmazás:</td>
+                                    <td class="fw-bold">0</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header text-uppercase fw-bold">
+                            Szervezeti áttekintés
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm">
+                                <tbody>
+                                <tr>
+                                    <td>Felhasználók száma:</td>
+                                    <td class="fw-bold">
+                                        <a class="text-black" href="{{ path('admin_v1_dashboard_instances_users') }}">
+                                            {{ instanceUsers|length }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Hírlevél-feliratkozók:</td>
+                                    <td class="fw-bold">
+                                        <a class="text-black" href="{{ path('admin_v1_newsletter_subscriber') }}">
+                                            {{ newsletterSubscriberCount }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Éves forgalom:</td>
+                                    <td><small>[hamarosan]</small></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="card-text">
+                                Szervezeti meghívó link: <span onclick="copyToClipboard('{{ registerUrl }}')" class="badge badge-sm text-bg-secondary"><i class="bi bi-copy"></i> másolás</span>
+                                <br><code>{{ registerUrl }}</code>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header text-uppercase fw-bold">
+                            Személyes áttekintés
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm">
+                                <tbody>
+                                <tr>
+                                    <td>Vállalkozások és szervezetek:</td>
+                                    <td class="fw-bold">
+                                        <a class="text-black" href="{{ path('admin_v1_instances') }}">
+                                            {{ app.user.instances|length }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Személyes tárhely:</td>
+                                    <td class="fw-bold">0 MB</td>
+                                </tr>
+                                <tr>
+                                    <td>Ajánlott felhasználók:</td>
+                                    <td class="fw-bold">0 fő</td>
+                                </tr>
+                                <tr>
+                                    <td>Kredit:</td>
+                                    <td class="fw-bold">0</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p class="card-text">Személyes ajánlói link: <code>hamarosan</code>.</p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header text-uppercase fw-bold">
+                            Ügyfélszolgálat
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="https://harkalygergo.github.io/harkalygergo.jpg" class="img-fluid" alt="Harkály Gergő ügyfélszolgálat">
+                            </div>
+                            <div class="col-md-8">
                                 <div class="card-body">
-                                    <table class="table table-sm">
-                                        <tbody>
-                                        <tr>
-                                            <td>Felhasználók száma:</td>
-                                            <td class="fw-bold">
-                                                <a class="text-black" href="{{ path('admin_v1_dashboard_instances_users') }}">
-                                                    {{ instanceUsers|length }}
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Hírlevél-feliratkozók:</td>
-                                            <td class="fw-bold">
-                                                <a class="text-black" href="{{ path('admin_v1_newsletter_subscriber') }}">
-                                                    {{ newsletterSubscriberCount }}
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Éves forgalom:</td>
-                                            <td><small>[hamarosan]</small></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
                                     <p class="card-text">
-                                        Szervezeti meghívó link: <span onclick="copyToClipboard('{{ registerUrl }}')" class="badge badge-sm text-bg-secondary"><i class="bi bi-copy"></i> másolás</span>
-                                        <br><code>{{ registerUrl }}</code>
+                                        <strong>Harkály Gergő</strong>
+                                        <br><i class="bi bi-phone"></i> <a target="_blank" class="text-dark text-decoration-none" href="tel:+36305512337">+36-30-55-123-37</a>
+                                        <br><i class="bi bi-envelope"></i> <a target="_blank" class="text-dark text-decoration-none" href="mailto:gergo.harkaly@brandcom.hu">gergo.harkaly@brandcom.hu</a>
+                                        <br><i class="bi bi-globe2"></i> <a target="_blank" class="text-dark text-decoration-none" href="https://www.brandcomstudio.com/hu">www.brandcomstudio.com/hu</a>
                                     </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col m-1">
-                            <div class="card h-100">
-                                <div class="card-header text-uppercase fw-bold">
-                                    Személyes áttekintés
-                                </div>
-                                <div class="card-body">
-                                    <table class="table table-sm">
-                                        <tbody>
-                                        <tr>
-                                            <td>Vállalkozások és szervezetek:</td>
-                                            <td class="fw-bold">
-                                                <a class="text-black" href="{{ path('admin_v1_instances') }}">
-                                                    {{ app.user.instances|length }}
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Személyes tárhely:</td>
-                                            <td class="fw-bold">0 MB</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ajánlott felhasználók:</td>
-                                            <td class="fw-bold">0 fő</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Kredit:</td>
-                                            <td class="fw-bold">0</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <p class="card-text">Személyes ajánlói link: <code>hamarosan</code>.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col m-1">
-                            <div class="card h-100">
-                                <div class="card-header text-uppercase fw-bold">
-                                    Ügyfélszolgálat
-                                </div>
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="https://harkalygergo.github.io/harkalygergo.jpg" class="img-fluid" alt="Harkály Gergő ügyfélszolgálat">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <p class="card-text">
-                                                <strong>Harkály Gergő</strong>
-                                                <br><i class="bi bi-phone"></i> <a target="_blank" class="text-dark text-decoration-none" href="tel:+36305512337">+36-30-55-123-37</a>
-                                                <br><i class="bi bi-envelope"></i> <a target="_blank" class="text-dark text-decoration-none" href="mailto:gergo.harkaly@brandcom.hu">gergo.harkaly@brandcom.hu</a>
-                                                <br><i class="bi bi-globe2"></i> <a target="_blank" class="text-dark text-decoration-none" href="https://www.brandcomstudio.com/hu">www.brandcomstudio.com/hu</a>
-                                            </p>
-                                            <p class="card-text"><small class="text-body-secondary">naponta 10:00 - 18:00 óra között</small></p>
-                                        </div>
-                                    </div>
+                                    <p class="card-text"><small class="text-body-secondary">naponta 10:00 - 18:00 óra között</small></p>
                                 </div>
                             </div>
                         </div>

@@ -59,7 +59,7 @@
                                                 {% endfor %}
                                             {% else %}
                                                 <i class="{{ sub3menu.icon }}"></i>
-                                                {{ sub3menu.label }}
+                                                {{ sub3menu.label|raw }}
                                             {% endif %}
                                         </a>
                                     {% else %}
@@ -67,7 +67,7 @@
                                             <a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#{{ sub1menu.label|slug }}{{ sub3menu.label|slug }}" role="button" aria-expanded="false" aria-controls="{{ sub3menu.label }}">
                                                 <span>
                                                     <i class="{{ sub3menu.icon }} pe-1"></i>
-                                                    {{ sub3menu.label }}
+                                                    {{ sub3menu.label|raw }}
                                                 </span>
                                             </a>
                                             <div class="collapse submenu bg-black" id="{{ sub1menu.label|slug }}{{ sub3menu.label|slug }}">
@@ -79,9 +79,9 @@
                                                                 {% if app.request.attributes.get('_route') == sub4menu.route %}
                                                                     {% set isCurrentRoute = 'active' %}
                                                                 {% endif %}
-                                                                <a class="nav-link link-light {{ isCurrentRoute }}" href="{{ path(sub4menu.route) }}">{{ sub4menu.label }}</a>
+                                                                <a class="nav-link link-light {{ isCurrentRoute }}" href="{{ path(sub4menu.route) }}">{{ sub4menu.label|raw }}</a>
                                                             {% else %}
-                                                                <span class="nav-link text-white-50">{{ sub4menu.label }}</span>
+                                                                <span class="nav-link text-white-50">{{ sub4menu.label|raw }}</span>
                                                             {% endif %}
                                                         </li>
                                                     {% endfor %}
@@ -90,7 +90,7 @@
                                         {% else %}
                                             <span class="nav-link d-flex align-items-center gap-2 text-white-50">
                                                 <i class="{{ sub3menu.icon }}"></i>
-                                                {{ sub3menu.label }}
+                                                {{ sub3menu.label|raw }}
                                             </span>
                                         {% endif %}
                                     {% endif %}
