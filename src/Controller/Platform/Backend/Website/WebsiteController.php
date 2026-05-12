@@ -335,7 +335,7 @@ class WebsiteController extends PlatformController
         $products = $productRepository->findByWebsiteAndStatus($website, true);
         */
 
-        $this->deployStylesheet($website);
+        $this->deployStylesheet($website, $flashText);
         $this->deployCategories($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $posts, $products, $events, $websiteTemplate, $productCategories);
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate, $productCategories);
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate, $productCategories);
@@ -546,7 +546,7 @@ class WebsiteController extends PlatformController
         }
     }
 
-    private function deployStylesheet(Website $website)
+    private function deployStylesheet(Website $website, &$flashText)
     {
         $headerCSS = $website->getHeaderCSS();
         //if ($headerCSS) {
@@ -562,7 +562,7 @@ class WebsiteController extends PlatformController
                 'style.css',
             );
 
-            $this->addFlash('success', 'style.css FTP OK.');
+        $flashText .= mb_strtoupper("style.css FTP OK.");
         //} else {
             //$this->addFlash('warning', 'No header CSS found.');
         //}
