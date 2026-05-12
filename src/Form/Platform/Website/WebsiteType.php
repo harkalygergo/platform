@@ -98,6 +98,7 @@ class WebsiteType extends AbstractType
                 ],
             ])
             ->add('twitter', TextType::class, [
+                'label' => 'X (Twitter)',
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',

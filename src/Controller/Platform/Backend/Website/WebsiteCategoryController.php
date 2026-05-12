@@ -4,6 +4,7 @@ namespace App\Controller\Platform\Backend\Website;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\User;
+use App\Entity\Platform\Website\Menu;
 use App\Entity\Platform\Website\WebsiteCategory;
 use App\Form\Platform\Website\WebsiteCategoryType;
 use App\Repository\Platform\Website\WebsiteCategoryRepository;
@@ -16,6 +17,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/website/categories')]
 class WebsiteCategoryController extends PlatformController
 {
+    private const string redirectToRoute = 'admin_v1_cms_website_categories';
+
     #[Route('/', name: 'admin_v1_cms_website_categories')]
     public function index(/*\App\Entity\Platform\Website\Website $id, */WebsiteCategoryRepository $websiteCategoryRepository): Response
     {
@@ -38,6 +41,12 @@ class WebsiteCategoryController extends PlatformController
                 'edit',
                 'delete',
             ],
+            'extraActions' => [
+                [
+                    'label' => 'Menu generation',
+                    'route' => 'admin_v1_cms_website_category_generate_menu',
+                ]
+            ]
         ]);
     }
 
@@ -137,5 +146,25 @@ class WebsiteCategoryController extends PlatformController
             'id' => $id->getId(),
         ]);
     }
+
+    #[Route('/{id}/generate-menu', name: 'admin_v1_cms_website_category_generate_menu')]
+    public function generateMenu(Request $request, WebsiteCategory $id): Response
+    {
+        // create new Menu
+        $menu = new Menu();
+        $menu->setInstance($this->currentInstance);
+        $menu->setWebsite($this->currentInstance->getWebsites()->first());
+        $menu->setSlug('/kategoria/'. $id->getSlug());
+        $menu->setTitle($id->getTitle());
+        $menu->setStatus($id->getStatus());
+
+        $this->doctrine->getManager()->persist($menu);
+        $this->doctrine->getManager()->flush();
+
+        $this->addFlash('success', 'Menu generated');
+
+        return $this->redirectToRoute(self::redirectToRoute);
+    }
+
 }
 

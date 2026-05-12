@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/">
-            <i class="fas fa-leaf text-success me-2"></i>
+            <img alt="{{ website.title }} logo" src="/media/{{ website.logo.originalName }}">
             {{ website.title }}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -10,29 +10,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+
+                {% for menu in menus %}
+                    {% if menu.parent is null %}
+                        {% if menu.hasChildren() %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">
+                                    {{ menu.title }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    {% for child in menu.children %}
+                                        {% if child.status %}
+                                            <li><a class="dropdown-item" href="{{ child.slug }}">{{ child.title }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{ menu.slug }}">{{ menu.title }}</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="index.html">Főoldal</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">Rólunk</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">
-                        Szolgáltatások
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="services.html">Detox Programok</a></li>
-                        <li><a class="dropdown-item" href="accommodation.html">Szállás</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="blog.html">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Kapcsolat</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-success ms-2" href="contact.html">Foglalás</a>
+                    <a class="btn btn-primary ms-2" href="/idopontfoglalas">Időpontfoglalás</a>
                 </li>
             </ul>
         </div>

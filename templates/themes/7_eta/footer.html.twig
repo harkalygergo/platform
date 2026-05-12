@@ -1,13 +1,13 @@
 <!-- CTA Section -->
-<section class="py-5 bg-success text-white">
+<section class="py-5 bg-primary text-white">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8">
                 <h2 class="display-6 fw-bold mb-3">Készen állsz az új életedre?</h2>
-                <p class="lead mb-0">Foglald le a helyed a következő detox programunkra és indulj el az egészséges életmód útján!</p>
+                <p class="lead mb-0">Foglald le a helyed a következő léböjtkúra programunkra és indulj el az egészséges életmód útján!</p>
             </div>
             <div class="col-lg-4 text-lg-end">
-                <a href="contact.html" class="btn btn-light btn-lg">Foglalás most</a>
+                <a href="/idopontfoglalas" class="btn btn-dark btn-lg"><i class="bi bi-calendar-week"></i> Foglalás most</a>
             </div>
         </div>
     </div>
@@ -29,42 +29,31 @@
                     <a href="#" class="text-white me-3"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-4">
                 <h6 class="fw-bold mb-3">Navigáció</h6>
                 <ul class="list-unstyled">
-                    <li><a href="index.html" class="text-light text-decoration-none">Főoldal</a></li>
-                    <li><a href="about.html" class="text-light text-decoration-none">Rólunk</a></li>
-                    <li><a href="services.html" class="text-light text-decoration-none">Szolgáltatások</a></li>
-                    <li><a href="blog.html" class="text-light text-decoration-none">Blog</a></li>
-                    <li><a href="contact.html" class="text-light text-decoration-none">Kapcsolat</a></li>
+                    {% for menu in menus %}
+                        <li><a href="{{ menu.slug }}" class="text-light text-decoration-none">{{menu.title}}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
-            <div class="col-lg-3">
-                <h6 class="fw-bold mb-3">Szolgáltatások</h6>
-                <ul class="list-unstyled">
-                    <li><a href="services.html" class="text-light text-decoration-none">6 napos detox</a></li>
-                    <li><a href="services.html" class="text-light text-decoration-none">8 napos detox</a></li>
-                    <li><a href="services.html" class="text-light text-decoration-none">10 napos detox</a></li>
-                    <li><a href="accommodation.html" class="text-light text-decoration-none">Szállás</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <h6 class="fw-bold mb-3">Kapcsolat</h6>
                 <ul class="list-unstyled">
                     <li class="text-light mb-2">
-                        <i class="fas fa-map-marker-alt text-success me-2"></i>
+                        <i class="bi bi-pin text-primary me-2"></i>
                         Bogács, Magyarország
                     </li>
                     <li class="text-light mb-2">
-                        <i class="fas fa-phone text-success me-2"></i>
+                        <i class="bi bi-phone text-primary me-2"></i>
                         {{ website.phone }}
                     </li>
                     <li class="text-light mb-2">
-                        <i class="fas fa-envelope text-success me-2"></i>
+                        <i class="bi bi-envelope text-primary me-2"></i>
                         {{ website.email }}
                     </li>
                     <li class="text-light mb-2">
-                        <i class="fas fa-globe text-success me-2"></i>
+                        <i class="bi bi-globe text-primary me-2"></i>
                         {{ website.domain }}
                     </li>
                 </ul>
