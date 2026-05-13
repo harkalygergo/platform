@@ -49,7 +49,9 @@ class MenuController extends PlatformController
     {
         $id = $this->currentInstance->getWebsites()->first();
 
-        $form = $this->createForm(MenuType::class);
+        $form = $this->createForm(MenuType::class, null, [
+            'currentInstance' => $this->currentInstance,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,7 +81,9 @@ class MenuController extends PlatformController
             throw $this->createNotFoundException('Menu not found');
         }
 
-        $form = $this->createForm(MenuType::class, $menu);
+        $form = $this->createForm(MenuType::class, $menu, [
+            'currentInstance' => $this->currentInstance,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

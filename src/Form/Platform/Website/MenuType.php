@@ -3,6 +3,9 @@
 namespace App\Form\Platform\Website;
 
 use App\Entity\Platform\Website\Menu;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -13,8 +16,17 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MenuType extends AbstractType
 {
+    private ServiceEntityRepository $menuRepository;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        $this->menuRepository = new ServiceEntityRepository($registry, Menu::class);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $currentInstance = $options['currentInstance'];
+
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Cím',
@@ -38,10 +50,12 @@ class MenuType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('parent', null, [
+            ->add('parent', EntityType::class, [
+                'class' => Menu::class,
+                'choices' => $this->menuRepository->findBy(['instance' => $currentInstance]),
+                'choice_label' => 'title',
                 'label' => 'Szülő menü',
                 'required' => false,
-                'placeholder' => 'Nincs szülő',
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -50,13 +64,15 @@ class MenuType extends AbstractType
                 'label' => 'Státusz',
                 'required' => false,
                 'data' => true,
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Menu::class,
+            'currentInstance' => null,
         ]);
     }
 }
