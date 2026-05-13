@@ -17,9 +17,19 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css">
 
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Tenor+Sans&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --primary-color: #a945ba;
+        }
+        body {
+            font-family: "Roboto", sans-serif;
+        }
+        .navbar-brand {
+            font-family: "Tenor Sans", sans-serif;
         }
         .text-primary {
             color: var(--primary-color) !important;
@@ -27,6 +37,25 @@
         .btn-primary, .btn-outline-primary, .bg-primary {
             background-color: var(--primary-color) !important;
             border-color: var(--primary-color) !important;
+        }
+        .btn {
+            border-radius:50px;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+        .wave-top {
+            position: absolute;
+            z-index:10000;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            transform: rotate(180deg);
+            line-height: 0;
         }
     </style>
 

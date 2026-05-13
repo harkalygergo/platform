@@ -1,8 +1,10 @@
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top p-3">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/">
-            <img alt="{{ website.title }} logo" src="/media/{{ website.logo.originalName }}">
+            {% if website.logo is not null %}
+                <img alt="{{ website.title }} logo" src="/media/{{ website.logo.originalName }}">
+            {% endif %}
             {{ website.title }}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
