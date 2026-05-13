@@ -56,7 +56,9 @@ class MenuController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $menu = $form->getData();
+            $menu->setInstance($this->currentInstance);
             $menu->setWebsite($id);
+
             $this->doctrine->getManager()->persist($menu);
             $this->doctrine->getManager()->flush();
 
