@@ -81,7 +81,7 @@ class EmailAccountController extends PlatformBackendController
                     $account = $entity->getPrefix();
 
                     $process = new Process([
-                        'sudo',
+                        'sudo', '-n',   // -n = fail immediately, never prompt
                         '/usr/local/hestia/bin/v-change-mail-account-password',
                         $user,
                         $domain,
