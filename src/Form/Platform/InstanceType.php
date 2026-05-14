@@ -22,6 +22,14 @@ class InstanceType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('code', TextType::class, [
+                'required' => true,
+                'attr' => [
+                    'readonly' => 'true',
+                    'maxlength' => 32,
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('intranet', TextType::class, [
                 'label' => 'Intranet',
                 'required' => false,

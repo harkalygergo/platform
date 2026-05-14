@@ -31,6 +31,7 @@ class InstanceController extends PlatformController
             'title' => 'Instances',
             'tableHead' => [
                 'name' => 'Name',
+                'code' => 'Code',
                 'email' => 'Email',
                 'owner' => 'Owner',
                 'type' => 'Type',
@@ -73,6 +74,14 @@ class InstanceController extends PlatformController
                     'rows' => 2,
                 ],
                 'required' => true,
+            ])
+            ->add('code', TextType::class, [
+                'required' => true,
+                'attr' => [
+                    'readonly' => 'true',
+                    'maxlength' => 32,
+                    'class' => 'form-control',
+                ],
             ])
             ->add('email', TextType::class, [
                 'label' => 'E-mail',
