@@ -3,12 +3,12 @@
 namespace App\Controller\Platform;
 
 use App\Entity\Platform\EmailAccount;
-use App\Entity\Platform\Order\OrderEmailTemplate;
 use App\Entity\Platform\User;
 use App\Form\Platform\EmailAccountType;
-use PharIo\Manifest\Email;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -68,6 +68,52 @@ class EmailAccountController extends PlatformBackendController
             'currentInstance' => $this->currentInstance,
         ]);
 
+        // Peek at the raw POST data BEFORE handleRequest() is called
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request); // handle once here
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $password = $form->getData()->getPassword();
+
+                if (!empty($password)) {
+                    $user    = $entity->getInstance()->getCode();
+                    $domain  = $entity->getService();
+                    $account = $entity->getPrefix();
+
+                    $process = new Process([
+                        'sudo',
+                        '/usr/local/hestia/bin/v-change-mail-account-password',
+                        $user,
+                        $domain,
+                        $account,
+                        $password,
+                    ]);
+
+                    $process->setTimeout(10); // 2. Kill after 10 seconds — prevents infinite loading
+
+                    try {
+                        $process->run();
+
+                        if (!$process->isSuccessful()) {
+                            $this->addFlash('danger', sprintf(
+                                'Password change failed: %s',
+                                $process->getErrorOutput()
+                            ));
+                        }
+                    } catch (\Symfony\Component\Process\Exception\ProcessTimedOutException $e) {
+                        $this->addFlash('danger', 'Password change timed out.');
+                    }
+                }
+
+                // Manually do what platformBackendEdit() would do on success
+                $this->doctrine->getManager()->flush();
+                $this->addFlash('success', $this->translator->trans('action.edited'));
+                return $this->redirectToRoute(self::redirectToRoute);
+            }
+        }
+
+        // On GET, or if form is invalid — let platformBackendEdit handle rendering
+        // It will call handleRequest() again but on GET it's a no-op, POST already redirected
         return $this->platformBackendEdit($request, $form, $entity, self::redirectToRoute);
     }
 

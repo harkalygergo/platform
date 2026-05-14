@@ -24,7 +24,10 @@ class EmailAccount
     private $prefix;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $description;
+    private ?string $description;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $password;
 
     #[ORM\Column(type: 'boolean')]
     private bool $status;
@@ -112,6 +115,16 @@ class EmailAccount
     public function setDescription($description): void
     {
         $this->description = $description;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
     }
 
     public function isStatus(): bool
