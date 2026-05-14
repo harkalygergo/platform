@@ -58,15 +58,30 @@ class PlatformBackendController extends PlatformController
 
         $form->handleRequest($request);
 
+        $title = $this->translator->trans('action.edited');
+        if (method_exists($entity, 'getName')) {
+            $title .= $entity->getName();
+        } else {
+            $title .= '#' . $entity->getId();
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
-            $this->addFlash('success', $this->translator->trans('action.edited') . ': ' . $entity->getName());
+            $this->addFlash('success', $title);
 
             return $this->redirectToRoute($redirectToRoute);
         }
 
+        $title = $this->translator->trans('action.edit') . ': ';
+
+        if (method_exists($entity, 'getName')) {
+            $title .= $entity->getName();
+        } else {
+            $title .= '#' . $entity->getId();
+        }
+
         return $this->render('platform/backend/v1/form.html.twig', [
-            'title' => $this->translator->trans('action.edit') . ': ' . $entity->getName(),
+            'title' => $title,
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'form' => $form->createView(),
         ]);
@@ -79,7 +94,15 @@ class PlatformBackendController extends PlatformController
         $em = $this->doctrine->getManager();
         $em->remove($entity);
         $em->flush();
-        $this->addFlash('success', $this->translator->trans('action.deleted') . ': ' . $entity->getName());
+
+        $title = $this->translator->trans('action.deleted');
+        if (method_exists($entity, 'getName')) {
+            $title .= $entity->getName();
+        } else {
+            $title .= '#' . $entity->getId();
+        }
+
+        $this->addFlash('success', $title);
 
         return $this->redirectToRoute($redirectToRoute);
     }

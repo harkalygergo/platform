@@ -47,7 +47,9 @@ class EmailAccountController extends PlatformBackendController
     {
         $entity = new EmailAccount();
         $entity->setInstance($this->currentInstance);
-        $form = $this->createForm(EmailAccountType::class, $entity);
+        $form = $this->createForm(EmailAccountType::class, $entity, [
+            'currentInstance' => $this->currentInstance,
+        ]);
 
         return $this->platformBackendNew($request, $form, self::redirectToRoute);
     }
@@ -62,7 +64,9 @@ class EmailAccountController extends PlatformBackendController
             return $this->redirectToRoute(self::redirectToRoute);
         }
 
-        $form = $this->createForm(EmailAccountType::class, $entity);
+        $form = $this->createForm(EmailAccountType::class, $entity, [
+            'currentInstance' => $this->currentInstance,
+        ]);
 
         return $this->platformBackendEdit($request, $form, $entity, self::redirectToRoute);
     }
