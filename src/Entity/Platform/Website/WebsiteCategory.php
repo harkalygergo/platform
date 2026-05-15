@@ -72,6 +72,9 @@ class WebsiteCategory
     #[ORM\ManyToMany(targetEntity: WebsitePost::class, mappedBy: 'categories')]
     private Collection $posts;
 
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    private int $viewCount = 0;
+
     public function __construct()
     {
         $this->status = true;
@@ -270,6 +273,24 @@ class WebsiteCategory
         if ($this->posts->removeElement($post)) {
             $post->removeCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getViewCount(): int
+    {
+        return $this->viewCount;
+    }
+
+    public function incrementViewCount(): static
+    {
+        $this->viewCount++;
+        return $this;
+    }
+
+    public function setViewCount(int $viewCount): self
+    {
+        $this->viewCount = $viewCount;
 
         return $this;
     }

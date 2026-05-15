@@ -77,6 +77,9 @@ class WebsitePost
     #[ORM\JoinColumn(name: "featured_image_id")]
     private ?WebsiteMedia $featuredImage = null;
 
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    private int $viewCount = 0;
+
     public function __construct()
     {
         $this->status = true;
@@ -287,6 +290,24 @@ class WebsitePost
     public function setFeaturedImage(?WebsiteMedia $featuredImage): self
     {
         $this->featuredImage = $featuredImage;
+
+        return $this;
+    }
+
+    public function getViewCount(): int
+    {
+        return $this->viewCount;
+    }
+
+    public function incrementViewCount(): static
+    {
+        $this->viewCount++;
+        return $this;
+    }
+
+    public function setViewCount(int $viewCount): self
+    {
+        $this->viewCount = $viewCount;
 
         return $this;
     }

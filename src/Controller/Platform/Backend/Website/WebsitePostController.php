@@ -29,6 +29,7 @@ class WebsitePostController extends PlatformController
             'title' => $id->getName() . ' (' . $id->getDomain() . ') ' . $this->translator->trans('web.posts'),
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
+                'viewCount' => 'Views',
                 'featuredImage' => 'Kiemelt kép',
                 'title' => 'Cím',
                 'slug' => 'Slug',

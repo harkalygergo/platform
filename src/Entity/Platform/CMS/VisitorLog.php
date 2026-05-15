@@ -2,6 +2,7 @@
 
 namespace App\Entity\Platform\CMS;
 
+use App\Entity\Platform\Instance;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -11,6 +12,9 @@ class VisitorLog
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    private Instance $instance;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $visitedAt;
@@ -58,6 +62,16 @@ class VisitorLog
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getInstance(): Instance
+    {
+        return $this->instance;
+    }
+
+    public function setInstance(Instance $instance): void
+    {
+        $this->instance = $instance;
     }
 
     public function getVisitedAt(): \DateTimeImmutable

@@ -439,6 +439,12 @@ class WebsiteController extends PlatformController
                 'posts' => $posts,
                 'products' => $products,
                 'productCategories' => $productCategories,
+                'analytics' => [
+                    'instance' => $this->currentInstance->getId(),
+                    'website' => $website->getId(),
+                    'content_type' => get_class($product),
+                    'id' => $product->getId(),
+                ]
             ]);
 
             if ($product->getSlug() === '') {
@@ -594,6 +600,12 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'events' => $events,
                 'productCategories' => $productCategories,
+                'analytics' => [
+                    'instance' => $this->currentInstance->getId(),
+                    'website' => $website->getId(),
+                    'content_type' => get_class($category),
+                    'id' => $category->getId(),
+                ]
             ]);
 
             if ($category->getSlug() === '') {
@@ -685,6 +697,12 @@ class WebsiteController extends PlatformController
                 'posts' => $posts,
                 'products' => $products,
                 'productCategories' => $productCategories,
+                'analytics' => [
+                    'instance' => $this->currentInstance->getId(),
+                    'website' => $website->getId(),
+                    'content_type' => get_class($page),
+                    'id' => $page->getId(),
+                ]
             ]);
 
             if ($page->getSlug() === '') {
@@ -770,6 +788,12 @@ class WebsiteController extends PlatformController
                 'posts' => $posts,
                 'products' => $products,
                 'productCategories' => $productCategories,
+                'analytics' => [
+                    'instance' => $this->currentInstance->getId(),
+                    'website' => $website->getId(),
+                    'content_type' => get_class($post),
+                    'id' => $post->getId(),
+                ]
             ]);
 
             if ($post->getSlug() === '') {

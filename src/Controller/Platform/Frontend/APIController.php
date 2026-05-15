@@ -11,6 +11,8 @@ use App\Entity\Platform\Webshop\PaymentMethod;
 use App\Entity\Platform\Webshop\ShippingMethod;
 use App\Entity\Platform\Website\CmsPage;
 use App\Entity\Platform\Website\Website;
+use App\Entity\Platform\Website\WebsiteCategory;
+use App\Entity\Platform\Website\WebsitePost;
 use App\Enum\Platform\OrderStatusEnum;
 use App\Repository\OrderRepository;
 use App\Repository\Platform\Webshop\PaymentMethodRepository;
@@ -380,16 +382,6 @@ class APIController extends PlatformController
     #[Route('/log/visitor/', name: 'api_log_visitor')]
     public function alma(Request $request)
     {
-        /*
-        dd($request->getContent());
-        $parameters = $request->request->all();
-        $return = 'almabanáncitromdió';
-        $data = json_decode($request->getContent(), true);
-
-        foreach ($data as $parameter => $value) {
-            $return .= $parameter . '=' . $value . '&';
-        }
-        */
         $return = '';
 
         $parameters = $request->request->all();
@@ -404,38 +396,45 @@ class APIController extends PlatformController
             /**
              * @var Website $website
              */
-            $HTTP_ORIGIN = $request->server->get('SERVER_NAME');
-
-            $page = $this->doctrine->getRepository(CmsPage::class)->findOneBy(
-                [
-                    'slug' => str_replace('/', '', $parameters['path']),
-                    'website' => $website,
-                ]
-            );
-
             if ($parameters['host']===$request->server->get('SERVER_NAME')) {
                 $visitorLog = new VisitorLog();
-                /*
-                 *     const payload = {
-        host: window.location.hostname,
-        url: window.location.href,
-        path: window.location.pathname,
-        referrer: document.referrer || null,
-        title: document.title
-                host	"localhost"
-url	"https://localhost/hirlevelsorozat"
-path	"/hirlevelsorozat"
-referrer	"https://localhost/banan"
-title	"Vitalitásház DEV"
-    }
-                 */
+
                 $visitorLog->setVisitedAt(new \DateTimeImmutable());
                 $visitorLog->setUrl($parameters['url']);
                 $visitorLog->setReferrer($parameters['referrer']);
+                $visitorLog->setContentType($parameters['content_type']);
+                $visitorLog->setContentId($parameters['id']);
+                $visitorLog->setUserAgent($parameters['user_agent']);
+                $visitorLog->setInstance($this->doctrine->getRepository(Instance::class)->find((int)$parameters['instance']));
 
-                if ($page) {
-                    $visitorLog->setContentType('cms_page');
-                    $visitorLog->setContentId($page->getId());
+                switch ($parameters['content_type']) {
+                    case 'App\Entity\Platform\Website\CmsPage':
+                    {
+                        $entity = $this->doctrine->getRepository(CmsPage::class)->find((int)$parameters['id']);
+                        if ($entity) {
+                            $entity->incrementViewCount();
+                            $this->doctrine->getManager()->flush();
+                        }
+                        break;
+                    }
+                    case 'App\Entity\Platform\Website\WebsiteCategory':
+                    {
+                        $entity = $this->doctrine->getRepository(WebsiteCategory::class)->find((int)$parameters['id']);
+                        if ($entity) {
+                            $entity->incrementViewCount();
+                            $this->doctrine->getManager()->flush();
+                        }
+                        break;
+                    }
+                    case 'App\Entity\Platform\Website\WebsitePost':
+                    {
+                        $entity = $this->doctrine->getRepository(WebsitePost::class)->find((int)$parameters['id']);
+                        if ($entity) {
+                            $entity->incrementViewCount();
+                            $this->doctrine->getManager()->flush();
+                        }
+                        break;
+                    }
                 }
 
                 $this->doctrine->getManager()->persist($visitorLog);

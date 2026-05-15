@@ -73,40 +73,5 @@
 
 <script src="https://cdn.brandcomstudio.com/vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    function postData(url, data) {
-        // Convert object to URL-encoded form data (like $_POST)
-        const formBody = Object.keys(data)
-            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-            .join('&');
-
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: formBody,
-            credentials: "include"
-        })
-            .then(response => response.text())
-            //.then(response => response.json()) // or .text() if not JSON
-            .catch(error => console.error('Error:', error));
-    }
-
-    const payload = {
-        host: window.location.hostname,
-        url: window.location.href,
-        path: window.location.pathname,
-        referrer: document.referrer || null,
-        title: document.title
-    }
-
-    postData('{{ APP_URL }}/api/log/visitor/',
-        payload
-    );
-</script>
-
 </body>
 </html>
-
-

@@ -31,6 +31,7 @@ class WebsiteCategoryController extends PlatformController
             'title' => $id->getDomain() . ' kategóriák',
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
+                'viewCount' => 'Views',
                 'title' => 'Cím',
                 'slug' => 'Slug',
                 'status' => 'Státusz',
