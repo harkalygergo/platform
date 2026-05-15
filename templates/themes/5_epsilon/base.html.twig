@@ -64,9 +64,9 @@
                 body: formBody,
                 credentials: "include"
             })
-                .then(response => response.text())
-                //.then(response => response.json()) // or .text() if not JSON
-                .catch(error => console.error('Error:', error));
+            .then(response => response.text())
+            //.then(response => response.json()) // or .text() if not JSON
+            .catch(error => console.error('Error:', error));
         }
 
         function getCartContents() {

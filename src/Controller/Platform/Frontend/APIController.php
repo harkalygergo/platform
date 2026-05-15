@@ -4,10 +4,13 @@ namespace App\Controller\Platform\Frontend;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
+use App\Entity\Platform\CMS\VisitorLog;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Webshop\PaymentMethod;
 use App\Entity\Platform\Webshop\ShippingMethod;
+use App\Entity\Platform\Website\CmsPage;
+use App\Entity\Platform\Website\Website;
 use App\Enum\Platform\OrderStatusEnum;
 use App\Repository\OrderRepository;
 use App\Repository\Platform\Webshop\PaymentMethodRepository;
@@ -22,10 +25,28 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+#[Route('/api')]
 class APIController extends PlatformController
 {
-    private function corsResponse(Response $response, string $origin, array $allowedOrigins): Response
+    private function corsResponse(Response $response, Request $request): Response
     {
+        $origin = $request->headers->get('Origin');
+        $websites = $this->doctrine->getRepository(Website::class)->findAll();
+
+        $allowedOrigins = [
+            'http://localhost',
+            'https://localhost',
+            'https://localhost:8000',
+        ];
+
+        foreach ($websites as $website) {
+            $domain = $website->getDomain();
+
+            $allowedOrigins[] = 'https://' . $domain;
+            $allowedOrigins[] = 'http://' . $domain;
+        }
+
+
         if ($origin && in_array($origin, $allowedOrigins)) {
             $response->headers->set('Access-Control-Allow-Origin', $origin);
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
@@ -38,29 +59,13 @@ class APIController extends PlatformController
         return $response;
     }
 
-    #[Route('/api/', name: 'api')]
-    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient, WebsiteRepository $websiteRepository, SaferpayService $saferpay, PaymentMethodRepository $paymentMethodRepository): Response
+    #[Route('/', name: 'api')]
+    public function api(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine, SerializerInterface $serializer, HttpClientInterface $httpClient,  SaferpayService $saferpay, PaymentMethodRepository $paymentMethodRepository): Response
     {
-        $websites = $websiteRepository->findAll();
-
-        $allowedOrigins = [
-            'http://localhost',
-            'https://localhost'
-        ];
-
-        foreach ($websites as $website) {
-            $domain = $website->getDomain();
-
-            $allowedOrigins[] = 'https://' . $domain;
-            $allowedOrigins[] = 'http://' . $domain;
-        }
-
         $request = $requestStack->getCurrentRequest();
-        //$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-        $origin = $request->headers->get('Origin');
 
         if ($request->getMethod() === 'OPTIONS') {
-            return $this->corsResponse(new Response(), $origin, $allowedOrigins);
+            return $this->corsResponse(new Response(), $request);
         }
 
         /*
@@ -157,8 +162,7 @@ class APIController extends PlatformController
                         'cartItems' => json_decode($parameters['cart'], true) ?? [],
                         'key' => $parameters['key'],
                     ])),
-                    $origin,
-                    $allowedOrigins
+                    $request
                 );
 
 
@@ -373,16 +377,81 @@ class APIController extends PlatformController
         );
     }
 
+    #[Route('/log/visitor/', name: 'api_log_visitor')]
+    public function alma(Request $request)
+    {
+        /*
+        dd($request->getContent());
+        $parameters = $request->request->all();
+        $return = 'almabanáncitromdió';
+        $data = json_decode($request->getContent(), true);
 
+        foreach ($data as $parameter => $value) {
+            $return .= $parameter . '=' . $value . '&';
+        }
+        */
+        $return = '';
 
+        $parameters = $request->request->all();
 
+        $website = $this->doctrine->getRepository(Website::class)->findOneBy(
+            [
+                'domain' => $parameters['host']
+            ]
+        );
 
+        if ($website) {
+            /**
+             * @var Website $website
+             */
+            $HTTP_ORIGIN = $request->server->get('SERVER_NAME');
 
+            $page = $this->doctrine->getRepository(CmsPage::class)->findOneBy(
+                [
+                    'slug' => str_replace('/', '', $parameters['path']),
+                    'website' => $website,
+                ]
+            );
 
+            if ($parameters['host']===$request->server->get('SERVER_NAME')) {
+                $visitorLog = new VisitorLog();
+                /*
+                 *     const payload = {
+        host: window.location.hostname,
+        url: window.location.href,
+        path: window.location.pathname,
+        referrer: document.referrer || null,
+        title: document.title
+                host	"localhost"
+url	"https://localhost/hirlevelsorozat"
+path	"/hirlevelsorozat"
+referrer	"https://localhost/banan"
+title	"Vitalitásház DEV"
+    }
+                 */
+                $visitorLog->setVisitedAt(new \DateTimeImmutable());
+                $visitorLog->setUrl($parameters['url']);
+                $visitorLog->setReferrer($parameters['referrer']);
+
+                if ($page) {
+                    $visitorLog->setContentType('cms_page');
+                    $visitorLog->setContentId($page->getId());
+                }
+
+                $this->doctrine->getManager()->persist($visitorLog);
+                $this->doctrine->getManager()->flush();
+            }
+        }
+
+        return $this->corsResponse(
+            new Response($return),
+            $request
+        );
+    }
 
 
     /* SAFERPAY */
-    #[Route('/api/payment/success', name: 'payment_success', methods: ['POST'])]
+    #[Route('/payment/success', name: 'payment_success', methods: ['POST'])]
     public function success(EntityManagerInterface $em, Request $request, SaferpayService $service, OrderRepository $repo, HttpClientInterface $httpClient): Response
     {
         $data = json_decode($request->getContent(), true);
@@ -400,7 +469,7 @@ class APIController extends PlatformController
         return new Response('OK', 200);
     }
 
-    #[Route('/api/payment/fail', name: 'payment_fail', methods: ['POST'])]
+    #[Route('/payment/fail', name: 'payment_fail', methods: ['POST'])]
     public function fail(EntityManagerInterface $em, Request $request, SaferpayService $service, OrderRepository $repo, HttpClientInterface $httpClient): Response
     {
         $data = json_decode($request->getContent(), true);
