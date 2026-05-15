@@ -380,7 +380,7 @@ class APIController extends PlatformController
     }
 
     #[Route('/log/visitor/', name: 'api_log_visitor')]
-    public function alma(Request $request)
+    public function apiLogVisitor(Request $request)
     {
         $return = '';
 
@@ -396,7 +396,7 @@ class APIController extends PlatformController
             /**
              * @var Website $website
              */
-            if ($parameters['host']===$request->server->get('SERVER_NAME')) {
+            if ( str_contains($request->server->get('HTTP_REFERER'), $parameters['host'])) {
                 $visitorLog = new VisitorLog();
 
                 $visitorLog->setVisitedAt(new \DateTimeImmutable());
