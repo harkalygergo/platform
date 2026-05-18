@@ -61,10 +61,16 @@ class WebsiteCategoryController extends PlatformController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var WebsiteCategory $websiteCategory
+             */
             $websiteCategory = $form->getData();
             $websiteCategory->setWebsite($id);
+            $websiteCategory->setInstance($this->currentInstance);
             $this->doctrine->getManager()->persist($websiteCategory);
             $this->doctrine->getManager()->flush();
+
+            $this->addFlash('success',  '<b>'. $websiteCategory->getTitle() . '</b> ' . $this->translator->trans('action.created'));
 
             return $this->redirectToRoute('admin_v1_cms_website_categories', [
                 'id' => $id->getId(),
@@ -87,6 +93,8 @@ class WebsiteCategoryController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
+
+            $this->addFlash('success',  $id->getTitle() . $this->translator->trans('action.edited'));
 
             return $this->redirectToRoute('admin_v1_cms_website_categories', [
                 'id' => $id->getId(),
