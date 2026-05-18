@@ -5,6 +5,7 @@ namespace App\Controller\Platform\Backend\Website;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Block;
 use App\Entity\Platform\Ecom\Product;
+use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\CmsPage;
@@ -328,7 +329,7 @@ class WebsiteController extends PlatformController
         $posts = $this->getPostsToDeploy($website);
         // get products of the website buy ProductRepository findByWebsiteAndStatus()
         $products = $this->getProductsToDeploy($website);
-        $productCategories = $this->getProductCategoriesToDeploy();
+        $productCategories = $this->getProductCategoriesToDeploy($website->getInstance());
 
         /*
         $productRepository = $this->doctrine->getRepository(Product::class);
@@ -357,13 +358,11 @@ class WebsiteController extends PlatformController
         }
     }
 
-    public function getProductCategoriesToDeploy()
+    public function getProductCategoriesToDeploy(Instance $instance)
     {
-        $productCategories = $this->doctrine->getRepository('App\Entity\Platform\Ecom\ProductCategory')->findBy([
-            'instance' => $this->currentInstance,
+        return $this->doctrine->getRepository('App\Entity\Platform\Ecom\ProductCategory')->findBy([
+            'instance' => $instance,
         ]);
-
-        return $productCategories;
     }
 
     public function deployProductCategories(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate, $productCategories)
@@ -440,7 +439,7 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'productCategories' => $productCategories,
                 'analytics' => [
-                    'instance' => $this->currentInstance->getId(),
+                    'instance' => $product->getInstance(),
                     'website' => $website->getId(),
                     'content_type' => get_class($product),
                     'id' => $product->getId(),
@@ -601,7 +600,7 @@ class WebsiteController extends PlatformController
                 'events' => $events,
                 'productCategories' => $productCategories,
                 'analytics' => [
-                    'instance' => $this->currentInstance->getId(),
+                    'instance' => $category->getInstance(),
                     'website' => $website->getId(),
                     'content_type' => get_class($category),
                     'id' => $category->getId(),
@@ -653,7 +652,7 @@ class WebsiteController extends PlatformController
                 $blockRepository = $this->doctrine->getRepository(Block::class);
                 $block = $blockRepository->findOneBy([
                     'id' => (int)$blockId,
-                    'instance' => $this->currentInstance,
+                    'instance' => $page->getInstance(),
                     'status' => true
                 ]);
                 if ($block) {
@@ -698,7 +697,7 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'productCategories' => $productCategories,
                 'analytics' => [
-                    'instance' => $this->currentInstance->getId(),
+                    'instance' => $page->getInstance(),
                     'website' => $website->getId(),
                     'content_type' => get_class($page),
                     'id' => $page->getId(),
@@ -759,7 +758,7 @@ class WebsiteController extends PlatformController
                 $blockRepository = $this->doctrine->getRepository(Block::class);
                 $block = $blockRepository->findOneBy([
                     'id' => $blockId,
-                    'instance' => $this->currentInstance,
+                    'instance' => $post->getInstance(),
                     'status' => true
                 ]);
                 if ($block) {
@@ -789,7 +788,7 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'productCategories' => $productCategories,
                 'analytics' => [
-                    'instance' => $this->currentInstance->getId(),
+                    'instance' => $post->getInstance(),
                     'website' => $website->getId(),
                     'content_type' => get_class($post),
                     'id' => $post->getId(),
