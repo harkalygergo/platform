@@ -16,7 +16,6 @@ use App\Entity\Platform\Website\WebsitePost;
 use App\Enum\Platform\OrderStatusEnum;
 use App\Repository\OrderRepository;
 use App\Repository\Platform\Webshop\PaymentMethodRepository;
-use App\Repository\Platform\Website\WebsiteRepository;
 use App\Service\SaferpayService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -405,6 +404,8 @@ class APIController extends PlatformController
                 $visitorLog->setContentType($parameters['content_type']);
                 $visitorLog->setContentId($parameters['id']);
                 $visitorLog->setUserAgent($parameters['user_agent']);
+                $visitorLog->setIpAddress($this->requestStack->getCurrentRequest()->getClientIp());
+                $visitorLog->setSessionId($this->requestStack->getSession()->getId());
                 $visitorLog->setInstance($this->doctrine->getRepository(Instance::class)->find((int)$parameters['instance']));
 
                 switch ($parameters['content_type']) {

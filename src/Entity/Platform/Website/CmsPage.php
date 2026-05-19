@@ -21,7 +21,7 @@ class CmsPage
     private bool $status;
 
     #[ORM\ManyToOne(targetEntity: Instance::class)]
-    private Instance $instance;
+    private ?Instance $instance = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     private User $createdBy;
@@ -101,12 +101,12 @@ class CmsPage
         return $this;
     }
 
-    public function getInstance(): Instance
+    public function getInstance(): ?Instance
     {
         return $this->instance;
     }
 
-    public function setInstance(Instance $instance): self
+    public function setInstance(?Instance $instance): self
     {
         $this->instance = $instance;
 
