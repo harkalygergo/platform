@@ -509,7 +509,31 @@ class MenuBuilder
                 'icon'  => 'bi bi-graph-up',
                 'route' => null,
                 'roles' => ['ROLE_USER'],
-                'children' => []
+                'children' => [
+                    [
+                        'label' => 'CMS',
+                        'icon'  => 'bi bi-globe',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'Bejegyzés látogatások',
+                                'route' => 'admin_v1_analytics_websitepost_index',
+                                'icon' => 'bi bi-pin-angle-fill',
+                            ],
+                            [
+                                'label' => 'Kategória látogatások',
+                                'route' => 'admin_v1_analytics_websitecategory_index',
+                                'icon' => 'bi bi-pin-angle',
+                            ],
+                            [
+                                'label' => 'Oldal látogatások',
+                                'route' => 'admin_v1_analytics_cmspage_index',
+                                'icon' => 'bi bi-file-earmark-fill',
+                            ],
+                        ]
+                    ],
+
+                ]
             ],
             [
                 'label' => 'tools',
