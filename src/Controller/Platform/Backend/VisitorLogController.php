@@ -24,30 +24,7 @@ class VisitorLogController extends PlatformBackendController
         'contentId' => 'content ID',
     ];
 
-    #[Route('/cmspage', name: 'admin_v1_analytics_cmspage_index', methods: ['GET'])]
-    public function index_cmspage()
-    {
-        $this->denyAccessUnlessUserHasInstance();
 
-        $tableBody = $this->doctrine->getRepository(VisitorLog::class)->findBy(
-            [
-                'instance' => $this->currentInstance,
-                'contentType' => 'App\Entity\Platform\Website\CmsPage'
-            ],
-            [
-                'visitedAt' => 'DESC'
-            ],
-            1000
-        );
-
-        return $this->render('platform/backend/v1/list.html.twig', [
-            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
-            'title' => 'Visitor log - bejegyzés',
-            'tableHead' => $this->tableHead,
-            'tableBody' => $tableBody,
-            'actions' => [],
-        ]);
-    }
 
     #[Route('/websitepost', name: 'admin_v1_analytics_websitepost_index', methods: ['GET'])]
     public function index_website_post()
@@ -67,7 +44,7 @@ class VisitorLogController extends PlatformBackendController
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
-            'title' => 'Visitor log - oldal',
+            'title' => 'Visitor log - bejegyzés',
             'tableHead' => $this->tableHead,
             'tableBody' => $tableBody,
             'actions' => [],
@@ -97,4 +74,30 @@ class VisitorLogController extends PlatformBackendController
             'tableBody' => $tableBody,
             'actions' => [],
         ]);
-    }}
+    }
+
+    #[Route('/cmspage', name: 'admin_v1_analytics_cmspage_index', methods: ['GET'])]
+    public function index_cmspage()
+    {
+        $this->denyAccessUnlessUserHasInstance();
+
+        $tableBody = $this->doctrine->getRepository(VisitorLog::class)->findBy(
+            [
+                'instance' => $this->currentInstance,
+                'contentType' => 'App\Entity\Platform\Website\CmsPage'
+            ],
+            [
+                'visitedAt' => 'DESC'
+            ],
+            1000
+        );
+
+        return $this->render('platform/backend/v1/list.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Visitor log - oldal',
+            'tableHead' => $this->tableHead,
+            'tableBody' => $tableBody,
+            'actions' => [],
+        ]);
+    }
+}

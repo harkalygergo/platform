@@ -44,58 +44,65 @@
 </head>
 <body class="bg-light">
 
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-
-            <nav class="navbar navbar-expand-lg py-3">
-                <div class="container-fluid">
-
-                    <a href="/" class="navbar-brand d-flex align-items-center mb-2 mb-lg-0 text-dark text-center text-decoration-none">
-                        {% if website.logo %}
-                            <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" style="max-height: 3rem;">
-                        {% endif %}
-                        <span class="d-block fw-bold">{{ website.title|raw }}</span>
-                    </a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                            {% block navigation %}
-                            {% endblock %}
-
-                        </ul>
-
-                        {% if website.bluesky != null and website.bluesky != '' %}
-                            <a href="{{ website.bluesky }}" class="text-dark text-decoration-none p-2" target="_blank" title="Bluesky"><i class="fs-4 bi bi-bluesky"></i></a>
-                        {% endif %}
-                        {% if website.facebook != null and website.facebook != '' %}
-                            <a href="{{ website.facebook }}" class="text-dark text-decoration-none p-2" target="_blank" title="Facebook"><i class="fs-4 bi bi-facebook"></i></a>
-                        {% endif %}
-                        {% if website.instagram != null and website.instagram != '' %}
-                            <a href="{{ website.instagram }}" class="text-dark text-decoration-none p-2" target="_blank" title="Instagram"><i class="fs-4 bi bi-instagram"></i></a>
-                        {% endif %}
-                        {% if website.linkedin != null and website.linkedin != '' %}
-                            <a href="{{ website.linkedin }}" class="text-dark text-decoration-none p-2" target="_blank" title="LinkedIn"><i class="fs-4 bi bi-linkedin"></i></a>
-                        {% endif %}
-                        {% if website.threads != null and website.threads != '' %}
-                            <a href="{{ website.threads }}" class="text-dark text-decoration-none p-2" target="_blank" title="Threads"><i class="fs-4 bi bi-threads"></i></a>
-                        {% endif %}
-                        {% if website.twitter != null and website.twitter != '' %}
-                            <a href="{{ website.twitter }}" class="text-dark text-decoration-none p-2" target="_blank" title="X (Twitter)"><i class="fs-4 bi bi-twitter-x"></i></a>
-                        {% endif %}
-
-                    </div>
-                </div>
-            </nav>
+<nav class="py-2 bg-body-tertiary border-bottom navbar navbar-expand-lg">
+    <div class="container d-flex flex-wrap">
 
 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="bi bi-list"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            {% block navigation %}
+            {% endblock %}
+
+        </ul>
         </div>
+        <ul class="nav">
+
+            {% if website.bluesky != null and website.bluesky != '' %}
+                <li class="nav-item"><a href="{{ website.bluesky }}" class="text-dark text-decoration-none p-2" target="_blank" title="Bluesky"><i class="fs-4 bi bi-bluesky"></i></a></li>
+            {% endif %}
+            {% if website.facebook != null and website.facebook != '' %}
+                <li class="nav-item"><a href="{{ website.facebook }}" class="text-dark text-decoration-none p-2" target="_blank" title="Facebook"><i class="fs-4 bi bi-facebook"></i></a></li>
+            {% endif %}
+            {% if website.instagram != null and website.instagram != '' %}
+                <li class="nav-item"><a href="{{ website.instagram }}" class="text-dark text-decoration-none p-2" target="_blank" title="Instagram"><i class="fs-4 bi bi-instagram"></i></a></li>
+            {% endif %}
+            {% if website.linkedin != null and website.linkedin != '' %}
+                <li class="nav-item"><a href="{{ website.linkedin }}" class="text-dark text-decoration-none p-2" target="_blank" title="LinkedIn"><i class="fs-4 bi bi-linkedin"></i></a></li>
+            {% endif %}
+            {% if website.threads != null and website.threads != '' %}
+                <li class="nav-item"><a href="{{ website.threads }}" class="text-dark text-decoration-none p-2" target="_blank" title="Threads"><i class="fs-4 bi bi-threads"></i></a></li>
+            {% endif %}
+            {% if website.twitter != null and website.twitter != '' %}
+                <li class="nav-item"><a href="{{ website.twitter }}" class="text-dark text-decoration-none p-2" target="_blank" title="X (Twitter)"><i class="fs-4 bi bi-twitter-x"></i></a></li>
+            {% endif %}
+
+        </ul>
     </div>
-</div>
+</nav>
+<header class="py-3">
+    <div class="container d-flex flex-wrap justify-content-center">
+        <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
+            {% if website.logo %}
+                <img src="/media/{{ website.logo.originalName }}" alt="{{ website.name }} logo" style="max-height: 4rem;">
+            {% endif %}
+            <span class="d-block fw-bold fs-5 text-center">{{ website.title|raw }}</span>
+        </a>
+
+        <div class="banner-promotions-wrapper">
+            <div class="promotion-section">
+                <a href="https://www.harkalygergo.hu" target="_blank">
+                    <img class="img-fluid" src="https://infopedia.hu/wp-content/uploads/sites/2/2025/08/harkalygergo-honlap-banner.jpg" alt="">
+                </a>
+            </div>
+        </div>
+
+    </div>
+</header>
+
 
 {% include 'themes/4_delta/header.html.twig' %}
 
