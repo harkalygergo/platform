@@ -400,7 +400,9 @@ class APIController extends PlatformController
 
                 $visitorLog->setVisitedAt(new \DateTimeImmutable());
                 $visitorLog->setUrl($parameters['url']);
-                $visitorLog->setReferrer($parameters['referrer']);
+                if ($parameters['referrer'] !== "null"){
+                    $visitorLog->setReferrer($parameters['referrer']);
+                }
                 $visitorLog->setContentType($parameters['content_type']);
                 $visitorLog->setContentId($parameters['id']);
                 $visitorLog->setUserAgent($parameters['user_agent']);
