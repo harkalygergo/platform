@@ -439,7 +439,7 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'productCategories' => $productCategories,
                 'analytics' => [
-                    'instance' => $product->getInstance(),
+                    'instance' => $product->getInstance()->getId(),
                     'website' => $website->getId(),
                     'content_type' => get_class($product),
                     'id' => $product->getId(),
@@ -600,7 +600,7 @@ class WebsiteController extends PlatformController
                 'events' => $events,
                 'productCategories' => $productCategories,
                 'analytics' => [
-                    'instance' => $category->getInstance(),
+                    'instance' => $category->getInstance()->getId(),
                     'website' => $website->getId(),
                     'content_type' => get_class($category),
                     'id' => $category->getId(),
@@ -652,7 +652,7 @@ class WebsiteController extends PlatformController
                 $blockRepository = $this->doctrine->getRepository(Block::class);
                 $block = $blockRepository->findOneBy([
                     'id' => (int)$blockId,
-                    'instance' => $page->getInstance(),
+                    'instance' => $page->getInstance()->getId(),
                     'status' => true
                 ]);
                 if ($block) {
@@ -697,7 +697,7 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'productCategories' => $productCategories,
                 'analytics' => [
-                    'instance' => $page->getInstance(),
+                    'instance' => $page->getInstance()->getId(),
                     'website' => $website->getId(),
                     'content_type' => get_class($page),
                     'id' => $page->getId(),
@@ -788,7 +788,7 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'productCategories' => $productCategories,
                 'analytics' => [
-                    'instance' => $post->getInstance(),
+                    'instance' => $post->getInstance()->getId(),
                     'website' => $website->getId(),
                     'content_type' => get_class($post),
                     'id' => $post->getId(),
