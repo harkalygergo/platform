@@ -1,0 +1,210 @@
+<form action="{{ APP_URL }}/api/" method="post" id="checkout-form">
+    <div class="row py-4">
+        <div class="col col-12 col-md-8">
+
+
+
+
+
+
+            <!-- Fogyasztás módja -->
+            <div class="row" id="eatMode">
+                <div class="col col-12 col-md-4 p-1">
+
+                    <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" value="locale" checked>
+                    <label class="w-100 btn btn-lg btn-outline-success p-5" for="success-outlined">
+                        <i class="bi bi-pin-map"></i> Helyben fogyasztom
+                    </label>
+                </div>
+                <div class="col col-12 col-md-4 p-1">
+
+                    <input type="radio" class="btn-check" name="options-outlined" id="primary-outlined" value="takeaway" autocomplete="off">
+                    <label class="w-100 btn btn-lg btn-outline-primary p-5" for="primary-outlined">
+                        <i class="bi bi-truck"></i> Elviszem
+                    </label>
+
+                </div>
+                <div class="col col-12 col-md-4 p-1">
+
+                    <input type="radio" class="btn-check" name="options-outlined" id="dark-outlined" value="shipping" autocomplete="off">
+                    <label class="w-100 btn btn-lg btn-outline-dark p-5" for="dark-outlined">
+                        <i class="bi bi-truck"></i> Házhoz szállítás
+                    </label>
+
+                </div>
+                <div class="col col-12 pt-3 text-end">
+                    <button type="button" class="btn btn-outline-dark" onclick="
+                document.getElementById('eatMode').style.display='none';
+                if(document.querySelector('input[name=\'options-outlined\']:checked').value==='shipping') {
+                        document.getElementById('customerData').style.display='block';
+                    document.getElementById('email').value='';
+                    }
+                else {
+                    document.getElementById('paymentMethods').style.display='block';
+                    document.getElementById('email').value=document.querySelector('input[name=\'options-outlined\']:checked').value+'@'+document.querySelector('input[name=\'options-outlined\']:checked').value+'.tld';
+                }
+            ">Tovább &raquo;</button>
+                </div>
+            </div>
+
+            <!-- customer data -->
+            <div class="row" id="customerData" style="display:none">
+                <div class="col col-12">
+                    <h2>Személyes adatok</h2>
+                </div>
+                <div class="row">
+                    <div class="col col-12 col-md-6">
+                        <div class="mb-1">
+                            <label for="lastName" class="form-label">Vezetéknév *</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName">
+                            <div style="position: relative !important; height: 0 !important; width: 0 !important; display: initial !important; float: left !important;" data-lastpass-icon-root=""></div>
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-6">
+                        <div class="mb-1">
+                            <label for="firstName" class="form-label">Keresztnév *</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName">
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-6">
+                        <div class="mb-1">
+                            <label for="phone" class="form-label">Telefonszám *</label>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="például: +36123456789">
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-6">
+                        <div class="mb-1">
+                            <label for="email" class="form-label">E-mail cím *</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="például: teszt.elek@domain.hu">
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3">
+                    <small>* kötelező</small>
+                </p>
+                <div class="col col-12 text-end">
+                    <button type="button" class="btn btn-outline-dark" onclick="document.getElementById('customerData').style.display='none';document.getElementById('shippingData').style.display='block';">Tovább &raquo;</button>
+                </div>
+            </div>
+
+
+            <!-- shipping data -->
+            <div class="row" id="shippingData" style="display:none">
+                <div class="col col-12">
+                    <h2>Szállítási cím</h2>
+                </div>
+                <div class="row">
+                    <div class="col col-12 col-md-6">
+                        <div class="mb-1">
+                            <label for="billingZip" class="form-label">Irányítószám *</label>
+                            <input type="text" class="form-control" id="billingZip" name="billingZip">
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-6">
+                        <div class="mb-1">
+                            <label for="billingCity" class="form-label">Település *</label>
+                            <input type="text" class="form-control" id="billingCity" name="billingCity">
+                        </div>
+                    </div>
+                    <div class="col col-12 col-md-6">
+                        <div class="mb-1">
+                            <label for="billingAddress" class="form-label">Utca, házszám, (emelet, ajtó, stb.) *</label>
+                            <input type="text" class="form-control" id="billingAddress" name="billingAddress">
+                        </div>
+                    </div>
+                    <div class="col col-12 text-end">
+                        <button type="button" class="btn btn-outline-dark" onclick="document.getElementById('shippingData').style.display='none';document.getElementById('shippingMethods').style.display='block';">Tovább &raquo;</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- shipping mode -->
+            <div id="shippingMethods" style="display:none">
+                <div class="col col-12">
+                    <h2>Szállítási mód</h2>
+                </div>
+                {% for shippingMethod in shippingMethods %}
+                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.name }}" required {% if loop.first %} checked {% endif %}>
+                    <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}: {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
+                    <i>{{ shippingMethod.description|raw }}</i>
+                    <hr>
+                {% endfor %}
+                <div class="col col-12 text-end">
+                    <button type="button" class="btn btn-outline-dark" onclick="document.getElementById('shippingMethods').style.display='none';document.getElementById('paymentMethods').style.display='block';">Tovább &raquo;</button>
+                </div>
+            </div>
+
+
+            <!-- payment method -->
+            <div id="paymentMethods" style="display:none">
+                <div class="col col-12">
+                    <h2>Fizetési mód</h2>
+                </div>
+                {% for paymentMethod in paymentMethods %}
+                    <input type="radio" id="{{ paymentMethod.id }}" name="paymentMethod" value="{{ paymentMethod.id }}" required {% if loop.first %} checked {% endif %}>
+                    <label for="{{ paymentMethod.id }}">{{ paymentMethod.name }}</label><br>
+                    <i>{{ paymentMethod.description|raw }}</i>
+                    <hr>
+                {% endfor %}
+                <div class="col col-12 text-end">
+                    <button type="button" class="btn btn-outline-dark" onclick="document.getElementById('paymentMethods').style.display='none';document.getElementById('summary').style.display='block';">Tovább &raquo;</button>
+                </div>
+            </div>
+
+            <!-- summary -->
+            <div id="summary" style="display:none">
+                <div class="col col-12">
+                    <h2>Összefoglaló</h2>
+                </div>
+                <div class="mb-1">
+                    <label for="message" class="form-label">Megjegyzés *</label>
+                    <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                </div>
+                <!-- create a checkbox for the terms and conditions -->
+                <div class="mt-4 mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="acceptTerms" name="acceptTerms">
+                    <label class="form-check-label" for="acceptTerms">
+                        Elfogadom az <a class="text-success fw-bold" target="_blank" href="/{{ website.termsAndConditions.slug }}">Általános Szerződési Feltételek</a>et.
+                    </label>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-lg btn-dark btn-block" onclick="deleteCookie('cart');">
+                        <i class="bi bi-shield-lock"></i> Biztonságos rendelés
+                    </button>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+        <div class="col col-12 col-md-4 p-3 bg-light rounded">
+            <h4 class="fw-bold">Termék(ek)</h4>
+            {% set sum = shippingMethods|first.fee %}
+            {% set quantity = 0 %}
+            {% set items = '' %}
+            <ul>
+                {% for cartItem in cartItems %}
+                    {% set sum = sum + (cartItem.qty*cartItem.price) %}
+                    {% set quantity = quantity + cartItem.qty %}
+                    {% set items = items ~ cartItem.name ~ ',' %}
+                    <li>
+                        <strong>{{ cartItem.name }}</strong><br>
+                        {{ cartItem.qty }} x {{ cartItem.price|format_currency('HUF', {'fraction_digit': 0}, 'hu') }} = {{ (cartItem.qty * cartItem.price)|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}
+                    </li>
+                {% endfor %}
+                <li><strong>Szállítás</strong><br>{{ shippingMethods["0"].fee|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</li>
+            </ul>
+            <p class="border-top text-center pt-4 fs-3 fw-bold">{{ sum|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</p>
+        </div>
+    </div>
+    <input type="hidden" name="honeypot" value="">
+    <input type="hidden" name="action" value="order">
+    <input type="hidden" name="key" value="{{ key }}">
+    <input type="hidden" name="quantity" value="{{ quantity }}">
+    <input type="hidden" name="total" value="{{ sum }}">
+    <input type="hidden" name="items" value="{{ items }}">
+    <input type="hidden" name="currency" value="HUF">
+</form>

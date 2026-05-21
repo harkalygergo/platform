@@ -155,8 +155,17 @@ class APIController extends PlatformController
                 ]);
                 */
 
+                /**
+                 * @var Website $website
+                 */
+                $website = $this->doctrine->getRepository(Website::class)->findOneBy(
+                    [
+                        'domain' => $this->requestStack->getCurrentRequest()->getHost(),
+                    ]
+                );
+
                 return $this->corsResponse(
-                    new Response($this->renderView('themes/5_epsilon/checkout.html.twig', [
+                    new Response($this->renderView('themes/'.$website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode().'/checkout.html.twig', [
                         'website' => $instance->getWebsites()->first(),
                         'shippingMethods' => $shippingMethods,
                         'paymentMethods' => $paymentMethods,
