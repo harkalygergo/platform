@@ -94,7 +94,11 @@
 
         <div class="banner-promotions-wrapper">
             <div class="promotion-section">
-                <!--[block id="7"]-->
+                {% for widget in website.instance.widgets %}
+                    {% if widget.templateCode == 'headerBanner' and widget.status == 1 and widget.content is not null %}
+                        {{ widget.content|raw }}
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
 

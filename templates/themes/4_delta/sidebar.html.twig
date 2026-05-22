@@ -60,3 +60,31 @@
         </ul>
     {% endif %}
 </div>
+
+{% for widget in website.instance.widgets %}
+    {% if widget.templateCode == 'sidebarBanner1' and widget.status == 1 and widget.content is not null %}
+        <div class="bg-white border rounded shadow-sm p-4 mb-4">
+            <h4 class="fw-bold mb-4 text-center">Hirdetés</h4>
+            {{ widget.content|raw }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% for widget in website.instance.widgets %}
+    {% if widget.templateCode == 'sidebarBanner2' and widget.status == 1 and widget.content is not null %}
+        <div class="bg-white border rounded shadow-sm p-4 mb-4">
+            <h4 class="fw-bold mb-4 text-center">Hirdetés</h4>
+            {{ widget.content|raw }}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% for widget in website.instance.widgets %}
+    {% if widget.templateCode == 'sidebarBanner3' and widget.status == 1 and widget.content is not null %}
+        <div class="bg-white border rounded shadow-sm p-4 mb-4">
+            <h4 class="fw-bold mb-4 text-center">Hirdetés</h4>
+            {{ widget.content|raw }}
+        </div>
+    {% endif %}
+{% endfor %}
+

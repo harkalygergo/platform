@@ -2,6 +2,7 @@
 
 namespace App\Entity\Platform;
 
+use App\Entity\Platform\CMS\Widget;
 use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\Popup\Popup;
 use App\Entity\Platform\Webshop\PaymentMethod;
@@ -100,6 +101,9 @@ class Instance
 
     #[ORM\OneToMany(targetEntity: EmailAccount::class, mappedBy: 'instance')]
     private Collection $emailAccounts;
+
+    #[ORM\OneToMany(targetEntity: Widget::class, mappedBy: 'instance')]
+    private Collection $widgets;
 
     public function __construct()
     {
@@ -497,5 +501,23 @@ class Instance
     public function setEmailAccounts(Collection $emailAccounts): void
     {
         $this->emailAccounts = $emailAccounts;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getWidgets(): Collection
+    {
+        return $this->widgets;
+    }
+
+    /**
+     * @param Collection $widgets
+     * @return Instance
+     */
+    public function setWidgets(Collection $widgets): Instance
+    {
+        $this->widgets = $widgets;
+        return $this;
     }
 }

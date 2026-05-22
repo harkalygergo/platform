@@ -44,15 +44,18 @@ class WidgetType extends AbstractType
                 ],
             ])
             ->add('description', TextType::class, [
-                'label' => 'Név',
+                'label' => 'Leírás',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                 ],
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Tartalom',
+                'required' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control summernote',
+                    'rows' => 10
                 ],
             ])
         ;
