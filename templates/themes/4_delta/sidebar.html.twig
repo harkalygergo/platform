@@ -1,7 +1,7 @@
 {% for widget in website.instance.widgets %}
-    {% if widget.templateCode == 'sidebarWidget1' and widget.status == 1 and widget.content is not null %}
+    {% if widget.templateCode.value == 'sidebarWidget1' and widget.status == 1 and widget.content is not null %}
         <div class="bg-white border rounded shadow-sm p-4 mb-4">
-            <h4 class="fw-bold mb-4 text-center">Hirdetés</h4>
+            <h4 class="fw-bold mb-4 text-center">{{ widget.name }}</h4>
             {{ widget.content|raw }}
         </div>
     {% endif %}
@@ -26,9 +26,9 @@
 </div>
 
 {% for widget in website.instance.widgets %}
-    {% if widget.templateCode == 'sidebarWidget2' and widget.status == 1 and widget.content is not null %}
+    {% if widget.templateCode.value == 'sidebarWidget2' and widget.status == 1 and widget.content is not null %}
         <div class="bg-white border rounded shadow-sm p-4 mb-4">
-            <h4 class="fw-bold mb-4 text-center">Hirdetés</h4>
+            <h4 class="fw-bold mb-4 text-center">{{ widget.name }}</h4>
             {{ widget.content|raw }}
         </div>
     {% endif %}
@@ -50,9 +50,9 @@
 </div>
 
 {% for widget in website.instance.widgets %}
-    {% if widget.templateCode == 'sidebarWidget3' and widget.status == 1 and widget.content is not null %}
+    {% if widget.templateCode.value == 'sidebarWidget3' and widget.status == 1 and widget.content is not null %}
         <div class="bg-white border rounded shadow-sm p-4 mb-4">
-            <h4 class="fw-bold mb-4 text-center">Hirdetés</h4>
+            <h4 class="fw-bold mb-4 text-center">{{ widget.name }}</h4>
             {{ widget.content|raw }}
         </div>
     {% endif %}
@@ -74,9 +74,9 @@
 </div>
 
 {% for widget in website.instance.widgets %}
-    {% if widget.templateCode == 'sidebarWidget4' and widget.status == 1 and widget.content is not null %}
+    {% if widget.templateCode.value == 'sidebarWidget4' and widget.status == 1 and widget.content is not null %}
         <div class="bg-white border rounded shadow-sm p-4 mb-4">
-            <h4 class="fw-bold mb-4 text-center">Hirdetés</h4>
+            <h4 class="fw-bold mb-4 text-center">{{ widget.name }}</h4>
             {{ widget.content|raw }}
         </div>
     {% endif %}
@@ -98,9 +98,9 @@
 </div>
 
 {% for widget in website.instance.widgets %}
-    {% if widget.templateCode == 'sidebarWidget5' and widget.status == 1 and widget.content is not null %}
+    {% if widget.templateCode.value == 'sidebarWidget5' and widget.status == 1 and widget.content is not null %}
         <div class="bg-white border rounded shadow-sm p-4 mb-4">
-            <h4 class="fw-bold mb-4 text-center">Hirdetés</h4>
+            <h4 class="fw-bold mb-4 text-center">{{ widget.name }}</h4>
             {{ widget.content|raw }}
         </div>
     {% endif %}
