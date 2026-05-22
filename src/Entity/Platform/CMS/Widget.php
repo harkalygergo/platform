@@ -5,6 +5,7 @@ namespace App\Entity\Platform\CMS;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Interface\TimestampableInterface;
 use App\Entity\Platform\Trait\TimestampableTrait;
+use App\Enum\Platform\WidgetTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -23,8 +24,8 @@ class Widget implements TimestampableInterface  // ← marker interface
     #[ORM\Column(type: 'boolean')]
     private bool $status;
 
-    #[ORM\Column(type: 'text')]
-    private string $templateCode;
+    #[ORM\Column(enumType: WidgetTypeEnum::class)]
+    private WidgetTypeEnum $templateCode;
 
     #[ORM\Column(type: 'text')]
     private string $name;
@@ -90,18 +91,23 @@ class Widget implements TimestampableInterface  // ← marker interface
     }
 
     /**
-     * @return string
+     * @return WidgetTypeEnum
      */
-    public function getTemplateCode(): string
+    public function getTemplateCode(): WidgetTypeEnum
     {
         return $this->templateCode;
     }
 
+    public function templateCodeLabel(): string
+    {
+        return $this->templateCode->label();
+    }
+
     /**
-     * @param string $templateCode
+     * @param WidgetTypeEnum $templateCode
      * @return Widget
      */
-    public function setTemplateCode(string $templateCode): Widget
+    public function setTemplateCode(WidgetTypeEnum $templateCode): Widget
     {
         $this->templateCode = $templateCode;
         return $this;

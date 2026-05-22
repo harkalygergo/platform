@@ -3,9 +3,10 @@
 namespace App\Form\Platform\CMS;
 
 use App\Entity\Platform\CMS\Widget;
+use App\Enum\Platform\WidgetTypeEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,19 +24,12 @@ class WidgetType extends AbstractType
                     'class' => 'form-check-input',
                 ],
             ])
-            ->add('templateCode', ChoiceType::class, [
+            ->add('templateCode', EnumType::class, [
+                'class'       => WidgetTypeEnum::class,
                 'placeholder' => ' - select template place - ',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'choices' => [
-                    'header banner' => 'headerBanner',
-                    'sidebar banner 1' => 'sidebarBanner1',
-                    'sidebar banner 2' => 'sidebarBanner2',
-                    'sidebar banner 3' => 'sidebarBanner3',
-                    'footer - before' => 'footerBefore',
-                    'footer - after' => 'footerAfter',
-                ],
+                'attr'        => ['class' => 'form-control'],
+                'choice_label' => fn(WidgetTypeEnum $e) => $e->label(),
+                'required'    => true,
             ])
             ->add('name', TextType::class, [
                 'label' => 'Név',

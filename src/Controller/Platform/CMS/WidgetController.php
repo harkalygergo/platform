@@ -34,7 +34,7 @@ class WidgetController extends PlatformBackendController
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'title' => 'Widget',
             'tableHead' => [
-                'templateCode' => 'Kód',
+                'templateCodeLabel' => 'Sablon kód',
                 'name' => 'Név',
                 'description' => 'Leírás',
                 'status' => 'Státusz',
