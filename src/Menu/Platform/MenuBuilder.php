@@ -354,11 +354,15 @@ class MenuBuilder
                                 'route' => null,
                                 'children' => [
                                     [
-                                        'label' => 'Menük',
+                                        'label' => 'Menü',
                                         'route' => 'admin_v1_cms_website_menus'
                                     ],
                                     [
-                                        'label' => 'Sablonok',
+                                        'label' => 'Widget',
+                                        'route' => 'admin_v1_cms_widget',
+                                    ],
+                                    [
+                                        'label' => 'Sablon',
                                         'route' => 'admin_v1_cms_templates_index',
                                     ],
                                 ]
