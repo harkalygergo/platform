@@ -8,5 +8,7 @@
 - Doctrine Fixtures hozzáadása lokális teszteléshez
 - ingatlanportál rész megvalósítása
 - select2 kialakítás (például ProductType Website)
-- YouTube embed code
+- YouTube embed shortcode code
 - MediaController /picker route refactor, plus + form.html.twig "Media picker modal (used by Product gallery chooser)" part refactor
+- értesítő e-mailek beágyazható tag-ek
+- űrlap generátor

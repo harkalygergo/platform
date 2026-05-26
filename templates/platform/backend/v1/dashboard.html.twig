@@ -67,7 +67,7 @@
                             </div>
                             <div class="col fw-bold text-uppercase">
                                 E havi látogatószám
-                                <br><span class="display-6">{{ instanceMonthlyView }}</span>
+                                <br><span class="display-6">{{ (instanceMonthlyView)|number_format(0, '.', ' ') }}</span>
                             </div>
                         </div>
                     </div>
