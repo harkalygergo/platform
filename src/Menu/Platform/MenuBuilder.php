@@ -473,7 +473,20 @@ class MenuBuilder
                 'icon'  => 'bi bi-people',
                 'route' => null,
                 'roles' => ['ROLE_USER'],
-                'children' => []
+                'children' => [
+                    [
+                        'label' => 'Visszajelzések',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'Testimonial',
+                                'icon'  => 'bi bi-person-check',
+                                'route' => 'admin_v1_crm_testimonial',
+                            ],
+                        ],
+                    ],
+                    //admin_v1_crm_testimonial
+                ]
             ],
             [
                 'label' => 'ERP',
