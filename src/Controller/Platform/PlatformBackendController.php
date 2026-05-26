@@ -5,6 +5,7 @@ namespace App\Controller\Platform;
 use App\Entity\Platform\Instance\InstanceFeed;
 use App\Entity\Platform\User;
 use App\Form\Platform\Instance\InstanceFeedType;
+use App\Repository\Platform\CMS\VisitorLogRepository;
 use App\Repository\Platform\InstanceRepository;
 use App\Repository\Platform\ServiceRepository;
 use Symfony\Component\Form\FormInterface;
@@ -108,7 +109,7 @@ class PlatformBackendController extends PlatformController
     }
 
     #[Route('/homepage', name: 'admin_v1_dashboard_homepage', methods: ['GET'])]
-    public function dashboard(): Response
+    public function dashboard(VisitorLogRepository $visitorLogRepository): Response
     {
         $this->denyAccessUnlessUserHasInstance();
 
@@ -147,6 +148,7 @@ class PlatformBackendController extends PlatformController
             'tableBody' => $services,
             'currentInstance' => $this->currentInstance,
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'instanceMonthlyView' => $visitorLogRepository->getCurrentMonthVisitsSum($this->currentInstance),
             'clientsCount' => 0,
             'newsletterSubscriberCount' => 0,
             'form' => $form,
