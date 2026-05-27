@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Entity\Platform\Form;
+namespace App\Entity\Platform\CMS;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
-use App\Repository\Platform\PopupRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PopupRepository::class)]
+#[ORM\Entity]
 class Form
 {
     #[ORM\Id]

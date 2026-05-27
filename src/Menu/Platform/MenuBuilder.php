@@ -342,6 +342,21 @@ class MenuBuilder
                                     ],
                                 ]
                             ],
+                            [
+                                'label' => 'Űrlapok',
+                                'icon'  => 'bi bi-ui-checks',
+                                'route' => null,
+                                'children' => [
+                                    [
+                                        'label' => 'Összes űrlap',
+                                        'route' => 'admin_v1_cms_form'
+                                    ],
+                                    [
+                                        'label' => 'űrlap hozzáadása',
+                                        'route' => 'admin_v1_cms_form_new'
+                                    ],
+                                ]
+                            ],
                         ]
                     ],
                     [
