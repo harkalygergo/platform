@@ -422,6 +422,9 @@ class WebsiteController extends PlatformController
     public function deployProducts(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate, $productCategories)
     {
         foreach ($products as $product) {
+
+            $content = $this->searchForShortcode($product->getDescription());
+
             // render product template
             $productContent = $this->renderView('themes/' . $websiteTemplate . '/product.html.twig', [
                 'website' => $website,
@@ -438,6 +441,7 @@ class WebsiteController extends PlatformController
                 'posts' => $posts,
                 'products' => $products,
                 'productCategories' => $productCategories,
+                'content' => $content,
                 'analytics' => [
                     'instance' => $product->getInstance()->getId(),
                     'website' => $website->getId(),
@@ -642,6 +646,72 @@ class WebsiteController extends PlatformController
 
     }
 
+
+
+
+
+
+
+    public function searchForShortcode(string $content): string
+    {
+        $content = preg_replace_callback(
+            '/\[shortcode\s+type="([^"]+)"\s+value="([^"]+)"\]/',
+            function ($matches) {
+
+                $type = $matches[1];
+                $value = $matches[2];
+
+                return match ($type) {
+                    'youtube' => $this->renderYoutube($value),
+                    default => '',
+                };
+            },
+            $content
+        );
+
+        // Remove <p> wrappers around block embeds
+        $content = preg_replace(
+            '/<p>\s*(<div class="container-fluid p-0">.*?<\/div>)\s*<\/p>/is',
+            '$1',
+            $content
+        );
+
+        return $content;
+    }
+
+    private function renderYoutube(string $url): string
+    {
+        $videoId = $this->extractYoutubeId($url);
+
+        if (!$videoId) {
+            return '';
+        }
+
+        $embedUrl = sprintf(
+            'https://www.youtube.com/embed/%s',
+            $videoId
+        );
+
+        return $this->renderView('shortcode/shortcode_embed_youtube.html.twig', [
+            'embedUrl' => htmlspecialchars($embedUrl, ENT_QUOTES),
+        ]);
+    }
+
+    private function extractYoutubeId(string $url): ?string
+    {
+        parse_str(parse_url($url, PHP_URL_QUERY) ?? '', $query);
+
+        return $query['v'] ?? null;
+    }
+
+
+
+
+
+
+
+
+
     private function deployPages($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate, $productCategories)
     {
         $i = 0;
@@ -659,6 +729,10 @@ class WebsiteController extends PlatformController
                     $pageContent = str_replace('[block id="'.$blockId.'"]', $block->getContent(), $pageContent);
                 }
             }
+
+            $pageContent = $this->searchForShortcode($pageContent);
+
+
 
             if (str_contains($pageContent, '[products_list_cart]')) {
                 $form = $this->renderView('shortcode/products_list_cart.html.twig', [
@@ -765,6 +839,9 @@ class WebsiteController extends PlatformController
                     $postContent = str_replace('[block id="'.$blockId.'"]', $block->getContent(), $postContent);
                 }
             }
+
+            $postContent = $this->searchForShortcode($postContent);
+
 
             $templateFile = 'index.html.twig';
             if (file_exists('themes/'. $websiteTemplate .'/post.html.twig')) {
