@@ -7,7 +7,7 @@ use App\Entity\Platform\Ecom\Product;
 use App\Form\Platform\Ecom\ProductType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ProductController extends PlatformController
 {

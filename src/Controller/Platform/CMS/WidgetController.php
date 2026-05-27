@@ -4,15 +4,11 @@ namespace App\Controller\Platform\CMS;
 
 use App\Controller\Platform\PlatformBackendController;
 use App\Entity\Platform\CMS\Widget;
-use App\Entity\Platform\EmailAccount;
 use App\Entity\Platform\User;
-use App\Entity\Platform\Webshop\Webshop;
 use App\Form\Platform\CMS\WidgetType;
-use App\Form\Platform\Shop\Webshop\WebshopType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_USER)]

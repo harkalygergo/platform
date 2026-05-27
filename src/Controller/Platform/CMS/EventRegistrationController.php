@@ -5,7 +5,7 @@ namespace App\Controller\Platform\CMS;
 use App\Controller\Platform\PlatformBackendController;
 use App\Entity\Platform\EventRegistration;
 use App\Entity\Platform\User;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_USER)]

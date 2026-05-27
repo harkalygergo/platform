@@ -5,7 +5,7 @@ namespace App\Controller\Platform\Backend\Page;
 use App\Controller\Platform\Backend\BackendController;
 use App\Entity\Platform\User;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_USER)]
