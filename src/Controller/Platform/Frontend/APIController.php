@@ -395,6 +395,8 @@ class APIController extends PlatformController
         $return = '';
 
         $parameters = $request->request->all();
+        $visitorIP = $this->requestStack->getCurrentRequest()->getClientIp();
+        $developerIPsFromDotenv = explode(',', $_ENV['DEVELOPER_IP'] ?? getenv('DEVELOPER_IP'));
 
         $website = $this->doctrine->getRepository(Website::class)->findOneBy(
             [
@@ -402,7 +404,7 @@ class APIController extends PlatformController
             ]
         );
 
-        if ($website) {
+        if ($website && !in_array($visitorIP, $developerIPsFromDotenv)) {
             /**
              * @var Website $website
              */
@@ -417,7 +419,7 @@ class APIController extends PlatformController
                 $visitorLog->setContentType($parameters['content_type']);
                 $visitorLog->setContentId($parameters['id']);
                 $visitorLog->setUserAgent($parameters['user_agent']);
-                $visitorLog->setIpAddress($this->requestStack->getCurrentRequest()->getClientIp());
+                $visitorLog->setIpAddress($visitorIP);
                 $visitorLog->setSessionId($this->requestStack->getSession()->getId());
                 $visitorLog->setInstance($this->doctrine->getRepository(Instance::class)->find((int)$parameters['instance']));
 

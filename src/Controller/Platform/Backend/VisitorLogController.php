@@ -24,8 +24,6 @@ class VisitorLogController extends PlatformBackendController
         'contentId' => 'content ID',
     ];
 
-
-
     #[Route('/websitepost', name: 'admin_v1_analytics_websitepost_index', methods: ['GET'])]
     public function index_website_post()
     {
