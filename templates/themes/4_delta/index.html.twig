@@ -25,8 +25,8 @@
                         <tr>
                             <th scope="col">Dátum</th>
                             <th scope="col">Település</th>
-                            <th scope="col">Helyszín</th>
                             <th scope="col">Esemény</th>
+                            <th scope="col">Helyszín</th>
                             <th scope="col" class="text-end">Jegy</th>
                         </tr>
                         </thead>
@@ -35,7 +35,6 @@
                                 <tr>
                                     <td>{{ event.startAt|date('Y.m.d. H:i') }}</td>
                                     <td>{% if event.locationEntity %}{{ event.locationEntity.city }}{% endif %}</td>
-                                    <td>{{ event.locationName }}<br><small><i>{{ event.location }}</i></small></td>
                                     <td>
                                         {% if event.performer is not empty %}
                                             <h5 class="fw-bold">{{ event.performer }}</h5>
@@ -43,6 +42,7 @@
                                         <h6>{{ event.title }}</h6>
                                         <span class="text-muted ">{{ event.description|striptags }}</span>
                                     </td>
+                                    <td>{{ event.locationName }}<br><small><i>{{ event.location }}</i></small></td>
                                     <td class="text-end">
                                         {% if event.ticketUrl is not null %}
                                             <a href="{{ event.ticketUrl }}" class="btn btn-lg btn-success rounded-0" target="_blank">
