@@ -31,7 +31,7 @@ class PlatformBackendController extends PlatformController
         ]);
     }
 
-    protected function platformBackendNew(Request $request, FormInterface $form, string $redirectToRoute = ''): Response
+    protected function platformBackendNew(Request $request, FormInterface $form, string $redirectToRoute = '', ?array $redirectToRouteParameters = null): Response
     {
         $this->denyAccessUnlessUserHasInstance();
 
@@ -43,7 +43,7 @@ class PlatformBackendController extends PlatformController
             $this->doctrine->getManager()->persist($entity);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute($redirectToRoute);
+            return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -53,7 +53,7 @@ class PlatformBackendController extends PlatformController
         ]);
     }
 
-    protected function platformBackendEdit(Request $request, FormInterface $form, object $entity, string $redirectToRoute = ''): Response
+    protected function platformBackendEdit(Request $request, FormInterface $form, object $entity, string $redirectToRoute = '', ?array $redirectToRouteParameters=null): Response
     {
         $this->denyAccessUnlessUserHasInstance();
 
@@ -70,7 +70,7 @@ class PlatformBackendController extends PlatformController
             $this->doctrine->getManager()->flush();
             $this->addFlash('success', $title);
 
-            return $this->redirectToRoute($redirectToRoute);
+            return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
         }
 
         $title = $this->translator->trans('action.edit') . ': ';
@@ -88,7 +88,7 @@ class PlatformBackendController extends PlatformController
         ]);
     }
 
-    protected function platformBackendDelete(object $entity, string $redirectToRoute): Response
+    protected function platformBackendDelete(object $entity, string $redirectToRoute, ?array $redirectToRouteParameters=null): Response
     {
         $this->denyAccessUnlessUserHasInstance();
 
@@ -105,7 +105,7 @@ class PlatformBackendController extends PlatformController
 
         $this->addFlash('success', $title);
 
-        return $this->redirectToRoute($redirectToRoute);
+        return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
     }
 
     #[Route('/homepage', name: 'admin_v1_dashboard_homepage', methods: ['GET'])]

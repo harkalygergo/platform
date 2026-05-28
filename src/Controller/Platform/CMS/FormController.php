@@ -41,6 +41,12 @@ class FormController extends PlatformBackendController
                 'edit',
                 'delete',
             ],
+            'extraActions' => [
+                [
+                    'label' => 'alma',
+                    'route' => 'admin_v1_cms_form_field'
+                ]
+            ]
         ]);
     }
 
