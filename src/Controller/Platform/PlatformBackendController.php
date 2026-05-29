@@ -43,7 +43,11 @@ class PlatformBackendController extends PlatformController
             $this->doctrine->getManager()->persist($entity);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
+            if ($redirectToRouteParameters) {
+                return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
+            }
+
+            return $this->redirectToRoute($redirectToRoute);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
