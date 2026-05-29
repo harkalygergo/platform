@@ -28,7 +28,7 @@ class PaymentMethodType extends AbstractType
             ])
             ->add('code', null, [
                 'label' => 'Payment Method code',
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'class' => 'form-control',
                 ],
