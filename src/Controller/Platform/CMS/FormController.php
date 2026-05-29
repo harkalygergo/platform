@@ -34,6 +34,8 @@ class FormController extends PlatformBackendController
                 'code' => 'Kód',
                 'notificationEmail' => 'E-mail',
                 'status' => 'Státusz',
+                'shortcode' => 'Beágyazó kód',
+                'apiKey' => 'API Key',
             ],
             'tableBody' => $tableBody,
             'actions' => [

@@ -1,0 +1,32 @@
+<form action="{{ APP_URL }}/api/" method="post" id="{{ form.name }}-form">
+    {% for field in form.fields %}
+        {% if field.type == 'text' %}
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">{{ field.label }}</span>
+                <input type="text" class="form-control" placeholder="{{ field.placeholder }}" aria-label="{{ field.label }}" aria-describedby="basic-addon1" value="{{ field.defaultValue }}" name="{{ field.name }}">
+            </div>
+        {% elseif field.type == 'email' %}
+            <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">{{ field.label }}</label>
+                <input type="email" class="form-control" placeholder="{{ field.placeholder }}" aria-label="{{ field.label }}" aria-describedby="basic-addon1" value="{{ field.defaultValue }}" name="{{ field.name }}">
+            </div>
+        {% elseif field.type == 'number' %}
+            <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">{{ field.label }}</label>
+                <input type="number" class="form-control" placeholder="{{ field.placeholder }}" aria-label="{{ field.label }}" aria-describedby="basic-addon1" value="{{ field.defaultValue }}" name="{{ field.name }}">
+            </div>
+        {% elseif field.type == 'textarea' %}
+            <div class="input-group mb-3">
+                <label for="{{ field.id }}" class="input-group-text" id="basic-addon1">{{ field.label }}</label>
+                <textarea class="form-control" placeholder="{{ field.placeholder }}" name="{{ field.name }}" id="{{ field.id }}">{{ field.defaultValue }}</textarea>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <input type="hidden" name="honeypot" value="">
+    <input type="hidden" name="action" value="form">
+    <input type="hidden" name="formID" value="{{ form.id }}">
+    <input type="hidden" name="key" value="{{ form.apiKey }}">
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

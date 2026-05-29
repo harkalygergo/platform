@@ -4,6 +4,7 @@ namespace App\Entity\Platform\CMS;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -41,6 +42,12 @@ class Form
     // add notification email
     #[ORM\Column(type: 'text')]
     private string $notificationEmail;
+
+    #[ORM\OneToMany(targetEntity: FormField::class, mappedBy: 'form')]
+    private Collection $fields;
+
+    #[ORM\Column(type: 'text')]
+    private string $apiKey;
 
     public function getId(): ?int
     {
@@ -163,5 +170,40 @@ class Form
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getFields(): Collection
+    {
+        return $this->fields;
+    }
+
+    public function setFields(Collection $fields): Form
+    {
+        $this->fields = $fields;
+        return $this;
+    }
+
+    public function getApiKey(): string
+    {
+        return $this->apiKey;
+    }
+
+    public function setApiKey(string $apiKey): Form
+    {
+        $this->apiKey = $apiKey;
+        return $this;
+    }
+
+
+
+
+    /* CUSTOM */
+
+
+
+
+    public function getShortCode(): string
+    {
+        return '<pre2>[form id="'.$this->getId().'" name="'.$this->code.'"]</pre2>';
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller\Platform\Backend\Website;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Block;
+use App\Entity\Platform\CMS\Form;
 use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
@@ -424,6 +425,7 @@ class WebsiteController extends PlatformController
         foreach ($products as $product) {
 
             $content = $this->searchForShortcode($product->getDescription());
+            $content = $this->searchForForm($content);
 
             // render product template
             $productContent = $this->renderView('themes/' . $websiteTemplate . '/product.html.twig', [
@@ -651,6 +653,39 @@ class WebsiteController extends PlatformController
 
 
 
+    public function searchForForm(string $content): string
+    {
+        $content = preg_replace_callback(
+            '/\[form\s+id="([^"]+)"\s+name="([^"]+)"\]/',
+            function ($matches) {
+
+                $id = $matches[1];
+                $code = $matches[2];
+
+                $formRepository = $this->doctrine->getRepository(Form::class);
+                $form = $formRepository->findOneBy([
+                    'id' => $id,
+                    'code' => $code,
+                ]);
+                if ($form) {
+                    return $this->renderForm($form);
+                }
+
+                return '';
+            },
+            $content
+        );
+
+        // Remove <p> wrappers around block embeds
+        $content = preg_replace(
+            '/<p>\s*(<div class="container-fluid p-0">.*?<\/div>)\s*<\/p>/is',
+            '$1',
+            $content
+        );
+
+        return $content;
+    }
+
 
     public function searchForShortcode(string $content): string
     {
@@ -677,6 +712,13 @@ class WebsiteController extends PlatformController
         );
 
         return $content;
+    }
+
+    private function renderForm(Form $form): string
+    {
+        return $this->renderView('shortcode/form.html.twig', [
+            'form' => $form,
+        ]);
     }
 
     private function renderYoutube(string $url): string
@@ -731,8 +773,7 @@ class WebsiteController extends PlatformController
             }
 
             $pageContent = $this->searchForShortcode($pageContent);
-
-
+            $pageContent = $this->searchForForm($pageContent);
 
             if (str_contains($pageContent, '[products_list_cart]')) {
                 $form = $this->renderView('shortcode/products_list_cart.html.twig', [
@@ -841,6 +882,7 @@ class WebsiteController extends PlatformController
             }
 
             $postContent = $this->searchForShortcode($postContent);
+            $postContent = $this->searchForForm($postContent);
 
 
             $templateFile = 'index.html.twig';

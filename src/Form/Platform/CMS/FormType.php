@@ -37,6 +37,12 @@ class FormType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
+            ->add('apiKey', TextType::class, [
+                'label' => 'API key',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
         ;
     }
 

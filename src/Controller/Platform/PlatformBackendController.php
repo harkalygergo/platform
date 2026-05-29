@@ -59,7 +59,7 @@ class PlatformBackendController extends PlatformController
 
         $form->handleRequest($request);
 
-        $title = $this->translator->trans('action.edited');
+        $title = $this->translator->trans('action.edited').': ';
         if (method_exists($entity, 'getName')) {
             $title .= $entity->getName();
         } else {
@@ -70,7 +70,11 @@ class PlatformBackendController extends PlatformController
             $this->doctrine->getManager()->flush();
             $this->addFlash('success', $title);
 
-            return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
+            if ($redirectToRouteParameters) {
+                return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
+            }
+
+            return $this->redirectToRoute($redirectToRoute);
         }
 
         $title = $this->translator->trans('action.edit') . ': ';

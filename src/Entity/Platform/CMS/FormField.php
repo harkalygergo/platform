@@ -21,7 +21,7 @@ class FormField implements TimestampableInterface
     #[ORM\ManyToOne(targetEntity: Instance::class)]
     private Instance $instance;
 
-    #[ORM\ManyToOne(targetEntity: Form::class)]
+    #[ORM\ManyToOne(targetEntity: Form::class, inversedBy: 'fields')]
     private Form $form;
 
     #[ORM\Column]

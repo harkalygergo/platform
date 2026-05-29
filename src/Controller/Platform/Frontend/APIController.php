@@ -4,6 +4,7 @@ namespace App\Controller\Platform\Frontend;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
+use App\Entity\Platform\CMS\Form;
 use App\Entity\Platform\CMS\VisitorLog;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
@@ -29,7 +30,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 #[Route('/api')]
 class APIController extends PlatformController
 {
-    private function corsResponse(Response $response, Request $request): Response
+    protected function corsResponse(Response $response, Request $request): Response
     {
         $origin = $request->headers->get('Origin');
         $websites = $this->doctrine->getRepository(Website::class)->findAll();
@@ -138,6 +139,21 @@ class APIController extends PlatformController
         }
 
         switch ($parameters['action']) {
+            case 'form':
+            {
+                $emailBody = '';
+
+                foreach ($parameters as $parameterKey=>$parameterValue) {
+                    $emailBody .= $parameterKey . '=' . $parameterValue . "\r\n";
+                }
+
+                $form = $this->doctrine->getRepository(Form::class)->find($parameters['formID']);
+
+                $this->sendMail([$form->getNotificationEmail()],  $form->getName().' űrlap kitöltés', $emailBody);
+
+                break;
+            }
+
             case 'checkout': {
                 //$shippingMethods = $instance->getShippingMethods();
                 $shippingMethods = $this->doctrine->getRepository(ShippingMethod::class)->findBy([
