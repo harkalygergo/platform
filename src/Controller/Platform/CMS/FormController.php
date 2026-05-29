@@ -45,7 +45,7 @@ class FormController extends PlatformBackendController
             ],
             'extraActions' => [
                 [
-                    'label' => 'alma',
+                    'label' => 'űrlapelemek',
                     'route' => 'admin_v1_cms_form_field'
                 ]
             ]

@@ -113,7 +113,11 @@ class PlatformBackendController extends PlatformController
 
         $this->addFlash('success', $title);
 
-        return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
+        if ($redirectToRouteParameters) {
+            return $this->redirectToRoute($redirectToRoute, $redirectToRouteParameters);
+        }
+
+        return $this->redirectToRoute($redirectToRoute);
     }
 
     #[Route('/homepage', name: 'admin_v1_dashboard_homepage', methods: ['GET'])]
