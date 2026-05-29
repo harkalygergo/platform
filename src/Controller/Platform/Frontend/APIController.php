@@ -144,7 +144,7 @@ class APIController extends PlatformController
                 $emailBody = '';
 
                 foreach ($parameters as $parameterKey=>$parameterValue) {
-                    $emailBody .= $parameterKey . '=' . $parameterValue . "\r\n";
+                    $emailBody .= $parameterKey . ': ' . $parameterValue . "\r\n";
                 }
 
                 $form = $this->doctrine->getRepository(Form::class)->find($parameters['formID']);

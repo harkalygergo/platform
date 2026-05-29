@@ -1,24 +1,38 @@
 <form action="{{ APP_URL }}/api/" method="post" id="{{ form.name }}-form">
     {% for field in form.fields %}
-        {% if field.type == 'text' %}
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">{{ field.label }}</span>
-                <input type="text" class="form-control" placeholder="{{ field.placeholder }}" aria-label="{{ field.label }}" aria-describedby="basic-addon1" value="{{ field.defaultValue }}" name="{{ field.name }}">
-            </div>
-        {% elseif field.type == 'email' %}
-            <div class="input-group mb-3">
-                <label class="input-group-text" id="basic-addon1">{{ field.label }}</label>
-                <input type="email" class="form-control" placeholder="{{ field.placeholder }}" aria-label="{{ field.label }}" aria-describedby="basic-addon1" value="{{ field.defaultValue }}" name="{{ field.name }}">
-            </div>
-        {% elseif field.type == 'number' %}
-            <div class="input-group mb-3">
-                <label class="input-group-text" id="basic-addon1">{{ field.label }}</label>
-                <input type="number" class="form-control" placeholder="{{ field.placeholder }}" aria-label="{{ field.label }}" aria-describedby="basic-addon1" value="{{ field.defaultValue }}" name="{{ field.name }}">
+        {% if (field.type == 'text') or (field.type == 'email') or (field.type == 'number') %}
+            <div class="mb-3">
+                <label for="{{ field.Id }}" class="form-label">{{ field.label }}</label>
+                <input
+                    class="form-control"
+                    aria-label="{{ field.label }}"
+                    type="{{ field.type }}"
+                    id="{{ field.Id }}"
+                    name="{{ field.name }}"
+                    value="{{ field.defaultvalue }}"
+                    placeholder="{{ field.placeholder }}"
+                    aria-describedby="{{ field.Id }}Help"
+                >
+                {% if field.helpText %}
+                    <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
+                {% endif %}
             </div>
         {% elseif field.type == 'textarea' %}
-            <div class="input-group mb-3">
-                <label for="{{ field.id }}" class="input-group-text" id="basic-addon1">{{ field.label }}</label>
-                <textarea class="form-control" placeholder="{{ field.placeholder }}" name="{{ field.name }}" id="{{ field.id }}">{{ field.defaultValue }}</textarea>
+            <div class="mb-3">
+                <label for="{{ field.id }}" class="form-label" id="{{ field.id }}">{{ field.label }}</label>
+                <textarea
+                    class="form-control"
+                    aria-label="{{ field.label }}"
+                    id="{{ field.Id }}"
+                    name="{{ field.name }}"
+                    placeholder="{{ field.placeholder }}"
+                    aria-describedby="{{ field.Id }}Help"
+                >
+                    {{ field.defaultValue }}
+                </textarea>
+                {% if field.helpText %}
+                    <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
+                {% endif %}
             </div>
         {% endif %}
     {% endfor %}
@@ -28,5 +42,8 @@
     <input type="hidden" name="formID" value="{{ form.id }}">
     <input type="hidden" name="key" value="{{ form.apiKey }}">
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Küldés</button>
+    </div>
+
 </form>
