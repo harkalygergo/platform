@@ -174,7 +174,7 @@ class APIController extends PlatformController
                 /**
                  * @var Website $website
                  */
-                $referrer = str_replace(['https://', '/'], '', $request->server->get('HTTP_REFERER'));
+                $referrer = str_replace(['https://', 'http://', '/'], '', $request->server->get('HTTP_REFERER'));
 
                 $website = $this->doctrine->getRepository(Website::class)->findOneBy(
                     [

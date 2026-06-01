@@ -146,7 +146,7 @@
                 </div>
                 <div class="tab-pane fade" id="shipping-tab-pane" role="tabpanel" aria-labelledby="shipping-tab" tabindex="3">
                     {% for shippingMethod in shippingMethods %}
-                        <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.name }}" required {% if loop.first %} checked {% endif %}>
+                        <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.name }}" required {% if loop.first %} checked {% endif %} data-fee="{{ shippingMethod.fee }}">
                         <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}: {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
                         <i>{{ shippingMethod.description|raw }}</i>
                         <hr>
@@ -170,7 +170,7 @@
                 </div>
                 <div class="tab-pane fade" id="summary-tab-pane" role="tabpanel" aria-labelledby="summary-tab" tabindex="5">
                     <div class="mb-1">
-                        <label for="message" class="form-label">Megjegyzés *</label>
+                        <label for="message" class="form-label">Megjegyzés</label>
                         <textarea class="form-control" id="message" name="message" rows="4"></textarea>
                     </div>
                     <!-- create a checkbox for the terms and conditions -->
@@ -194,9 +194,11 @@
             <h4 class="fw-bold">Termék(ek)</h4>
             {% set sum = shippingMethods|first.fee %}
             {% set quantity = 0 %}
+            {% set productsSumPrice = 0 %}
             {% set items = '' %}
             <ul>
                 {% for cartItem in cartItems %}
+                    {% set productsSumPrice = productsSumPrice + (cartItem.qty*cartItem.price) %}
                     {% set sum = sum + (cartItem.qty*cartItem.price) %}
                     {% set quantity = quantity + cartItem.qty %}
                     {% set items = items ~ cartItem.name ~ ',' %}
@@ -205,16 +207,18 @@
                         {{ cartItem.qty }} x {{ cartItem.price|format_currency('HUF', {'fraction_digit': 0}, 'hu') }} = {{ (cartItem.qty * cartItem.price)|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}
                     </li>
                 {% endfor %}
-                <li><strong>Szállítás</strong><br>{{ shippingMethods["0"].fee|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</li>
             </ul>
-            <p class="border-top text-center pt-4 fs-3 fw-bold">{{ sum|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</p>
+            <h4 class="fw-bold">Szállítás</h4>
+            <p><span id="shippingMethodFee">{{ shippingMethods["0"].fee|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</span></p>
+            <p id="sum" class="border-top text-center pt-4 fs-3 fw-bold">{{ sum|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}</p>
         </div>
     </div>
+    <input type="hidden" id="productsSumPrice" value="{{ productsSumPrice }}">
     <input type="hidden" name="honeypot" value="">
     <input type="hidden" name="action" value="order">
     <input type="hidden" name="key" value="{{ key }}">
     <input type="hidden" name="quantity" value="{{ quantity }}">
-    <input type="hidden" name="total" value="{{ sum }}">
+    <input type="hidden" name="total" id="total" value="{{ sum }}">
     <input type="hidden" name="items" value="{{ items }}">
     <input type="hidden" name="currency" value="HUF">
 </form>

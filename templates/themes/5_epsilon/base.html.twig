@@ -95,6 +95,31 @@
                 cart: JSON.stringify(cartContents)
             }).then(html => {
                 checkoutDOM.innerHTML += html;
+                addEventListenerForCheckoutShippingChange();
+            });
+        }
+
+        function addEventListenerForCheckoutShippingChange()
+        {
+            const shippingMethods = document.querySelectorAll('input[name="shippingMethod"]');
+            const shippingMethodFee = document.getElementById('shippingMethodFee');
+
+            function updateShippingFee() {
+                const selected = document.querySelector('input[name="shippingMethod"]:checked');
+
+                if (selected && shippingMethodFee) {
+                    shippingMethodFee.innerHTML = selected.dataset.fee;
+                    var sum = Number(selected.dataset.fee) + Number(document.getElementById("productsSumPrice").value);
+                    document.getElementById("sum").innerHTML = sum;
+                    document.getElementById("total").value = sum;
+                }
+            }
+            // Set initial value
+            updateShippingFee();
+
+            // Update when shipping method changes
+            shippingMethods.forEach(method => {
+                method.addEventListener('change', updateShippingFee);
             });
         }
     </script>
