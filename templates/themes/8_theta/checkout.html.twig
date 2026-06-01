@@ -124,7 +124,7 @@
                     <h2>Szállítási mód</h2>
                 </div>
                 {% for shippingMethod in shippingMethods %}
-                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.name }}" required {% if loop.first %} checked {% endif %}>
+                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.name }}" required {% if loop.first %} checked {% endif %} data-fee="{{ shippingMethod.fee }}">
                     <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}: {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
                     <i>{{ shippingMethod.description|raw }}</i>
                     <hr>
