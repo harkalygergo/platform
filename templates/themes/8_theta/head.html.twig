@@ -58,6 +58,81 @@
         }
     </style>
 
+    <script>
+        function postData(url, data) {
+            // Convert object to URL-encoded form data (like $_POST)
+            const formBody = Object.keys(data)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+                .join('&');
+
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formBody,
+                credentials: "include"
+            })
+                .then(response => response.text())
+                //.then(response => response.json()) // or .text() if not JSON
+                .catch(error => console.error('Error:', error));
+        }
+
+        function getCartContents() {
+            const match = document.cookie.match(/(^| )cart=([^;]+)/);
+            return match ? JSON.parse(decodeURIComponent(match[2])) : [];
+        }
+
+        function checkout(APIKey)
+        {
+            const cartContents = getCartContents();
+            const checkoutDOM = document.getElementById('checkout');
+
+            /*
+            let checkoutDOMContent = '';
+            for (const cartItem of cartContents) {
+                checkoutDOMContent += cartItem.name+" - "+cartItem.price+" - "+cartItem.qty+" - "+cartItem.price*cartItem.qty+"<br>";
+            }
+            checkoutDOM.innerHTML = checkoutDOMContent;
+             */
+
+            // Usage
+            postData('{{ APP_URL }}/api/', {
+                honeypot: '',
+                action: 'checkout',
+                key: APIKey,
+                cart: JSON.stringify(cartContents)
+            }).then(html => {
+                checkoutDOM.innerHTML += html;
+                addEventListenerForCheckoutShippingChange();
+            });
+        }
+
+        function addEventListenerForCheckoutShippingChange()
+        {
+            const shippingMethods = document.querySelectorAll('input[name="shippingMethod"]');
+            const shippingMethodFee = document.getElementById('shippingMethodFee');
+
+            function updateShippingFee() {
+                const selected = document.querySelector('input[name="shippingMethod"]:checked');
+
+                if (selected && shippingMethodFee) {
+                    shippingMethodFee.innerHTML = selected.dataset.fee;
+                    var sum = Number(selected.dataset.fee) + Number(document.getElementById("productsSumPrice").value);
+                    document.getElementById("sum").innerHTML = sum;
+                    document.getElementById("total").value = sum;
+                }
+            }
+            // Set initial value
+            updateShippingFee();
+
+            // Update when shipping method changes
+            shippingMethods.forEach(method => {
+                method.addEventListener('change', updateShippingFee);
+            });
+        }
+    </script>
+
     {{ website.headerHTML|raw }}
 
 </head>
