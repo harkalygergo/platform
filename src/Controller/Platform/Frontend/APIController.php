@@ -138,6 +138,8 @@ class APIController extends PlatformController
             ]);
         }
 
+        $successPageText = '';
+
         switch ($parameters['action']) {
             case 'form':
             {
@@ -150,6 +152,8 @@ class APIController extends PlatformController
                 $form = $this->doctrine->getRepository(Form::class)->find($parameters['formID']);
 
                 $this->sendMail([$form->getNotificationEmail()],  $form->getName().' űrlap kitöltés', $emailBody);
+
+                $successPageText = 'Köszönjük! Sikeres űrlap kitöltés.';
 
                 break;
             }
@@ -232,6 +236,8 @@ class APIController extends PlatformController
                 $fromAddress = $instance->getName() . ' <' . $instance->getOwner()->getEmail() . '>';
                 $this->sendMail($toAddresses, $domain. ' új üzenet: '. $subject, $emailBody, $fromAddress);
 
+                $successPageText = 'Köszönjük! Sikeres üzenetküldés.';
+
                 break;
             }
 
@@ -273,6 +279,7 @@ class APIController extends PlatformController
                     'message' => 'Subscription successful',
                 ]);
                 */
+                $successPageText = 'Köszönjük! Sikeres feliratkozás.';
 
                 break;
             }
@@ -374,35 +381,17 @@ class APIController extends PlatformController
                     exit();
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                $successPageText = 'Köszönjük! Sikeres rendelés: #'.$order->getId().'';
 
                 break;
             }
         }
 
-        return $this->render(
-            'platform/frontend/index.html.twig',
-            ['content' => 'Siker! Most visszairányítjuk.'],
-            $this->redirectAway($HTTP_ORIGIN)
-        );
+        return $this->render('platform/frontend/index.html.twig', [
+            'content' => '<h1>'.$successPageText.'</h1><h2>Hamarosan visszairányítjuk a főoldalra.</h2>',
+            'redirect_url' => $HTTP_ORIGIN,
+            'redirect_delay' => 5,
+        ]);
     }
 
     #[Route('/log/visitor/', name: 'api_log_visitor')]
@@ -833,26 +822,5 @@ class APIController extends PlatformController
 
             return new Response('Error', 500);
         }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    public function redirectAway($url)
-    {
-        $response = new Response();
-        $response->setStatusCode(200);
-        $response->headers->set('Refresh', '1; url=' . $url);
-        $response->send();
-
-        return $response;
     }
 }

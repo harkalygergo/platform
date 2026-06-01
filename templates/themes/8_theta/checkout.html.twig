@@ -157,12 +157,12 @@
                     <h2>Összefoglaló</h2>
                 </div>
                 <div class="mb-1">
-                    <label for="message" class="form-label">Megjegyzés *</label>
+                    <label for="message" class="form-label">Megjegyzés</label>
                     <textarea class="form-control" id="message" name="message" rows="4"></textarea>
                 </div>
                 <!-- create a checkbox for the terms and conditions -->
                 <div class="mt-4 mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="acceptTerms" name="acceptTerms">
+                    <input type="checkbox" class="form-check-input" id="acceptTerms" name="acceptTerms" required>
                     <label class="form-check-label" for="acceptTerms">
                         Elfogadom az <a class="text-success fw-bold" target="_blank" href="/{{ website.termsAndConditions.slug }}">Általános Szerződési Feltételek</a>et.
                     </label>

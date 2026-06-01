@@ -2,4 +2,10 @@
 
 {% block body %}
     {{ content|raw }}
+
+    <script>
+        setTimeout(function () {
+            window.location.href = "{{ redirect_url|escape('js') }}";
+        }, {{ redirect_delay * 1000 }});
+    </script>
 {% endblock %}
