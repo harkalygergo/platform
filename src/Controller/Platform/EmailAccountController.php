@@ -79,29 +79,7 @@ class EmailAccountController extends PlatformBackendController
                     $domain  = $entity->getService();
                     $account = $entity->getPrefix();
 
-                    $process = new Process([
-                        'sudo', '-n',   // -n = fail immediately, never prompt
-                        '/usr/local/hestia/bin/v-change-mail-account-password',
-                        $user,
-                        $domain,
-                        $account,
-                        $password,
-                    ]);
-
-                    $process->setTimeout(10); // 2. Kill after 10 seconds — prevents infinite loading
-
-                    try {
-                        $process->run();
-
-                        if (!$process->isSuccessful()) {
-                            $this->addFlash('danger', sprintf(
-                                'Password change failed: %s',
-                                $process->getErrorOutput()
-                            ));
-                        }
-                    } catch (\Symfony\Component\Process\Exception\ProcessTimedOutException $e) {
-                        $this->addFlash('danger', 'Password change timed out.');
-                    }
+                    $this->runPasswordUpdateScript($user, $domain, $account, $password);
                 }
 
                 // Manually do what platformBackendEdit() would do on success
@@ -115,6 +93,40 @@ class EmailAccountController extends PlatformBackendController
         // It will call handleRequest() again but on GET it's a no-op, POST already redirected
         return $this->platformBackendEdit($request, $form, $entity, self::redirectToRoute);
     }
+
+    private function runPasswordUpdateScript($user, $domain, $account, $password)
+    {
+        $scriptPath = '/usr/local/bin/hestia-change-password.sh';
+
+        if (!is_file($scriptPath) || !is_executable($scriptPath)) {
+            $this->addFlash('danger', 'HestiaCP wrapper script not found or not executable.');
+        } else {
+            $process = new Process([
+                'sudo', '-n',
+                $scriptPath,
+                $user,
+                $domain,
+                $account,
+                $password,
+            ]);
+
+            $process->setTimeout(10);
+
+            try {
+                $process->run();
+
+                if (!$process->isSuccessful()) {
+                    $this->addFlash('danger', sprintf(
+                        'Password change failed: %s',
+                        $process->getErrorOutput()
+                    ));
+                }
+            } catch (\Symfony\Component\Process\Exception\ProcessTimedOutException $e) {
+                $this->addFlash('danger', 'Password change timed out.');
+            }
+        }
+    }
+
 
     #[Route('/delete/{id}', name: 'admin_v1_dashboard_email_account_delete', methods: ['GET'])]
     public function delete(EmailAccount $entity): Response
