@@ -126,9 +126,9 @@ class MediaController extends PlatformController
                     $tempFilePath = '/tmp/' . $uploadedFile->getFilename();
                     file_put_contents($tempFilePath, $uploadedFile->getContent());
 
-                    $tempFilePath = '/tmp/' . $website->getId() .'/'. $uploadedFile->getClientOriginalName();
-                    if (!is_dir('/tmp/' . $website->getId())) {
-                        mkdir('/tmp/' . $website->getId(), 0777, true);
+                    $tempFilePath = '/tmp/' . $website->getDomain() .'/'. $uploadedFile->getClientOriginalName();
+                    if (!is_dir('/tmp/' . $website->getDomain())) {
+                        mkdir('/tmp/' . $website->getDomain(), 0777, true);
                     }
                     file_put_contents($tempFilePath, $uploadedFile->getContent());
 
