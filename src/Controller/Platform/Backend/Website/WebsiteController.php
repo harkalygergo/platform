@@ -206,8 +206,8 @@ class WebsiteController extends PlatformController
 
         $slugger = new AsciiSlugger();
         // check if the directory exists
-        if (!is_dir('/tmp/' . $website->getId())) {
-            mkdir('/tmp/' . $website->getId());
+        if (!is_dir('/tmp/' . $website->getDomain())) {
+            mkdir('/tmp/' . $website->getDomain());
         }
         $this->deployPosts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode(), null);
 
@@ -232,8 +232,8 @@ class WebsiteController extends PlatformController
 
         $slugger = new AsciiSlugger();
         // check if the directory exists
-        if (!is_dir('/tmp/' . $website->getId())) {
-            mkdir('/tmp/' . $website->getId());
+        if (!is_dir('/tmp/' . $website->getDomain())) {
+            mkdir('/tmp/' . $website->getDomain());
         }
         $this->deployProducts($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode(), null);
 
@@ -257,8 +257,8 @@ class WebsiteController extends PlatformController
 
         $slugger = new AsciiSlugger();
         // check if the directory exists
-        if (!is_dir('/tmp/' . $website->getId())) {
-            mkdir('/tmp/' . $website->getId());
+        if (!is_dir('/tmp/' . $website->getDomain())) {
+            mkdir('/tmp/' . $website->getDomain());
         }
         $this->deployPages($website, $slugger, $urls, $filenames, $flashText, $categories, $pages, $menus, $events, $posts, $products, $website->getTemplate()->getPosition().'_'.$website->getTemplate()->getCode(), null);
 
@@ -304,8 +304,8 @@ class WebsiteController extends PlatformController
         $website = $id;
 
         // check if the directory exists
-        if (!is_dir('/tmp/' . $website->getId())) {
-            mkdir('/tmp/' . $website->getId());
+        if (!is_dir('/tmp/' . $website->getDomain())) {
+            mkdir('/tmp/' . $website->getDomain());
         }
 
         // check if website has FTP credentials
@@ -401,7 +401,7 @@ class WebsiteController extends PlatformController
             $filenames[] = $slug . '.html';
 
             // Save the generated HTML content to a temporary file
-            $tempFilePath = '/tmp/' . $website->getId() . '/' . $slug . '.html';
+            $tempFilePath = '/tmp/' . $website->getDomain() . '/' . $slug . '.html';
             file_put_contents($tempFilePath, $productCategoryContent);
 
             $this->pushToFTP(
@@ -468,7 +468,7 @@ class WebsiteController extends PlatformController
             // if slug contains slashes, create necessary directories in /tmp/{websiteId}/
             $slugParts = explode('/', $slug);
             if (count($slugParts) > 1) {
-                $path = '/tmp/' . $website->getId() . '/';
+                $path = '/tmp/' . $website->getDomain() . '/';
                 for ($j = 0; $j < count($slugParts) - 1; $j++) {
                     $path .= $slugParts[$j] . '/';
                     if (!is_dir($path)) {
@@ -478,7 +478,7 @@ class WebsiteController extends PlatformController
             }
 
             // Save the generated HTML content to a temporary file
-            $tempFilePath = '/tmp/' . $website->getId() . '/' . $slug . '.html';
+            $tempFilePath = '/tmp/' . $website->getDomain() . '/' . $slug . '.html';
             file_put_contents($tempFilePath, $productContent);
 
             $this->pushToFTP(
@@ -531,7 +531,7 @@ class WebsiteController extends PlatformController
             // if slug contains slashes, create necessary directories in /tmp/{websiteId}/
             $slugParts = explode('/', $slug);
             if (count($slugParts) > 1) {
-                $path = '/tmp/' . $website->getId() . '/';
+                $path = '/tmp/' . $website->getDomain() . '/';
                 for ($j = 0; $j < count($slugParts) - 1; $j++) {
                     $path .= $slugParts[$j] . '/';
                     if (!is_dir($path)) {
@@ -541,7 +541,7 @@ class WebsiteController extends PlatformController
             }
 
             // Save the generated HTML content to a temporary file
-            $tempFilePath = '/tmp/' . $website->getId() . '/' . $slug . '.html';
+            $tempFilePath = '/tmp/' . $website->getDomain() . '/' . $slug . '.html';
             file_put_contents($tempFilePath, $eventContent);
 
             $this->pushToFTP(
@@ -561,7 +561,7 @@ class WebsiteController extends PlatformController
     {
         $headerCSS = $website->getHeaderCSS();
         //if ($headerCSS) {
-            $tempFilePath = '/tmp/' . $website->getId() . '/style.css';
+            $tempFilePath = '/tmp/' . $website->getDomain() . '/style.css';
             file_put_contents($tempFilePath, $headerCSS);
 
             self::pushToFTP(
@@ -582,21 +582,23 @@ class WebsiteController extends PlatformController
     private function deployCategories($website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $posts, $products, $events, $websiteTemplate, $productCategories)
     {
         // create a '/tmp/' . $website->getId() . '/kategoria' directory if it doesn't exist
-        $categoryDir = '/tmp/' . $website->getId() . '/kategoria';
+        $categoryDir = '/tmp/' . $website->getDomain() . '/kategoria';
         if (!is_dir($categoryDir)) {
             mkdir($categoryDir);
         }
 
+        $templateFile = file_exists($this->getParameter('kernel.project_dir').'/templates/themes/'. $websiteTemplate .'/category.html.twig') ? 'category.html.twig' : 'index.html.twig';
+
         // get website categories
         foreach ($categories as $category) {
-            $htmlContent = $this->renderView('themes/' . $websiteTemplate . '/category.html.twig', [
+            $htmlContent = $this->renderView('themes/' . $websiteTemplate . '/'.$templateFile, [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
                 'title' => $category->getTitle(),
                 'keywords' => $website->getMetaKeywords(),
                 'description' => $website->getMetaDescription(),
-                'content' => $category,
+                'content' => $category->getContent(),
                 'categories' => $categories,
                 'pages' => $pages,
                 'menus' => $menus,
@@ -624,7 +626,7 @@ class WebsiteController extends PlatformController
             }
 
             // Save the generated HTML content to a temporary file
-            $tempFilePath = '/tmp/' . $website->getId() . '/' . $slug . '.html';
+            $tempFilePath = '/tmp/' . $website->getDomain() . '/' . $slug . '.html';
             file_put_contents($tempFilePath, $htmlContent);
 
             // Add to URLs and filenames for .htaccess
@@ -835,7 +837,7 @@ class WebsiteController extends PlatformController
             // if slug contains slashes, create necessary directories in /tmp/{websiteId}/
             $slugParts = explode('/', $slug);
             if (count($slugParts) > 1) {
-                $path = '/tmp/' . $website->getId() . '/';
+                $path = '/tmp/' . $website->getDomain() . '/';
                 for ($j = 0; $j < count($slugParts) - 1; $j++) {
                     $path .= $slugParts[$j] . '/';
                     if (!is_dir($path)) {
@@ -845,7 +847,7 @@ class WebsiteController extends PlatformController
             }
 
             // Save the generated HTML content to a temporary file
-            $tempFilePath = '/tmp/' . $website->getId() .'/'. $slug . '.html';
+            $tempFilePath = '/tmp/' . $website->getDomain() .'/'. $slug . '.html';
             file_put_contents($tempFilePath, $htmlContent);
 
             $this->pushToFTP(
@@ -885,12 +887,11 @@ class WebsiteController extends PlatformController
             $postContent = $this->searchForForm($postContent);
 
 
-            $templateFile = 'index.html.twig';
-            if (file_exists('themes/'. $websiteTemplate .'/post.html.twig')) {
-                $templateFile = 'post.html.twig';
-            }
+            $templateFile = file_exists($this->getParameter('kernel.project_dir').'/templates/themes/'. $websiteTemplate .'/post.html.twig') ? 'post.html.twig' : 'index.html.twig';
 
-            $htmlContent = $this->renderView('themes/'. $websiteTemplate .'/post.html.twig', [
+
+
+            $htmlContent = $this->renderView('themes/'. $websiteTemplate .'/'.$templateFile, [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
@@ -932,7 +933,7 @@ class WebsiteController extends PlatformController
             }
 
             // Save the generated HTML content to a temporary file
-            $tempFilePath = '/tmp/' . $website->getId() .'/'. $fileName . '.html';
+            $tempFilePath = '/tmp/' . $website->getDomain() .'/'. $fileName . '.html';
             file_put_contents($tempFilePath, $htmlContent);
 
             // Add to URLs and filenames for .htaccess
@@ -977,7 +978,7 @@ RewriteEngine On
             $i++;
         }
 
-        $tempFilePath = '/tmp/' . $website->getId() . '/.htaccess';
+        $tempFilePath = '/tmp/' . $website->getDomain() . '/.htaccess';
         file_put_contents($tempFilePath, $content);
 
         $this->pushToFTP(
@@ -1000,7 +1001,7 @@ RewriteEngine On
 Crawl-delay: 10
 ';
 
-        $tempFilePath = '/tmp/' . $website->getId() . '/'. $fileName;
+        $tempFilePath = '/tmp/' . $website->getDomain() . '/'. $fileName;
         file_put_contents($tempFilePath, $content);
 
         $this->pushToFTP(
