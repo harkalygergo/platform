@@ -6,6 +6,8 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\User;
 use App\Form\Platform\API\APIType;
+use App\Repository\OrderRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -89,4 +91,13 @@ class APIController extends PlatformController
 
         return $this->redirectToRoute('admin_v1_dashboard_api_index');
     }
+
+    #[Route('/check/new-order/{lastShownOrderID}', name: 'api_check_new_order_by_instance')]
+    public function checkNewOrderByInstance(int $lastShownOrderID, OrderRepository $orderRepository)
+    {
+        $orders = $orderRepository->findByInstanceAboveMinimum($this->currentInstance, $lastShownOrderID);
+
+        return new JsonResponse($orders);
+    }
+
 }

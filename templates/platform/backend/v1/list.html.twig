@@ -10,6 +10,11 @@
         {#% include 'platform/backend/v1/elements/breadcrumbs.html.twig' %#}
         {% include 'platform/backend/v1/partials/_breadcrumbs.html.twig' %}
 
+        {% if "admin_v1_shop_order_index" == app.request.get('_route') %}
+            <span class="text-end">
+                <button class="btn btn-small btn-outline-secondary mb-3" onclick="unlockAudio(this);">🕭 enable audio notification</button>
+            </span>
+        {% endif %}
 
         <div class="card">
 
@@ -317,7 +322,116 @@
 
             dataListSearch(tbody, headers, searchInput);
             dataListSortable(table, tbody, headers);
+            checkNewOrderAndReload();
         });
+
+
+
+
+
+
+
+        /**
+         * New order audio notification
+         * Works in all modern browsers via Web Audio API.
+         * No external files needed — tone is synthesized.
+         *
+         * Browser autoplay policy: audio requires a prior
+         * user gesture on the page before it will play.
+         * Call unlockAudio() on any early user interaction
+         * (page click, button press, etc.).
+         */
+
+        let audioCtx = null;
+        let audioUnlocked = false;
+
+        function unlockAudio(button) {
+            if (audioUnlocked) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            // Resume needed in Chrome when context starts suspended
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            audioUnlocked = true;
+            button.style.display = 'none';
+        }
+
+        /**
+         * Plays a two-tone "ding-dong" notification.
+         * @param {number} volume  0.0 – 1.0  (default 0.5)
+         */
+        function playNewOrderSound(volume = 0.5) {
+            if (!audioUnlocked) {
+                console.warn('Audio not unlocked yet. Call unlockAudio() first.');
+                return false;
+            }
+
+            const ctx = audioCtx;
+            const now = ctx.currentTime;
+
+            // Two notes: E5 (659 Hz) then C5 (523 Hz)
+            const notes = [
+                { freq: 659.25, start: 0,    duration: 0.25 },
+                { freq: 523.25, start: 0.28, duration: 0.35 },
+                { freq: 659.25, start: 1.06,    duration: 0.25 },
+                { freq: 523.25, start: 1.34, duration: 0.35 },
+            ];
+
+            notes.forEach(({ freq, start, duration }) => {
+                const osc     = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+
+                osc.connect(gainNode);
+                gainNode.connect(ctx.destination);
+
+                osc.type      = 'sine';
+                osc.frequency.setValueAtTime(freq, now + start);
+
+                // Smooth fade-in / fade-out to avoid clicks
+                gainNode.gain.setValueAtTime(0, now + start);
+                gainNode.gain.linearRampToValueAtTime(volume, now + start + 0.02);
+                gainNode.gain.setValueAtTime(volume, now + start + duration - 0.05);
+                gainNode.gain.linearRampToValueAtTime(0, now + start + duration);
+
+                osc.start(now + start);
+                osc.stop(now + start + duration);
+            });
+
+            return true;
+        }
+
+        function checkNewOrderAndReload()
+        {
+            {% set current_path = app.request.get('_route') %}
+
+            if ("{{ current_path }}" === "admin_v1_shop_order_index") {
+                let currentMaxOrderID = parseInt(document.getElementById("dataList").getElementsByTagName("tbody")["0"].getElementsByTagName("tr")["0"].getElementsByTagName("td")["2"].innerText);
+
+                setInterval(async () => {
+                    const res = await fetch('/hu/admin/v1/api/check/new-order/'+currentMaxOrderID);
+                    let orders = await res.json();
+                    console.log(orders);
+                    if (orders.length > 0) {
+                        playNewOrderSound();
+                        //window.location.reload();
+                        setTimeout(() => {
+                            alert("új rendelés érkezett, töltse újra az oldalt");
+                            //location.reload(); // runs only after OK is clicked
+                        }, 30000);
+                    }
+                }, 5000);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
 
         function dataListSearch(tbody, headers, searchInput)
         {

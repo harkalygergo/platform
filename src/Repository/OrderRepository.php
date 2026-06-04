@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,17 @@ class OrderRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Order::class);
+    }
+
+    public function findByInstanceAboveMinimum(Instance $instance, int $minimumOrderNumber): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.instance = :instance')
+            ->andWhere('o.id > :minimumOrderNumber')
+            ->setParameter('instance', $instance)
+            ->setParameter('minimumOrderNumber', $minimumOrderNumber)
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**
