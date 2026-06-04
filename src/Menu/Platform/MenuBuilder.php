@@ -595,6 +595,66 @@ class MenuBuilder
                 ]
             ],
             [
+                'label' => 'system',
+                'subtitle' => 'Settings',
+                'icon'  => 'bi bi-gear',
+                'route' => null,
+                'roles' => ['ROLE_USER'],
+                'children' => [
+                    [
+                        'label' => 'Rendszerbeállítások',
+                        'route' => null,
+                        'icon' => 'bi bi-person',
+                        'children' => [
+                            [
+                                'label' => 'Vállalkozások és szervezetek',
+                                'route' => 'admin_v1_system_instances',
+                                'icon' => 'bi bi-briefcase',
+
+                            ],
+                            [
+                                'label' => 'Számlázási profilok',
+                                'route' => 'admin_v1_system_billing_profiles',
+                                'icon' => 'bi bi-receipt',
+                            ],
+                        ]
+                    ],
+                    [
+                        'label' => 'Támogatás',
+                        'route' => null,
+                        'icon' => 'bi bi-person',
+                        'children' => [
+                            [
+                                'label' => 'Felhasználói kézikönyv',
+                                'route' => 'admin_v1_system_support',
+                                'icon' => 'bi bi-person-badge',
+
+                            ],
+                            [
+                                'label' => 'Súgó',
+                                'route' => null,
+                                'icon' => 'bi bi-question-circle',
+                            ],
+                            [
+                                'label' => 'Hibajegy',
+                                'route' => null,
+                                'icon' => 'bi bi-bug',
+                            ],
+                            [
+                                'label' => 'Fejlesztői dokumentáció',
+                                'route' => null,
+                                'icon' => 'bi bi-file-code',
+                            ],
+                            [
+                                'label' => 'Üzemeltetői specifikáció',
+                                'route' => null,
+                                'icon' => 'bi bi-file-earmark-code',
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+            [
                 'label' => 'profile',
                 'subtitle' => 'Profil',
                 'icon'  => 'bi bi-person',
@@ -669,39 +729,6 @@ class MenuBuilder
                                 'label' => 'Szinkronizált naptárak',
                                 'route' => null,
                                 'icon' => 'bi bi-calendar',
-                            ],
-                        ]
-                    ],
-                    [
-                        'label' => 'Támogatás',
-                        'route' => null,
-                        'icon' => 'bi bi-person',
-                        'children' => [
-                            [
-                                'label' => 'Felhasználói kézikönyv',
-                                'route' => 'admin_v1_profile_support',
-                                'icon' => 'bi bi-person-badge',
-
-                            ],
-                            [
-                                'label' => 'Súgó',
-                                'route' => null,
-                                'icon' => 'bi bi-question-circle',
-                            ],
-                            [
-                                'label' => 'Hibajegy',
-                                'route' => null,
-                                'icon' => 'bi bi-bug',
-                            ],
-                            [
-                                'label' => 'Fejlesztői dokumentáció',
-                                'route' => null,
-                                'icon' => 'bi bi-file-code',
-                            ],
-                            [
-                                'label' => 'Üzemeltetői specifikáció',
-                                'route' => null,
-                                'icon' => 'bi bi-file-earmark-code',
                             ],
                         ]
                     ],

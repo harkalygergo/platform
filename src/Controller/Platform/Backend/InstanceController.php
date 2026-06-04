@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/instances')]
 class InstanceController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_instances')]
+    #[Route('/', name: 'admin_v1_system_instances')]
     public function index(Request $request): Response
     {
         $user = $this->getUser();
@@ -53,7 +53,7 @@ class InstanceController extends PlatformController
         if (!$instance) {
             $this->addFlash('danger', 'Az oldal nem található.');
 
-            return $this->redirectToRoute('admin_v1_instances');
+            return $this->redirectToRoute('admin_v1_system_instances');
         }
 
         // check if logged in user and instance has connection
@@ -139,7 +139,7 @@ class InstanceController extends PlatformController
             $this->doctrine->getManager()->persist($instanceFeed);
             $this->doctrine->getManager()->flush();
 
-            //return $this->redirectToRoute('admin_v1_instances');
+            //return $this->redirectToRoute('admin_v1_system_instances');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -160,11 +160,11 @@ class InstanceController extends PlatformController
         if (!$instance || !$user->getInstances()->contains($instance)) {
             $this->addFlash('danger', 'Önnek nincs jogosultsága.');
 
-            return $this->redirectToRoute('admin_v1_instances');
+            return $this->redirectToRoute('admin_v1_system_instances');
         }
 
-        $this->addFlash('success', $this->translator->trans('action.saved'));
         setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
+        $this->addFlash('success', $this->currentInstance->getName(). ' -> ' . $instance->getName(). ' '. $this->translator->trans('action.saved'));
 
         return $this->redirectToRoute('admin_v1_dashboard_homepage');
     }
@@ -182,7 +182,7 @@ class InstanceController extends PlatformController
             $this->doctrine->getManager()->persist($instance);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_instances');
+            return $this->redirectToRoute('admin_v1_system_instances');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -201,7 +201,7 @@ class InstanceController extends PlatformController
         if (!$instance) {
             $this->addFlash('danger', 'Az oldal nem található.');
 
-            return $this->redirectToRoute('admin_v1_instances');
+            return $this->redirectToRoute('admin_v1_system_instances');
         }
 
         // check if logged in user and instance has connection
@@ -246,7 +246,7 @@ class InstanceController extends PlatformController
         if (!$instance) {
             $this->addFlash('danger', 'Az oldal nem található.');
 
-            return $this->redirectToRoute('admin_v1_instances');
+            return $this->redirectToRoute('admin_v1_system_instances');
         }
 
         // check if logged in user and instance has connection

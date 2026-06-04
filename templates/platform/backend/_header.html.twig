@@ -118,19 +118,23 @@
                             {{ app.user.firstName|first }} {{ app.user.lastName|first }}
                         </span>
                         <!--img alt="account" class="rounded-circle" src="https://harkalygergo.github.io/harkalygergo.jpg" style="float:left;margin:0 5px;width:auto;height:32px;"-->
-                        <span class="d-none d-sm-inline-block"> {{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ currentInstance.name }}</small></span>
+                        <span class="d-none d-sm-inline-block"> {{ app.user.fullName }}<br><small class="text-white-50 float-start">{{ currentInstance.name|raw }}</small></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
+                        {% for instance in app.user.instances %}
+
+                            <li>
+                                <a class="dropdown-item text-white" href="{{ path('admin_v1_dashboard_instances_switch', {'instance': instance.id }) }}">
+                                    <i class="bi bi-shuffle"></i> {{ instance.name|raw }}
+                                </a>
+                            </li>
+
+                        {% endfor %}
+
                         <!--li><a class="dropdown-item" href="{{ path('admin_v1_profile_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
                         <li><a class="dropdown-item" href="{{ path('admin_v1_profile_media_user_index') }}">
                                 <i class="bi bi-usb-drive"></i> Személyes tárhely</a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li-->
-                        <li><a class="dropdown-item" href="{{ path('admin_v1_instances') }}"><i class="bi bi-briefcase"></i> Vállalkozások és szervezetek</a></li>
-                        <li><a class="dropdown-item" href="{{ path('admin_v1_billing_profiles') }}"><i class="bi bi-receipt"></i> Számlázási profilok</a></li>
-                        <li><a class="dropdown-item text-white-50" href="#"><i class="bi bi-gear"></i> Rendszereszközök</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ path('admin_v1_profile_support') }}"><i class="bi bi-question-circle"></i> Támogatás és support</a></li>
+                        </li-->
                         <li><hr class="dropdown-divider"></li>
                         {#% if is_granted('ROLE_SUPERADMIN') %}
                             <li><a class="dropdown-item" href="{{ path('admin_v1_superadmin_services') }}"><i class="bi bi-stars"></i> Superadmin</a></li>

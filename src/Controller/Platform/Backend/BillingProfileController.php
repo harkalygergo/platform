@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_USER)]
 class BillingProfileController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/billing-profiles/', name: 'admin_v1_billing_profiles')]
+    #[Route('/{_locale}/admin/v1/billing-profiles/', name: 'admin_v1_system_billing_profiles')]
     public function index(Request $request): Response
     {
         $user = $this->getUser();
@@ -39,7 +39,7 @@ class BillingProfileController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/billing-profiles/add', name: 'admin_v1_billing_profiles_add')]
+    #[Route('/{_locale}/admin/v1/billing-profiles/add', name: 'admin_v1_system_billing_profiles_add')]
     public function add(Request $request): Response
     {
         $billingProfile = new BillingProfile();
@@ -51,7 +51,7 @@ class BillingProfileController extends PlatformController
             $this->doctrine->getManager()->persist($billingProfile);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_billing_profiles');
+            return $this->redirectToRoute('admin_v1_system_billing_profiles');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -61,7 +61,7 @@ class BillingProfileController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/billing-profiles/edit/{id}', name: 'admin_v1_billing_profiles_edit')]
+    #[Route('/{_locale}/admin/v1/billing-profiles/edit/{id}', name: 'admin_v1_system_billing_profiles_edit')]
     public function edit(Request $request, int $id): Response
     {
         $billingProfile = $this->doctrine->getRepository(BillingProfile::class)->find($id);
@@ -72,7 +72,7 @@ class BillingProfileController extends PlatformController
             $this->doctrine->getManager()->persist($billingProfile);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_billing_profiles');
+            return $this->redirectToRoute('admin_v1_system_billing_profiles');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -82,13 +82,13 @@ class BillingProfileController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/billing-profiles/delete/{id}', name: 'admin_v1_billing_profiles_delete')]
+    #[Route('/{_locale}/admin/v1/billing-profiles/delete/{id}', name: 'admin_v1_system_billing_profiles_delete')]
     public function delete(int $id): Response
     {
         $billingProfile = $this->doctrine->getRepository(BillingProfile::class)->find($id);
         $this->doctrine->getManager()->remove($billingProfile);
         $this->doctrine->getManager()->flush();
 
-        return $this->redirectToRoute('admin_v1_billing_profiles');
+        return $this->redirectToRoute('admin_v1_system_billing_profiles');
     }
 }

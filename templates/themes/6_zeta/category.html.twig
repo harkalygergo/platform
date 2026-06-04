@@ -2,8 +2,8 @@
 
 {% block body %}
 
-    <h1 class="fw-bold pb-3">{{ content.title|raw }}</h1>
-    {% for post in content.posts %}
+    <h1 class="fw-bold pb-3">{{ category.title|raw }}</h1>
+    {% for post in category.posts %}
         <h2>{{ post.title|raw }}</h2>
         <p>{{ post.metaDescription|raw }}</p>
         <p><a href="/{{ category.slug }}/{{ post.slug }}">{{ post.title|raw }} &raquo;</a></p>
