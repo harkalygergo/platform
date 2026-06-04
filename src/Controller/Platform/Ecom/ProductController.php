@@ -103,7 +103,7 @@ class ProductController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/ecom/v1/products/delete/{product}', name: 'admin_v1_shop_products_edit')]
+    #[Route('/{_locale}/ecom/v1/products/delete/{product}', name: 'admin_v1_shop_products_delete')]
     public function delete(Product $product): Response
     {
         $productName = $product->getName();

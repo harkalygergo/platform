@@ -30,6 +30,20 @@ class ProductType extends AbstractType
         $currentWebsite = $options['currentInstance']->getWebsites()->first();
 
         $builder
+            ->add('status', ChoiceType::class, [
+                'label' => 'Status',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'choices'  => [
+                    'Inaktív' => 0,
+                    'Aktív' => 1,
+                    'Vázlat' => 2,
+                    'Archivált' => 3,
+                ],
+                'data' => 1,
+            ])
             ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control slugSource',
@@ -63,20 +77,6 @@ class ProductType extends AbstractType
                     'USD' => 'USD',
                     'EUR' => 'EUR',
                 ],
-            ])
-            ->add('status', ChoiceType::class, [
-                'label' => 'Status',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'choices'  => [
-                    'Inaktív' => 0,
-                    'Aktív' => 1,
-                    'Vázlat' => 2,
-                    'Archivált' => 3,
-                ],
-                'data' => 1,
             ])
             ->add('sku', TextType::class, [
                 'required' => false,
