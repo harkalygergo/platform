@@ -123,8 +123,13 @@
                     <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="dark">
                         {% for instance in app.user.instances %}
 
+                            {% set currentInstanceClass = '' %}
+                            {% if app.request.cookies.get('currentInstance') == instance.id %}
+                                {% set currentInstanceClass = 'fw-bold bg-success' %}
+                            {% endif %}
+
                             <li>
-                                <a class="dropdown-item text-white" href="{{ path('admin_v1_dashboard_instances_switch', {'instance': instance.id }) }}">
+                                <a class="dropdown-item text-white {{ currentInstanceClass }}" href="{{ path('admin_v1_dashboard_instances_switch', {'instance': instance.id }) }}">
                                     <i class="bi bi-shuffle"></i> {{ instance.name|raw }}
                                 </a>
                             </li>
