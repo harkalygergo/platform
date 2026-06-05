@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.06.05.5
+###### v2026.06.05.6
 
 ![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -200,6 +200,7 @@ journalctl -u symfony-messenger -f
 
 - Bootstrap: https://getbootstrap.com
 - Saferpay: https://novopayment.hu/ecom/#saferpay
+- Summernote: https://summernote.org
 - Symfony: https://symfony.com
 - Twig: https://twig.symfony.com
 

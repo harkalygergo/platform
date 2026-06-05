@@ -166,6 +166,57 @@
             });
         });
 
+        var VariableButton = function(context) {
+            var ui = $.summernote.ui;
+
+            var variables = {
+                'Order: number': '[order___number]',
+                'Order: created at': '[order___created_at]',
+                'Order: total': '[order___total]',
+                'Order: currency': '[order__currency]',
+                'Order: customer first name': '[order__first_name]',
+                'Order: customer last name': '[order__last_name]',
+                'Order: customer phone': '[order__phone]',
+                'Order: customer email': '[order__email]',
+                'Order: shipping method': '[order__shipping_method]',
+                'Order: shipping address': '[order__shipping_address]',
+                'Order: billing country': '[order__billing_country]',
+                'Order: billing zip': '[order__billing_zip]',
+                'Order: billing city': '[order__billing_city]',
+                'Order: payment status': '[order__payment_status]',
+                'Order: status': '[order__status]',
+            };
+
+            var items = Object.keys(variables).map(function(label) {
+                return '<a class="dropdown-item" href="#" data-value="' + variables[label] + '">' + label + '</a>';
+            }).join('');
+
+            return ui.buttonGroup([
+                ui.button({
+                    className: 'dropdown-toggle',
+                    contents: 'Variables <span class="caret"></span>',
+                    tooltip: 'Insert variable',
+                    data: {
+                        toggle: 'dropdown'
+                    }
+                }),
+                ui.dropdown({
+                    items: items,
+                    callback: function($dropdown) {
+                        $dropdown.find('.dropdown-item').on('click', function(e) {
+                            e.preventDefault();
+
+                            var value = $(this).data('value');
+
+                            context.invoke('editor.restoreRange');
+                            context.invoke('editor.focus');
+                            context.invoke('editor.insertText', value);
+                        });
+                    }
+                })
+            ]).render();
+        };
+
         // Define the custom Prettify button
         var PrettifyButton = function(context) {
             var ui = $.summernote.ui;
@@ -220,7 +271,7 @@
                     ['insert',   ['link', 'picture', 'video', 'hr']],
                     ['view',     ['fullscreen', 'codeview', 'help']],
                     ['misc', ['undo','redo']],
-                    ['custom', ['prettify']]
+                    ['custom', ['variables', 'prettify']]
                 ],
                 height: 300,
                 codemirror: {
@@ -234,7 +285,8 @@
                     tabSize      : 2,
                 },
                 buttons: {
-                    prettify: PrettifyButton,     // <-- register the button
+                    prettify: PrettifyButton,
+                    variables: VariableButton
                 }
             });
 
