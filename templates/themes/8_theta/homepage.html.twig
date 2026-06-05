@@ -9,7 +9,10 @@
         </div>
         <div class="text-white p-3">{{ content|raw }}</div>
         <p class="p-3">
-            <a class="btn btn-outline-light fw-bold rounded-pill text-decoration-none" href="tel:{{ website.phone }}"><i class="bi bi-telephone-fill"></i> {{ website.phone }}</a>
+            <a class="btn btn-light fw-bold rounded-pill text-decoration-none m-2" href="tel:{{ website.phone }}"><i class="bi bi-telephone-fill"></i> {{ website.phone }}</a>
+            {% if website.address and website.googleMapsLink %}
+                <a target="_blank" class="btn btn-light fw-bold rounded-pill text-decoration-none m-2" href="{{ website.googleMapsLink }}"><i class="bi bi-geo-alt-fill"></i> {{ website.address }}</a>
+            {% endif %}
         </p>
     </div>
 
