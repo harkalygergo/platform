@@ -375,9 +375,11 @@ class APIController extends PlatformController
                         throw new \Exception('Saferpay init failed'.$e->getMessage());
                     } finally {
                         $em->flush();
+                        /*
                         if (isset($result['redirectUrl'])) {
                             return $this->redirect($result['redirectUrl']);
                         }
+                        */
                     }
 
                     //dd($result);
