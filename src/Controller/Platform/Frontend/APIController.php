@@ -360,7 +360,6 @@ class APIController extends PlatformController
                     //dd($HTTP_ORIGIN);
 
                     try {
-                        //$em->persist($order);
                         $result = $saferpay->initSaferpayPaymentMethod(
                             $order,
                             $paymentMethod,
@@ -369,34 +368,20 @@ class APIController extends PlatformController
                             $HTTP_ORIGIN
                         );
                         $order->setPaymentStatus('processing');
-
-                    } catch (\Exception $e) {
-                        $order->setPaymentStatus('failed');
-                        throw new \Exception('Saferpay init failed'.$e->getMessage());
-                    } finally {
-                        $em->flush();
-                        /*
+                        $successPageText = 'Köszönjük! Sikeres rendelés: #'.$order->getId().'';
                         if (isset($result['redirectUrl'])) {
                             return $this->redirect($result['redirectUrl']);
+                        } else {
+                            $successPageText = json_encode($result);
                         }
-                        */
+                    } catch (\Exception $e) {
+                        $order->setPaymentStatus('failed');
+                        throw new \Exception('ERROR! Saferpay init failed: '.$e->getMessage());
+                    } finally {
+                        $em->persist($order);
+                        $em->flush();
                     }
-
-                    //dd($result);
-
-                    //$order->setPaymentStatus('FAILED');
-                    //$em->flush();
-
-
-
-                    //throw new \Exception('Saferpay init failed');
-
-                    exit();
-
                 }
-
-                $successPageText = 'Köszönjük! Sikeres rendelés: #'.$order->getId().'';
-
                 break;
             }
         }
