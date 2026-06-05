@@ -201,7 +201,7 @@
                     {% set productsSumPrice = productsSumPrice + (cartItem.qty*cartItem.price) %}
                     {% set sum = sum + (cartItem.qty*cartItem.price) %}
                     {% set quantity = quantity + cartItem.qty %}
-                    {% set items = items ~ cartItem.name ~ ',' %}
+                    {% set items = items ~ cartItem.name ~ ' X ' ~ cartItem.qty ~ ',' %}
                     <li>
                         <strong>{{ cartItem.name }}</strong><br>
                         {{ cartItem.qty }} x {{ cartItem.price|format_currency('HUF', {'fraction_digit': 0}, 'hu') }} = {{ (cartItem.qty * cartItem.price)|format_currency('HUF', {'fraction_digit': 0}, 'hu') }}
