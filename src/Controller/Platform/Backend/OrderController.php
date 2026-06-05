@@ -27,11 +27,97 @@ class OrderController extends PlatformBackendController
     {
         $orders = $this->doctrine->getRepository(Order::class)->findBy([
             'instance' => $this->currentInstance,
+            'status' => [OrderStatusEnum::PENDING, OrderStatusEnum::PROCESSING],
         ], ['createdAt' => 'DESC']);
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
-            'title' => 'Rendelések',
+            'title' => 'Folyamatban lévő rendelések',
+            'tableHead' => [
+                'id' => 'Azonosító',
+                'createdAt' => 'Dátum',
+                'status' => 'Státusz',
+                'lastName' => 'Vezetéknév',
+                'firstName' => 'Keresztnév',
+                'phone' => 'Telefonszám',
+                'email' => 'E-mail',
+                'shippingMethod' => 'Szállítási mód',
+                'shippingAddress' => 'Szállítási cím',
+                'paymentMethod' => 'Fizetési mód',
+                'paymentStatus' => 'Fizetési státusz',
+                'comment' => 'Megjegyzés',
+                'total' => 'Összeg',
+                //'currency' => 'Pénznem',
+                //'billingVatNumber' => 'Adószám',
+                //'billingZip' => 'Számlázás irányítószám',
+                //'billingCity' => 'Számlázás település',
+                //'billingAddress' => 'Számlázás cím',
+                'items' => 'Tételek',
+                //'paymentToken' => 'paymentToken',
+            ],
+            'tableBody' => $orders,
+            'actions' => [
+                'new',
+                'view',
+                'edit',
+                'delete'
+            ],
+        ]);
+    }
+
+    #[Route('/completed', name: 'admin_v1_shop_order_index_completed')]
+    public function indexCompleted(Request $request): Response
+    {
+        $orders = $this->doctrine->getRepository(Order::class)->findBy([
+            'instance' => $this->currentInstance,
+            'status' => OrderStatusEnum::COMPLETED,
+        ], ['createdAt' => 'DESC']);
+
+        return $this->render('platform/backend/v1/list.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Teljesített rendelések',
+            'tableHead' => [
+                'id' => 'Azonosító',
+                'createdAt' => 'Dátum',
+                'status' => 'Státusz',
+                'lastName' => 'Vezetéknév',
+                'firstName' => 'Keresztnév',
+                'phone' => 'Telefonszám',
+                'email' => 'E-mail',
+                'shippingMethod' => 'Szállítási mód',
+                'shippingAddress' => 'Szállítási cím',
+                'paymentMethod' => 'Fizetési mód',
+                'paymentStatus' => 'Fizetési státusz',
+                'comment' => 'Megjegyzés',
+                'total' => 'Összeg',
+                //'currency' => 'Pénznem',
+                //'billingVatNumber' => 'Adószám',
+                //'billingZip' => 'Számlázás irányítószám',
+                //'billingCity' => 'Számlázás település',
+                //'billingAddress' => 'Számlázás cím',
+                'items' => 'Tételek',
+                //'paymentToken' => 'paymentToken',
+            ],
+            'tableBody' => $orders,
+            'actions' => [
+                'new',
+                'view',
+                'edit',
+                'delete'
+            ],
+        ]);
+    }
+
+    #[Route('/all', name: 'admin_v1_shop_order_index_all')]
+    public function indexAll(Request $request): Response
+    {
+        $orders = $this->doctrine->getRepository(Order::class)->findBy([
+            'instance' => $this->currentInstance,
+        ], ['createdAt' => 'DESC']);
+
+        return $this->render('platform/backend/v1/list.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Összes endelések',
             'tableHead' => [
                 'id' => 'Azonosító',
                 'createdAt' => 'Dátum',

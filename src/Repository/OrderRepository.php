@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
+use App\Enum\Platform\OrderStatusEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,8 +23,13 @@ class OrderRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('o')
             ->andWhere('o.instance = :instance')
             ->andWhere('o.id > :minimumOrderNumber')
+            ->andWhere('o.status IN (:statuses)')
             ->setParameter('instance', $instance)
             ->setParameter('minimumOrderNumber', $minimumOrderNumber)
+            ->setParameter('statuses', [
+                OrderStatusEnum::PENDING,
+                OrderStatusEnum::PROCESSING,
+            ])
             ->getQuery()
             ->getResult();
     }

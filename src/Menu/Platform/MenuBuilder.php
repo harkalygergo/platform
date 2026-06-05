@@ -448,8 +448,16 @@ class MenuBuilder
                                 'route' => null,
                                 'children' => [
                                     [
-                                        'label' => 'összes rendelés',
+                                        'label' => 'új rendelések',
                                         'route' => 'admin_v1_shop_order_index'
+                                    ],
+                                    [
+                                        'label' => 'teljesített rendelések',
+                                        'route' => 'admin_v1_shop_order_index_completed'
+                                    ],
+                                    [
+                                        'label' => 'összes eddigi rendelések',
+                                        'route' => 'admin_v1_shop_order_index_all'
                                     ],
                                 ]
                             ],
