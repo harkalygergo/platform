@@ -687,27 +687,24 @@ class APIController extends PlatformController
                     $em = $doctrine->getManager();
                     $em->flush();
 
-                    return $this->render(
-                        'platform/frontend/index.html.twig',
-                        ['content' => '
-                            <h1>Köszönjük a rendelést! Fizetés sikeres, rendelés feldolgozás alatt.</h1>
-                            <h2>Hamarosan visszairányítjuk a főoldalra.</h2>
-                            <script>window.setTimeout(function() { window.location.href = "'.$HTTP_ORIGIN.'"; }, 5000);</script>
-                        ']
-                    );
+                    $successPageText = 'Köszönjük a rendelést: #'. $order->getId().'. Fizetés sikeres, rendelés feldolgozás alatt.';
 
+                    return $this->render('platform/frontend/index.html.twig', [
+                        'content' => '<h1>'.$successPageText.'</h1><h2>Hamarosan visszairányítjuk a főoldalra.</h2>',
+                        'redirect_url' => $HTTP_ORIGIN,
+                        'redirect_delay' => 5,
+                    ]);
                 }
             }
         }
 
-        return $this->render(
-            'platform/frontend/index.html.twig',
-            ['content' => '
-                <h1>Köszönjük a rendelést! Fizetés sikertelen.</h1>
-                <h2>Hamarosan visszairányítjuk a főoldalra.</h2>
-                <script>window.setTimeout(function() { window.location.href = "'.$HTTP_ORIGIN.'"; }, 5000);</script>
-            ']
-        );
+        $successPageText = 'Köszönjük a rendelést! Fizetés sikertelen.';
+
+        return $this->render('platform/frontend/index.html.twig', [
+            'content' => '<h1>'.$successPageText.'</h1><h2>Hamarosan visszairányítjuk a főoldalra.</h2>',
+            'redirect_url' => $HTTP_ORIGIN,
+            'redirect_delay' => 5,
+        ]);
     }
 
     #[Route('/saferpay/notify', name: 'saferpay_notify', methods: ['GET', 'POST'])]
