@@ -119,7 +119,6 @@ class SaferpayService
             $order->setPaymentStatus('FAILED: '.$data['ErrorMessage']);
             $order->setStatus(OrderStatusEnum::PENDING);
         }
-        dump($order->getPaymentStatus());
     }
 
     public function getPassword(): ?string
