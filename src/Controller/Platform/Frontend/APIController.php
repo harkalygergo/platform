@@ -359,26 +359,38 @@ class APIController extends PlatformController
                     //$HTTP_ORIGIN = $request->getSchemeAndHttpHost();
                     //dd($HTTP_ORIGIN);
 
-                    $result = $saferpay->initSaferpayPaymentMethod(
-                        $order,
-                        $paymentMethod,
-                        'card',
-                        $httpClient,
-                        $HTTP_ORIGIN
-                    );
-                    //dd($result);
+                    try {
+                        //$em->persist($order);
+                        $result = $saferpay->initSaferpayPaymentMethod(
+                            $order,
+                            $paymentMethod,
+                            'card',
+                            $httpClient,
+                            $HTTP_ORIGIN
+                        );
+                        $order->setPaymentStatus('processing');
 
-                    $order->setPaymentStatus('FAILED');
-                    $em->flush();
-
-                    if (isset($result['redirectUrl'])) {
-                        return $this->redirect($result['redirectUrl']);
+                    } catch (\Exception $e) {
+                        $order->setPaymentStatus('failed');
+                        throw new \Exception('Saferpay init failed'.$e->getMessage());
+                    } finally {
+                        $em->flush();
+                        if (isset($result['redirectUrl'])) {
+                            return $this->redirect($result['redirectUrl']);
+                        }
                     }
 
+                    //dd($result);
 
-                    throw new \Exception('Saferpay init failed');
+                    //$order->setPaymentStatus('FAILED');
+                    //$em->flush();
+
+
+
+                    //throw new \Exception('Saferpay init failed');
 
                     exit();
+
                 }
 
                 $successPageText = 'Köszönjük! Sikeres rendelés: #'.$order->getId().'';
