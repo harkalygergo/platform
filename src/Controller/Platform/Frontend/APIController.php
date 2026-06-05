@@ -670,28 +670,6 @@ class APIController extends PlatformController
         }
     }
 
-    #[Route('/payment/return/{HTTP_ORIGIN}/{order}/{orderToken}', name: 'payment_return')]
-    public function return(EntityManagerInterface $em, Request $request, OrderRepository $repo, SaferpayService $service, HttpClientInterface $httpClient, string $HTTP_ORIGIN, Order $order, string $orderToken): Response
-    {
-        if (!$order) {
-            return new Response('Order not found', 404);
-        }
-
-        // call Assert to check final status
-        $service->handleNotify($order, true, $httpClient);
-
-        $status = $order->getPaymentStatus();
-        $em->flush();
-
-        $HTTP_ORIGIN = 'https://' .$HTTP_ORIGIN;
-
-        return match($status) {
-            'SUCCESS' => $this->redirectToRoute('saferpay_return', ['id' => $order->getId(), 'status' => $status, 'HTTP_ORIGIN' => $HTTP_ORIGIN]),
-            'FAILED'  => $this->redirectToRoute('saferpay_return',  ['id' => $order->getId(), 'status' => $status, 'HTTP_ORIGIN' => $HTTP_ORIGIN]),
-            'CANCELED'=> $this->redirectToRoute('saferpay_return',['id' => $order->getId(), 'status' => $status, 'HTTP_ORIGIN' => $HTTP_ORIGIN]),
-            default   => $this->redirectToRoute('saferpay_return',  ['id' => $order->getId(), 'status' => $status, 'HTTP_ORIGIN' => $HTTP_ORIGIN]),
-        };
-    }
 
     #[Route('/saferpay/return', name: 'saferpay_return', methods: ['GET'])]
     public function saferpayReturn(RequestStack $requestStack, \Doctrine\Persistence\ManagerRegistry $doctrine)
