@@ -6,6 +6,7 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\CMS\Form;
 use App\Entity\Platform\CMS\VisitorLog;
+use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Webshop\PaymentMethod;
@@ -432,6 +433,15 @@ class APIController extends PlatformController
                 $visitorLog->setInstance($this->doctrine->getRepository(Instance::class)->find((int)$parameters['instance']));
 
                 switch ($parameters['content_type']) {
+                    case 'App\Entity\Platform\Ecom\Product':
+                    {
+                        $entity = $this->doctrine->getRepository(Product::class)->find((int)$parameters['id']);
+                        if ($entity) {
+                            $entity->incrementViewCount();
+                            $this->doctrine->getManager()->flush();
+                        }
+                        break;
+                    }
                     case 'App\Entity\Platform\Website\CmsPage':
                     {
                         $entity = $this->doctrine->getRepository(CmsPage::class)->find((int)$parameters['id']);

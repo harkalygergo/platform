@@ -162,6 +162,9 @@ class Product
     #[ORM\ManyToOne(targetEntity: ProductCategory::class, inversedBy: 'products')]
     private ?ProductCategory $category = null;
 
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    private int $viewCount = 0;
+
     public function __construct()
     {
         $this->websites = new ArrayCollection();
@@ -710,5 +713,22 @@ class Product
     public function getCategory(): ?ProductCategory
     {
         return $this->category;
+    }
+
+    public function getViewCount(): int
+    {
+        return $this->viewCount;
+    }
+
+    public function incrementViewCount(): static
+    {
+        $this->viewCount++;
+        return $this;
+    }
+
+    public function setViewCount(int $viewCount): static
+    {
+        $this->viewCount = $viewCount;
+        return $this;
     }
 }
