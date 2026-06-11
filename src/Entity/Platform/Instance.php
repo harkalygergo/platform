@@ -105,6 +105,9 @@ class Instance
     #[ORM\OneToMany(targetEntity: Widget::class, mappedBy: 'instance')]
     private Collection $widgets;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private ?bool $deletePassedEvents = false;
+
     public function __construct()
     {
         $this->status = true;
@@ -518,6 +521,18 @@ class Instance
     public function setWidgets(Collection $widgets): Instance
     {
         $this->widgets = $widgets;
+        return $this;
+    }
+
+    public function getDeletePassedEvents(): ?bool
+    {
+        return $this->deletePassedEvents;
+    }
+
+    public function setDeletePassedEvents(?bool $deletePassedEvents): static
+    {
+        $this->deletePassedEvents = $deletePassedEvents;
+
         return $this;
     }
 }
