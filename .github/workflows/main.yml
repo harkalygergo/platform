@@ -25,7 +25,7 @@ jobs:
                     #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
                     host: ${{ vars.HOST }}
                     username: ${{ vars.SSHUSER }}
-                    password: ${{ secrets.PASSWORD }}
+                    key: ${{ secrets.SSH_KEY }}
                     port: 22
                     script: |
                         printf "\n\n *** change directory to the project path *** \n\n"

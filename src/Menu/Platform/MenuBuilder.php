@@ -514,7 +514,7 @@ class MenuBuilder
             [
                 'label' => 'ERP',
                 'subtitle' => 'Vállalatirányítás',
-                'icon'  => 'bi bi-briefcase',
+                'icon'  => 'bi bi-building',
                 'route' => null,
                 'roles' => ['ROLE_USER'],
                 'children' => [
