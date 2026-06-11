@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.06.11.4
+###### v2026.06.11.5
 
 ![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -162,9 +162,9 @@ php bin/console app:event:cleanup
 # pull the latest changes from the repository
 git pull origin main
 # update Composer packages
-composer update --no-dev --optimize-autoloader
+composer install --no-dev --optimize-autoloader
 # update npm packages
-npm update
+npm ci
 # build assets
 npm run build
 # apply database migrations || unattended mode: php bin/console doctrine:migrations:migrate --no-interaction
