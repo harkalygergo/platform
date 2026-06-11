@@ -44,14 +44,14 @@ jobs:
                         chown -R ${{ vars.USER }}:www-data ./*
                         chown -R ${{ vars.USER }}:www-data ./.[^.]*
 
-                        printf "\n\n *** composer update *** \n\n"
-                        composer update
-
-                        printf "\n\n *** npm update *** \n\n"
-                        npm update
+                        printf "\n\n *** composer install *** \n\n"
+                        composer install --no-dev --optimize-autoloader --no-interaction
 
                         printf "\n\n *** composer dump-autoload *** \n\n"
                         composer dump-autoload -o
+
+                        printf "\n\n *** npm ci *** \n\n"
+                        npm ci
 
                         printf "\n\n *** clear cache *** \n\n"
                         php bin/console cache:pool:clear --all
