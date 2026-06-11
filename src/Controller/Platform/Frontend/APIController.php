@@ -164,7 +164,11 @@ class APIController extends PlatformController
                     'instance' => $instance,
                     'status' => true,
                 ]);
-                $paymentMethods = $instance->getPaymentMethods();
+                //$paymentMethods = $instance->getPaymentMethods();
+                $paymentMethods = $this->doctrine->getRepository(PaymentMethod::class)->findBy([
+                    'instance' => $instance,
+                    'status' => true,
+                ]);
 
                 /*
                 echo $this->renderView('themes/5_epsilon/checkout.html.twig', [
