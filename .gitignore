@@ -21,3 +21,4 @@ node_modules
 /assets/vendor/
 ###< symfony/asset-mapper ###
 .env
+config/reference.php
