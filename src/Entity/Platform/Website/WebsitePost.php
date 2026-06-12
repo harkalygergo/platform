@@ -3,6 +3,7 @@
 namespace App\Entity\Platform\Website;
 
 use App\Entity\Platform\Instance;
+use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\User;
 use App\Repository\Platform\Website\WebsitePostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -73,9 +74,9 @@ class WebsitePost
     #[ORM\JoinTable(name: 'website_post_category')]
     private Collection $categories;
 
-    #[ORM\ManyToOne(targetEntity: WebsiteMedia::class)]
+    #[ORM\ManyToOne(targetEntity: Media::class)]
     #[ORM\JoinColumn(name: "featured_image_id")]
-    private ?WebsiteMedia $featuredImage = null;
+    private ?Media $featuredImage = null;
 
     #[ORM\Column(type: 'integer', options: ['default' => 0])]
     private int $viewCount = 0;
@@ -282,12 +283,12 @@ class WebsitePost
         return $this;
     }
 
-    public function getFeaturedImage(): ?WebsiteMedia
+    public function getFeaturedImage(): ?Media
     {
         return $this->featuredImage;
     }
 
-    public function setFeaturedImage(?WebsiteMedia $featuredImage): self
+    public function setFeaturedImage(?Media $featuredImage): self
     {
         $this->featuredImage = $featuredImage;
 
