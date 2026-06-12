@@ -398,6 +398,23 @@ class APIController extends PlatformController
         ]);
     }
 
+    private function isBot(string $userAgent): bool
+    {
+        $botKeywords = [
+            'bot', 'crawler', 'spider', 'slurp',   // általános
+            'Google', 'Bing', 'Yahoo', 'Yandex',    // keresők
+            'Baidu', 'DuckDuck', 'Sogou',           // egyéb keresők
+            'facebookexternalhit', 'Twitterbot',    // social
+            'LinkedInBot', 'WhatsApp', 'Telegram',  // social
+            'Applebot', 'Amazonbot',                // egyéb big tech
+        ];
+
+        return (bool) array_filter(
+            $botKeywords,
+            fn($keyword) => stripos($userAgent, $keyword) !== false
+        );
+    }
+
     #[Route('/log/visitor/', name: 'api_log_visitor')]
     public function apiLogVisitor(Request $request)
     {
@@ -419,9 +436,8 @@ class APIController extends PlatformController
              */
             if ( str_contains($request->server->get('HTTP_REFERER'), $parameters['host'])) {
                 $userAgent = $parameters['user_agent'] ?? $request->server->get('HTTP_USER_AGENT');
-                $isGoogleBot = stripos($userAgent, 'Googlebot') !== false;
 
-                if (!$isGoogleBot) {
+                if (!$this->isBot($userAgent)) {
                     $visitorLog = new VisitorLog();
 
                     $visitorLog->setVisitedAt(new \DateTimeImmutable());
