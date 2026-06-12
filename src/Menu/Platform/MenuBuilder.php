@@ -570,6 +570,13 @@ class MenuBuilder
                                 'route' => 'admin_v1_analytics_cmspage_index',
                                 'icon' => 'bi bi-file-earmark-fill',
                             ],
+                        ]
+                    ],
+                    [
+                        'label' => 'ECOM',
+                        'icon'  => 'bi bi-shop',
+                        'route' => null,
+                        'children' => [
                             [
                                 'label' => 'Termék látogatások',
                                 'route' => 'admin_v1_analytics_product',
@@ -577,7 +584,18 @@ class MenuBuilder
                             ],
                         ]
                     ],
-
+                    [
+                        'label' => 'SUM',
+                        'icon'  => 'bi bi-shop',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'Összes látogatás',
+                                'route' => 'admin_v1_analytics_index',
+                                'icon' => 'bi bi-eye',
+                            ],
+                        ]
+                    ],
                 ]
             ],
             [

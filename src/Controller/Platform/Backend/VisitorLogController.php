@@ -24,6 +24,32 @@ class VisitorLogController extends PlatformBackendController
         'contentId' => 'content ID',
     ];
 
+    #[Route('/', name: 'admin_v1_analytics_index', methods: ['GET'])]
+    public function index()
+    {
+        $this->denyAccessUnlessUserHasInstance();
+
+        $tableBody = $this->doctrine->getRepository(VisitorLog::class)->findBy(
+            [
+                'instance' => $this->currentInstance,
+            ],
+            [
+                'visitedAt' => 'DESC'
+            ],
+            1000
+        );
+
+        $this->tableHead['contentType'] = 'Type';
+
+        return $this->render('platform/backend/v1/list.html.twig', [
+            'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
+            'title' => 'Visitor log - összes',
+            'tableHead' => $this->tableHead,
+            'tableBody' => $tableBody,
+            'actions' => [],
+        ]);
+    }
+
     #[Route('/product', name: 'admin_v1_analytics_product', methods: ['GET'])]
     public function index_product()
     {
