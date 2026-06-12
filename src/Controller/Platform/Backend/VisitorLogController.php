@@ -15,11 +15,11 @@ class VisitorLogController extends PlatformBackendController
 {
     private array $tableHead = [
         'visitedAt' => 'Timestamp',
+        'userAgent' => 'user agent',
+        'ipAddress' => 'IP',
         'url' => 'URL',
         'referrer' => 'Referrer',
-        'ipAddress' => 'IP',
         'sessionId' => 'session',
-        'userAgent' => 'user agent',
         'source' => 'source',
         'contentId' => 'content ID',
     ];
@@ -39,7 +39,7 @@ class VisitorLogController extends PlatformBackendController
             1000
         );
 
-        $this->tableHead['contentType'] = 'Type';
+        $this->tableHead['contentType'] = 'Content type';
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
