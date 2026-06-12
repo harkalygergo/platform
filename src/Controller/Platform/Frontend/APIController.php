@@ -407,6 +407,17 @@ class APIController extends PlatformController
             'facebookexternalhit', 'Twitterbot',    // social
             'LinkedInBot', 'WhatsApp', 'Telegram',  // social
             'Applebot', 'Amazonbot',                // egyéb big tech
+            'Bytespider',       // ByteDance
+            'GPTBot',           // OpenAI
+            'Claude-Web',       // Anthropic
+            'ClaudeBot',        // Anthropic
+            'CCBot',            // Common Crawl (AI training adatbázis)
+            'YouBot',           // You.com
+            'PerplexityBot',    // Perplexity AI
+            'cohere-ai',        // Cohere
+            'anthropic-ai',     // Anthropic
+            'omgili',           // Webhose / adatgyűjtő
+            'DataForSeoBot',    // SEO tool crawler
         ];
 
         return (bool) array_filter(
