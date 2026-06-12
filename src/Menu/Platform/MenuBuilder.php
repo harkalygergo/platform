@@ -570,6 +570,11 @@ class MenuBuilder
                                 'route' => 'admin_v1_analytics_cmspage_index',
                                 'icon' => 'bi bi-file-earmark-fill',
                             ],
+                            [
+                                'label' => 'Termék látogatások',
+                                'route' => null,
+                                'icon' => 'bi bi-file-earmark-fill',
+                            ],
                         ]
                     ],
 
@@ -636,11 +641,15 @@ class MenuBuilder
                                 'label' => 'Felhasználói kézikönyv',
                                 'route' => 'admin_v1_system_support',
                                 'icon' => 'bi bi-person-badge',
-
+                            ],
+                            [
+                                'label' => 'Fejlesztési ütemterv',
+                                'route' => 'admin_v1_system_support_development',
+                                'icon' => 'bi bi-braces',
                             ],
                             [
                                 'label' => 'Súgó',
-                                'route' => null,
+                                'route' => 'admin_v1_system_support_help',
                                 'icon' => 'bi bi-question-circle',
                             ],
                             [
