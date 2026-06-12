@@ -3,6 +3,13 @@
 {% block body %}
 
     <h1>{{ title|raw }}</h1>
+
+    <p class="lead">{{ post.leadDescription|raw }}</p>
+
+    {% if post.featuredImage %}
+        <img src="/media/{{ post.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
+    {% endif %}
+
     {{ content|raw }}
 
 {% endblock %}

@@ -71,7 +71,14 @@ class WebsitePostType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-
+            ->add('leadDescription', TextType::class, [
+                'label' => 'Lead',
+                'required' => true,
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('featuredImage', EntityType::class, [
                 'class' => Media::class,
                 'choice_label' => 'originalName', // Adjust to the property you want to display

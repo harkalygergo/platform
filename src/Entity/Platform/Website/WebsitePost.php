@@ -47,6 +47,9 @@ class WebsitePost
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $leadDescription = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
@@ -183,6 +186,18 @@ class WebsitePost
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getLeadDescription(): ?string
+    {
+        return $this->leadDescription;
+    }
+
+    public function setLeadDescription(?string $leadDescription): self
+    {
+        $this->leadDescription = $leadDescription;
 
         return $this;
     }
