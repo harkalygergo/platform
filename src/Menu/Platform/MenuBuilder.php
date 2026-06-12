@@ -572,8 +572,8 @@ class MenuBuilder
                             ],
                             [
                                 'label' => 'Termék látogatások',
-                                'route' => null,
-                                'icon' => 'bi bi-file-earmark-fill',
+                                'route' => 'admin_v1_analytics_product',
+                                'icon' => 'bi bi-basket',
                             ],
                         ]
                     ],
