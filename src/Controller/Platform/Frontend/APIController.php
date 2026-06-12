@@ -418,61 +418,66 @@ class APIController extends PlatformController
              * @var Website $website
              */
             if ( str_contains($request->server->get('HTTP_REFERER'), $parameters['host'])) {
-                $visitorLog = new VisitorLog();
+                $userAgent = $parameters['user_agent'] ?? $request->server->get('HTTP_USER_AGENT');
+                $isGoogleBot = stripos($userAgent, 'Googlebot') !== false;
 
-                $visitorLog->setVisitedAt(new \DateTimeImmutable());
-                $visitorLog->setUrl($parameters['url']);
-                if ($parameters['referrer'] !== "null"){
-                    $visitorLog->setReferrer($parameters['referrer']);
+                if (!$isGoogleBot) {
+                    $visitorLog = new VisitorLog();
+
+                    $visitorLog->setVisitedAt(new \DateTimeImmutable());
+                    $visitorLog->setUrl($parameters['url']);
+                    if ($parameters['referrer'] !== "null"){
+                        $visitorLog->setReferrer($parameters['referrer']);
+                    }
+                    $visitorLog->setContentType($parameters['content_type']);
+                    $visitorLog->setContentId($parameters['id']);
+                    $visitorLog->setUserAgent($userAgent);
+                    $visitorLog->setIpAddress($visitorIP);
+                    $visitorLog->setSessionId($this->requestStack->getSession()->getId());
+                    $visitorLog->setInstance($this->doctrine->getRepository(Instance::class)->find((int)$parameters['instance']));
+
+                    switch ($parameters['content_type']) {
+                        case 'App\Entity\Platform\Ecom\Product':
+                        {
+                            $entity = $this->doctrine->getRepository(Product::class)->find((int)$parameters['id']);
+                            if ($entity) {
+                                $entity->incrementViewCount();
+                                $this->doctrine->getManager()->flush();
+                            }
+                            break;
+                        }
+                        case 'App\Entity\Platform\Website\CmsPage':
+                        {
+                            $entity = $this->doctrine->getRepository(CmsPage::class)->find((int)$parameters['id']);
+                            if ($entity) {
+                                $entity->incrementViewCount();
+                                $this->doctrine->getManager()->flush();
+                            }
+                            break;
+                        }
+                        case 'App\Entity\Platform\Website\WebsiteCategory':
+                        {
+                            $entity = $this->doctrine->getRepository(WebsiteCategory::class)->find((int)$parameters['id']);
+                            if ($entity) {
+                                $entity->incrementViewCount();
+                                $this->doctrine->getManager()->flush();
+                            }
+                            break;
+                        }
+                        case 'App\Entity\Platform\Website\WebsitePost':
+                        {
+                            $entity = $this->doctrine->getRepository(WebsitePost::class)->find((int)$parameters['id']);
+                            if ($entity) {
+                                $entity->incrementViewCount();
+                                $this->doctrine->getManager()->flush();
+                            }
+                            break;
+                        }
+                    }
+
+                    $this->doctrine->getManager()->persist($visitorLog);
+                    $this->doctrine->getManager()->flush();
                 }
-                $visitorLog->setContentType($parameters['content_type']);
-                $visitorLog->setContentId($parameters['id']);
-                $visitorLog->setUserAgent($parameters['user_agent']);
-                $visitorLog->setIpAddress($visitorIP);
-                $visitorLog->setSessionId($this->requestStack->getSession()->getId());
-                $visitorLog->setInstance($this->doctrine->getRepository(Instance::class)->find((int)$parameters['instance']));
-
-                switch ($parameters['content_type']) {
-                    case 'App\Entity\Platform\Ecom\Product':
-                    {
-                        $entity = $this->doctrine->getRepository(Product::class)->find((int)$parameters['id']);
-                        if ($entity) {
-                            $entity->incrementViewCount();
-                            $this->doctrine->getManager()->flush();
-                        }
-                        break;
-                    }
-                    case 'App\Entity\Platform\Website\CmsPage':
-                    {
-                        $entity = $this->doctrine->getRepository(CmsPage::class)->find((int)$parameters['id']);
-                        if ($entity) {
-                            $entity->incrementViewCount();
-                            $this->doctrine->getManager()->flush();
-                        }
-                        break;
-                    }
-                    case 'App\Entity\Platform\Website\WebsiteCategory':
-                    {
-                        $entity = $this->doctrine->getRepository(WebsiteCategory::class)->find((int)$parameters['id']);
-                        if ($entity) {
-                            $entity->incrementViewCount();
-                            $this->doctrine->getManager()->flush();
-                        }
-                        break;
-                    }
-                    case 'App\Entity\Platform\Website\WebsitePost':
-                    {
-                        $entity = $this->doctrine->getRepository(WebsitePost::class)->find((int)$parameters['id']);
-                        if ($entity) {
-                            $entity->incrementViewCount();
-                            $this->doctrine->getManager()->flush();
-                        }
-                        break;
-                    }
-                }
-
-                $this->doctrine->getManager()->persist($visitorLog);
-                $this->doctrine->getManager()->flush();
             }
         }
 
