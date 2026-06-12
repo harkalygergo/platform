@@ -205,10 +205,12 @@
     }
 </script>
 
-{% include 'themes/_global/analytics-script.html.twig' %}
 
 <script src="https://maps.googleapis.com/maps/api/js?key={{ website.googleApiKey }}&callback=initMap" async defer></script>
 
-<!-- Generated: {{ 'now'|date('Y.m.d. H:i:s | U') }} -->
+{% include 'themes/_global/analytics-script.html.twig' %}
+
+{% include 'themes/_global/footer.html.twig' %}
+
 </body>
 </html>

@@ -88,7 +88,7 @@ class WebsitePostType extends AbstractType
                         ->setParameter('instance', $currentInstance);
                 },
                 'required' => false,
-                'placeholder' => ' - favicon - ',
+                'placeholder' => ' - featured image - ',
                 'attr' => [
                     'class' => 'form-control',
                 ],

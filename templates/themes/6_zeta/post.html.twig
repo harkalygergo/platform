@@ -4,11 +4,11 @@
 
     <h1>{{ title|raw }}</h1>
 
-    <p class="lead">{{ post.leadDescription|raw }}</p>
-
     {% if post.featuredImage %}
-        <img src="/media/{{ post.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded">
+        <img src="/media/{{ post.featuredImage.originalName }}" alt="{{ title }}" class="img-fluid rounded p-3">
     {% endif %}
+
+    <p class="lead fw-bold">{{ post.leadDescription|raw }}</p>
 
     {{ content|raw }}
 
