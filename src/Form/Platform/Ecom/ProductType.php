@@ -45,11 +45,13 @@ class ProductType extends AbstractType
                 'data' => 1,
             ])
             ->add('name', TextType::class, [
+                'label' => 'Terméknév',
                 'attr' => [
                     'class' => 'form-control slugSource',
                 ],
             ])
             ->add('slug', TextType::class, [
+                'label' => 'Slug (csak angol ABC karakterei + szám + kötőjel)',
                 'attr' => ['class' => 'form-control slugTarget'],
                 'row_attr' => [
                     'data-prefix' => 'termek/',
