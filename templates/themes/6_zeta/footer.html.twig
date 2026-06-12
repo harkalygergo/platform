@@ -3,8 +3,8 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-12 col-md-3 text-white-50 py-3">
-                    <h4>{{ website.title }}</h4>
-                    <p class="lead">{{ website.slogan }}</p>
+                    <h4>{{ website.title|raw }}</h4>
+                    <p class="lead">{{ website.slogan|raw }}</p>
                     <p>{{ website.description }}</p>
                 </div>
                 <div class="col-12 col-md-3 py-3">
