@@ -1,16 +1,18 @@
 {% set menu = sidebar_menu() %}
 
-<div class="flex-shrink-0 bg-black text-center" style="width: 80px;" id="sidebar_icons">
-    <button class="btn btn-lg border-orange bg-orange text-white m-2" data-section="projects" title="Platform" onclick="sidebarToggle()">
-        <span class="p-0 m-0 fs-4">⫹⫺</span>
+<div class="flex-shrink-0 bg-black text-center" style="width: 100px;" id="sidebar_icons">
+    <button class="btn btn-lg border-orange bg-orange text-white m-2 py-3 px-2" data-section="projects" title="Platform" onclick="sidebarToggle()" style="line-height: 0.7;">
+        <span class="p-0 m-0 fs-3">⫹⫺</span>
+        <br><span style="font-size:10px !important;">platform<sup>360</sup></span>
     </button>
     {% for topMenu in menu %}
         {% set iconBackgroundColor = 'bg-black' %}
         {% if topMenu.label|slug|lower == currentRouteParameters["2"] %}
             {% set iconBackgroundColor = 'bg-success' %}
         {% endif %}
-        <button class="btn btn-lg border-dark {{ iconBackgroundColor}} text-white m-2 py-2 px-3" data-section="tools" title="{{ topMenu.label }}" onclick="sidebarMenu('{{ topMenu.label|slug }}')">
-            <i class="{{ topMenu.icon }} p-0 m-0 fs-4"></i>
+        <button class="btn btn-lg border-dark {{ iconBackgroundColor}} text-white mx-1 my-2 py-2 px-3" data-section="tools" title="{{ topMenu.label }}" onclick="sidebarMenu('{{ topMenu.label|slug }}')" style="line-height: 0.8;">
+            <i class="{{ topMenu.icon }} p-0 m-0 fs-3"></i>
+            <br><span style="font-size:10px !important;">{{ topMenu.label }}</span>
         </button>
     {% endfor %}
 </div>

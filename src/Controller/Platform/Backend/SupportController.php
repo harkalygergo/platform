@@ -12,7 +12,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_USER)]
 class SupportController extends PlatformController
 {
-    #[Route('/{_locale}/admin/v1/support', name: 'admin_v1_system_support')]
+    #[Route('/{_locale}/admin/v1/support', name: 'admin_v1_sys_support')]
     public function index(Request $request): Response
     {
         return $this->render('platform/backend/v1/support/index.html.twig', [
@@ -21,7 +21,7 @@ class SupportController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/support/development', name: 'admin_v1_system_support_development')]
+    #[Route('/{_locale}/admin/v1/support/development', name: 'admin_v1_sys_support_development')]
     public function development(): Response
     {
         return $this->render('platform/backend/v1/content.html.twig', [
@@ -56,11 +56,11 @@ class SupportController extends PlatformController
         ]);
     }
 
-    #[Route('/{_locale}/admin/v1/support/help', name: 'admin_v1_system_support_help')]
+    #[Route('/{_locale}/admin/v1/support/help', name: 'admin_v1_sys_support_help')]
     public function help(): Response
     {
         return $this->render('platform/backend/v1/content.html.twig', [
-            'title' => 'Fejlesztési ütemterv',
+            'title' => 'Súgó',
             'content' => '
                 <ul>
                     <li>A PLATFORM egy olyan megoldást használ, mellyel nemcsak a honlapok, webáruházak gyors betöltődését biztosítja, hanem azok hacker támadása elleni védelmet is biztonságosabban nyújt. Ennek hátránya, hogy a közzétett vagy módosított tartalmak (bejegyzés, oldal, termék, menüpont, stb.) nem jelennek meg automatikusan az adott domain alatt, hanem manuálisan kell publikálni az újdonságot. Erre jelenleg a <code>Vezérlőpult &gt; Szolgáltatások &gt; Honlap</code> menüpontban az adott domain végén található <code>&middot;&middot;&middot;</code> lenyitva a <code>&lt;/&gt; Deploy</code> segítségével van mód. Ezen (gyakorlatilag tömeges tartalomfrissítési) megoldás helyett folyamatban van egy olyan megvalósítás, ahol az egyes szerkesztéseknél két <code>submit</code> típusú gomb lesz: egy <strong>Mentés</strong>, amely csak elmenti adatbázisba, de nem teszi közé a honlapon és egy <strong>Közzététel</strong>, mely nemcsak elmenti, de egyúttal a frontendet is lefrissíti.</li>

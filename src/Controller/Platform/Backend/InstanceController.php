@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/instances')]
 class InstanceController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_system_instances')]
+    #[Route('/', name: 'admin_v1_sys_instances')]
     public function index(Request $request): Response
     {
         $user = $this->getUser();
@@ -46,7 +46,7 @@ class InstanceController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_v1_dashboard_instances_edit')]
+    #[Route('/edit/{id}', name: 'admin_v1_home_instances_edit')]
     public function edit(Request $request, Instance $id): Response
     {
         $instance = $id;
@@ -54,7 +54,7 @@ class InstanceController extends PlatformController
         if (!$instance) {
             $this->addFlash('danger', 'Az oldal nem található.');
 
-            return $this->redirectToRoute('admin_v1_system_instances');
+            return $this->redirectToRoute('admin_v1_sys_instances');
         }
 
         // check if logged in user and instance has connection
@@ -62,7 +62,7 @@ class InstanceController extends PlatformController
         if (!$user->getInstances()->contains($instance)) {
             $this->addFlash('danger', 'Önnek nincs jogosultsága.');
 
-            return $this->redirectToRoute('admin_v1_dashboard_homepage');
+            return $this->redirectToRoute('admin_v1_home_homepage');
         }
 
         // use formBuilder to create a form for editing the intranet content
@@ -145,7 +145,7 @@ class InstanceController extends PlatformController
             $this->doctrine->getManager()->persist($instanceFeed);
             $this->doctrine->getManager()->flush();
 
-            //return $this->redirectToRoute('admin_v1_system_instances');
+            //return $this->redirectToRoute('admin_v1_sys_instances');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -155,7 +155,7 @@ class InstanceController extends PlatformController
         ]);
     }
 
-    #[Route('/switch/{instance}', name: 'admin_v1_dashboard_instances_switch')]
+    #[Route('/switch/{instance}', name: 'admin_v1_home_instances_switch')]
     public function switch(Instance $instance)
     {
         $instance = $this->doctrine->getRepository(Instance::class)->find($instance);
@@ -166,17 +166,17 @@ class InstanceController extends PlatformController
         if (!$instance || !$user->getInstances()->contains($instance)) {
             $this->addFlash('danger', 'Önnek nincs jogosultsága.');
 
-            return $this->redirectToRoute('admin_v1_system_instances');
+            return $this->redirectToRoute('admin_v1_sys_instances');
         }
 
         setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
         $this->addFlash('success', $this->currentInstance->getName(). ' -> ' . $instance->getName(). ' '. $this->translator->trans('action.saved'));
 
-        return $this->redirectToRoute('admin_v1_dashboard_homepage');
+        return $this->redirectToRoute('admin_v1_home_homepage');
     }
 
 
-    #[Route('/add', name: 'admin_v1_dashboard_instances_add')]
+    #[Route('/add', name: 'admin_v1_home_instances_add')]
     public function add(Request $request): Response
     {
         $instance = new Instance();
@@ -188,7 +188,7 @@ class InstanceController extends PlatformController
             $this->doctrine->getManager()->persist($instance);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_system_instances');
+            return $this->redirectToRoute('admin_v1_sys_instances');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -199,7 +199,7 @@ class InstanceController extends PlatformController
     }
 
     // show instance users
-    #[Route('/users', name: 'admin_v1_dashboard_instances_users')]
+    #[Route('/users', name: 'admin_v1_home_instances_users')]
     public function showUsers(): Response
     {
         $instance = $this->doctrine->getRepository(Instance::class)->find($this->currentInstance);
@@ -207,7 +207,7 @@ class InstanceController extends PlatformController
         if (!$instance) {
             $this->addFlash('danger', 'Az oldal nem található.');
 
-            return $this->redirectToRoute('admin_v1_system_instances');
+            return $this->redirectToRoute('admin_v1_sys_instances');
         }
 
         // check if logged in user and instance has connection
@@ -215,7 +215,7 @@ class InstanceController extends PlatformController
         if (!$user->getInstances()->contains($instance)) {
             $this->addFlash('danger', 'Önnek nincs jogosultsága.');
 
-            return $this->redirectToRoute('admin_v1_dashboard_homepage');
+            return $this->redirectToRoute('admin_v1_home_homepage');
         }
 
         $users = $instance->getUsers();
@@ -244,7 +244,7 @@ class InstanceController extends PlatformController
     }
 
     // show current instance intranet content with content.html.twig template
-    #[Route('/intranet', name: 'admin_v1_dashboard_instances_intranet')]
+    #[Route('/intranet', name: 'admin_v1_home_instances_intranet')]
     public function intranet(): Response
     {
         $instance = $this->doctrine->getRepository(Instance::class)->find($this->currentInstance);
@@ -252,7 +252,7 @@ class InstanceController extends PlatformController
         if (!$instance) {
             $this->addFlash('danger', 'Az oldal nem található.');
 
-            return $this->redirectToRoute('admin_v1_system_instances');
+            return $this->redirectToRoute('admin_v1_sys_instances');
         }
 
         // check if logged in user and instance has connection
@@ -260,7 +260,7 @@ class InstanceController extends PlatformController
         if (!$user->getInstances()->contains($instance)) {
             $this->addFlash('danger', 'Önnek nincs jogosultsága.');
 
-            return $this->redirectToRoute('admin_v1_dashboard_homepage');
+            return $this->redirectToRoute('admin_v1_home_homepage');
         }
 
         return $this->render('platform/backend/v1/content.html.twig', [

@@ -21,7 +21,7 @@ class ImportWordPressController extends PlatformController
     private string $pageURL = '/wp-json/wp/v2/pages';
     private string $categoryURL = '/wp-json/wp/v2/categories';
 
-    #[Route('/import/', name: 'admin_v1_tools_wordpress_import')]
+    #[Route('/import/', name: 'admin_v1_ops_wordpress_import')]
     public function import(): Response
     {
         // create a new form with "domain" input and render with templates/platform/backend/v1/form.html.twig
@@ -70,7 +70,7 @@ class ImportWordPressController extends PlatformController
             $categoryStructureToPostImport = $this->importCategoriesFromWordPress($domain, $website);
             $this->importPostsFromWordPress($domain, $website, $categoryStructureToPostImport);
 
-            return $this->redirectToRoute('admin_v1_dashboard_website_index', [
+            return $this->redirectToRoute('admin_v1_home_website_index', [
                 'id' => $website->getId(),
             ]);
         }

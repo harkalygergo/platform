@@ -120,7 +120,7 @@ class PlatformBackendController extends PlatformController
         return $this->redirectToRoute($redirectToRoute);
     }
 
-    #[Route('/homepage', name: 'admin_v1_dashboard_homepage', methods: ['GET'])]
+    #[Route('/homepage', name: 'admin_v1_home_homepage', methods: ['GET'])]
     public function dashboard(VisitorLogRepository $visitorLogRepository): Response
     {
         $this->denyAccessUnlessUserHasInstance();

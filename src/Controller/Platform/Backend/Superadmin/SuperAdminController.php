@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/superadmin')]
 class SuperAdminController extends PlatformBackendController
 {
-    #[Route('/users/', name: 'admin_v1_superadmin_users')]
+    #[Route('/users/', name: 'admin_v1_sudo_users')]
     public function index(): Response
     {
         // if user is not logged in, redirect to login
@@ -48,13 +48,13 @@ class SuperAdminController extends PlatformBackendController
             'extraActions' => [
                 'switch' => [
                     'label' => 'Váltás',
-                    'route' => 'admin_v1_superadmin_switch_user',
+                    'route' => 'admin_v1_sudo_switch_user',
                 ],
             ],
         ]);
     }
 
-    #[Route('/billing-profiles', name: 'admin_v1_superadmin_billing_profiles')]
+    #[Route('/billing-profiles', name: 'admin_v1_sudo_billing_profiles')]
     public function superAdminBillingProfileList(): Response
     {
         // if user is not logged in, redirect to login
@@ -80,7 +80,7 @@ class SuperAdminController extends PlatformBackendController
     }
 
     // get all orders
-    #[Route('/orders/', name: 'admin_v1_superadmin_orders')]
+    #[Route('/orders/', name: 'admin_v1_sudo_orders')]
     public function superAdminOrderList(): Response
     {
         // if user is not logged in, redirect to login
@@ -103,7 +103,7 @@ class SuperAdminController extends PlatformBackendController
         ]);
     }
 
-    #[Route('/services/', name: 'admin_v1_superadmin_services')]
+    #[Route('/services/', name: 'admin_v1_sudo_services')]
     public function superAdminServiceList(): Response
     {
         // if user is not logged in, redirect to login
@@ -129,7 +129,7 @@ class SuperAdminController extends PlatformBackendController
         ]);
     }
 
-    #[Route('/instances/', name: 'admin_v1_superadmin_instances')]
+    #[Route('/instances/', name: 'admin_v1_sudo_instances')]
     public function superAdminInstanceList(): Response
     {
         // if user is not logged in, redirect to login
@@ -155,7 +155,7 @@ class SuperAdminController extends PlatformBackendController
         ]);
     }
 
-    #[Route('/instances/new/', name: 'admin_v1_superadmin_instances_new')]
+    #[Route('/instances/new/', name: 'admin_v1_sudo_instances_new')]
     public function superAdminInstanceNew(Request $request): Response
     {
         $instance = new \App\Entity\Platform\Instance();
@@ -168,7 +168,7 @@ class SuperAdminController extends PlatformBackendController
             $this->doctrine->getManager()->persist($instance);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_superadmin_instances');
+            return $this->redirectToRoute('admin_v1_sudo_instances');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [

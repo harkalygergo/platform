@@ -129,20 +129,20 @@
                             {% endif %}
 
                             <li>
-                                <a class="dropdown-item text-white {{ currentInstanceClass }}" href="{{ path('admin_v1_dashboard_instances_switch', {'instance': instance.id }) }}">
+                                <a class="dropdown-item text-white {{ currentInstanceClass }}" href="{{ path('admin_v1_home_instances_switch', {'instance': instance.id }) }}">
                                     <i class="bi bi-shuffle"></i> {{ instance.name|raw }}
                                 </a>
                             </li>
 
                         {% endfor %}
 
-                        <!--li><a class="dropdown-item" href="{{ path('admin_v1_profile_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
-                        <li><a class="dropdown-item" href="{{ path('admin_v1_profile_media_user_index') }}">
+                        <!--li><a class="dropdown-item" href="{{ path('admin_v1_me_edit') }}"><i class="bi bi-person"></i> Profil és beállítások</a></li>
+                        <li><a class="dropdown-item" href="{{ path('admin_v1_me_media_user_index') }}">
                                 <i class="bi bi-usb-drive"></i> Személyes tárhely</a>
                         </li-->
                         <li><hr class="dropdown-divider"></li>
                         {#% if is_granted('ROLE_SUPERADMIN') %}
-                            <li><a class="dropdown-item" href="{{ path('admin_v1_superadmin_services') }}"><i class="bi bi-stars"></i> Superadmin</a></li>
+                            <li><a class="dropdown-item" href="{{ path('admin_v1_sudo_services') }}"><i class="bi bi-stars"></i> Superadmin</a></li>
                             <li><hr class="dropdown-divider"></li>
                         {% endif %#}
                         <li><a class="dropdown-item text-warning" href="{{ path('security_logout') }}"><i class="bi bi-box-arrow-right"></i> Kijelentkezés</a></li>

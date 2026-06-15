@@ -30,7 +30,7 @@ class UserController extends PlatformController
     }
     */
 
-    #[Route('/{_locale}/admin/v1/account/edit', name: 'admin_v1_profile_edit')]
+    #[Route('/{_locale}/admin/v1/account/edit', name: 'admin_v1_me_edit')]
     public function editAccount(
         #[CurrentUser] User $user,
         Request $request,
@@ -45,7 +45,7 @@ class UserController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('action.updated'));
 
-            return $this->redirectToRoute('admin_v1_profile_edit', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_me_edit', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -56,7 +56,7 @@ class UserController extends PlatformController
 
     }
 
-    #[Route('/{_locale}/admin/v1/account/password-change', name: 'admin_v1_profile_password_change')]
+    #[Route('/{_locale}/admin/v1/account/password-change', name: 'admin_v1_me_password_change')]
     public function changePassword(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
@@ -86,7 +86,7 @@ class UserController extends PlatformController
             // Add a success message and redirect
             $this->addFlash('success', $this->translator->trans('action.saved'));
 
-            return $this->redirectToRoute('admin_v1_profile_password_change');
+            return $this->redirectToRoute('admin_v1_me_password_change');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -97,7 +97,7 @@ class UserController extends PlatformController
     }
 
     // this function needs to be available for users to let switch back to superadmin
-    #[Route('/{_locale}/admin/v1/superadmin/switch-user/{id}', name: 'admin_v1_superadmin_switch_user')]
+    #[Route('/{_locale}/admin/v1/superadmin/switch-user/{id}', name: 'admin_v1_sudo_switch_user')]
     function switchUser(Security $security, int $id): RedirectResponse
     {
         $user = (new UserRepository($this->doctrine))->find($id);
@@ -108,17 +108,17 @@ class UserController extends PlatformController
             setcookie('currentInstance', $instance->getId(), time() + 60 * 60 * 24 * 30, '/');
         } else {
             $this->addFlash('danger', 'Nincs alapértelmezett instance.');
-            return $this->redirectToRoute('admin_v1_dashboard_homepage');
+            return $this->redirectToRoute('admin_v1_home_homepage');
         }
 
 
         $security->login($user, 'security.authenticator.form_login.main', 'main');
 
-        return $this->redirectToRoute('admin_v1_dashboard_instances_switch', ['instance' => $user->getDefaultInstance()->getId()]);
+        return $this->redirectToRoute('admin_v1_home_instances_switch', ['instance' => $user->getDefaultInstance()->getId()]);
     }
 
     // function to add new user by superadmin
-    #[Route('/{_locale}/admin/v1/superadmin/users/new', name: 'admin_v1_superadmin_user_new')]
+    #[Route('/{_locale}/admin/v1/superadmin/users/new', name: 'admin_v1_sudo_user_new')]
     public function superAdminUserNew(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -138,7 +138,7 @@ class UserController extends PlatformController
             $entityManager->flush();
 
             $this->addFlash('success', $this->translator->trans('action.created'));
-            return $this->redirectToRoute('admin_v1_superadmin_users', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_sudo_users', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [

@@ -175,7 +175,7 @@
                                                 {% set domainCount = domainCount + 1 %}
                                             {% endif %}
                                         {% endfor %}
-                                        <a class="text-black" href="{{ path('admin_v1_dashboard_domains') }}">
+                                        <a class="text-black" href="{{ path('admin_v1_home_domains') }}">
                                             {{ domainCount }}
                                         </a>
                                     </td>
@@ -214,7 +214,7 @@
                                 <tr>
                                     <td>Felhasználók száma:</td>
                                     <td class="fw-bold">
-                                        <a class="text-black" href="{{ path('admin_v1_dashboard_instances_users') }}">
+                                        <a class="text-black" href="{{ path('admin_v1_home_instances_users') }}">
                                             {{ instanceUsers|length }}
                                         </a>
                                     </td>
@@ -249,7 +249,7 @@
                                 <tr>
                                     <td>Vállalkozások és szervezetek:</td>
                                     <td class="fw-bold">
-                                        <a class="text-black" href="{{ path('admin_v1_system_instances') }}">
+                                        <a class="text-black" href="{{ path('admin_v1_sys_instances') }}">
                                             {{ app.user.instances|length }}
                                         </a>
                                     </td>

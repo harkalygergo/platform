@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted(User::ROLE_USER)]
 class APIController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_dashboard_api_index')]
+    #[Route('/', name: 'admin_v1_home_api_index')]
     public function index()
     {
         // get all APIs where instance is current instance
@@ -40,7 +40,7 @@ class APIController extends PlatformController
         ]);
     }
 
-    #[Route('/new', name: 'admin_v1_dashboard_api_add')]
+    #[Route('/new', name: 'admin_v1_home_api_add')]
     public function new()
     {
         $api = new API();
@@ -53,7 +53,7 @@ class APIController extends PlatformController
             $this->doctrine->getManager()->persist($api);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_dashboard_api_index');
+            return $this->redirectToRoute('admin_v1_home_api_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -63,7 +63,7 @@ class APIController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_v1_dashboard_api_edit')]
+    #[Route('/edit/{id}', name: 'admin_v1_home_api_edit')]
     public function edit(API $api)
     {
         $form = $this->createForm(APIType::class, $api);
@@ -73,7 +73,7 @@ class APIController extends PlatformController
             $api->setUpdatedBy($this->getUser());
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_dashboard_api_index');
+            return $this->redirectToRoute('admin_v1_home_api_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -83,13 +83,13 @@ class APIController extends PlatformController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'admin_v1_dashboard_api_delete')]
+    #[Route('/delete/{id}', name: 'admin_v1_home_api_delete')]
     public function delete(API $api)
     {
         $this->doctrine->getManager()->remove($api);
         $this->doctrine->getManager()->flush();
 
-        return $this->redirectToRoute('admin_v1_dashboard_api_index');
+        return $this->redirectToRoute('admin_v1_home_api_index');
     }
 
     #[Route('/check/new-order/{lastShownOrderID}', name: 'api_check_new_order_by_instance')]

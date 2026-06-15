@@ -24,7 +24,7 @@ class VisitorLogController extends PlatformBackendController
         'contentId' => 'content ID',
     ];
 
-    #[Route('/', name: 'admin_v1_analytics_index', methods: ['GET'])]
+    #[Route('/', name: 'admin_v1_kpi_index', methods: ['GET'])]
     public function index()
     {
         $this->denyAccessUnlessUserHasInstance();
@@ -50,7 +50,7 @@ class VisitorLogController extends PlatformBackendController
         ]);
     }
 
-    #[Route('/product', name: 'admin_v1_analytics_product', methods: ['GET'])]
+    #[Route('/product', name: 'admin_v1_kpi_product', methods: ['GET'])]
     public function index_product()
     {
         $this->denyAccessUnlessUserHasInstance();
@@ -75,7 +75,7 @@ class VisitorLogController extends PlatformBackendController
         ]);
     }
 
-    #[Route('/websitepost', name: 'admin_v1_analytics_websitepost_index', methods: ['GET'])]
+    #[Route('/websitepost', name: 'admin_v1_kpi_websitepost_index', methods: ['GET'])]
     public function index_website_post()
     {
         $this->denyAccessUnlessUserHasInstance();
@@ -100,7 +100,7 @@ class VisitorLogController extends PlatformBackendController
         ]);
     }
 
-    #[Route('/websitecategory', name: 'admin_v1_analytics_websitecategory_index', methods: ['GET'])]
+    #[Route('/websitecategory', name: 'admin_v1_kpi_websitecategory_index', methods: ['GET'])]
     public function index_website_category()
     {
         $this->denyAccessUnlessUserHasInstance();
@@ -125,7 +125,7 @@ class VisitorLogController extends PlatformBackendController
         ]);
     }
 
-    #[Route('/cmspage', name: 'admin_v1_analytics_cmspage_index', methods: ['GET'])]
+    #[Route('/cmspage', name: 'admin_v1_kpi_cmspage_index', methods: ['GET'])]
     public function index_cmspage()
     {
         $this->denyAccessUnlessUserHasInstance();

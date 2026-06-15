@@ -23,7 +23,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 #[Route('/{_locale}/admin/v1/website')]
 class WebsiteController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_dashboard_website_index', methods: ['GET'])]
+    #[Route('/', name: 'admin_v1_home_website_index', methods: ['GET'])]
     public function index(WebsiteRepository $websiteRepository): Response
     {
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -47,7 +47,7 @@ class WebsiteController extends PlatformController
             ],
             'extraActions' => [
                 'deploy' => [
-                    'route' => 'admin_v1_dashboard_website_deploy',
+                    'route' => 'admin_v1_home_website_deploy',
                     'label' => '<i class="bi bi-code-slash"></i> Deploy',
                 ],
                 'posts' => [
@@ -74,7 +74,7 @@ class WebsiteController extends PlatformController
         ]);
     }
 
-    #[Route('/new', name: 'admin_v1_dashboard_website_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'admin_v1_home_website_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         // handle form submission
@@ -87,7 +87,7 @@ class WebsiteController extends PlatformController
             $this->doctrine->getManager()->persist($website);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_dashboard_website_index');
+            return $this->redirectToRoute('admin_v1_home_website_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -97,7 +97,7 @@ class WebsiteController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_v1_dashboard_website_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'admin_v1_home_website_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Website $website): Response
     {
         $existingWebsite = $this->doctrine->getRepository(Website::class)->find($website->getId());
@@ -115,7 +115,7 @@ class WebsiteController extends PlatformController
 
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_dashboard_website_index');
+            return $this->redirectToRoute('admin_v1_home_website_index');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -126,7 +126,7 @@ class WebsiteController extends PlatformController
     }
 
     // delete
-    #[Route('/delete/{id}', name: 'admin_v1_dashboard_website_delete')]
+    #[Route('/delete/{id}', name: 'admin_v1_home_website_delete')]
     public function delete(Request $request, Website $website): Response
     {
         // delete all pages of the website
@@ -146,7 +146,7 @@ class WebsiteController extends PlatformController
         //    //$this->addFlash('danger', 'A honlap törlése sikertelen.');
         //}
 
-        return $this->redirectToRoute('admin_v1_dashboard_website_index');
+        return $this->redirectToRoute('admin_v1_home_website_index');
     }
 
     // multiple delete
@@ -187,7 +187,7 @@ class WebsiteController extends PlatformController
             //$this->addFlash('success', 'A kiválasztott honlap(ok) sikeresen törölve.');
         }
 
-        return $this->redirectToRoute('admin_v1_dashboard_website_index');
+        return $this->redirectToRoute('admin_v1_home_website_index');
     }
 
     #[Route('/deploy/post/{id}', name: 'admin_v1_cms_website_posts_deploy')]
@@ -298,7 +298,7 @@ class WebsiteController extends PlatformController
         return $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findByWebsiteAndStatus($website, true);;
     }
 
-    #[Route('/deploy/{id}', name: 'admin_v1_dashboard_website_deploy')]
+    #[Route('/deploy/{id}', name: 'admin_v1_home_website_deploy')]
     public function deploy(Website $id): \Symfony\Component\HttpFoundation\RedirectResponse|null
     {
         $website = $id;
@@ -355,7 +355,7 @@ class WebsiteController extends PlatformController
             return null;
         } else {
             $this->addFlash('success', $flashText);
-            return $this->redirectToRoute('admin_v1_dashboard_website_index');
+            return $this->redirectToRoute('admin_v1_home_website_index');
         }
     }
 

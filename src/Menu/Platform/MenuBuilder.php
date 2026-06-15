@@ -26,7 +26,7 @@ class MenuBuilder
         // Always start with Home
         $breadcrumbs[] = [
             'label' => 'Home',
-            'route' => 'admin_v1_dashboard_webshop_index',
+            'route' => 'admin_v1_home_webshop_index',
             'url'   => null, // resolved in Twig via path()
             'active' => false, // ← add this
         ];
@@ -129,7 +129,7 @@ class MenuBuilder
 
         return [
             [
-                'label' => 'Dashboard',
+                'label' => 'HOME',
                 'subtitle' => 'Vezérlőpult',
                 'icon'  => 'bi bi-speedometer2',
                 'route' => null,
@@ -142,12 +142,12 @@ class MenuBuilder
                             [
                                 'label' => 'áttekintés',
                                 'icon' => 'bi bi-house',
-                                'route' => 'admin_v1_dashboard_homepage'
+                                'route' => 'admin_v1_home_homepage'
                             ],
                             [
                                 'label' => 'intranet',
                                 'icon' => 'bi bi-info-square',
-                                'route' => 'admin_v1_dashboard_instances_intranet'
+                                'route' => 'admin_v1_home_instances_intranet'
                             ],
                         ]
                     ],
@@ -163,17 +163,27 @@ class MenuBuilder
                             [
                                 'label' => 'Domain',
                                 'icon'  => 'bi bi-link-45deg',
-                                'route' => 'admin_v1_dashboard_domains'
+                                'route' => 'admin_v1_home_domains'
                             ],
                             [
                                 'label' => 'Honlap',
                                 'icon'  => 'bi bi-globe',
-                                'route' => 'admin_v1_dashboard_website_index'
+                                'route' => 'admin_v1_home_website_index'
                             ],
                             [
                                 'label' => 'Webáruház',
                                 'icon'  => 'bi bi-cart',
-                                'route' => 'admin_v1_dashboard_webshop_index'
+                                'route' => 'admin_v1_home_webshop_index'
+                            ],
+                            [
+                                'label' => 'E-mail fiók',
+                                'route' => 'admin_v1_home_email_account',
+                                'icon' => 'bi bi-envelope',
+                            ],
+                            [
+                                'label' => 'API',
+                                'icon'  => 'bi bi-code-slash',
+                                'route' => 'admin_v1_home_api_index'
                             ],
                             [
                                 'label' => 'Webalkalmazás',
@@ -186,11 +196,6 @@ class MenuBuilder
                                 'route' => null
                             ],
                             [
-                                'label' => 'API',
-                                'icon'  => 'bi bi-code-slash',
-                                'route' => 'admin_v1_dashboard_api_index'
-                            ],
-                            [
                                 'label' => 'Tárhely',
                                 'route' => null,
                                 'icon' => 'bi bi-hdd',
@@ -199,11 +204,6 @@ class MenuBuilder
                                 'label' => 'Rendszerfelhasználó',
                                 'route' => null,
                                 'icon' => 'bi bi-people',
-                            ],
-                            [
-                                'label' => 'E-mail fiók',
-                                'route' => 'admin_v1_dashboard_email_account',
-                                'icon' => 'bi bi-envelope',
                             ],
                         ]
                     ],
@@ -544,8 +544,8 @@ class MenuBuilder
                 ]
             ],
             [
-                'label' => 'analytics',
-                'subtitle' => 'Elemzések',
+                'label' => 'KPI',
+                'subtitle' => 'Key Performance Indicator',
                 'icon'  => 'bi bi-graph-up',
                 'route' => null,
                 'roles' => ['ROLE_USER'],
@@ -557,17 +557,17 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Bejegyzés látogatások',
-                                'route' => 'admin_v1_analytics_websitepost_index',
+                                'route' => 'admin_v1_kpi_websitepost_index',
                                 'icon' => 'bi bi-pin-angle-fill',
                             ],
                             [
                                 'label' => 'Kategória látogatások',
-                                'route' => 'admin_v1_analytics_websitecategory_index',
+                                'route' => 'admin_v1_kpi_websitecategory_index',
                                 'icon' => 'bi bi-pin-angle',
                             ],
                             [
                                 'label' => 'Oldal látogatások',
-                                'route' => 'admin_v1_analytics_cmspage_index',
+                                'route' => 'admin_v1_kpi_cmspage_index',
                                 'icon' => 'bi bi-file-earmark-fill',
                             ],
                         ]
@@ -579,7 +579,7 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Termék látogatások',
-                                'route' => 'admin_v1_analytics_product',
+                                'route' => 'admin_v1_kpi_product',
                                 'icon' => 'bi bi-basket',
                             ],
                         ]
@@ -591,7 +591,7 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Összes látogatás',
-                                'route' => 'admin_v1_analytics_index',
+                                'route' => 'admin_v1_kpi_index',
                                 'icon' => 'bi bi-eye',
                             ],
                         ]
@@ -599,8 +599,8 @@ class MenuBuilder
                 ]
             ],
             [
-                'label' => 'tools',
-                'subtitle' => 'Eszközök',
+                'label' => 'OPS',
+                'subtitle' => 'Operations',
                 'icon'  => 'bi bi-tools',
                 'route' => null,
                 'roles' => ['ROLE_USER'],
@@ -617,7 +617,7 @@ class MenuBuilder
                             ],
                             [
                                 'label' => 'WordPress importálása',
-                                'route' => 'admin_v1_tools_wordpress_import',
+                                'route' => 'admin_v1_ops_wordpress_import',
                                 'icon' => 'bi bi-wordpress',
                             ],
 
@@ -626,8 +626,8 @@ class MenuBuilder
                 ]
             ],
             [
-                'label' => 'system',
-                'subtitle' => 'Settings',
+                'label' => 'SYS',
+                'subtitle' => 'System settings',
                 'icon'  => 'bi bi-gear',
                 'route' => null,
                 'roles' => ['ROLE_USER'],
@@ -639,13 +639,13 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Vállalkozások és szervezetek',
-                                'route' => 'admin_v1_system_instances',
+                                'route' => 'admin_v1_sys_instances',
                                 'icon' => 'bi bi-briefcase',
 
                             ],
                             [
                                 'label' => 'Számlázási profilok',
-                                'route' => 'admin_v1_system_billing_profiles',
+                                'route' => 'admin_v1_sys_billing_profiles',
                                 'icon' => 'bi bi-receipt',
                             ],
                         ]
@@ -657,17 +657,17 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Felhasználói kézikönyv',
-                                'route' => 'admin_v1_system_support',
+                                'route' => 'admin_v1_sys_support',
                                 'icon' => 'bi bi-person-badge',
                             ],
                             [
                                 'label' => 'Fejlesztési ütemterv',
-                                'route' => 'admin_v1_system_support_development',
+                                'route' => 'admin_v1_sys_support_development',
                                 'icon' => 'bi bi-braces',
                             ],
                             [
                                 'label' => 'Súgó',
-                                'route' => 'admin_v1_system_support_help',
+                                'route' => 'admin_v1_sys_support_help',
                                 'icon' => 'bi bi-question-circle',
                             ],
                             [
@@ -690,7 +690,7 @@ class MenuBuilder
                 ]
             ],
             [
-                'label' => 'profile',
+                'label' => 'ME',
                 'subtitle' => 'Profil',
                 'icon'  => 'bi bi-person',
                 'route' => null,
@@ -703,7 +703,7 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Személyes tárhely',
-                                'route' => 'admin_v1_profile_media_user_index',
+                                'route' => 'admin_v1_me_media_user_index',
                                 'icon' => 'bi bi-hdd',
 
                             ],
@@ -741,13 +741,13 @@ class MenuBuilder
                         'children' => [
                             [
                                 'label' => 'Profil szerkesztése',
-                                'route' => 'admin_v1_profile_edit',
+                                'route' => 'admin_v1_me_edit',
                                 'icon' => 'bi bi-person',
 
                             ],
                             [
                                 'label' => 'Jelszó módosítása',
-                                'route' => 'admin_v1_profile_password_change',
+                                'route' => 'admin_v1_me_password_change',
                                 'icon' => 'bi bi-calendar',
                             ],
                             [
@@ -771,8 +771,8 @@ class MenuBuilder
             ],
             [
                 'roles'    => ['ROLE_SUPERADMIN'],
-                'label' => 'superadmin',
-                'subtitle' => 'Rendszergazda',
+                'label' => 'SUDO',
+                'subtitle' => 'super user do',
                 'icon'  => 'bi bi-stars',
                 'route' => null,
                 'children' => [
@@ -783,27 +783,27 @@ class MenuBuilder
                             [
                                 'label' => 'Instance-ek',
                                 'icon' => 'bi bi-diagram-3',
-                                'route' => 'admin_v1_superadmin_instances',
+                                'route' => 'admin_v1_sudo_instances',
                             ],
                             [
                                 'label' => 'Felhasználók',
                                 'icon' => 'bi bi-people',
-                                'route' => 'admin_v1_superadmin_users',
+                                'route' => 'admin_v1_sudo_users',
                             ],
                             [
                                 'label' => 'Számlázási fiókok',
                                 'icon' => 'bi bi-receipt',
-                                'route' => 'admin_v1_superadmin_billing_profiles',
+                                'route' => 'admin_v1_sudo_billing_profiles',
                             ],
                             [
                                 'label' => 'Szolgáltatások',
                                 'icon' => 'bi bi-boxes',
-                                'route' => 'admin_v1_superadmin_services',
+                                'route' => 'admin_v1_sudo_services',
                             ],
                             [
                                 'label' => 'Rendelések',
                                 'icon' => 'bi bi-cart',
-                                'route' => 'admin_v1_superadmin_orders',
+                                'route' => 'admin_v1_sudo_orders',
                             ],
                         ]
                     ]

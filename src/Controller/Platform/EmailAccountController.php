@@ -15,9 +15,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/{_locale}/admin/v1/dashboard/email-accounts')]
 class EmailAccountController extends PlatformBackendController
 {
-    private const string redirectToRoute = 'admin_v1_dashboard_email_account';
+    private const string redirectToRoute = 'admin_v1_home_email_account';
 
-    #[Route('/', name: 'admin_v1_dashboard_email_account')]
+    #[Route('/', name: 'admin_v1_home_email_account')]
     public function index(): Response
     {
         // if user is not logged in, redirect to login
@@ -41,7 +41,7 @@ class EmailAccountController extends PlatformBackendController
         ]);
     }
 
-    #[\Symfony\Component\Routing\Attribute\Route('/new/', name: 'admin_v1_dashboard_email_account_new', methods: ['GET', 'POST'])]
+    #[\Symfony\Component\Routing\Attribute\Route('/new/', name: 'admin_v1_home_email_account_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $entity = new EmailAccount();
@@ -53,7 +53,7 @@ class EmailAccountController extends PlatformBackendController
         return $this->platformBackendNew($request, $form, self::redirectToRoute);
     }
 
-    #[Route('/edit/{id}', name: 'admin_v1_dashboard_email_account_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'admin_v1_home_email_account_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, EmailAccount $entity): Response
     {
         $this->denyAccessUnlessUserHasInstance();
@@ -128,7 +128,7 @@ class EmailAccountController extends PlatformBackendController
     }
 
 
-    #[Route('/delete/{id}', name: 'admin_v1_dashboard_email_account_delete', methods: ['GET'])]
+    #[Route('/delete/{id}', name: 'admin_v1_home_email_account_delete', methods: ['GET'])]
     public function delete(EmailAccount $entity): Response
     {
         $this->denyAccessUnlessUserHasInstance();
