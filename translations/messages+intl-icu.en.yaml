@@ -16,6 +16,7 @@ global:
     title: 'Title'
     slogan: 'Slogan'
 action:
+    deploy: 'publish'
     view: view
     duplicate: duplicate
     edit: edit

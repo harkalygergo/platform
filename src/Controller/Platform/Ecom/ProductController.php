@@ -67,6 +67,13 @@ class ProductController extends PlatformController
             $this->doctrine->getManager()->persist($entity);
             $this->doctrine->getManager()->flush();
 
+            if ($form->get('saveAndDeploy')->isClicked()) {
+                // call deployWebsite
+                return $this->forward('App\Controller\Platform\Backend\Website\WebsiteController::deploy', [
+                    'id'  => $entity->getWebsites()->first()->getId(),
+                ]);
+            }
+
             return $this->redirectToRoute('admin_v1_shop_products');
         }
 
@@ -94,11 +101,14 @@ class ProductController extends PlatformController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
 
-            // call deployWebsite
-            return $this->forward('App\Controller\Platform\Backend\Website\WebsiteController::deploy', [
-                'id'  => $product->getWebsites()->first()->getId(),
-            ]);
-            //return $this->redirectToRoute('admin_v1_shop_products');
+            if ($form->get('saveAndDeploy')->isClicked()) {
+                // call deployWebsite
+                return $this->forward('App\Controller\Platform\Backend\Website\WebsiteController::deploy', [
+                    'id'  => $product->getWebsites()->first()->getId(),
+                ]);
+            }
+
+            return $this->redirectToRoute('admin_v1_shop_products');
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [

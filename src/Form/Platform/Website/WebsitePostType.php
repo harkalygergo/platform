@@ -121,9 +121,9 @@ class WebsitePostType extends AbstractType
                 ],
             ])
             ->add('saveAndDeploy', SubmitType::class, [
-                'label' => '</> '.$this->translator->trans('action.save'). ' & deploy',
+                'label' => '</> '.$this->translator->trans('action.save'). ' & '.$this->translator->trans('action.deploy'),
                 'attr' => [
-                    'class' => 'btn btn-outline-success my-3 ms-2',
+                    'class' => 'btn btn-outline-success ms-2',
                 ],
             ])
         ;

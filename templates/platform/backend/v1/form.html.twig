@@ -10,89 +10,103 @@
             {#% include 'platform/backend/v1/elements/breadcrumbs.html.twig' %#}
             {% include 'platform/backend/v1/partials/_breadcrumbs.html.twig' %}
 
-            <div class="card">
-                <div class="card-header fw-bold  d-flex justify-content-between">
-                    <div class="text-uppercase">
-                        {{ title }}
+            {{ form_start(form) }}
+                {# Capture the widget HTML for saveAndDeploy once so we can output it multiple times. #}
+                {% if form.saveAndDeploy is defined %}
+                    {% set saveAndDeployWidget %}
+                        {{ form_widget(form.saveAndDeploy) }}
+                    {% endset %}
+                {% endif %}
+                {{ form_errors(form) }}
+                <div class="card">
+                    <div class="card-header fw-bold  d-flex justify-content-between">
+                        <div class="text-uppercase">
+                            {{ title }}
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-floppy mx-1"></i> {{ 'action.save'|trans }}
+                            </button>
+                            {% if saveAndDeployWidget is defined %}
+                                {{ saveAndDeployWidget|raw }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {#{ form_widget(form) }#}
+                        {% for field in form %}
+                            {% if field.vars.name != '_token' and field.vars.block_prefixes[1] != 'submit' %}
+                                {% set prefix = field.vars.row_attr['data-prefix'] ?? null %}
+                                {% set suffix = field.vars.row_attr['data-suffix'] ?? null %}
+                                {% set help = field.vars.help ?? null %}
+
+                                {% if field.vars.name == 'gallery' %}
+                                    <div class="mb-3">
+                                        {{ form_label(field) }}
+
+                                        <div class="d-flex flex-wrap align-items-center gap-2">
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-primary btn-sm"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#mediaPickerModal"
+                                                data-media-picker-trigger="gallery"
+                                            >
+                                                <i class="bi bi-images me-1"></i> Képek kiválasztása
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-secondary btn-sm"
+                                                data-media-picker-clear="gallery"
+                                            >
+                                                <i class="bi bi-x-circle me-1"></i> Kiválasztás törlése
+                                            </button>
+                                            <small class="text-muted">Kattints a képekre a kijelöléshez.</small>
+                                        </div>
+
+                                        <div class="mt-2" data-media-picker-preview="gallery"></div>
+
+                                        <div class="d-none">
+                                            {{ form_widget(field) }}
+                                        </div>
+                                        {{ form_errors(field) }}
+                                        {% if help %}
+                                            <div class="form-text">{{ help }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% elseif prefix or suffix %}
+                                    {# Custom rendering with input group #}
+                                    <div class="mb-3{{ field.vars.row_attr.class is defined ? ' ' ~ field.vars.row_attr.class : '' }}">
+                                        {{ form_label(field) }}
+                                        <div class="input-group">
+                                            {% if prefix %}
+                                                <span class="input-group-text">{{ prefix }}</span>
+                                            {% endif %}
+                                            {{ form_widget(field) }}
+                                            {% if suffix %}
+                                                <span class="input-group-text">{{ suffix }}</span>
+                                            {% endif %}
+                                        </div>
+                                        {{ form_errors(field) }}
+                                        {% if help %}
+                                            <div class="form-text">{{ help }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    {# Standard rendering #}
+                                    {{ form_row(field, {'label_html': true}) }}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <button type="submit" class="btn btn-success my-3">
+                            <i class="bi bi-floppy mx-1"></i> {{ 'action.save'|trans }}
+                        </button>
+                        {% if saveAndDeployWidget is defined %}
+                            {{ saveAndDeployWidget|raw }}
+                        {% endif %}
                     </div>
                 </div>
-                <div class="card-body">
-                    {{ form_start(form) }}
-                    {{ form_errors(form) }}
-                    {#{ form_widget(form) }#}
-                    {% for field in form %}
-                        {% if field.vars.name != '_token' and field.vars.block_prefixes[1] != 'submit' %}
-                            {% set prefix = field.vars.row_attr['data-prefix'] ?? null %}
-                            {% set suffix = field.vars.row_attr['data-suffix'] ?? null %}
-                            {% set help = field.vars.help ?? null %}
-
-                            {% if field.vars.name == 'gallery' %}
-                                <div class="mb-3">
-                                    {{ form_label(field) }}
-
-                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-primary btn-sm"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#mediaPickerModal"
-                                            data-media-picker-trigger="gallery"
-                                        >
-                                            <i class="bi bi-images me-1"></i> Képek kiválasztása
-                                        </button>
-                                        <button
-                                            type="button"
-                                            class="btn btn-outline-secondary btn-sm"
-                                            data-media-picker-clear="gallery"
-                                        >
-                                            <i class="bi bi-x-circle me-1"></i> Kiválasztás törlése
-                                        </button>
-                                        <small class="text-muted">Kattints a képekre a kijelöléshez.</small>
-                                    </div>
-
-                                    <div class="mt-2" data-media-picker-preview="gallery"></div>
-
-                                    <div class="d-none">
-                                        {{ form_widget(field) }}
-                                    </div>
-                                    {{ form_errors(field) }}
-                                    {% if help %}
-                                        <div class="form-text">{{ help }}</div>
-                                    {% endif %}
-                                </div>
-                            {% elseif prefix or suffix %}
-                                {# Custom rendering with input group #}
-                                <div class="mb-3{{ field.vars.row_attr.class is defined ? ' ' ~ field.vars.row_attr.class : '' }}">
-                                    {{ form_label(field) }}
-                                    <div class="input-group">
-                                        {% if prefix %}
-                                            <span class="input-group-text">{{ prefix }}</span>
-                                        {% endif %}
-                                        {{ form_widget(field) }}
-                                        {% if suffix %}
-                                            <span class="input-group-text">{{ suffix }}</span>
-                                        {% endif %}
-                                    </div>
-                                    {{ form_errors(field) }}
-                                    {% if help %}
-                                        <div class="form-text">{{ help }}</div>
-                                    {% endif %}
-                                </div>
-                            {% else %}
-                                {# Standard rendering #}
-                                {{ form_row(field, {'label_html': true}) }}
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    <button type="submit" class="btn btn-success my-3">
-                        <i class="bi bi-save mx-1"></i> {{ 'action.save'|trans }}
-                    </button>
-                    {% if form.saveAndDeploy is defined %}
-                        {{ form_widget(form.saveAndDeploy) }}
-                    {% endif %}
-                    {{ form_end(form) }}
-                </div>
-            </div>
+            {{ form_end(form) }}
 
             {# Media picker modal (used by Product gallery chooser) #}
             <div class="modal fade" id="mediaPickerModal" tabindex="-1" aria-labelledby="mediaPickerModalLabel" aria-hidden="true">

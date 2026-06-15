@@ -24,6 +24,7 @@ global:
     title: 'Megnevezés'
     slogan: 'Szlogan'
 action:
+    deploy: 'közzététel'
     view: megtekintés
     duplicate: duplikálás
     edit: szerkesztés

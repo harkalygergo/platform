@@ -16,15 +16,24 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductType extends AbstractType
 {
+    private TranslatorInterface $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $currentWebsite = $options['currentInstance']->getWebsites()->first();
@@ -268,7 +277,7 @@ class ProductType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'required' => false,
+                'required' => true,
                 'label' => 'Weboldalak',
             ])
             ->add('mainImage', EntityType::class, [
@@ -383,6 +392,15 @@ class ProductType extends AbstractType
                 $product->addProductImage($pm);
             }
         });
+
+        $builder
+            ->add('saveAndDeploy', SubmitType::class, [
+                'label' => '</> '.$this->translator->trans('action.save'). ' & '.$this->translator->trans('action.deploy'),
+                'attr' => [
+                    'class' => 'btn btn-outline-success ms-2',
+                ],
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
