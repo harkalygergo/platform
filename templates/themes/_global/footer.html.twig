@@ -1,4 +1,8 @@
-<div class="text-center bg-white text-dark small p-2">
-    Powered by <a target="_blank" rel="noopener noreferrer" class="fw-bold text-dark text-decoration-none" href="https://www.platform360.hu"><i class="bi bi-stack"></i> platform<sup>360</sup></a>
-</div>
+{% if instance.plan == "free" %}
+    <div class="text-center bg-white text-dark small p-2">
+        Powered by <a target="_blank" rel="noopener noreferrer" class="fw-bold text-dark text-decoration-none" href="https://www.platform360.hu"><i class="bi bi-stack"></i> platform<sup>360</sup></a>
+    </div>
+{% else %}
+    <!-- Powered by platform<sup>360</sup> https://www.platform360.hu -->
+{% endif %}
 <!-- Generated: {{ 'now'|date('Y.m.d. H:i:s | U') }} -->

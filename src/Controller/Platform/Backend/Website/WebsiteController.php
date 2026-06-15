@@ -444,6 +444,7 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'productCategories' => $productCategories,
                 'content' => $content,
+                'instance' => $this->currentInstance,
                 'analytics' => [
                     'instance' => $product->getInstance()->getId(),
                     'website' => $website->getId(),
@@ -607,6 +608,7 @@ class WebsiteController extends PlatformController
                 'products' => $products,
                 'events' => $events,
                 'productCategories' => $productCategories,
+                'instance' => $this->currentInstance,
                 'analytics' => [
                     'instance' => $category->getInstance()->getId(),
                     'website' => $website->getId(),
@@ -813,6 +815,7 @@ class WebsiteController extends PlatformController
                 'posts' => $posts,
                 'products' => $products,
                 'productCategories' => $productCategories,
+                'instance' => $this->currentInstance,
                 'analytics' => [
                     'instance' => $page->getInstance()->getId(),
                     'website' => $website->getId(),
@@ -907,6 +910,7 @@ class WebsiteController extends PlatformController
                 'posts' => $posts,
                 'products' => $products,
                 'productCategories' => $productCategories,
+                'instance' => $this->currentInstance,
                 'analytics' => [
                     'instance' => $post->getInstance()->getId(),
                     'website' => $website->getId(),
