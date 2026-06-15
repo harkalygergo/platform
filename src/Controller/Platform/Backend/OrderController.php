@@ -3,13 +3,16 @@
 namespace App\Controller\Platform\Backend;
 
 use App\Controller\Platform\PlatformBackendController;
+use App\Email\Tokens\Platform\OrderEmailTokens;
 use App\Entity\Platform\BillingProfile;
+use App\Entity\Platform\Block;
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Order\OrderEmailTemplate;
 use App\Entity\Platform\Service;
 use App\Entity\Platform\User;
 use App\Enum\Platform\OrderStatusEnum;
 use App\Form\Platform\Shop\Webshop\OrderType;
+use App\Service\Platform\EmailTemplateRenderer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -200,7 +203,7 @@ class OrderController extends PlatformBackendController
     }
 
     #[Route('/edit/{entity}', name: 'admin_v1_shop_order_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Order $entity): Response
+    public function edit(Request $request, EmailTemplateRenderer  $renderer, Order $entity): Response
     {
         $this->denyAccessUnlessUserHasInstance();
 
@@ -216,7 +219,7 @@ class OrderController extends PlatformBackendController
             $this->addFlash('success', $this->translator->trans('action.edited') . ': ' . $entity->getName());
 
             if ($entity->getStatus() !== $originalStatus) {
-                $this->sendOrderStatusEmail($entity, $entity->getStatus());
+                $this->sendOrderStatusEmail($entity, $entity->getStatus(),  $renderer);
             }
 
             return $this->redirectToRoute(self::redirectToRoute);
@@ -229,7 +232,7 @@ class OrderController extends PlatformBackendController
         ]);
     }
 
-    private function sendOrderStatusEmail(Order $order, OrderStatusEnum $newStatus): void
+    private function sendOrderStatusEmail(Order $order, OrderStatusEnum $newStatus, EmailTemplateRenderer  $renderer): void
     {
         if ($order->getEmail() === null) {
             return;
@@ -245,12 +248,17 @@ class OrderController extends PlatformBackendController
             return;
         }
 
+        $tokens = new OrderEmailTokens($order);
+
+        $htmlBody  = $renderer->render($template->getHtmlContent(), $tokens);
+        $textBody  = $renderer->render($template->getPlainTextContent(), $tokens);
+
         $this->sendMail(
             [$order->getEmail()],
             $template->getSubject(),
-            $template->getPlainTextContent() ?? '',
+            $textBody ?? '',
             null,
-            $template->getHtmlContent() ?? ''
+            $htmlBody ?? ''
         );
     }
 
