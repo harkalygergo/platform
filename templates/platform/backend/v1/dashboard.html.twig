@@ -54,17 +54,19 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card h-100 text-bg-danger">
-                        <div class="card-body row">
-                            <div class="col-3 display-3">
-                                <i class="bi bi-binoculars px-2"></i>
-                            </div>
-                            <div class="col fw-bold text-uppercase">
-                                E havi látogatószám
-                                <br><span class="display-6">{{ (instanceMonthlyView)|number_format(0, '.', ' ') }}</span>
+                    <a href="{{ path('admin_v1_kpi_index') }}" class="text-decoration-none text-white">
+                        <div class="card h-100 text-bg-danger">
+                            <div class="card-body row">
+                                <div class="col-3 display-3">
+                                    <i class="bi bi-binoculars px-2"></i>
+                                </div>
+                                <div class="col fw-bold text-uppercase">
+                                    Havi látogatószám
+                                    <br><span class="display-6">{{ (instanceMonthlyView)|number_format(0, '.', ' ') }}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
@@ -92,7 +94,7 @@
                 </div>
                 <div class="col-12 col-md-4">
 
-                    <div class="card mb-3">
+                    <!--div class="card mb-3">
                         <div class="card-header text-uppercase fw-bold">
                             Szolgáltatások díjazása
                         </div>
@@ -144,7 +146,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div-->
 
                     <div class="card mb-3">
                         <div class="card-header text-uppercase fw-bold">
