@@ -449,7 +449,7 @@ class MenuBuilder
                                 'children' => [
                                     [
                                         'label' => 'új rendelések',
-                                        'route' => 'admin_v1_shop_order_index'
+                                        'route' => 'admin_v1_shop_order'
                                     ],
                                     [
                                         'label' => 'teljesített rendelések',

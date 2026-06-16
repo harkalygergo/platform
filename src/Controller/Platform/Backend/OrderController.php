@@ -23,9 +23,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/{_locale}/admin/v1/order')]
 class OrderController extends PlatformBackendController
 {
-    private const string redirectToRoute = 'admin_v1_shop_order_index';
+    private const string redirectToRoute = 'admin_v1_shop_order';
 
-    #[Route('/', name: 'admin_v1_shop_order_index')]
+    #[Route('/', name: 'admin_v1_shop_order')]
     public function index(Request $request): Response
     {
         $orders = $this->doctrine->getRepository(Order::class)->findBy([
@@ -319,7 +319,7 @@ class OrderController extends PlatformBackendController
 
         $this->doctrine->getManager()->flush();
 
-        return $this->redirectToRoute('admin_v1_shop_order_index');
+        return $this->redirectToRoute('admin_v1_shop_order');
     }
 
     #[Route('/create', name: 'admin_v1_shop_order_create')]

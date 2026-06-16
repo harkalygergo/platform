@@ -10,7 +10,7 @@
         {#% include 'platform/backend/v1/elements/breadcrumbs.html.twig' %#}
         {% include 'platform/backend/v1/partials/_breadcrumbs.html.twig' %}
 
-        {% if "admin_v1_shop_order_index" == app.request.get('_route') %}
+        {% if "admin_v1_shop_order" == app.request.get('_route') %}
             <span class="text-end">
                 <button class="btn btn-small btn-outline-secondary mb-3" onclick="unlockAudio(this);">🕭 enable audio notification</button>
             </span>
@@ -408,7 +408,7 @@
         {
             {% set current_path = app.request.get('_route') %}
 
-            if ("{{ current_path }}" === "admin_v1_shop_order_index") {
+            if ("{{ current_path }}" === "admin_v1_shop_order") {
 
                 let currentMaxOrderID = 0;
                 if (document.getElementById("dataList").getElementsByTagName("tbody")["0"].getElementsByTagName("tr").length) {

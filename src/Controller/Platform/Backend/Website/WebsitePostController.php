@@ -89,8 +89,7 @@ class WebsitePostController extends PlatformController
         ]);
     }
 
-    // create edit function
-    #[Route('/edit/{post}', name: 'admin_v1_cms_website_post_edit')]
+    #[Route('/edit/{post}', name: 'admin_v1_cms_website_posts_edit')]
     public function edit(Request $request, WebsitePost $post): Response
     {
         $id = $this->currentInstance->getWebsites()->first();
