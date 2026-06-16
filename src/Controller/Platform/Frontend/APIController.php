@@ -435,6 +435,13 @@ class APIController extends PlatformController
         $visitorIP = $this->requestStack->getCurrentRequest()->getClientIp();
         $developerIPsFromDotenv = explode(',', $_ENV['DEVELOPER_IP'] ?? getenv('DEVELOPER_IP'));
 
+        if (empty($parameters['host'])) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Missing host parameter',
+            ]);
+        }
+
         $website = $this->doctrine->getRepository(Website::class)->findOneBy(
             [
                 'domain' => $parameters['host']
