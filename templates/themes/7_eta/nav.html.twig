@@ -16,7 +16,7 @@
                 {% for menu in menus %}
                     {% if menu.parent is null %}
                         {% if menu.hasChildren() %}
-                            <li class="nav-item dropdown">
+                            <li class="nav-item px-1 dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">
                                     {{ menu.title }}
                                 </a>
@@ -29,13 +29,13 @@
                                 </ul>
                             </li>
                         {% else %}
-                            <li class="nav-item">
+                            <li class="nav-item px-1">
                                 <a class="nav-link active" href="{{ menu.slug }}">{{ menu.title }}</a>
                             </li>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-                <li class="nav-item">
+                <li class="nav-item px-1">
                     <a class="btn btn-primary ms-2" href="/idopontfoglalas">Időpontfoglalás</a>
                 </li>
             </ul>

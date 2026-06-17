@@ -4,6 +4,7 @@ namespace App\Entity\Platform\CMS;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,6 +45,7 @@ class Form
     private string $notificationEmail;
 
     #[ORM\OneToMany(targetEntity: FormField::class, mappedBy: 'form')]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $fields;
 
     #[ORM\Column(type: 'text')]
@@ -165,6 +167,7 @@ class Form
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->fields = new ArrayCollection();
     }
 
     public function __toString(): string
