@@ -73,7 +73,7 @@ class CmsPageController extends PlatformController
             'extraActions' => [
                 'deploy' => [
                     'route' => 'admin_v1_cms_website_page_deploy',
-                    'label' => '&lt/&gt; Deploy',
+                    'label' => '<i class="bi bi-code-slash"></i> '. $this->translator->trans('action.deploy') ,
                 ]
             ]
         ]);

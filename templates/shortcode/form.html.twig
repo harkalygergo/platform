@@ -17,6 +17,23 @@
                     <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
                 {% endif %}
             </div>
+        {% elseif field.type == 'date' %}
+            <div class="mb-3">
+                <label for="{{ field.Id }}" class="form-label">{{ field.label }}</label>
+                <input
+                    class="form-control"
+                    aria-label="{{ field.label }}"
+                    type="date"
+                    id="{{ field.Id }}"
+                    name="{{ field.name }}"
+                    value="{{ field.defaultvalue }}"
+                    placeholder="{{ field.placeholder }}"
+                    aria-describedby="{{ field.Id }}Help"
+                >
+                {% if field.helpText %}
+                    <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
+                {% endif %}
+            </div>
         {% elseif field.type == 'textarea' %}
             <div class="mb-3">
                 <label for="{{ field.id }}" class="form-label" id="{{ field.id }}">{{ field.label }}</label>

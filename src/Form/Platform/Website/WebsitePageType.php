@@ -155,7 +155,7 @@ class WebsitePageType extends AbstractType
             */
         $builder
             ->add('saveAndDeploy', SubmitType::class, [
-                'label' => '<i class="bi bi-globe"></i> '.$this->translator->trans('action.save'). ' & '.$this->translator->trans('action.deploy'),
+                'label' => '</> '.$this->translator->trans('action.save'). ' & '.$this->translator->trans('action.deploy'),
             'attr' => [
                 'class' => 'btn btn-outline-success ms-2',
             ],
