@@ -2,14 +2,39 @@
 
 {% block body %}
 
+    <div class="bg-white pt-5">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120"><path fill="#a945ba" fill-opacity="1" d="M0,64L80,53.3C160,43,320,21,480,37.3C640,53,800,107,960,117.3C1120,128,1280,96,1360,80L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path></svg>
+    </div>
+
+    <div class="bg-primary text-white">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-3">{{ category.title }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white overflow-hidden">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1440 120"
+            style="transform: rotate(180deg); display:block;"
+        >
+            <path
+                fill="#a945ba"
+                fill-opacity="1"
+                d="M0,64L80,53.3C160,43,320,21,480,37.3C640,53,800,107,960,117.3C1120,128,1280,96,1360,80L1440,64L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
+            </path>
+        </svg>
+    </div>
+
+
+
     <!-- Blog Posts Grid -->
     <section class="py-5 bg-light">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center m-5">
-                    <h2 class="display-5 fw-bold mb-3">{{ category.title }}</h2>
-                </div>
-            </div>
             <div class="row g-4">
 
                 {% for post in category.posts %}
@@ -28,8 +53,8 @@
                                 <h5 class="card-title fw-bold">{{ post.title|raw }}</h5>
                                 <p class="card-text">{{ post.metaDescription|raw }}</p>
                                 <div class="post-stats d-flex align-items-center mb-3">
-                                    <span class="text-muted me-3"><i class="bi bi-eye me-1"></i>856</span>
-                                    <span class="text-muted"><i class="bi bi-heart me-1"></i>12</span>
+                                    <span class="text-muted me-3"><i class="bi bi-eye me-1"></i>{{ post.viewCount }}</span>
+                                    <!--span class="text-muted"><i class="bi bi-heart me-1"></i>12</span-->
                                 </div>
                                 <a href="/{{ category.slug }}/{{ post.slug }}" class="btn btn-outline-primary text-white">elolvasom &raquo;</a>
                             </div>

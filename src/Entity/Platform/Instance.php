@@ -3,6 +3,7 @@
 namespace App\Entity\Platform;
 
 use App\Entity\Platform\CMS\Widget;
+use App\Entity\Platform\CRM\Testimonial;
 use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\Popup\Popup;
 use App\Entity\Platform\Webshop\PaymentMethod;
@@ -108,6 +109,10 @@ class Instance
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private ?bool $deletePassedEvents = false;
 
+    // Testimonials
+    #[ORM\OneToMany(targetEntity: Testimonial::class, mappedBy: 'instance')]
+    private Collection $testimonials;
+
     public function __construct()
     {
         $this->status = true;
@@ -120,6 +125,12 @@ class Instance
         $this->clients = new ArrayCollection();
         $this->popups = new ArrayCollection();
         $this->websites = new ArrayCollection();
+        $this->webshops = new ArrayCollection();
+        $this->shippingMethods = new ArrayCollection();
+        $this->paymentMethods = new ArrayCollection();
+        $this->emailAccounts = new ArrayCollection();
+        $this->widgets = new ArrayCollection();
+        $this->testimonials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -534,5 +545,15 @@ class Instance
         $this->deletePassedEvents = $deletePassedEvents;
 
         return $this;
+    }
+
+    public function getTestimonials(): Collection
+    {
+        return $this->testimonials;
+    }
+
+    public function setTestimonials(Collection $testimonials): void
+    {
+        $this->testimonials = $testimonials;
     }
 }

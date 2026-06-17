@@ -18,7 +18,7 @@ class Testimonial implements TimestampableInterface  // ← marker interface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Instance::class)]
+    #[ORM\ManyToOne(targetEntity: Instance::class, inversedBy: 'testimonials')]
     private Instance $instance;
 
     #[ORM\Column(type: 'boolean')]
