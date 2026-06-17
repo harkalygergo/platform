@@ -10,6 +10,7 @@ use App\Form\Platform\InstanceType;
 use App\Repository\Platform\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,6 +83,19 @@ class InstanceController extends PlatformController
                     'readonly' => 'true',
                     'maxlength' => 32,
                     'class' => 'form-control',
+                ],
+            ])
+            ->add('plan', ChoiceType::class, [
+                'label' => 'Díjcsomag',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'choices' => [
+                    'FREE - 0,- forint / hó' => 'free',
+                    'START - 9.990,- forint / hó' => 'start',
+                    'PRO - 19.990,- forint / hó' => 'pro',
+                    'PREMIUM - 39.990,- forint / hó' => 'premium',
+                    'VIP - 79.990,- forint / hó' => 'vip',
                 ],
             ])
             ->add('email', TextType::class, [

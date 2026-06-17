@@ -148,6 +148,28 @@
                         </div>
                     </div-->
 
+
+
+                    <div class="card mb-3">
+                        <div class="card-header text-uppercase fw-bold">
+                            Előfizetés
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Az Ön díjcsomagja: <strong>{{ currentInstance.plan }}</strong>
+                            </p>
+                            {% if currentInstance.plan === 'free' %}
+                                <p class="card-text alert alert-success fw-bold">
+                                    <a class="text-decoration-none text-success" href="{{ path('admin_v1_home_instances_edit', {'id': currentInstance.id}) }}">Kérjük, támogassa a fejlesztést, váltson magasabb csomagra most, ide kattintva!</a>
+                                </p>
+                            {% endif %}
+                            <p class="card-text">
+                                A díjcsomagokról további információ itt érhető el: <a href="https://www.platform360.hu" target="_blank">www.platform360.hu</a>
+                            </p>
+                        </div>
+                    </div>
+
+
                     <div class="card mb-3">
                         <div class="card-header text-uppercase fw-bold">
                             Szolgáltatás áttekintés
