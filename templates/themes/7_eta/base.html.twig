@@ -120,7 +120,7 @@
             {% for menu in menus %}
                 {% if menu.parent is null %}
                     {% if menu.hasChildren() %}
-                        <li class="nav-item px-2 dropdown"  style="display:inline-block;">
+                        <li class="nav-item px-3 dropdown"  style="display:inline-block;">
                             <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">
                                 {{ menu.title }}
                             </a>
@@ -133,13 +133,13 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li class="nav-item px-2"  style="display:inline-block;">
+                        <li class="nav-item px-3"  style="display:inline-block;">
                             <a class="nav-link active" href="{{ menu.slug }}">{{ menu.title }}</a>
                         </li>
                     {% endif %}
                 {% endif %}
             {% endfor %}
-            <li class="nav-item px-2"  style="display:inline-block;">
+            <li class="nav-item px-3"  style="display:inline-block;">
                 <a class="btn btn-primary ms-2" href="/idopontfoglalas">Időpontfoglalás</a>
             </li>
         </ul>
