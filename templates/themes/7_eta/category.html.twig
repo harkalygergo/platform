@@ -42,7 +42,7 @@
                         <div class="blog-card card h-100 border-0 shadow-sm">
                             {% if post.featuredImage is not null %}
                                 <div class="blog-image">
-                                    <img alt="{{ post.title }}" src="/media/{{ post.featuredImage.originalName }}">
+                                    <img class="img-fluid" alt="{{ post.title }}" src="/media/{{ post.featuredImage.originalName }}">
                                 </div>
                             {% endif %}
                             <div class="card-body p-4">
