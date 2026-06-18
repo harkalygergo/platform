@@ -22,7 +22,7 @@
                 <div class="col-lg-8">
                     <article class="blog-post">
                         <!-- Post Header -->
-                        <header class="post-header mb-5">
+                        <div class="post-header mb-5">
                             <div class="post-meta mb-3">
                                 <span class="badge bg-primary me-2">{{ post.categories.first.title }}</span>
                                 <span class="text-muted">{{ post.createdAt|format_datetime() }}</span>
@@ -39,7 +39,7 @@
                                     <img src="/media/{{ post.featuredImage.originalName }}" alt="{{ post.title }}" class="img-fluid rounded shadow">
                                 </div>
                             {% endif %}
-                        </header>
+                        </div>
 
                         <!-- Post Content -->
                         <div class="post-content">
