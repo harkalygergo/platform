@@ -145,14 +145,22 @@ class APIController extends PlatformController
             case 'form':
             {
                 $emailBody = '';
-
-                foreach ($parameters as $parameterKey=>$parameterValue) {
-                    $emailBody .= $parameterKey . ': ' . $parameterValue . "\r\n";
-                }
-
                 $form = $this->doctrine->getRepository(Form::class)->find($parameters['formID']);
 
-                $this->sendMail([$form->getNotificationEmail()],  $form->getName().' űrlap kitöltés', $emailBody);
+                $toAddresses = [$form->getNotificationEmail()];
+
+                foreach ($parameters as $parameterKey=>$parameterValue) {
+                    // exclude formID, key, action, honeypot
+                    if (!in_array($parameterKey, ['formID', 'key', 'action', 'honeypot', 'robotstop'])) {
+                        $emailBody .= $parameterKey . ': ' . $parameterValue . "\r\n";
+
+                        if ($parameterKey === 'email') {
+                            $toAddresses[] = $parameterValue;
+                        }
+                    }
+                }
+
+                $this->sendMail($toAddresses,  $form->getName().' űrlap kitöltés', $emailBody);
 
                 $successPageText = 'Köszönjük! Sikeres űrlap kitöltés.';
 

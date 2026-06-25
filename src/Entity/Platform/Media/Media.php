@@ -81,6 +81,7 @@ class Media
     {
         return $this->instance;
     }
+
     public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
@@ -197,13 +198,20 @@ class Media
         return $this;
     }
 
+    /** EXTRA */
+
+    public function getSizeKB(): string
+    {
+        return number_format($this->size / 1024, 2) . ' KB';
+    }
+
     public function __toString(): string
     {
         $imageTypes = ['image/jpeg', 'image/webp', 'image/png', 'image/gif'];
 
         if (in_array($this->type, $imageTypes)) {
             return '<a target="_blank" href="//'.$this->instance->getWebsites()->first()->getDomain().'/media/' . $this->originalName . '">
-                <img style="width:50px;height:auto;" alt="" src="//'.$this->instance->getWebsites()->first()->getDomain().'/media/' . $this->originalName . '" />
+                <img loading="lazy" style="width:50px;height:auto;" alt="" src="//'.$this->instance->getWebsites()->first()->getDomain().'/media/' . $this->originalName . '" />
             </a>';
         }
 

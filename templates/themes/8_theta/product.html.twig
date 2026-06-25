@@ -13,7 +13,7 @@
         {{ content|raw }}
 
         {% if product.mainImage is not null %}
-            <img src="/media/{{ product.mainImage.originalName }}" alt="{{ product.name }}" class="d-block w-100">
+            <img loading="lazy" src="/media/{{ product.mainImage.originalName }}" alt="{{ product.name }}" class="d-block w-100 img-thumbnail">
         {% endif %}
 
     </div>
