@@ -143,6 +143,7 @@ class SuperAdminController extends PlatformBackendController
             'tableHead' => [
                 'name' => 'Név',
                 'type' => 'Típus',
+                'plan' => 'Csomag',
                 'intranet' => 'Intranet',
                 'status' => 'Státusz',
             ],
