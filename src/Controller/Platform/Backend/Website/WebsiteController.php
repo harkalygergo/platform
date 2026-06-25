@@ -350,7 +350,7 @@ class WebsiteController extends PlatformController
         $this->createHtaccessFile($website, $urls, $filenames);
 
         // create sitemap and push to FTP
-        $this->createSitemaplXmlFile($website, $urls);
+        $this->createSitemapXmlFile($website, $urls);
 
         //return $this->redirectToRoute('admin_v1_website_index');
         // if it is called from CLI, return the flash text instead of redirecting
@@ -1024,12 +1024,12 @@ Crawl-delay: 10
     }
 
     /**
-     * Create sitemapl.xml from deployed URLs and push to FTP.
+     * Create sitemap.xml from deployed URLs and push to FTP.
      * Priority: assign by URL depth (root 1.0, one segment 0.8, deeper 0.6) — SEO-practical default.
      */
-    public function createSitemaplXmlFile(Website $website, array $urls)
+    public function createSitemapXmlFile(Website $website, array $urls)
     {
-        $fileName = 'sitemapl.xml';
+        $fileName = 'sitemap.xml';
 
         // determine protocol (default https)
         $protocol = 'https';
@@ -1061,10 +1061,12 @@ Crawl-delay: 10
 
             $loc = $protocol . '://' . $domain . '/' . $path;
 
+            /*
             // append .html if not present and not a directory
             if (substr($loc, -1) !== '/' && strpos($loc, '.html') === false && strpos($loc, '?') === false) {
                 $loc .= '.html';
             }
+            */
 
             // priority by depth
             $depth = substr_count($path, '/');
@@ -1096,7 +1098,7 @@ Crawl-delay: 10
 
         // Helpful flash for deploy UI
         try {
-            $this->addFlash('success', 'Sitemap (sitemapl.xml) FTP OK');
+            $this->addFlash('success', 'Sitemap (sitemap.xml) FTP OK');
         } catch (\Exception $e) {
             // silence if called from CLI or outside request context
         }
