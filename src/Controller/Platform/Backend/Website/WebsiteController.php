@@ -349,6 +349,9 @@ class WebsiteController extends PlatformController
 
         $this->createHtaccessFile($website, $urls, $filenames);
 
+        // create sitemap and push to FTP
+        $this->createSitemaplXmlFile($website, $urls);
+
         //return $this->redirectToRoute('admin_v1_website_index');
         // if it is called from CLI, return the flash text instead of redirecting
         if (php_sapi_name() === 'cli') {
@@ -1018,6 +1021,85 @@ Crawl-delay: 10
         );
 
         //$this->addFlash('success', $fileName.' FTP OK.');
+    }
+
+    /**
+     * Create sitemapl.xml from deployed URLs and push to FTP.
+     * Priority: assign by URL depth (root 1.0, one segment 0.8, deeper 0.6) — SEO-practical default.
+     */
+    public function createSitemaplXmlFile(Website $website, array $urls)
+    {
+        $fileName = 'sitemapl.xml';
+
+        // determine protocol (default https)
+        $protocol = 'https';
+        if (method_exists($website, 'getProtocol') && $website->getProtocol() === 'http') {
+            $protocol = 'http';
+        }
+
+        $domain = rtrim($website->getDomain(), '/');
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+        // homepage
+        $xml .= "  <url>\n    <loc>" . htmlspecialchars($protocol . '://' . $domain . '/', ENT_QUOTES, 'UTF-8') . "</loc>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n";
+
+        $seen = [];
+        foreach ($urls as $path) {
+            $path = (string) $path;
+            $path = ltrim($path, '/');
+            if ($path === '') {
+                continue;
+            }
+
+            // normalize
+            if (isset($seen[$path])) {
+                continue;
+            }
+            $seen[$path] = true;
+
+            $loc = $protocol . '://' . $domain . '/' . $path;
+
+            // append .html if not present and not a directory
+            if (substr($loc, -1) !== '/' && strpos($loc, '.html') === false && strpos($loc, '?') === false) {
+                $loc .= '.html';
+            }
+
+            // priority by depth
+            $depth = substr_count($path, '/');
+            if ($depth === 0) {
+                $priority = '0.9';
+            } elseif ($depth === 1) {
+                $priority = '0.8';
+            } else {
+                $priority = '0.6';
+            }
+
+            $xml .= "  <url>\n    <loc>" . htmlspecialchars($loc, ENT_QUOTES, 'UTF-8') . "</loc>\n    <changefreq>weekly</changefreq>\n    <priority>{$priority}</priority>\n  </url>\n";
+        }
+
+        $xml .= '</urlset>';
+
+        $tempFilePath = '/tmp/' . $website->getDomain() . '/' . $fileName;
+        file_put_contents($tempFilePath, $xml);
+
+        // push via existing helper
+        $this->pushToFTP(
+            $website->getFTPHost(),
+            $website->getFTPUser(),
+            $website->getFTPPassword(),
+            $website->getFTPPath(),
+            $tempFilePath,
+            $fileName
+        );
+
+        // Helpful flash for deploy UI
+        try {
+            $this->addFlash('success', 'Sitemap (sitemapl.xml) FTP OK');
+        } catch (\Exception $e) {
+            // silence if called from CLI or outside request context
+        }
     }
 
     public static function pushToFTP($FTPhost, $FTPuser, $FTPpassword, $FTPpath, $content, $filename, $website = null)
