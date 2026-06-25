@@ -91,11 +91,11 @@ class InstanceController extends PlatformController
                     'class' => 'form-control',
                 ],
                 'choices' => [
-                    'FREE - 0,- forint / hó' => 'free',
-                    'START - 9.990,- forint / hó' => 'start',
-                    'PRO - 19.990,- forint / hó' => 'pro',
-                    'PREMIUM - 39.990,- forint / hó' => 'premium',
-                    'VIP - 79.990,- forint / hó' => 'vip',
+                    'FREE - 0,- forint / hó' => 'FREE',
+                    'START - 9.990,- forint / hó' => 'START',
+                    'PRO - 19.990,- forint / hó' => 'PRO',
+                    'PREMIUM - 39.990,- forint / hó' => 'PREMIUM',
+                    'VIP - 79.990,- forint / hó' => 'VIP',
                 ],
             ])
             ->add('email', TextType::class, [
