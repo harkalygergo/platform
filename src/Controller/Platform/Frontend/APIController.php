@@ -149,6 +149,11 @@ class APIController extends PlatformController
 
                 $toAddresses = [$form->getNotificationEmail()];
 
+                $instanceEmail = $form->getInstance()->getEmail();
+                if ($instanceEmail && $instanceEmail !== '' && $instanceEmail !== $form->getNotificationEmail()) {
+                    $toAddresses[] = $instanceEmail;
+                }
+
                 foreach ($parameters as $parameterKey=>$parameterValue) {
                     // exclude formID, key, action, honeypot
                     if (!in_array($parameterKey, ['formID', 'key', 'action', 'honeypot', 'robotstop'])) {
