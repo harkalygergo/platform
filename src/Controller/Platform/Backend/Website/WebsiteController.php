@@ -372,7 +372,11 @@ class WebsiteController extends PlatformController
     public function deployProductCategories(Website $website, $slugger, &$urls, &$filenames, &$flashText, $categories, $pages, $menus, $events, $posts, $products, $websiteTemplate, $productCategories)
     {
         foreach ($productCategories as $productCategory) {
-            $productCategoryContent = $this->renderView('themes/' . $websiteTemplate . '/product-category.html.twig', [
+
+            $templateFile = file_exists($this->getParameter('kernel.project_dir').'/templates/themes/'. $websiteTemplate .'/product-category.html.twig') ? 'product-category.html.twig' : 'index.html.twig';
+
+
+            $productCategoryContent = $this->renderView('themes/' . $websiteTemplate . '/'. $templateFile, [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
@@ -386,6 +390,8 @@ class WebsiteController extends PlatformController
                 'posts' => $posts,
                 'products' => $productCategory->getProducts(),
                 'productCategories' => $productCategories,
+                'content' => $productCategory->getDescription(),
+                'instance' => $productCategory->getInstance(),
 
             ]);
             if ($productCategory->getSlug() === '') {
@@ -430,8 +436,10 @@ class WebsiteController extends PlatformController
             $content = $this->searchForShortcode($product->getDescription());
             $content = $this->searchForForm($content);
 
+            $templateFile = file_exists($this->getParameter('kernel.project_dir').'/templates/themes/'. $websiteTemplate .'/product.html.twig') ? 'product.html.twig' : 'index.html.twig';
+
             // render product template
-            $productContent = $this->renderView('themes/' . $websiteTemplate . '/product.html.twig', [
+            $productContent = $this->renderView('themes/' . $websiteTemplate . '/'.$templateFile, [
                 'website' => $website,
                 'charset' => $website->getCharset(),
                 'language' => $website->getLanguage(),
