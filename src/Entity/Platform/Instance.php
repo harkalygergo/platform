@@ -33,7 +33,7 @@ class Instance
     #[ORM\Column(type: 'boolean')]
     private bool $status;
 
-    #[ORM\Column(length: 255, nullable: true, options: ['default' => 'free'])]
+    #[ORM\Column(length: 255, nullable: true, options: ['default' => 'FREE'])]
     private ?string $plan = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

@@ -158,7 +158,7 @@
                             <p class="card-text">
                                 Az Ön díjcsomagja: <strong>{{ currentInstance.plan }}</strong>
                             </p>
-                            {% if currentInstance.plan === 'free' %}
+                            {% if currentInstance.plan === 'FREE' %}
                                 <p class="card-text alert alert-success fw-bold">
                                     <a class="text-decoration-none text-success" href="{{ path('admin_v1_home_instances_edit', {'id': currentInstance.id}) }}">Kérjük, támogassa a fejlesztést, váltson magasabb csomagra most, ide kattintva!</a>
                                 </p>
@@ -181,7 +181,7 @@
                                     <td>Díjcsomag:</td>
                                     <td class="fw-bold">
                                         {{ currentInstance.plan }}
-                                        {% if currentInstance.plan === 'free' %}
+                                        {% if currentInstance.plan === 'FREE' %}
                                             <a class="text-decoration-none text-success" target="_blank" href="https://buymeacoffee.com/harkalygergo">☕ Hívj meg egy kávéra!</a>
                                         {% endif %}
                                     </td>
