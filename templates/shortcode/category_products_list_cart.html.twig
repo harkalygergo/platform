@@ -18,7 +18,7 @@
                             <b>{{ product.name }}</b>
                             <br>{{ product.shortDescription|raw }}
                         </td>
-                        <td>{{ product.price|format_number(locale='hu') }} {{ product.currency }}</td>
+                        <td class="text-nowrap">{{ product.price|format_number(locale='hu') }} {{ product.currency }}</td>
                         <td class="text-end">
                             <a href="#" class="btn btn-sm btn-dark btn-fluid" onclick="addToCart({{ product.id }}, '{{ product.name }}', {{ product.price }});"><i class="bi bi-cart-plus"></i> Kosárba</a>
                         </td>
