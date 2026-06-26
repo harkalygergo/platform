@@ -789,6 +789,25 @@ class WebsiteController extends PlatformController
                 $pageContent = str_replace(['<p>[products_list_cart]</p>', '[products_list_cart]'], $form, $pageContent);
             }
 
+            if (str_contains($pageContent, '[category_products_list_cart]')) {
+                // Group products by category
+                $groupedProducts = [];
+                foreach ($products as $product) {
+                    $categoryName = $product->getCategory() ? $product->getCategory()->getName() : 'Uncategorized';
+                    if (!isset($groupedProducts[$categoryName])) {
+                        $groupedProducts[$categoryName] = [];
+                    }
+                    $groupedProducts[$categoryName][] = $product;
+                }
+
+                $form = $this->renderView('shortcode/category_products_list_cart.html.twig', [
+                    'groupedProducts' => $groupedProducts,
+                ]);
+
+                $pageContent = str_replace(['<p>[category_products_list_cart]</p>', '[category_products_list_cart]'], $form, $pageContent);
+            }
+
+
             // if page is homepage, use index.html.twig template
             $templateFile = 'index.html.twig';
 

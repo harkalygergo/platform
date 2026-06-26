@@ -1,0 +1,31 @@
+{% if groupedProducts is defined %}
+    {% for categoryName, categoryProducts in groupedProducts %}
+        <h4 class="mt-4 mb-3 fw-bold">{{ categoryName }}</h4>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Megnevezés</th>
+                    <th>Ár</th>
+                    <th>Kosárba</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for product in categoryProducts %}
+                    <tr>
+                        <td>
+                            <b>{{ product.name }}</b>
+                            <br>{{ product.shortDescription|raw }}
+                        </td>
+                        <td>{{ product.price|format_number(locale='hu') }} {{ product.currency }}</td>
+                        <td class="text-end">
+                            <a href="#" class="btn btn-sm btn-dark btn-fluid" onclick="addToCart({{ product.id }}, '{{ product.name }}', {{ product.price }});"><i class="bi bi-cart-plus"></i> Kosárba</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endif %}
