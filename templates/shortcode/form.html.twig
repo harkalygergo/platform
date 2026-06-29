@@ -68,6 +68,18 @@
                     {% endfor %}
                 </select>
             </div>
+
+        {% elseif field.type == 'checkbox' %}
+            <div class="mb-3 form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="{{ field.Id }}"
+                    name="{{ field.name }}"
+                    value="{{ field.defaultValue }}"
+                >
+                <label class="form-check-label" for="{{ field.Id }}">{{ field.label }}</label>
+            </div>
         {% endif %}
     {% endfor %}
 

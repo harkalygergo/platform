@@ -44,9 +44,9 @@ class FormFieldType extends AbstractType
                         'textarea' => 'textarea',
                         'date'     => 'date',
                         'select'    => 'select',
+                        'checkbox' => 'checkbox',
                     ],
                     'még nem használható' => [
-                        'checkbox' => 'checkbox',
                         'image'    => 'image',
                         'file'     => 'file',
                         'radio'    => 'radio',
