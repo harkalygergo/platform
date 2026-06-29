@@ -165,7 +165,7 @@ class APIController extends PlatformController
                     }
                 }
 
-                $this->sendMail($toAddresses,  $form->getName().' űrlap kitöltés', $emailBody);
+                $this->sendMail($toAddresses,  $form->getName(), $emailBody);
 
                 $successPageText = 'Köszönjük! Sikeres űrlap kitöltés.';
 

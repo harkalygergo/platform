@@ -23,10 +23,17 @@ class WebsitePostController extends PlatformController
         // get instance first website
         $id = $this->currentInstance->getWebsites()->first();
 
-        $pagesByWebsite = $websitePostRepository->findByWebsiteId($id->getId());
+        if ($id) {
+            $pagesByWebsite = $websitePostRepository->findByWebsiteId($id->getId());
+            $title = $id->getName() . ' (' . $id->getDomain() . ') ' . $this->translator->trans('web.posts');
+        } else {
+            $this->addFlash('danger', 'There is no website, first create a website.');
+            $pagesByWebsite = [];
+            $title = 'ERROR';
+        }
 
         return $this->render('platform/backend/v1/list.html.twig', [
-            'title' => $id->getName() . ' (' . $id->getDomain() . ') ' . $this->translator->trans('web.posts'),
+            'title' => $title,
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
                 'viewCount' => 'Views',

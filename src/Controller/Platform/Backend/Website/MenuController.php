@@ -23,10 +23,17 @@ class MenuController extends PlatformController
         // get current instance first website
         $id = $this->currentInstance->getWebsites()->first();
 
-        $menusByWebsite = $menuRepository->findByWebsiteId($id->getId());
+        if ($id) {
+            $menusByWebsite = $menuRepository->findByWebsiteId($id->getId());
+            $title = $id->getDomain() . ' menük';
+        } else {
+            $this->addFlash('danger', 'There is no website, first create a website.');
+            $menusByWebsite = [];
+            $title = 'ERROR';
+        }
 
         return $this->render('platform/backend/v1/list.html.twig', [
-            'title' => $id->getDomain() . ' menük',
+            'title' => $title,
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
             'tableHead' => [
                 'title' => 'Cím',
