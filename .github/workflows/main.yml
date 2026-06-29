@@ -28,51 +28,64 @@ jobs:
                     key: ${{ secrets.SSH_KEY }}
                     port: 22
                     script: |
-                        printf "\n\n *** change directory to the project path *** \n\n"
-                        cd ${{ vars.PATH }}
+                        # Space- or newline-separated list of project paths (set vars.PATHS in repo settings).
+                        # Falls back to the single vars.PATH for backwards compatibility.
+                        PATHS="${{ vars.PATHS }}"
+                        if [ -z "$PATHS" ]; then
+                            PATHS="${{ vars.PATH }}"
+                        fi
 
-                        printf "\n\n *** git status *** \n\n"
-                        git status
+                        for PROJECT_PATH in $PATHS; do
+                            printf "\n\n ======================================================== \n"
+                            printf " *** deploying: %s *** \n" "$PROJECT_PATH"
+                            printf " ======================================================== \n\n"
 
-                        printf "\n\n *** git diff *** \n\n"
-                        git diff
-                        git checkout -- composer.lock
-                        git checkout -- package-lock.json
+                            printf "\n\n *** change directory to the project path *** \n\n"
+                            cd "$PROJECT_PATH" || { echo "cannot cd to $PROJECT_PATH"; exit 1; }
 
-                        printf "\n\n *** git pull *** \n\n"
-                        git pull
-                        chown -R ${{ vars.USER }}:www-data ./*
-                        chown -R ${{ vars.USER }}:www-data ./.[^.]*
+                            printf "\n\n *** git status *** \n\n"
+                            git status
 
-                        printf "\n\n *** composer install *** \n\n"
-                        composer install --no-dev --optimize-autoloader --no-interaction
+                            printf "\n\n *** git diff *** \n\n"
+                            git diff
+                            git checkout -- composer.lock
+                            git checkout -- package-lock.json
 
-                        printf "\n\n *** composer dump-autoload *** \n\n"
-                        composer dump-autoload -o
+                            printf "\n\n *** git pull *** \n\n"
+                            git pull
+                            chown -R ${{ vars.USER }}:www-data ./*
+                            chown -R ${{ vars.USER }}:www-data ./.[^.]*
 
-                        printf "\n\n *** npm ci *** \n\n"
-                        npm ci
+                            printf "\n\n *** composer install *** \n\n"
+                            composer install --no-dev --optimize-autoloader --no-interaction
 
-                        printf "\n\n *** clear cache *** \n\n"
-                        php bin/console cache:pool:clear --all
-                        php bin/console cache:clear
-                        #chown -R $(stat -c '%U:%G' ..) .
-                        chown -R ${{ vars.USER }}:www-data ./*
-                        chown -R ${{ vars.USER }}:www-data ./.[^.]*
+                            printf "\n\n *** composer dump-autoload *** \n\n"
+                            composer dump-autoload -o
 
-                        printf "\n\n *** migration *** \n\n"
-                        php bin/console doctrine:schema:validate
-                        php bin/console doctrine:mapping:info
-                        php bin/console doctrine:migrations:status
-                        #php bin/console doctrine:migrations:diff --no-interaction
-                        php bin/console doctrine:migrations:migrate --no-interaction --verbose
-                        #php bin/console doctrine:migrations:diff --no-interaction
-                        php bin/console doctrine:schema:validate
-                        php bin/console doctrine:mapping:info
-                        php bin/console doctrine:migrations:status
+                            printf "\n\n *** npm ci *** \n\n"
+                            npm ci
 
-                        printf "\n\n *** stop workers, server auto-restart *** \n\n"
-                        php bin/console messenger:stop-workers;
+                            printf "\n\n *** clear cache *** \n\n"
+                            php bin/console cache:pool:clear --all
+                            php bin/console cache:clear
+                            #chown -R $(stat -c '%U:%G' ..) .
+                            chown -R ${{ vars.USER }}:www-data ./*
+                            chown -R ${{ vars.USER }}:www-data ./.[^.]*
 
-                        printf "\n\n *** git status *** \n\n"
-                        git status
+                            printf "\n\n *** migration *** \n\n"
+                            php bin/console doctrine:schema:validate
+                            php bin/console doctrine:mapping:info
+                            php bin/console doctrine:migrations:status
+                            #php bin/console doctrine:migrations:diff --no-interaction
+                            php bin/console doctrine:migrations:migrate --no-interaction --verbose
+                            #php bin/console doctrine:migrations:diff --no-interaction
+                            php bin/console doctrine:schema:validate
+                            php bin/console doctrine:mapping:info
+                            php bin/console doctrine:migrations:status
+
+                            printf "\n\n *** stop workers, server auto-restart *** \n\n"
+                            php bin/console messenger:stop-workers;
+
+                            printf "\n\n *** git status *** \n\n"
+                            git status
+                        done
