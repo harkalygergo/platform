@@ -68,7 +68,7 @@
             {% endif %}
             {% if website.address %}
                 <li class="nav-item px-1">
-                    <a class="text-decoration-none text-dark nav-link" href="https://maps.google.com/maps?q={{ website.address|url_encode }}" target="_blank">
+                    <a class="text-decoration-none text-dark nav-link" href="{{ website.googleMapsLink }}" target="_blank">
                         <i class="bi bi-geo-alt-fill"></i>
                         {{ website.address|raw }}
                     </a>
