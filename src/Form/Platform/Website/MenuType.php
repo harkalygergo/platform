@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +29,11 @@ class MenuType extends AbstractType
         $currentInstance = $options['currentInstance'];
 
         $builder
+            ->add('status', CheckboxType::class, [
+                'label' => 'Státusz',
+                'required' => false,
+                'data' => true,
+            ])
             ->add('title', TextType::class, [
                 'label' => 'Cím',
                 'constraints' => [new NotBlank()],
@@ -60,10 +66,19 @@ class MenuType extends AbstractType
                     'class' => 'form-control',
                 ],
             ])
-            ->add('status', CheckboxType::class, [
-                'label' => 'Státusz',
+            ->add('target', ChoiceType::class, [
+                'label' => 'Cél',
+                'choices' => [
+                    '_self' => '_self',
+                    '_blank' => '_blank',
+                    '_parent' => '_parent',
+                    '_top' => '_top',
+                ],
+                'data' => '_self',
                 'required' => false,
-                'data' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
         ;
     }

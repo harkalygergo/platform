@@ -35,7 +35,7 @@
         <ul class="nav nav-pills">
             {% for menu in menus %}
                 <li class="nav-item">
-                    <a href="{{ menu.slug }}" class="nav-link text-white fw-bold" aria-current="page">{{ menu.title|raw }}</a>
+                    <a href="{{ menu.slug }}" class="nav-link text-white fw-bold" aria-current="page" target="{{ menu.target }}">{{ menu.title|raw }}</a>
                 </li>
             {% endfor %}
         </ul>

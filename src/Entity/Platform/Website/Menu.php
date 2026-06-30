@@ -58,6 +58,9 @@ class Menu
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $children;
 
+    #[ORM\Column(length: 255, nullable: true, options: ['default' => '_self'])]
+    private ?string $target = null;
+
     public function __construct()
     {
         $this->status = true;
@@ -218,5 +221,15 @@ class Menu
     public function __toString(): string
     {
         return $this->title . ' (' . $this->slug .')' ?? 'Menu';
+    }
+
+    public function getTarget(): ?string
+    {
+        return $this->target;
+    }
+
+    public function setTarget(?string $target): void
+    {
+        $this->target = $target;
     }
 }

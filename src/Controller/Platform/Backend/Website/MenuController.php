@@ -40,6 +40,7 @@ class MenuController extends PlatformController
                 'slug' => 'Slug',
                 'position' => 'Pozíció',
                 'parent' => 'Szülő menü',
+                'target' => 'Cél',
                 'status' => 'Státusz',
             ],
             'tableBody' => $menusByWebsite,
