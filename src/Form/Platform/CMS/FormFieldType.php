@@ -37,20 +37,16 @@ class FormFieldType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'label' => 'Type',
                 'choices' => [
-                    'használható' => [
-                        'text'     => 'text',
-                        'number' => 'number',
-                        'email'    => 'email',
-                        'textarea' => 'textarea',
-                        'date'     => 'date',
-                        'select'    => 'select',
-                        'checkbox' => 'checkbox',
-                    ],
-                    'még nem használható' => [
-                        'image'    => 'image',
-                        'file'     => 'file',
-                        'radio'    => 'radio',
-                    ],
+                    'text'     => 'text',
+                    'number' => 'number',
+                    'email'    => 'email',
+                    'textarea' => 'textarea',
+                    'date'     => 'date',
+                    'select'    => 'select',
+                    'checkbox' => 'checkbox',
+                    'radio'    => 'radio',
+                    //'image'    => 'image',
+                    //'file'     => 'file',
                 ]
             ])
             ->add('position', IntegerType::class, [
