@@ -36,7 +36,7 @@
             </div>
         {% elseif field.type == 'textarea' %}
             <div class="mb-3">
-                <label for="{{ field.id }}" class="form-label" id="{{ field.id }}">{{ field.label }}</label>
+                <label for="{{ field.id }}" class="form-label">{{ field.label }}</label>
                 <textarea
                     class="form-control"
                     aria-label="{{ field.label }}"
@@ -53,7 +53,7 @@
             </div>
         {% elseif field.type == 'select' %}
             <div class="mb-3">
-                <label for="{{ field.id }}" class="form-label" id="{{ field.id }}">{{ field.label }}</label>
+                <label for="{{ field.id }}" class="form-label">{{ field.label }}</label>
                 <select
                     class="form-select"
                     aria-label="{{ field.label }}"

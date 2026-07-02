@@ -100,6 +100,7 @@ class PlatformController extends AbstractController
             $emailUniqueBody .= "\n \n \n ============= \n\n";
             $emailUniqueBody .= "\n TO: ". $toAddress;
             $emailUniqueBody .= "\n DATETIME: ". date('Y-m-d H:i:s');
+            $emailUniqueBody .= "\n IP: ". $this->requestStack->getCurrentRequest()->getClientIp();
             $emailUniqueBody .= "\n EMAIL_ID: ". time()."-".uniqid();
 
             // replace \n to <br> for HTML as $emailHTMLUniqueBody
