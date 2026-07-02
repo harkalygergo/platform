@@ -99,9 +99,9 @@ class PlatformController extends AbstractController
             $emailUniqueBody = '';
             $emailUniqueBody .= "\n \n \n ============= \n\n";
             $emailUniqueBody .= "\n TO: ". $toAddress;
-            $emailUniqueBody .= "\n DATETIME: ". date('Y-m-d H:i:s');
+            $emailUniqueBody .= "\n TIME: ". date('Y-m-d H:i:s');
             $emailUniqueBody .= "\n IP: ". $this->requestStack->getCurrentRequest()->getClientIp();
-            $emailUniqueBody .= "\n EMAIL_ID: ". time()."-".uniqid();
+            $emailUniqueBody .= "\n ID: ". time()."-".uniqid();
 
             // replace \n to <br> for HTML as $emailHTMLUniqueBody
             $emailHTMLUniqueBody = str_replace("\n", '<br>', $emailUniqueBody);
