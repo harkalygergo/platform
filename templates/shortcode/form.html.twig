@@ -1,3 +1,9 @@
+<style>
+    label:has(+ input:required):after {
+        content: ' *';
+        color: red;
+    }
+</style>
 <form action="{{ APP_URL }}/api/" method="post" id="{{ form.name }}-form">
     {% for field in form.fields %}
         <div class="py-2">
@@ -12,6 +18,7 @@
                     value="{{ field.defaultvalue }}"
                     placeholder="{{ field.placeholder }}"
                     aria-describedby="{{ field.Id }}Help"
+                    {% if field.isRequired %} required {% endif %}
                 >
                 {% if field.helpText %}
                     <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
@@ -27,6 +34,7 @@
                     value="{{ field.defaultvalue }}"
                     placeholder="{{ field.placeholder }}"
                     aria-describedby="{{ field.Id }}Help"
+                    {% if field.isRequired %} required {% endif %}
                 >
                 {% if field.helpText %}
                     <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
@@ -40,6 +48,7 @@
                     name="{{ field.name }}"
                     placeholder="{{ field.placeholder }}"
                     aria-describedby="{{ field.Id }}Help"
+                    {% if field.isRequired %} required {% endif %}
                 >{{ field.defaultValue }}</textarea>
                 {% if field.helpText %}
                     <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
@@ -52,6 +61,7 @@
                     id="{{ field.Id }}"
                     name="{{ field.name }}"
                     aria-describedby="{{ field.Id }}Help"
+                    {% if field.isRequired %} required {% endif %}
                 >
                     {% for option in field.placeholder|split(',') %}
                         <option value="{{ option }}" {% if option == field.defaultValue %}selected{% endif %}>{{ option }}</option>
@@ -78,6 +88,7 @@
                             id="{{ field.Id }}-{{ loop.index }}"
                             value="{{ option }}"
                             {% if option == field.defaultValue %}checked{% endif %}
+                            {% if field.isRequired %} required {% endif %}
                         >
                         <label class="form-check-label" for="{{ field.Id }}-{{ loop.index }}">{{ option }}</label>
                     </div>
@@ -87,9 +98,9 @@
     {% endfor %}
 
     <input type="hidden" name="honeypot" value="">
-    <input type="hidden" name="action" value="form">
-    <input type="hidden" name="formID" value="{{ form.id }}">
-    <input type="hidden" name="key" value="{{ form.apiKey }}">
+    <input type="hidden" name="action" value="form" required>
+    <input type="hidden" name="formID" value="{{ form.id }}" required>
+    <input type="hidden" name="key" value="{{ form.apiKey }}" required>
 
     <div class="d-grid">
         <button type="submit" class="btn btn-lg btn-primary">Küldés</button>
