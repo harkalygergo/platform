@@ -1,7 +1,7 @@
 <form action="{{ APP_URL }}/api/" method="post" id="{{ form.name }}-form">
     {% for field in form.fields %}
-        {% if (field.type == 'text') or (field.type == 'email') or (field.type == 'number') %}
-            <div class="mb-3">
+        <div class="py-2">
+            {% if (field.type == 'text') or (field.type == 'email') or (field.type == 'number') %}
                 <label for="{{ field.Id }}" class="form-label">{{ field.label }}</label>
                 <input
                     class="form-control"
@@ -16,9 +16,7 @@
                 {% if field.helpText %}
                     <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
                 {% endif %}
-            </div>
-        {% elseif field.type == 'date' %}
-            <div class="mb-3">
+            {% elseif field.type == 'date' %}
                 <label for="{{ field.Id }}" class="form-label">{{ field.label }}</label>
                 <input
                     class="form-control"
@@ -33,9 +31,7 @@
                 {% if field.helpText %}
                     <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
                 {% endif %}
-            </div>
-        {% elseif field.type == 'textarea' %}
-            <div class="mb-3">
+            {% elseif field.type == 'textarea' %}
                 <label for="{{ field.id }}" class="form-label">{{ field.label }}</label>
                 <textarea
                     class="form-control"
@@ -50,9 +46,7 @@
                 {% if field.helpText %}
                     <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
                 {% endif %}
-            </div>
-        {% elseif field.type == 'select' %}
-            <div class="mb-3">
+            {% elseif field.type == 'select' %}
                 <label for="{{ field.id }}" class="form-label">{{ field.label }}</label>
                 <select
                     class="form-select"
@@ -65,22 +59,17 @@
                         <option value="{{ option }}" {% if option == field.defaultValue %}selected{% endif %}>{{ option }}</option>
                     {% endfor %}
                 </select>
-            </div>
-
-        {% elseif field.type == 'checkbox' %}
-            <div class="mb-3 form-check">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="{{ field.Id }}"
-                    name="{{ field.name }}"
-                    value="{{ field.defaultValue }}"
-                >
-                <label class="form-check-label" for="{{ field.Id }}">{{ field.label }}</label>
-            </div>
-
-        {% elseif field.type == 'radio' %}
-            <div class="mb-3">
+            {% elseif field.type == 'checkbox' %}
+                <label class="form-label">{{ field.label }}</label>
+                {% for option in field.placeholder|split(',') %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="{{ option }}">
+                        <label class="form-check-label" for="{{ option }}">
+                            {{ option }}
+                        </label>
+                    </div>
+                {% endfor %}
+            {% elseif field.type == 'radio' %}
                 <label class="form-label">{{ field.label }}</label>
                 {% for option in field.placeholder|split(',') %}
                     <div class="form-check">
@@ -95,10 +84,8 @@
                         <label class="form-check-label" for="{{ field.Id }}-{{ loop.index }}">{{ option }}</label>
                     </div>
                 {% endfor %}
-            </div>
-
-
-        {% endif %}
+            {% endif %}
+        </div>
     {% endfor %}
 
     <input type="hidden" name="honeypot" value="">
