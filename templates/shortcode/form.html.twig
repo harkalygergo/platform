@@ -40,9 +40,7 @@
                     name="{{ field.name }}"
                     placeholder="{{ field.placeholder }}"
                     aria-describedby="{{ field.Id }}Help"
-                >
-                    {{ field.defaultValue }}
-                </textarea>
+                >{{ field.defaultValue }}</textarea>
                 {% if field.helpText %}
                     <div id="{{ field.Id }}Help" class="form-text">{{ field.helpText }}</div>
                 {% endif %}
