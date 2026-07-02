@@ -62,9 +62,7 @@
                     aria-describedby="{{ field.Id }}Help"
                 >
                     {% for option in field.placeholder|split(',') %}
-                        <option value="{{ option }}" {% if option == field.defaultValue %}selected{% endif %}>
-                            {{ option }}
-                        </option>
+                        <option value="{{ option }}" {% if option == field.defaultValue %}selected{% endif %}>{{ option }}</option>
                     {% endfor %}
                 </select>
             </div>

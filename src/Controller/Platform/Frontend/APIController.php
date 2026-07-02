@@ -91,6 +91,8 @@ class APIController extends PlatformController
             ]);
         }
 
+        $domain = '';
+
         $key = $parameters['key'];
         $HTTP_ORIGIN = $request->server->get('HTTP_ORIGIN');
         // cut https:// or http:// from domain
