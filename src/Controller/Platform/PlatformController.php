@@ -97,11 +97,11 @@ class PlatformController extends AbstractController
 
         foreach ($toAddresses as $toAddress) {
             $emailUniqueBody = '';
-            $emailUniqueBody .= "\n \n \n ============= \n\n";
-            $emailUniqueBody .= "\n TO: ". $toAddress;
-            $emailUniqueBody .= "\n TIME: ". date('Y-m-d H:i:s');
-            $emailUniqueBody .= "\n IP: ". $this->requestStack->getCurrentRequest()->getClientIp();
-            $emailUniqueBody .= "\n ID: ". time()."-".uniqid();
+            $emailUniqueBody .= "\n \n \n ================================= \n";
+            $emailUniqueBody .= date('Y-m-d H:i:s');
+            $emailUniqueBody .= " | ". $toAddress;
+            $emailUniqueBody .= " | ". $this->requestStack->getCurrentRequest()->getClientIp();
+            $emailUniqueBody .= " | ". time()."-".uniqid();
 
             // replace \n to <br> for HTML as $emailHTMLUniqueBody
             $emailHTMLUniqueBody = str_replace("\n", '<br>', $emailUniqueBody);

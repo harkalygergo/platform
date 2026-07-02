@@ -146,7 +146,6 @@ class APIController extends PlatformController
         switch ($parameters['action']) {
             case 'form':
             {
-                $emailBody = '';
                 $form = $this->doctrine->getRepository(Form::class)->find($parameters['formID']);
 
                 $toAddresses = [$form->getNotificationEmail()];
@@ -156,18 +155,35 @@ class APIController extends PlatformController
                     $toAddresses[] = $instanceEmail;
                 }
 
+                $emailBody = '';
+                $emailHTMLBody = '<table>';
                 foreach ($parameters as $parameterKey=>$parameterValue) {
+                    $emailHTMLBody .= '<tr>';
+
                     // exclude formID, key, action, honeypot
                     if (!in_array($parameterKey, ['formID', 'key', 'action', 'honeypot', 'robotstop'])) {
-                        $emailBody .= $parameterKey . ': ' . $parameterValue . "\r\n";
+
+                        if (is_array($parameterValue)) {
+                            $parameterValue = implode(', ', $parameterValue);
+                        }
+
+                        $emailBody .= $parameterKey . ': ' . $parameterValue . "\n";
+                        $emailHTMLBody .= '<td>'.$parameterKey . '</td><th>' . $parameterValue . "</th>";
 
                         if ($parameterKey === 'email') {
                             $toAddresses[] = $parameterValue;
                         }
                     }
+                    $emailHTMLBody .= '</tr>';
                 }
+                $emailHTMLBody .= '</table>';
 
-                $this->sendMail($toAddresses,  $form->getName(), $emailBody);
+                $emailBody .= "\n\n\n".$form->getInstance()->getName()."\n".$request->server->get('HTTP_ORIGIN');
+                $emailHTMLBody .= '<br><br><br>'.$form->getInstance()->getName().'<br>'.$request->server->get('HTTP_ORIGIN');
+
+                $fromAddress = $form->getInstance()->getName() . ' <' . $form->getInstance()->getEmail() . '>';
+
+                $this->sendMail($toAddresses,  $form->getName(), $emailBody, $fromAddress, $emailHTMLBody);
 
                 $successPageText = 'Köszönjük! Sikeres űrlap kitöltés.';
 

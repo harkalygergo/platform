@@ -63,7 +63,7 @@
                 <label class="form-label">{{ field.label }}</label>
                 {% for option in field.placeholder|split(',') %}
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="{{ option }}">
+                        <input class="form-check-input" type="checkbox" value="{{ option }}" id="{{ option }}" name="{{ field.name }}[]">
                         <label class="form-check-label" for="{{ option }}">
                             {{ option }}
                         </label>
