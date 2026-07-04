@@ -25,7 +25,7 @@ class LoginProtectionSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if ($request->getPathInfo() !== '/login') {
+        if ($request->getPathInfo() !== '/') {
             return;
         }
 
@@ -37,6 +37,7 @@ class LoginProtectionSubscriber implements EventSubscriberInterface
 
         if ($username === null || trim($username) === '') {
             $event->setResponse(new Response('Bad Request', 400));
+            return;
         }
 
         // Content-Type ellenőrzés – egy böngésző form mindig ezt küldi
