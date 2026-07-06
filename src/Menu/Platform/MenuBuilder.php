@@ -498,17 +498,21 @@ class MenuBuilder
                 'roles' => ['ROLE_USER'],
                 'children' => [
                     [
-                        'label' => 'Visszajelzések',
+                        'label' => 'Ügyfelek',
                         'route' => null,
                         'children' => [
                             [
-                                'label' => 'Testimonial',
-                                'icon'  => 'bi bi-person-check',
+                                'label' => 'Ügyfelek',
+                                'icon'  => 'bi bi-person',
+                                'route' => 'admin_v1_crm_client_index',
+                            ],
+                            [
+                                'label' => 'Testimonial / Visszajelzések',
+                                'icon'  => 'bi bi-chat-left-quote-fill',
                                 'route' => 'admin_v1_crm_testimonial',
                             ],
                         ],
                     ],
-                    //admin_v1_crm_testimonial
                 ]
             ],
             [

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Platform\Backend\Client;
 
-use App\Controller\Platform\PlatformController;
+use App\Controller\Platform\PlatformBackendController;
 use App\Entity\Platform\Client;
 use App\Entity\Platform\User;
 use App\Form\Platform\ClientType;
@@ -13,10 +13,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_USER)]
-#[Route('/{_locale}/admin/v1/client')]
-class ClientController extends PlatformController
+#[Route('/{_locale}/admin/v1/crm/client')]
+class ClientController extends PlatformBackendController
 {
-    #[Route('/', name: 'admin_v1_client_index', methods: ['GET'])]
+    private const string redirectToRoute = 'admin_v1_crm_client_index';
+
+    #[Route('/', name: 'admin_v1_crm_client_index', methods: ['GET'])]
     public function index(ClientRepository $clientRepository): Response
     {
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -36,6 +38,7 @@ class ClientController extends PlatformController
             'actions' => [
                 'new',
                 'edit',
+                'delete',
             ],
         ]);
     }
@@ -56,7 +59,7 @@ class ClientController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('action.created'));
 
-            return $this->redirectToRoute('admin_v1_client_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(self::redirectToRoute, [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -66,7 +69,6 @@ class ClientController extends PlatformController
         ]);
     }
 
-    // make an edit route and form
     #[Route('/edit/{client}', name: 'admin_v1_client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client): Response
     {
@@ -78,7 +80,7 @@ class ClientController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('action.updated'));
 
-            return $this->redirectToRoute('admin_v1_client_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(self::redirectToRoute, [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -89,47 +91,16 @@ class ClientController extends PlatformController
 
     }
 
-
-    /*
-
-    #[Route('/{id}', name: 'admin_v1_client_show', methods: ['GET'])]
-    public function show(Client $client): Response
+    #[Route('/delete/{id}', name: 'admin_v1_client_delete', methods: ['GET'])]
+    public function delete(Client $entity): Response
     {
-        return $this->render('platform/backend/v1/client/show.html.twig', [
-            'client' => $client,
-        ]);
-    }
+        $this->denyAccessUnlessUserHasInstance();
 
-    #[Route('/{id}/edit', name: 'admin_v1_client_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Client $client, ClientService $clientService): Response
-    {
-        $form = $this->createForm(ClientType::class, $client);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $clientService->save($client);
-
-            $this->addFlash('success', 'action.updated');
-
-            return $this->redirectToRoute('admin_v1_client_index', [], Response::HTTP_SEE_OTHER);
+        if ($entity->getInstance() !== $this->currentInstance) {
+            $this->addFlash('danger', $this->translator->trans('action.not_found'));
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
-        return $this->render('platform/backend/v1/client/edit.html.twig', [
-            'client' => $client,
-            'form' => $form->createView(),
-        ]);
+        return $this->platformBackendDelete($entity, self::redirectToRoute);
     }
-
-    #[Route('/{id}', name: 'admin_v1_client_delete', methods: ['POST'])]
-    public function delete(Request $request, Client $client, ClientService $clientService): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $client->getId(), $request->request->get('_token'))) {
-            $clientService->delete($client);
-
-            $this->addFlash('success', 'action.deleted');
-        }
-
-        return $this->redirectToRoute('admin_v1_client_index', [], Response::HTTP_SEE_OTHER);
-    }
-    */
 }
