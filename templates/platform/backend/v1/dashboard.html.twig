@@ -28,17 +28,19 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="card h-100 text-bg-success">
-                        <div class="card-body row">
-                            <div class="col-3 display-3">
-                                <i class="bi bi-send px-2"></i>
-                            </div>
-                            <div class="col fw-bold text-uppercase">
-                                Hírlevél-feliratkozók
-                                <br><span class="display-6">{{ newsletterSubscriberCount }}</span>
+                    <a href="{{ path('admin_v1_crm_newsletter_subscriber') }}" class="text-decoration-none text-white">
+                        <div class="card h-100 text-bg-success">
+                            <div class="card-body row">
+                                <div class="col-3 display-3">
+                                    <i class="bi bi-send px-2"></i>
+                                </div>
+                                <div class="col fw-bold text-uppercase">
+                                    Hírlevél-feliratkozók
+                                    <br><span class="display-6">{{ newsletterSubscriberCount }}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col">
                     <div class="card h-100 text-bg-secondary">
@@ -246,7 +248,7 @@
                                 <tr>
                                     <td>Hírlevél-feliratkozók:</td>
                                     <td class="fw-bold">
-                                        <a class="text-black" href="{{ path('admin_v1_newsletter_subscriber') }}">
+                                        <a class="text-black" href="{{ path('admin_v1_crm_newsletter_subscriber') }}">
                                             {{ newsletterSubscriberCount }}
                                         </a>
                                     </td>

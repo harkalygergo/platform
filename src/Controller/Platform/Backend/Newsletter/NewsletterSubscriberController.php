@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/{_locale}/admin/v1/newsletter/subscriber')]
+#[Route('/{_locale}/admin/v1/crm/newsletter/subscriber')]
 #[IsGranted(User::ROLE_USER)]
 class NewsletterSubscriberController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_newsletter_subscriber')]
+    private const string redirectToRoute = 'admin_v1_crm_newsletter_subscriber';
+
+    #[Route('/', name: 'admin_v1_crm_newsletter_subscriber')]
     public function index(): Response
     {
         $newsletters = $this->doctrine->getRepository(NewsletterSubscriber::class)->findByInstance($this->currentInstance);
@@ -38,7 +40,7 @@ class NewsletterSubscriberController extends PlatformController
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_newsletter_subscriber_add')]
+    #[Route('/new/', name: 'admin_v1_crm_newsletter_subscriber_add')]
     public function new(): Response
     {
         $newsletterSubscriber = new NewsletterSubscriber();
@@ -50,7 +52,7 @@ class NewsletterSubscriberController extends PlatformController
             $this->doctrine->getManager()->persist($newsletterSubscriber);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_newsletter_subscriber');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -60,7 +62,7 @@ class NewsletterSubscriberController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'admin_v1_newsletter_subscriber_edit')]
+    #[Route('/edit/{id}', name: 'admin_v1_crm_newsletter_subscriber_edit')]
     public function edit(NewsletterSubscriber $newsletterSubscriber): Response
     {
         $form = $this->createForm(NewsletterSubscriberType::class, $newsletterSubscriber);
@@ -69,11 +71,11 @@ class NewsletterSubscriberController extends PlatformController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush();
             // update updatedAt field
-            $newsletterSubscriber->setUpdatedAt(new \DateTimeImmutable());
+            //$newsletterSubscriber->setUpdatedAt(new \DateTimeImmutable());
             $this->doctrine->getManager()->persist($newsletterSubscriber);
             $this->doctrine->getManager()->flush();
 
-            return $this->redirectToRoute('admin_v1_newsletter_subscriber');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [

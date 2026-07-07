@@ -520,9 +520,37 @@ class MenuBuilder
                             [
                                 'label' => 'Hírlevél',
                                 'icon'  => 'bi bi-mailbox-flag',
-                                'route' => 'admin_v1_crm_newsletter',
+                                'route' => null,
+                                'children' => [
+                                    [
+                                        'label' => 'Összes hírlevél',
+                                        'icon'  => 'bi bi-mailbox-flag',
+                                        'route' => 'admin_v1_crm_newsletter',
+                                    ],
+                                    [
+                                        'label' => 'új hírlevél',
+                                        'icon'  => 'bi bi-mailbox-flag',
+                                        'route' => 'admin_v1_crm_newsletter_add',
+                                    ],
+                                ]
                             ],
-                        ],
+                            [
+                                'label' => 'Hírlevél feliratkozó',
+                                'icon'  => 'bi bi-person-video3',
+                                'route' => null,
+                                'children' => [
+                                    [
+                                        'label' => 'Összes hírlevél feliratkozó',
+                                        'icon'  => 'bi bi-person-badge',
+                                        'route' => 'admin_v1_crm_newsletter_subscriber',
+                                    ],
+                                    [
+                                        'label' => 'új hírlevél feliratkozó',
+                                        'icon'  => 'bi bi-person-badge',
+                                        'route' => 'admin_v1_crm_newsletter_subscriber_add',
+                                    ],
+                                ]
+                            ],                        ],
                     ],
                 ]
             ],
