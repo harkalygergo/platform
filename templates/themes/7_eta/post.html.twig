@@ -56,10 +56,11 @@
                                 <div class="col-md-6">
                                     <div class="post-tags">
                                         <span class="fw-bold me-2">Címkék:</span>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm me-1">#detox</a>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm me-1">#juice</a>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm me-1">#egészség</a>
-                                        <a href="#" class="btn btn-outline-secondary btn-sm">#életmód</a>
+                                        {% if post.metaKeywords %}
+                                            {% for keyword in post.metaKeywords|split(',') %}
+                                                <a href="#" class="btn btn-outline-secondary btn-sm me-1">#{{ keyword|trim }}</a>
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-md-6 text-md-end">
