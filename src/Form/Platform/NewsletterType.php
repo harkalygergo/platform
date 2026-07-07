@@ -2,7 +2,7 @@
 
 namespace App\Form\Platform;
 
-use App\Enum\NewsletterStatusEnum;
+use App\Enum\Platform\NewsletterStatusEnum;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;

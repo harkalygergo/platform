@@ -2,23 +2,25 @@
 
 namespace App\Controller\Platform\Backend\Newsletter;
 
-use App\Controller\Platform\PlatformController;
+use App\Controller\Platform\PlatformBackendController;
 use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\Newsletter\NewsletterSettings;
 use App\Entity\Platform\Newsletter\NewsletterSubscriber;
 use App\Entity\Platform\User;
-use App\Enum\NewsletterStatusEnum;
+use App\Enum\Platform\NewsletterStatusEnum;
 use App\Form\Platform\NewsletterType;
 use App\Repository\Platform\Newsletter\NewsletterRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/{_locale}/admin/v1/newsletter')]
+#[Route('/{_locale}/admin/v1/crm/newsletter')]
 #[IsGranted(User::ROLE_USER)]
-class NewsletterController extends PlatformController
+class NewsletterController extends PlatformBackendController
 {
-    #[Route('/', name: 'admin_v1_newsletter')]
+    private const string redirectToRoute = 'admin_v1_crm_newsletter';
+
+    #[Route('/', name: 'admin_v1_crm_newsletter')]
     public function index(): Response
     {
         $newsletters = $this->doctrine->getRepository(Newsletter::class)->findBy(['instance' => $this->currentInstance]);
@@ -28,13 +30,14 @@ class NewsletterController extends PlatformController
             'title' => 'Hírlevelek',
             'tableHead' => [
                 'subject' => 'Tárgy',
-                'status' => 'Státusz',
+                //'status' => 'Státusz',
                 'sendAt' => 'Küldés ideje',
             ],
             'tableBody' => $newsletters,
             'actions' => [
                 'new',
-                'edit'
+                'edit',
+                'delete',
             ],
             'extraActions' => [
                 'send' => [
@@ -45,7 +48,7 @@ class NewsletterController extends PlatformController
         ]);
     }
 
-    #[Route('/new/', name: 'admin_v1_newsletter_add')]
+    #[Route('/new/', name: 'admin_v1_crm_newsletter_add')]
     public function new(): Response
     {
         $newsletter = new Newsletter();
@@ -59,7 +62,7 @@ class NewsletterController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('action.saved'));
 
-            return $this->redirectToRoute('admin_v1_newsletter');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [
@@ -69,24 +72,24 @@ class NewsletterController extends PlatformController
         ]);
     }
 
-    #[Route('/edit/{newsletter}', name: 'admin_v1_newsletter_edit')]
+    #[Route('/edit/{newsletter}', name: 'admin_v1_crm_newsletter_edit')]
     public function edit(Newsletter $newsletter): Response
     {
         // if newsletter is not found, redirect to index
         if (!$newsletter) {
             $this->addFlash('danger', 'Hírlevél nem található!');
-            return $this->redirectToRoute('admin_v1_newsletter');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         // if newsletter instance is not the current instance, redirect to index
         if ($newsletter->getInstance() !== $this->currentInstance) {
             $this->addFlash('danger', 'Hírlevél nem található!');
-            return $this->redirectToRoute('admin_v1_newsletter');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         if ($newsletter->isSent()) {
             $this->addFlash('danger', 'Hírlevél már elküldve!');
-            return $this->redirectToRoute('admin_v1_newsletter');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         $form = $this->createForm(NewsletterType::class, $newsletter);
@@ -98,7 +101,7 @@ class NewsletterController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('action.updated'));
 
-            return $this->redirectToRoute('admin_v1_newsletter_edit', [
+            return $this->redirectToRoute('admin_v1_crm_newsletter_edit', [
                 'newsletter' => $newsletter->getId(),
             ]);
         }
@@ -121,7 +124,7 @@ class NewsletterController extends PlatformController
         // check if a newsletter is not sent
         if ($newsletter->isSent()) {
             $this->addFlash('danger', 'Hírlevél már elküldve!');
-            return $this->redirectToRoute('admin_v1_newsletter');
+            return $this->redirectToRoute(self::redirectToRoute);
         }
 
         // get newsletter settings for instance
@@ -153,6 +156,19 @@ class NewsletterController extends PlatformController
         }
         */
 
-        return $this->redirectToRoute('admin_v1_newsletter');
+        return $this->redirectToRoute(self::redirectToRoute);
+    }
+
+    #[Route('/delete/{entity}', name: 'admin_v1_crm_newsletter_delete')]
+    public function delete(Newsletter $entity): Response
+    {
+        $this->denyAccessUnlessUserHasInstance();
+
+        if ($entity->getInstance() !== $this->currentInstance) {
+            $this->addFlash('danger', $this->translator->trans('action.not_found'));
+            return $this->redirectToRoute(self::redirectToRoute);
+        }
+
+        return $this->platformBackendDelete($entity, self::redirectToRoute);
     }
 }

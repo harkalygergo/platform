@@ -100,16 +100,20 @@ class PlatformBackendController extends PlatformController
     {
         $this->denyAccessUnlessUserHasInstance();
 
-        $em = $this->doctrine->getManager();
-        $em->remove($entity);
-        $em->flush();
-
         $title = $this->translator->trans('action.deleted');
         if (method_exists($entity, 'getName')) {
             $title .= $entity->getName();
-        } else {
-            $title .= '#' . $entity->getId();
         }
+        elseif (method_exists($entity, 'getTitle')) {
+            $title .= $entity->getTitle();
+        }
+        else {
+            $title .= ' #' . $entity->getId();
+        }
+
+        $em = $this->doctrine->getManager();
+        $em->remove($entity);
+        $em->flush();
 
         $this->addFlash('success', $title);
 

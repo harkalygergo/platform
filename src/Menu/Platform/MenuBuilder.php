@@ -513,6 +513,17 @@ class MenuBuilder
                             ],
                         ],
                     ],
+                    [
+                        'label' => 'Hírlevél',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'Hírlevél',
+                                'icon'  => 'bi bi-mailbox-flag',
+                                'route' => 'admin_v1_crm_newsletter',
+                            ],
+                        ],
+                    ],
                 ]
             ],
             [
