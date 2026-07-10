@@ -4,11 +4,14 @@ namespace App\Controller\Platform\Ecom;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Ecom\Product;
+use App\Entity\Platform\User;
 use App\Form\Platform\Ecom\ProductType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted(User::ROLE_USER)]
 class ProductController extends PlatformController
 {
     #[Route('/{_locale}/ecom/v1/products/', name: 'admin_v1_shop_products')]
