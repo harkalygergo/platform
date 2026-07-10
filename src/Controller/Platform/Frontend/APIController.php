@@ -384,6 +384,7 @@ class APIController extends PlatformController
                 $this->sendMail($toAddresses, $domain. ' #'. $order->getId(). " | ".$order->getFirstName() . " " . $order->getLastName(), $emailBody, $fromAddress);
 
                 unset($_COOKIE['cart']);
+                $successPageText = 'Köszönjük! Sikeres rendelés: #'.$order->getId().'';
                 // initialize Saferpay payment page for Saferpay payment method
                 if ($paymentMethod->getCode() === 'worldline_novopayment_saferpay') {
                     $order->setPaymentToken(uniqid());
@@ -404,7 +405,6 @@ class APIController extends PlatformController
                             $HTTP_ORIGIN
                         );
                         $order->setPaymentStatus('processing');
-                        $successPageText = 'Köszönjük! Sikeres rendelés: #'.$order->getId().'';
                         if (isset($result['redirectUrl'])) {
                             return $this->redirect($result['redirectUrl']);
                         } else {
