@@ -1,9 +1,8 @@
 <head>
     {% include 'themes/_global/head.html.twig' %}
+    <title>{{ title }} | {{ website.title }}</title>
 
-    <title>{{ website.title }}</title>
     <meta name="description" content="{{ website.description }}">
-    <meta name="robots" content="index,follow">
     <meta name="author" content="">
 
     <meta property="og:type" content="website" />
@@ -17,7 +16,6 @@
     <link rel="icon" href="/media/{{ website.favicon.originalName }}">
 
     <link rel="stylesheet" type="text/css" href="/style.css">
-
 
     <style>
         :root {
