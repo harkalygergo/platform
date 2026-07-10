@@ -68,15 +68,23 @@
                     {% endfor %}
                 </select>
             {% elseif field.type == 'checkbox' %}
-                <label class="form-label">{{ field.label }}</label>
-                {% for option in field.placeholder|split(',') %}
+                {% if field.placeholder is not null and field.placeholder is not empty %}
+                    {% for option in field.placeholder|split(',') %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="{{ option }}" id="{{ option }}" name="{{ field.name }}[]">
+                            <label class="form-check-label" for="{{ option }}">
+                                {{ option }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                {% else %}
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="{{ option }}" id="{{ option }}" name="{{ field.name }}[]">
-                        <label class="form-check-label" for="{{ option }}">
-                            {{ option }}
+                        <input class="form-check-input" type="checkbox" name="{{ field.name }}" id="{{ field.id }}">
+                        <label class="form-check-label" for="{{ field.id }}">
+                            {{ field.label }}
                         </label>
                     </div>
-                {% endfor %}
+                {% endif %}
             {% elseif field.type == 'radio' %}
                 <label class="form-label">{{ field.label }}</label>
                 {% for option in field.placeholder|split(',') %}
