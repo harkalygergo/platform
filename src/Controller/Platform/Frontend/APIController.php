@@ -189,6 +189,7 @@ class APIController extends PlatformController
                 $successPageText = 'Köszönjük! Sikeres űrlap kitöltés.';
 
                 $formFill = new FormFill();
+                $formFill->setCreatedBy($instance->getOwner());
                 $formFill->setInstance($instance);
                 $formFill->setForm($form);
                 $formFill->setData($parameters);
