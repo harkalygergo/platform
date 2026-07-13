@@ -41,7 +41,7 @@ class FormFillController extends PlatformBackendController
             }, $tableBody);
 
             foreach ($firstData as $key => $value) {
-                if (!in_array($key, ['action', 'formID', 'honeypot', 'robotstop'])) {
+                if (!in_array($key, ['action', 'key', 'formID', 'honeypot', 'robotstop'])) {
                     $tableHead[$key] = $key;
                 }
             }
