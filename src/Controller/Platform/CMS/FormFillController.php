@@ -28,23 +28,26 @@ class FormFillController extends PlatformBackendController
         $tableHead = [
             'ip' => 'IP',
         ];
-        $firstData = $tableBody[0]->getData();
 
-        foreach ($firstData as $key => $value) {
-            if (!in_array($key, ['action', 'formID', 'honeypot', 'robotstop'])) {
-                $tableHead[$key] = $key;
+        if (count($tableBody) !== 0) {
+            $firstData = $tableBody[0]->getData();
+
+            $tableBody = array_map(function ($formFill) {
+                $data = $formFill->getData();
+                $data['id'] = $formFill->getId();
+                $data['created_at'] = $formFill->getCreatedAt()->format('Y-m-d H:i:s');
+                $data['ip'] = $formFill->getIp();
+                return $data;
+            }, $tableBody);
+
+            foreach ($firstData as $key => $value) {
+                if (!in_array($key, ['action', 'formID', 'honeypot', 'robotstop'])) {
+                    $tableHead[$key] = $key;
+                }
             }
         }
 
         $tableHead = array_merge($tableHead, $tableHead);
-
-        $tableBody = array_map(function ($formFill) {
-            $data = $formFill->getData();
-            $data['id'] = $formFill->getId();
-            $data['created_at'] = $formFill->getCreatedAt()->format('Y-m-d H:i:s');
-            $data['ip'] = $formFill->getIp();
-            return $data;
-        }, $tableBody);
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
