@@ -5,6 +5,7 @@ namespace App\Controller\Platform\Frontend;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
 use App\Entity\Platform\CMS\Form;
+use App\Entity\Platform\CMS\FormFill;
 use App\Entity\Platform\CMS\VisitorLog;
 use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Instance;
@@ -186,6 +187,15 @@ class APIController extends PlatformController
                 $this->sendMail($toAddresses,  $form->getName(), $emailBody, $fromAddress, $emailHTMLBody);
 
                 $successPageText = 'Köszönjük! Sikeres űrlap kitöltés.';
+
+                $formFill = new FormFill();
+                $formFill->setInstance($instance);
+                $formFill->setForm($form);
+                $formFill->setData($parameters);
+                $formFill->setIp($request->getClientIp());
+                $em = $doctrine->getManager();
+                $em->persist($formFill);
+                $em->flush();
 
                 break;
             }

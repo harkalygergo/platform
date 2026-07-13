@@ -355,6 +355,10 @@ class MenuBuilder
                                         'label' => 'űrlap hozzáadása',
                                         'route' => 'admin_v1_cms_form_new'
                                     ],
+                                    [
+                                        'label' => 'űrlap kitöltések',
+                                        'route' => 'admin_v1_cms_form_fill'
+                                    ],
                                 ]
                             ],
                         ]
