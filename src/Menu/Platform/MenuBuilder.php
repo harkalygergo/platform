@@ -413,6 +413,81 @@ class MenuBuilder
                 ]
             ],
             [
+                'label' => 'CRM',
+                'subtitle' => 'Ügyfélkapcsolat-kezelés',
+                'icon'  => 'bi bi-people',
+                'route' => null,
+                'roles' => ['ROLE_USER'],
+                'children' => [
+                    [
+                        'label' => 'Ügyfél',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'Ügyfelek',
+                                'icon'  => 'bi bi-person',
+                                'route' => 'admin_v1_crm_client_index',
+                            ],
+                            [
+                                'label' => 'Visszajelzés',
+                                'icon'  => 'bi bi-chat-left-quote-fill',
+                                'route' => 'admin_v1_crm_testimonial',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Űrlap',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'kitöltött űrlap',
+                                'icon'  => 'bi bi-ui-checks',
+                                'route' => 'admin_v1_crm_form_fill_all',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Hírlevél',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'Hírlevél',
+                                'icon'  => 'bi bi-mailbox-flag',
+                                'route' => null,
+                                'children' => [
+                                    [
+                                        'label' => 'Összes hírlevél',
+                                        'icon'  => 'bi bi-mailbox-flag',
+                                        'route' => 'admin_v1_crm_newsletter',
+                                    ],
+                                    [
+                                        'label' => 'új hírlevél',
+                                        'icon'  => 'bi bi-mailbox-flag',
+                                        'route' => 'admin_v1_crm_newsletter_add',
+                                    ],
+                                ]
+                            ],
+                            [
+                                'label' => 'Hírlevél feliratkozó',
+                                'icon'  => 'bi bi-person-video3',
+                                'route' => null,
+                                'children' => [
+                                    [
+                                        'label' => 'Összes hírlevél feliratkozó',
+                                        'icon'  => 'bi bi-person-badge',
+                                        'route' => 'admin_v1_crm_newsletter_subscriber',
+                                    ],
+                                    [
+                                        'label' => 'új hírlevél feliratkozó',
+                                        'icon'  => 'bi bi-person-badge',
+                                        'route' => 'admin_v1_crm_newsletter_subscriber_add',
+                                    ],
+                                ]
+                            ],                        ],
+                    ],
+                ]
+            ],
+            [
                 'label' => 'SHOP',
                 'subtitle' => 'Kereskedelem',
                 'icon'  => 'bi bi-cart',
@@ -489,81 +564,6 @@ class MenuBuilder
                         ],
                     ],
                 ],
-            ],
-            [
-                'label' => 'CRM',
-                'subtitle' => 'Ügyfélkapcsolat-kezelés',
-                'icon'  => 'bi bi-people',
-                'route' => null,
-                'roles' => ['ROLE_USER'],
-                'children' => [
-                    [
-                        'label' => 'Ügyfél',
-                        'route' => null,
-                        'children' => [
-                            [
-                                'label' => 'Ügyfelek',
-                                'icon'  => 'bi bi-person',
-                                'route' => 'admin_v1_crm_client_index',
-                            ],
-                            [
-                                'label' => 'Testimonial / Visszajelzések',
-                                'icon'  => 'bi bi-chat-left-quote-fill',
-                                'route' => 'admin_v1_crm_testimonial',
-                            ],
-                        ],
-                    ],
-                    [
-                        'label' => 'Űrlap',
-                        'route' => null,
-                        'children' => [
-                            [
-                                'label' => 'kitöltött űrlap',
-                                'icon'  => 'bi bi-ui-checks',
-                                'route' => 'admin_v1_crm_form_fill_all',
-                            ],
-                        ],
-                    ],
-                    [
-                        'label' => 'Hírlevél',
-                        'route' => null,
-                        'children' => [
-                            [
-                                'label' => 'Hírlevél',
-                                'icon'  => 'bi bi-mailbox-flag',
-                                'route' => null,
-                                'children' => [
-                                    [
-                                        'label' => 'Összes hírlevél',
-                                        'icon'  => 'bi bi-mailbox-flag',
-                                        'route' => 'admin_v1_crm_newsletter',
-                                    ],
-                                    [
-                                        'label' => 'új hírlevél',
-                                        'icon'  => 'bi bi-mailbox-flag',
-                                        'route' => 'admin_v1_crm_newsletter_add',
-                                    ],
-                                ]
-                            ],
-                            [
-                                'label' => 'Hírlevél feliratkozó',
-                                'icon'  => 'bi bi-person-video3',
-                                'route' => null,
-                                'children' => [
-                                    [
-                                        'label' => 'Összes hírlevél feliratkozó',
-                                        'icon'  => 'bi bi-person-badge',
-                                        'route' => 'admin_v1_crm_newsletter_subscriber',
-                                    ],
-                                    [
-                                        'label' => 'új hírlevél feliratkozó',
-                                        'icon'  => 'bi bi-person-badge',
-                                        'route' => 'admin_v1_crm_newsletter_subscriber_add',
-                                    ],
-                                ]
-                            ],                        ],
-                    ],
-                ]
             ],
             [
                 'label' => 'ERP',

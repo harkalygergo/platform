@@ -36,6 +36,7 @@ class FormFillController extends PlatformBackendController
             $tableBody = array_map(function ($formFill) {
                 $data = $formFill->getData();
                 $data['id'] = $formFill->getId();
+                $data['form'] = $formFill->getForm()->getName();
                 $data['created_at'] = $formFill->getCreatedAt()->format('Y-m-d H:i:s');
                 $data['ip'] = $formFill->getIp();
                 return $data;
@@ -47,8 +48,6 @@ class FormFillController extends PlatformBackendController
                 }
             }
         }
-
-        $tableHead = array_merge($tableHead, $tableHead);
 
         return $this->render('platform/backend/v1/list.html.twig', [
             'sidebarMenu' => $this->getSidebarController()->getSidebarMenu(),
