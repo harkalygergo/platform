@@ -357,7 +357,7 @@ class MenuBuilder
                                     ],
                                     [
                                         'label' => 'űrlap kitöltések',
-                                        'route' => 'admin_v1_cms_form_fill'
+                                        'route' => 'admin_v1_cms_form_fill_all'
                                     ],
                                 ]
                             ],

@@ -3,7 +3,7 @@
 <head>
 
     {% include 'themes/_global/head.html.twig' %}
-    <title>{{ title }} | {{ website.title }}</title>
+    <title>{{ title }} | {{ website.title|striptags }}</title>
 
     <meta name="keywords" content="{{ keywords }}">
     <meta name="description" content="{{ description }}">
