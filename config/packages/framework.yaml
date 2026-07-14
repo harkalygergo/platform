@@ -4,7 +4,11 @@ framework:
 
     # Note that the session will be started ONLY if you read or write from it.
     session:
-        gc_maxlifetime: 2592000    # 30 days (seconds) — adjust as needed
+        gc_maxlifetime: 2592000    # 30 days (seconds) — server-side session data lifetime
+        cookie_lifetime: 2592000   # 30 days (seconds) — persist the session cookie in the browser
+                                   # (0 = browser-session cookie, dropped when mobile browsers kill tabs)
+        cookie_secure: auto
+        cookie_samesite: lax
 
     #esi: true
     #fragments: true

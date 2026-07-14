@@ -36,6 +36,9 @@ security:
                 path: /
                 httponly: true
                 secure: auto
+                samesite: lax
+                always_remember_me: true                  # issue the 30-day cookie on every login,
+                                                          # even if the checkbox is not ticked
                 user_provider: app_user_provider
 
             # basic logout configuration (optional but handy)
