@@ -47,6 +47,10 @@ class FormController extends PlatformBackendController
                 [
                     'label' => 'űrlapelemek',
                     'route' => 'admin_v1_cms_form_field'
+                ],
+                [
+                    'label' => 'kitöltött űrlapok',
+                    'route' => 'admin_v1_crm_form_fill'
                 ]
             ]
         ]);

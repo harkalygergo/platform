@@ -355,10 +355,6 @@ class MenuBuilder
                                         'label' => 'űrlap hozzáadása',
                                         'route' => 'admin_v1_cms_form_new'
                                     ],
-                                    [
-                                        'label' => 'űrlap kitöltések',
-                                        'route' => 'admin_v1_cms_form_fill_all'
-                                    ],
                                 ]
                             ],
                         ]
@@ -502,7 +498,7 @@ class MenuBuilder
                 'roles' => ['ROLE_USER'],
                 'children' => [
                     [
-                        'label' => 'Ügyfelek',
+                        'label' => 'Ügyfél',
                         'route' => null,
                         'children' => [
                             [
@@ -514,6 +510,17 @@ class MenuBuilder
                                 'label' => 'Testimonial / Visszajelzések',
                                 'icon'  => 'bi bi-chat-left-quote-fill',
                                 'route' => 'admin_v1_crm_testimonial',
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Űrlap',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'kitöltött űrlap',
+                                'icon'  => 'bi bi-ui-checks',
+                                'route' => 'admin_v1_crm_form_fill_all',
                             ],
                         ],
                     ],

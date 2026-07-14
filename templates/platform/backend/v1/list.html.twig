@@ -109,35 +109,40 @@
                                     <td>{{ loop.index }}.</td>
                                     {% for thKey, thValue in tableHead %}
                                         <td>
-                                            {% set variable = attribute(td, thKey) %}
-                                            {# is array #}
-                                            {% if is_array(attribute(td, thKey)) %}
-                                                {% for key, value in attribute(td, thKey) %}
-                                                    {% if value is same as(true) or value is same as(false) %}
-                                                        {{ value ? '&#9989;' : '&#10060;' }}
-                                                    {% else %}
-                                                        {{ value }}
-                                                    {% endif %}
-                                                {% endfor %}
-                                                {# is boolean #}
-                                            {% elseif attribute(td, thKey) is same as(true) or attribute(td, thKey) is same as(false) %}
-                                                {{ attribute(td, thKey) ? '&#9989;' : '&#10060;' }}
-                                                {# is datetime #}
-                                            {% elseif attribute(td, thKey) is instanceof('DateTime') or attribute(td, thKey) is instanceof('DateTimeImmutable') %}
-                                                {{ attribute(td, thKey).format('Y-m-d') }}
-                                                {# is object #}
-                                            {% elseif variable is instanceof('App\\Enum\\Platform\\OrderStatusEnum') %}
-                                                {{ variable.label()|trans }}
-                                            {% elseif variable is instanceof('App\\Enum\\NewsletterStatusEnum') or variable is instanceof('App\\Entity\\Platform\\Webshop\\PaymentMethod') %}
-                                                {{ variable.toString()|trans }}
-                                            {% else %}
-                                                {% if variable is iterable %}
-                                                    {% for item in variable %}
-                                                        {{ item.title }}{% if not loop.last %}, {% endif %}
+                                            {% if td.(thKey) is defined %}
+                                                {% set variable = td?.(thKey) %}
+
+                                                {# is array #}
+                                                {% if is_array(attribute(td, thKey)) %}
+                                                    {% for key, value in attribute(td, thKey) %}
+                                                        {% if value is same as(true) or value is same as(false) %}
+                                                            {{ value ? '&#9989;' : '&#10060;' }}
+                                                        {% else %}
+                                                            {{ value }}
+                                                        {% endif %}
                                                     {% endfor %}
+                                                    {# is boolean #}
+                                                {% elseif attribute(td, thKey) is same as(true) or attribute(td, thKey) is same as(false) %}
+                                                    {{ attribute(td, thKey) ? '&#9989;' : '&#10060;' }}
+                                                    {# is datetime #}
+                                                {% elseif attribute(td, thKey) is instanceof('DateTime') or attribute(td, thKey) is instanceof('DateTimeImmutable') %}
+                                                    {{ attribute(td, thKey).format('Y-m-d') }}
+                                                    {# is object #}
+                                                {% elseif variable is instanceof('App\\Enum\\Platform\\OrderStatusEnum') %}
+                                                    {{ variable.label()|trans }}
+                                                {% elseif variable is instanceof('App\\Enum\\NewsletterStatusEnum') or variable is instanceof('App\\Entity\\Platform\\Webshop\\PaymentMethod') %}
+                                                    {{ variable.toString()|trans }}
                                                 {% else %}
-                                                    {{ variable|raw }}
+                                                    {% if variable is iterable %}
+                                                        {% for item in variable %}
+                                                            {{ item.title }}{% if not loop.last %}, {% endif %}
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        {{ variable|raw }}
+                                                    {% endif %}
                                                 {% endif %}
+
+
                                             {% endif %}
                                         </td>
                                     {% endfor %}
