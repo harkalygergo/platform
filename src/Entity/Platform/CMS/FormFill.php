@@ -23,7 +23,6 @@ class FormFill implements TimestampableInterface
     #[ORM\ManyToOne(targetEntity: Form::class, inversedBy: 'fields')]
     private Form $form;
 
-    // add IP
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $ip = null;
 
