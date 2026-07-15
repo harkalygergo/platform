@@ -2,18 +2,11 @@
 
 namespace App\Controller\Platform;
 
-use App\Entity\Platform\Instance\InstanceFeed;
 use App\Entity\Platform\User;
-use App\Form\Platform\Instance\InstanceFeedType;
-use App\Repository\Platform\CMS\VisitorLogRepository;
-use App\Repository\Platform\InstanceRepository;
-use App\Repository\Platform\ServiceRepository;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 
 #[IsGranted(User::ROLE_USER)]
 class PlatformBackendController extends PlatformController
@@ -39,7 +32,15 @@ class PlatformBackendController extends PlatformController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entity = $form->getData();
-            $entity->setInstance($this->currentInstance);
+
+            if (method_exists($entity, 'setInstance')) {
+                $entity->setInstance($this->currentInstance);
+            } elseif (method_exists($entity, 'addInstance')) {
+                $entity->addInstance($this->currentInstance);
+            } else {
+                throw new \Exception('Entity does not have setInstance or addInstance method');
+            }
+
             $this->doctrine->getManager()->persist($entity);
             $this->doctrine->getManager()->flush();
 

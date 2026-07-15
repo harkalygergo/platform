@@ -162,6 +162,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->getRoles());
+    }
+
+    public function hasAnyRole(array $roles): bool
+    {
+        return !empty(array_intersect($roles, $this->getRoles()));
+    }
+
+    public function hasAllRoles(array $roles): bool
+    {
+        return empty(array_diff($roles, $this->getRoles()));
+    }
+
     /**
      * @param string[] $roles
      */
@@ -330,6 +345,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getInstances(): Collection
     {
         return $this->instances;
+    }
+
+    public function addInstance(Instance $instance): void
+    {
+        if (!$this->instances->contains($instance)) {
+            $this->instances->add($instance);
+            $instance->addUser($this);
+        }
     }
 
     public function setInstances(Collection $instances): void

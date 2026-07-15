@@ -66,6 +66,7 @@ class InstanceController extends PlatformController
             return $this->redirectToRoute('admin_v1_home_homepage');
         }
 
+        $currentInstancePlan = $instance->getPlan();
         // use formBuilder to create a form for editing the intranet content
         $form = $this->createFormBuilder($instance)
             // add instance "name" field as text field
@@ -149,7 +150,13 @@ class InstanceController extends PlatformController
             $this->doctrine->getManager()->persist($instance);
             $this->doctrine->getManager()->flush();
 
-            $this->addFlash('success', 'Az intranet tartalom sikeresen frissítve lett.');
+            // if plan is changed, update the instance users
+            if ($currentInstancePlan != $instance->getPlan()) {
+                $this->sendMail([], 'instance_plan_changed', $instance->getId().$instance->getName());
+            }
+
+
+            //$this->addFlash('success', 'Az intranet tartalom sikeresen frissítve lett.');
 
             // add info to instance feed
             $instanceFeed = new InstanceFeed();

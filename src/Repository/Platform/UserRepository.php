@@ -46,8 +46,14 @@ class UserRepository extends ServiceEntityRepository
             ->addOrderBy('u.lastName', 'ASC')
             ->addOrderBy('u.firstName', 'ASC')
             ->addOrderBy('u.username', 'ASC')
-            //->getQuery()
-            //->getResult()
+        ;
+    }
+
+    public function findByInstanceResults($instance)
+    {
+        return $this->findByInstance($instance)
+            ->getQuery()
+            ->getResult()
         ;
     }
 }

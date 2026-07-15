@@ -695,7 +695,11 @@ class MenuBuilder
                                 'label' => 'Vállalkozások és szervezetek',
                                 'route' => 'admin_v1_sys_instances',
                                 'icon' => 'bi bi-briefcase',
-
+                            ],
+                            [
+                                'label' => 'Rendszerfelhasználók',
+                                'route' => 'admin_v1_sys_instance_user',
+                                'icon' => 'bi bi-people-fill',
                             ],
                             [
                                 'label' => 'Számlázási profilok',

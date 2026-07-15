@@ -70,7 +70,7 @@ class PlatformController extends AbstractController
     public function sendMail(array $toAddresses = [], $subject = '', $emailBody = '', $fromAddress = null, $emailHTMLBody = '')
     {
         if (empty($toAddresses)) {
-            $toAddresses = explode(',', $_ENV['MAIL_TO']);
+            $toAddresses = explode(',', $_ENV['EMAIL_REPLY_TO']);
         }
 
         if (empty($subject)) {

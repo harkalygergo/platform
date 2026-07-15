@@ -4,7 +4,6 @@ namespace App\Form\Platform;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
@@ -16,17 +15,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    private $entityManager;
     private $security;
 
-    public function __construct(EntityManagerInterface $entityManager, Security $security)
+    public function __construct(Security $security)
     {
-        $this->entityManager = $entityManager;
         $this->security = $security;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $currentInstance = $options['currentInstance'];
+
         $builder
             ->add('namePrefix', TextType::class, [
                 'label' => 'Name prefix',
@@ -93,6 +92,7 @@ class UserType extends AbstractType
                 'class' => Instance::class,
                 'choices' => $userInstances,
                 'choice_label' => 'name',
+                'data' => $currentInstance ?? $userInstances[0],
                 'attr' => [
                     'class' => 'form-control'
                 ],
@@ -103,6 +103,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'currentInstance' => null,
             'data_class' => User::class,
         ]);
     }

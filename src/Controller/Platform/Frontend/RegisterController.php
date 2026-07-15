@@ -29,7 +29,7 @@ class RegisterController extends PlatformController
 
             if ($generatedInstanceSlug === $instanceSlug) {
                 $user->addInstance($instance);
-                $user->setStatus(1);
+                //$user->setStatus(1);
                 $newPassword = bin2hex(random_bytes(8));
                 $user->setPassword(password_hash($newPassword, PASSWORD_DEFAULT));
                 $user->setRoles(['ROLE_USER']);
