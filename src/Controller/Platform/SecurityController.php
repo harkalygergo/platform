@@ -12,9 +12,8 @@
 namespace App\Controller\Platform;
 
 use App\Entity\Platform\User;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -43,9 +42,14 @@ final class SecurityController extends AbstractController
         #[CurrentUser] ?User $user,
         Request $request,
         AuthenticationUtils $helper,
+        ManagerRegistry $doctrine
     ): Response {
         // if user is already logged in, don't display the login page again
         if ($user) {
+            $user->setLastLogin(new \DateTimeImmutable());
+            $doctrine->getManager()->persist($user);
+            $doctrine->getManager()->flush();
+
             // set user's defaultInstance to cookie
             $defaultInstance = $user->getDefaultInstance();
             if ($defaultInstance) {
@@ -63,7 +67,6 @@ final class SecurityController extends AbstractController
 
         return $this->render('platform/frontend/login.html.twig', [
             'title' => $_ENV['APP_TITLE'] ?? '',
-
 
             // last username entered by the user (if any)
             'last_username' => $helper->getLastUsername() ?? '',
