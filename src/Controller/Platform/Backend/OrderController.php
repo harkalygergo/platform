@@ -59,6 +59,12 @@ class OrderController extends PlatformBackendController
                 //'paymentToken' => 'paymentToken',
             ],
             'tableBody' => $orders,
+            'highlightedActions' => [
+                [
+                    'label' => '✅ '.$this->translator->trans('order.status.completed'),
+                    'route' => 'admin_v1_shop_order_complete_order',
+                ]
+            ],
             'actions' => [
                 'new',
                 'view',
@@ -66,6 +72,20 @@ class OrderController extends PlatformBackendController
                 'delete'
             ],
         ]);
+    }
+
+    // set an order to completed status
+    #[Route('/complete/{id}', name: 'admin_v1_shop_order_complete_order')]
+    public function completed(Request $request, Order $order): Response
+    {
+        $this->denyAccessUnlessUserHasInstance();
+
+        $order->setStatus(OrderStatusEnum::COMPLETED);
+        $this->doctrine->getManager()->flush();
+
+        $this->addFlash('success', $this->translator->trans('order.status.completed') . ': #' . $order->getId());
+
+        return $this->redirectToRoute(self::redirectToRoute);
     }
 
     #[Route('/completed', name: 'admin_v1_shop_order_index_completed')]
