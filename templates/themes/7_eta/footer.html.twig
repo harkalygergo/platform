@@ -9,8 +9,8 @@
     <div class="container py-5">
         <div class="row align-items-center">
             <div class="col-lg-8">
-                <h2 class="display-6 fw-bold mb-3">Készen állsz az új életedre?</h2>
-                <p class="lead mb-0">Foglald le a helyed a következő léböjtkúra programunkra és indulj el az egészséges életmód útján!</p>
+                <h2 class="display-6 fw-bold mb-3">Készen álls az új életére?</h2>
+                <p class="lead mb-0">Foglalja le a helyét a következő léböjtkúra programunkra és induljon el az egészséges életmód útján!</p>
             </div>
             <div class="col-lg-4 text-lg-end">
                 <a href="/idopontfoglalas" class="btn btn-dark btn-lg"><i class="bi bi-calendar-week"></i> Foglalás most</a>
@@ -56,7 +56,7 @@
                 <ul class="list-unstyled">
                     <li class="text-light mb-2">
                         <i class="bi bi-pin text-primary me-2"></i>
-                        Bogács, Magyarország
+                        {{ website.address }}
                     </li>
                     <li class="text-light mb-2">
                         <i class="bi bi-phone text-primary me-2"></i>
@@ -70,6 +70,23 @@
                         <i class="bi bi-globe text-primary me-2"></i>
                         {{ website.domain }}
                     </li>
+
+                    {% if website.facebook %}
+                        <li class="text-light mb-2">
+                            <a href="{{ website.facebook }}" target="_blank">
+                                <i class="bi bi-facebook"></i>
+                                {{ website.facebook }}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if website.instagram %}
+                        <li class="text-light mb-2">
+                            <a href="{{ website.instagram }}" target="_blank">
+                                <i class="bi bi-instagram"></i>
+                                {{ website.instagram }}
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

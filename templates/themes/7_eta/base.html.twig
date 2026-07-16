@@ -59,7 +59,7 @@
 
             {% if website.phone %}
                 <li class="nav-item px-1">
-                    <a class="nav-link link-body-emphasis px-2 " href="tel:{{ website.phone|replace({'-': ''}) }}">
+                    <a class="nav-link link-body-emphasis px-2" href="tel:{{ website.phone|replace({'-': ''}) }}">
                         <i class="bi bi-telephone-fill"></i>
                         {{ website.phone|raw }}
                     </a>
@@ -67,14 +67,14 @@
             {% endif %}
             {% if website.address %}
                 <li class="nav-item px-1">
-                    <a class="text-decoration-none text-dark nav-link" href="{{ website.googleMapsLink }}" target="_blank">
+                    <a class="nav-link link-body-emphasis px-2" href="{{ website.googleMapsLink }}" target="_blank">
                         <i class="bi bi-geo-alt-fill"></i>
                         {{ website.address|raw }}
                     </a>
                 </li>
             {% endif %}
         </ul>
-        <ul class="nav">
+        <ul class="nav nav d-none d-md-inline-flex">
             {% if website.facebook %}
                 <li class="nav-item">
                     <a class="nav-link link-body-emphasis fs-4" href="{{ website.facebook }}" target="_blank">
