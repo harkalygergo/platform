@@ -39,7 +39,7 @@
             <div class="row g-4">
 
                 {% for post in category.posts %}
-                    <div class="col-lg-4">
+                    <div class="col-12 col-md-6 col-lg-3">
                         <div class="blog-card card h-100 border-0 shadow-sm">
                             {% if post.featuredImage is not null %}
                                 <div class="blog-image">
@@ -66,29 +66,6 @@
 
             </div>
 
-        </div>
-    </section>
-
-    <!-- Popular Tags -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <h3 class="fw-bold mb-4">Népszerű címkék</h3>
-                    <div class="tags d-flex flex-wrap justify-content-center gap-2">
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#detox</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#juice</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#wellness</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#egészség</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#yoga</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#meditáció</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#táplálkozás</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#receptek</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#életmód</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">#bogács</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
