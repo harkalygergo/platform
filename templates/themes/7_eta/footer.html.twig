@@ -25,10 +25,11 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4">
-                <h5 class="fw-bold mb-3">
+                <h5 class="fw-bold">
                     {{ website.title|raw }}
                 </h5>
-                <p class="text-light">{{ website.description }}</p>
+                <p class="lead">{{ website.slogan }}</p>
+                <p>{{ website.description }}</p>
                 <div class="social-links">
                     <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
@@ -37,7 +38,7 @@
             </div>
             <div class="col-lg-4">
                 <h6 class="fw-bold mb-3">Oldalak</h6>
-                <ul class="list-unstyled">
+                <ul>
                     {% for page in pages %}
                         <li><a href="/{{ page.slug }}" class="text-light text-decoration-none">{{page.title}}</a></li>
                     {% endfor %}
@@ -65,17 +66,17 @@
 
                     {% if website.facebook %}
                         <li class="text-light mb-2">
-                            <a href="{{ website.facebook }}" target="_blank">
+                            <a class="text-decoration-none" href="{{ website.facebook }}" target="_blank">
                                 <i class="bi bi-facebook"></i>
-                                <span class="text-light text-decoration-none small">{{ website.facebook }}</span>
+                                <span class="text-light small">{{ website.facebook }}</span>
                             </a>
                         </li>
                     {% endif %}
                     {% if website.instagram %}
                         <li class="text-light mb-2">
-                            <a href="{{ website.instagram }}" target="_blank">
+                            <a class="text-decoration-none" href="{{ website.instagram }}" target="_blank">
                                 <i class="bi bi-instagram"></i>
-                                <span class="text-light text-decoration-none small">{{ website.instagram }}</span>
+                                <span class="text-ligh small">{{ website.instagram }}</span>
                             </a>
                         </li>
                     {% endif %}
