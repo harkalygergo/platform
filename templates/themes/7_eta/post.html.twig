@@ -11,7 +11,11 @@
                         <!-- Post Header -->
                         <div class="post-header mb-5">
                             <div class="post-meta mb-3">
-                                <span class="badge bg-primary me-2"><i class="bi bi-folder"></i> {{ post.categories.first.title }}</span>
+                                <span class="badge bg-primary me-2">
+                                    <a href="{{ post.categories.first.slug }}" class="text-decoration-none text-white">
+                                        <i class="bi bi-folder"></i> {{ post.categories.first.title }}
+                                    </a>
+                                </span>
                                 <span class="text-muted small"><i class="bi bi-alarm me-1"></i> {{ post.createdAt|format_datetime() }}</span>
                                 <span class="text-muted small ms-3"><i class="bi bi-book me-1"></i> 5 perc olvasás</span>
                                 <span class="text-muted small ms-3"><i class="bi bi-eye me-1"></i> {{ post.viewCount }} megtekintés</span>
