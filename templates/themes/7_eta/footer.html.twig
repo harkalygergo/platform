@@ -24,9 +24,9 @@
 <footer class="bg-dark text-white py-5">
     <div class="container">
         <div class="row g-4">
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <h5 class="fw-bold mb-3">
-                    {{ website.title }}
+                    {{ website.title|raw }}
                 </h5>
                 <p class="text-light">{{ website.description }}</p>
                 <div class="social-links">
@@ -35,15 +35,7 @@
                     <a href="#" class="text-white me-3"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <h6 class="fw-bold mb-3">Menü</h6>
-                <ul class="list-unstyled">
-                    {% for menu in menus %}
-                        <li><a href="{{ menu.slug }}" class="text-light text-decoration-none">{{menu.title}}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <h6 class="fw-bold mb-3">Oldalak</h6>
                 <ul class="list-unstyled">
                     {% for page in pages %}
@@ -51,7 +43,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <h6 class="fw-bold mb-3">Kapcsolat</h6>
                 <ul class="list-unstyled">
                     <li class="text-light mb-2">
