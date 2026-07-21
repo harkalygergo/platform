@@ -46,14 +46,14 @@
                         <footer class="post-footer mt-5 pt-4 border-top">
                             <div class="row align-items-center">
                                 <div class="col-md-10">
-                                    <div class="post-tags">
-                                        <span class="fw-bold me-2">Címkék:</span>
-                                        {% if post.metaKeywords %}
+                                    {% if post.metaKeywords %}
+                                        <div class="post-tags">
+                                            <span class="fw-bold me-2">Címkék:</span>
                                             {% for keyword in post.metaKeywords|split(',') %}
                                                 <a href="#" class="btn btn-outline-secondary btn-sm me-1">#{{ keyword|trim }}</a>
                                             {% endfor %}
-                                        {% endif %}
-                                    </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-2 text-md-end">
                                     <div class="social-share">
@@ -90,14 +90,30 @@
                                         <li>2004: Hagyományos Kínai Orvoslás vizsga</li>
                                         <li>2013: Kozmetikai Akupunktúra</li>
                                     </ul>
-                                    <div class="author-social">
-                                        <a href="#" class="text-success me-2"><i class="fab fa-linkedin"></i></a>
-                                        <a href="#" class="text-success me-2"><i class="fab fa-facebook"></i></a>
-                                        <a href="#" class="text-success"><i class="fab fa-twitter"></i></a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        {% if post.categories.first.posts %}
+                            <div class="sidebar-card card border-0 shadow-sm mb-4">
+                                <div class="card-body p-4">
+                                    <div class="author-info">
+                                        <h5 class="fw-bold">Kapcsolódó tartalmak</h5>
+                                        <ul>
+                                            {% for morePost in post.categories.first.posts %}
+                                                {% if post.id != morePost.id %}
+                                                    <li>
+                                                        <a href="/{{ morePost.categories.first.slug }}/{{ morePost.slug }}" class="text-decoration-none text-dark">
+                                                            {{ morePost.title }}
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
 
 
                     </div>

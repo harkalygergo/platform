@@ -100,9 +100,8 @@
                 <img class="ms-0" alt="{{ website.title }} logo" src="/media/{{ website.logo.originalName }}">
             {% endif %}
 
-            <span class="fs-4 fw-bold">{{ website.title }}</span>
+            <span class="fs-4 fw-bold">{{ website.title|raw }}</span>
         </a>
-
 
         <ul class="navbar-nav my-auto"  style="display:inline-block;">
 
