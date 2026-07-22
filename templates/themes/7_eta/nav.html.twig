@@ -1,9 +1,9 @@
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white py-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-white py-4 py-lg-5">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/">
             {% if website.logo is not null %}
-                <img alt="{{ website.title }} logo" src="/media/{{ website.logo.originalName }}">
+                <img class="ms-0" alt="{{ website.title }} logo" src="/media/{{ website.logo.originalName }}">
             {% endif %}
             {{ website.title|raw }}
         </a>
@@ -16,7 +16,7 @@
                 {% for menu in menus %}
                     {% if menu.parent is null %}
                         {% if menu.hasChildren() %}
-                            <li class="nav-item px-1 dropdown">
+                            <li class="nav-item px-2 dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">
                                     {{ menu.title }}
                                 </a>
@@ -29,8 +29,8 @@
                                 </ul>
                             </li>
                         {% else %}
-                            <li class="nav-item px-1">
-                                <a class="nav-link active" href="{{ menu.slug }}" target="{{ menu.target }}">{{ menu.title }}</a>
+                            <li class="nav-item px-2">
+                                <a class="nav-link" href="{{ menu.slug }}" target="{{ menu.target }}">{{ menu.title }}</a>
                             </li>
                         {% endif %}
                     {% endif %}
