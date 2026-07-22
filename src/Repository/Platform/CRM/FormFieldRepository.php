@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Platform\CMS;
+namespace App\Repository\Platform\CRM;
 
-use App\Entity\Platform\CMS\FormField;
+use App\Entity\Platform\CRM\FormField;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

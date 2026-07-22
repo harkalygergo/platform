@@ -2,7 +2,7 @@
 
 namespace App\Repository\Platform\CRM;
 
-use App\Entity\Platform\CMS\FormFill;
+use App\Entity\Platform\CRM\FormFill;
 use App\Entity\Platform\Instance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

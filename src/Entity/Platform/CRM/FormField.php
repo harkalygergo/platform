@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity\Platform\CMS;
+namespace App\Entity\Platform\CRM;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Interface\TimestampableInterface;
 use App\Entity\Platform\Trait\TimestampableTrait;
-use App\Repository\Platform\CMS\FormFieldRepository;
+use App\Repository\Platform\CRM\FormFieldRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FormFieldRepository::class)]

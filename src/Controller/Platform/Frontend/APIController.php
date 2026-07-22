@@ -4,9 +4,9 @@ namespace App\Controller\Platform\Frontend;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\API\API;
-use App\Entity\Platform\CMS\Form;
-use App\Entity\Platform\CMS\FormFill;
 use App\Entity\Platform\CMS\VisitorLog;
+use App\Entity\Platform\CRM\Form;
+use App\Entity\Platform\CRM\FormFill;
 use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Order;

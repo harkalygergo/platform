@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\Platform\CMS;
+namespace App\Controller\Platform\CRM;
 
 use App\Controller\Platform\PlatformBackendController;
-use App\Entity\Platform\CMS\Form;
+use App\Entity\Platform\CRM\Form;
 use App\Entity\Platform\User;
 use App\Repository\Platform\CRM\FormFillRepository;
 use Symfony\Component\HttpFoundation\Response;

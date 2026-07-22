@@ -342,21 +342,6 @@ class MenuBuilder
                                     ],
                                 ]
                             ],
-                            [
-                                'label' => 'Űrlapok',
-                                'icon'  => 'bi bi-ui-checks',
-                                'route' => null,
-                                'children' => [
-                                    [
-                                        'label' => 'Összes űrlap',
-                                        'route' => 'admin_v1_cms_form'
-                                    ],
-                                    [
-                                        'label' => 'űrlap hozzáadása',
-                                        'route' => 'admin_v1_cms_form_new'
-                                    ],
-                                ]
-                            ],
                         ]
                     ],
                     [
@@ -440,11 +425,21 @@ class MenuBuilder
                         'route' => null,
                         'children' => [
                             [
+                                'label' => 'Összes űrlap',
+                                'icon'  => 'bi bi-ui-checks-grid',
+                                'route' => 'admin_v1_crm_form'
+                            ],
+                            [
+                                'label' => 'űrlap hozzáadása',
+                                'icon'  => 'bi bi-file-plus',
+                                'route' => 'admin_v1_crm_form_new'
+                            ],
+                            [
                                 'label' => 'kitöltött űrlap',
                                 'icon'  => 'bi bi-ui-checks',
                                 'route' => 'admin_v1_crm_form_fill_all',
                             ],
-                        ],
+                        ]
                     ],
                     [
                         'label' => 'Hírlevél',

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Platform\CMS;
+namespace App\Form\Platform\CRM;
 
-use App\Entity\Platform\CMS\FormField;
+use App\Entity\Platform\CRM\FormField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

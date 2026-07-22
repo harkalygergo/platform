@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Platform\CMS;
+namespace App\Entity\Platform\CRM;
 
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\Interface\TimestampableInterface;
