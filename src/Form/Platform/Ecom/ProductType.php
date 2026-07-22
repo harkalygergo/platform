@@ -23,6 +23,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductType extends AbstractType
@@ -64,6 +65,12 @@ class ProductType extends AbstractType
                 'attr' => ['class' => 'form-control slugTarget'],
                 'row_attr' => [
                     'data-prefix' => 'termek/',
+                ],
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[a-z0-9\-_]+$/i',
+                        'message' => 'A slug csak angol betűket (a-z, A-Z), számokat (0-9), kötőjeleket (-) és aláhúzásokat (_) tartalmazhat.',
+                    ]),
                 ],
             ])
             ->add('shortDescription', TextareaType::class, [
