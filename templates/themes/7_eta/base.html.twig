@@ -147,5 +147,9 @@
 
 {% include 'themes/_global/footer.html.twig' with { "instance": instance } %}
 
+<script>
+    {{ website.footerJS|raw }}
+</script>
+
 </body>
 </html>
