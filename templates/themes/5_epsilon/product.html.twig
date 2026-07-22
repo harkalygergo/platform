@@ -121,31 +121,5 @@
             saveCart(cart);
             document.getElementById("addToCartSuccessAlert").style.display = "block";
         }
-
-        /*
-        function lightBox()
-        {
-            const options = {
-                keyboard: true,
-                size: 'fullscreen'
-            };
-
-            document.querySelectorAll('[data-toggle="product-lightbox"]').forEach((el) => el.addEventListener('click', (e) => {
-                e.preventDefault();
-                const lightbox = new Lightbox(el, options);
-                lightbox.show();
-            }));
-        }
-        */
-
-        window.addEventListener("load", (event) => {
-            //lightBox();
-            lightGallery(document.getElementById('productGallery'), {
-                plugins: [lgZoom, lgThumbnail],
-                speed: 500,
-                selector: '.lightboxGalleryImage'
-                //licenseKey: 'your_license_key'
-            });
-        });
     </script>
 {% endblock %}
