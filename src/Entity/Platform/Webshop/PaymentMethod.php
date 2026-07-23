@@ -64,8 +64,8 @@ class PaymentMethod
     #[ORM\Column(type: 'boolean')]
     private bool $enabled = true;
 
-    #[ORM\Column(type: 'boolean', options: ['default' => false])]
-    private bool $cardStatus;
+    #[ORM\Column(type: 'boolean', nullable:true, options: ['default' => false])]
+    private ?bool $cardStatus = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $cardBaseUrlTest = null;
@@ -242,12 +242,12 @@ class PaymentMethod
         return $this;
     }
 
-    public function getCardStatus(): bool
+    public function getCardStatus(): ?bool
     {
         return $this->cardStatus;
     }
 
-    public function setCardStatus(bool $cardStatus): self
+    public function setCardStatus(?bool $cardStatus): PaymentMethod
     {
         $this->cardStatus = $cardStatus;
         return $this;
