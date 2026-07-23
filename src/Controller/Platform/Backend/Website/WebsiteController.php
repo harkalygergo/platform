@@ -4,12 +4,12 @@ namespace App\Controller\Platform\Backend\Website;
 
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Block;
-use App\Entity\Platform\CMS\Form;
+use App\Entity\Platform\CRM\Form;
 use App\Entity\Platform\Ecom\Product;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
-use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\CmsPage;
+use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsitePost;
 use App\Form\Platform\Website\WebsiteType;
 use App\Repository\Platform\Website\WebsiteRepository;
