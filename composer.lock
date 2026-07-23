@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44055c65f83a8b086a9fe5f9a83f8de8",
+    "content-hash": "271eb91e47b6b637e474cdae6fa8a32b",
     "packages": [
         {
             "name": "composer/semver",
@@ -325,16 +325,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.18.4",
+            "version": "2.18.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "175f8ffa7ad574e1b5ccb66f1301a21524c88ce6"
+                "reference": "9f8cf33f87e561ffe550747bdc756fd04cc2cb49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/175f8ffa7ad574e1b5ccb66f1301a21524c88ce6",
-                "reference": "175f8ffa7ad574e1b5ccb66f1301a21524c88ce6",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/9f8cf33f87e561ffe550747bdc756fd04cc2cb49",
+                "reference": "9f8cf33f87e561ffe550747bdc756fd04cc2cb49",
                 "shasum": ""
             },
             "require": {
@@ -429,7 +429,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.18.4"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.18.5"
             },
             "funding": [
                 {
@@ -445,7 +445,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-07-11T08:41:11+00:00"
+            "time": "2026-07-23T11:05:48+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
