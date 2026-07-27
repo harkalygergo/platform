@@ -17,7 +17,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="keywords" content="Harkály Gergő, full-stack, webfejlesztő, szabadúszó webfejlesztő, Symfony, WordPress">
     <meta name="description" content="Honlapok, online áruházak és webalkalmazások előzetes felmérése, megtervezése, terv kidolgozása, lefejlesztése, bevezetése, üzemeltetése és továbbfejlesztése. Szakmai tanácsadóként vagy kivitelezőként.">
-    <title>PLATFORM</title>
+    <title>
+            {% if title is defined %}
+                {{ title }} |
+            {% endif %}
+        platform360
+    </title>
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.harkalygergo.hu" />

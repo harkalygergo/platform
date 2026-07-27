@@ -2,12 +2,10 @@
 
 namespace App\Controller\Platform\Backend\Popup;
 
-use App\Controller\Platform\Backend\BackendController;
 use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Popup\Popup;
 use App\Entity\Platform\User;
 use App\Form\Platform\Popup\PopupType;
-use App\Repository\Platform\ClientRepository;
 use App\Repository\Platform\PopupRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +13,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted(User::ROLE_USER)]
-#[Route('/{_locale}/admin/v1/popup')]
+#[Route('/{_locale}/admin/v1/crm/popup')]
 class PopupController extends PlatformController
 {
-    #[Route('/', name: 'admin_v1_popup_index', methods: ['GET'])]
+    #[Route('/', name: 'admin_v1_crm_popup_index', methods: ['GET'])]
     public function index(PopupRepository $repository): Response
     {
         return $this->render('platform/backend/v1/list.html.twig', [
@@ -41,7 +39,7 @@ class PopupController extends PlatformController
     }
 
     // create new function
-    #[Route('/new/', name: 'admin_v1_popup_new', methods: ['GET', 'POST'])]
+    #[Route('/new/', name: 'admin_v1_crm_popup_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $popup = new Popup();
@@ -58,7 +56,7 @@ class PopupController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('action.created'));
 
-            return $this->redirectToRoute('admin_v1_popup_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_crm_popup_index', [], Response::HTTP_SEE_OTHER);
 
         }
 
@@ -70,7 +68,7 @@ class PopupController extends PlatformController
     }
 
     // create edit function
-    #[Route('/edit/{id}', name: 'admin_v1_popup_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'admin_v1_crm_popup_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Popup $popup): Response
     {
         $form = $this->createForm(PopupType::class, $popup);
@@ -86,7 +84,7 @@ class PopupController extends PlatformController
 
             $this->addFlash('success', $this->translator->trans('action.updated'));
 
-            return $this->redirectToRoute('admin_v1_popup_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_v1_crm_popup_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('platform/backend/v1/form.html.twig', [

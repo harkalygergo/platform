@@ -484,7 +484,19 @@ class MenuBuilder
                                         'route' => 'admin_v1_crm_newsletter_subscriber_add',
                                     ],
                                 ]
-                            ],                        ],
+                            ],
+                        ],
+                    ],
+                    [
+                        'label' => 'Felugró ablak',
+                        'route' => null,
+                        'children' => [
+                            [
+                                'label' => 'Összes felugró ablak',
+                                'icon'  => 'bi bi-arrow-up-square',
+                                'route' => 'admin_v1_crm_popup_index'
+                            ],
+                        ]
                     ],
                 ]
             ],
@@ -594,8 +606,12 @@ class MenuBuilder
                             ],
                         ],
                     ],
-
-                    //
+                    [
+                        'label' => 'Link rövidítés',
+                        'route' => null,
+                        'children' => [
+                        ],
+                    ],
                 ]
             ],
             [
