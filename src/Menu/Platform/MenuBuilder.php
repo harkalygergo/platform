@@ -460,6 +460,12 @@ class MenuBuilder
                                         'icon'  => 'bi bi-mailbox-flag',
                                         'route' => 'admin_v1_crm_newsletter_add',
                                     ],
+                                    [
+                                        'label' => 'Hírlevél beállítások',
+                                        'icon'  => 'bi bi-cog',
+                                        'route' => 'admin_v1_newsletter_settings',
+                                    ],
+                                    //
                                 ]
                             ],
                             [
