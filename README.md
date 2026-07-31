@@ -1,5 +1,5 @@
 # ⫹⫺ PLATFORM
-###### v2026.07.27.2
+###### v2026.07.31.1
 
 ![PLATFORM dashboard](/_docs/images/platform.png?raw=true "PLATFORM dashboard")
 
@@ -81,6 +81,11 @@ Localhost developer single line command:
 
 ```shell
 composer update; npm update; composer dump-autoload -o; php bin/console cache:clear;
+```
+
+```sql
+UPDATE api SET domain='localhost';
+UPDATE website SET ftphost='localhost';
 ```
 
 ### How to install?

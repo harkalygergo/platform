@@ -7,6 +7,144 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class MenuBuilder
 {
+    private string $webCardMenuJSON = '"WebCard": {
+        "dashboard": {
+            "icon": "bi bi-speedometer2",
+            "title": "aside.dashboard",
+            "route": "admin_v1_dashboard"
+        },
+        "cms": {
+            "icon": "",
+            "title": "Tartalomkezelés",
+            "route": "",
+            "children": {
+                "block": {
+                    "icon": "bi bi-bricks",
+                    "title": "web.block",
+                    "route": "admin_v1_block_index",
+                    "children": []
+                },
+                "domain": {
+                    "icon": "bi bi-link-45deg",
+                    "title": "Domain",
+                    "route": "admin_v1_domains",
+                    "children": []
+                },
+                "website": {
+                    "icon": "bi bi-globe",
+                    "title": "web.website",
+                    "route": "admin_v1_website_index",
+                    "children": []
+                }
+            }
+        },
+        "crm": {
+            "icon": "",
+            "title": "Kapcsolatok",
+            "route": "",
+            "children": {
+                "customers": {
+                    "icon": "bi bi-people",
+                    "title": "Ügyféllista",
+                    "route": "admin_v1_client_index",
+                    "children": []
+                },
+                "newsletter": {
+                    "icon": "bi bi-envelope-at",
+                    "title": "Hírlevél",
+                    "route": "",
+                    "children": {
+                        "newsletters": {
+                            "icon": "bi bi-send",
+                            "title": "Hírlevelek",
+                            "route": "admin_v1_newsletter",
+                            "children": []
+                        },
+                        "subscribers": {
+                            "icon": "bi bi-people-fill",
+                            "title": "Feliratkozók",
+                            "route": "admin_v1_newsletter_subscriber",
+                            "children": []
+                        },
+                        "settings": {
+                            "icon": "bi bi-gear-fill",
+                            "title": "Beállítások",
+                            "route": "admin_v1_newsletter_settings",
+                            "children": []
+                        }
+                    }
+                }
+            }
+        },
+        "wedding":{
+            "icon": "",
+            "title": "Esküvőszervezés",
+            "route": "",
+            "children": {
+                "wedding_savethedate": {
+                    "icon": "bi bi-calendar-week",
+                    "title": "Digitális save the date",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_weddingcard": {
+                    "icon": "bi bi-card-text",
+                    "title": "Digitális esküvői meghívó",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_launchcard": {
+                    "icon": "bi bi-fork-knife",
+                    "title": "Digitális vacsora meghívó",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_rsvp": {
+                    "icon": "bi bi-check2-circle",
+                    "title": "Digitális RSVP",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_table_food": {
+                    "icon": "bi bi-egg-fried",
+                    "title": "Digitális menükártya",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_table_program": {
+                    "icon": "bi bi-postcard",
+                    "title": "Digitális programfüzet",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_thankyou": {
+                    "icon": "bi bi-heart",
+                    "title": "Digitális köszönetkártya",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_sitting_card": {
+                    "icon": "bi bi-card-text",
+                    "title": "Nyomtatható ültetőkártya",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_table_number": {
+                    "icon": "bi bi-123",
+                    "title": "Nyomtatható asztalszám",
+                    "route": "",
+                    "children": []
+                },
+                "wedding_table_numbers": {
+                    "icon": "bi bi-people",
+                    "title": "Nyomtatható ültetési rend",
+                    "route": "",
+                    "children": []
+                }
+            }
+        }
+    }';
+
     public function __construct(
         private Security     $security,
         private RequestStack $requestStack,
@@ -186,6 +324,11 @@ class MenuBuilder
                                 'route' => 'admin_v1_home_api_index'
                             ],
                             [
+                                'label' => 'Rendszerfelhasználó',
+                                'route' => 'admin_v1_sys_instance_user',
+                                'icon' => 'bi bi-people',
+                            ],
+                            [
                                 'label' => 'Webalkalmazás',
                                 'icon'  => 'bi bi-window',
                                 'route' => null
@@ -199,11 +342,6 @@ class MenuBuilder
                                 'label' => 'Tárhely',
                                 'route' => null,
                                 'icon' => 'bi bi-hdd',
-                            ],
-                            [
-                                'label' => 'Rendszerfelhasználó',
-                                'route' => null,
-                                'icon' => 'bi bi-people',
                             ],
                         ]
                     ],
@@ -549,6 +687,13 @@ class MenuBuilder
                                     ],
                                 ]
                             ],
+                            [
+                                'label' => 'Elhagyott kosár',
+                                'icon'  => 'bi bi-bag-x',
+                                'route' => null,
+                                'children' => [
+                                ]
+                            ],
                         ],
                     ],
                     [
@@ -608,6 +753,12 @@ class MenuBuilder
                     ],
                     [
                         'label' => 'Link rövidítés',
+                        'route' => null,
+                        'children' => [
+                        ],
+                    ],
+                    [
+                        'label' => 'Automatizmus',
                         'route' => null,
                         'children' => [
                         ],
@@ -716,7 +867,7 @@ class MenuBuilder
                             [
                                 'label' => 'Rendszerfelhasználók',
                                 'route' => 'admin_v1_sys_instance_user',
-                                'icon' => 'bi bi-people-fill',
+                                'icon' => 'bi bi-people',
                             ],
                             [
                                 'label' => 'Számlázási profilok',

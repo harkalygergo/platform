@@ -367,11 +367,11 @@ class APIController extends PlatformController
                 $em->flush();
 
                 // send email
-                $toAddresses = [
-                    $parameters['email'],
-                    $instance->getOwner()->getEmail(),
-                ];
-
+                $toAddresses = [];
+                $toAddresses[] = $instance->getOwner()->getEmail();
+                if ($parameters['email']!==null && $parameters['email']!=='' && filter_var($parameters['email'], FILTER_VALIDATE_EMAIL)) {
+                    $toAddresses[] = $parameters['email'];
+                }
                 $emailBody =  "Rendelés: #" . $order->getId() . "\n";
                 $emailBody .= "Név: " . $order->getFirstName() . " " . $order->getLastName() . "\n";
                 $emailBody .= 'Telefonszám: ' . $parameters['phone'] . "\n";

@@ -1,3 +1,13 @@
+<style>
+    label.required:after {
+        content: " * ";
+        color: red;
+    }
+    .form-control:invalid:not(textarea) {
+        border-color: red;
+    }
+</style>
+
 <form action="{{ APP_URL }}/api/" method="post" id="checkout-form">
     <div class="row py-4">
         <div class="col col-12 col-md-8">
@@ -34,16 +44,16 @@
                 </div>
                 <div class="col col-12 pt-3 text-end">
                     <button type="button" class="btn btn-outline-dark" onclick="
-                document.getElementById('eatMode').style.display='none';
-                if(document.querySelector('input[name=\'options-outlined\']:checked').value==='shipping') {
-                        document.getElementById('customerData').style.display='block';
-                    document.getElementById('email').value='';
-                    }
-                else {
-                    document.getElementById('paymentMethods').style.display='block';
-                    document.getElementById('email').value=document.querySelector('input[name=\'options-outlined\']:checked').value+'@'+document.querySelector('input[name=\'options-outlined\']:checked').value+'.tld';
-                }
-            ">Tovább &raquo;</button>
+                        document.getElementById('eatMode').style.display='none';
+                        //if(document.querySelector('input[name=\'options-outlined\']:checked').value==='shipping') {
+                                document.getElementById('customerData').style.display='block';
+                                document.getElementById('email').value='';
+                        //    }
+                        //else {
+                        //    document.getElementById('paymentMethods').style.display='block';
+                            //document.getElementById('email').value=document.querySelector('input[name=\'options-outlined\']:checked').value+'@'+document.querySelector('input[name=\'options-outlined\']:checked').value+'.tld';
+                        //}
+                    ">Tovább &raquo;</button>
                 </div>
             </div>
 
@@ -55,7 +65,7 @@
                 <div class="row">
                     <div class="col col-12 col-md-6">
                         <div class="mb-1">
-                            <label for="lastName" class="form-label">Vezetéknév *</label>
+                            <label for="lastName" class="form-label">Vezetéknév</label>
                             <input type="text" class="form-control" id="lastName" name="lastName">
                             <div style="position: relative !important; height: 0 !important; width: 0 !important; display: initial !important; float: left !important;" data-lastpass-icon-root=""></div>
                         </div>
@@ -63,18 +73,18 @@
                     <div class="col col-12 col-md-6">
                         <div class="mb-1">
                             <label for="firstName" class="form-label">Keresztnév *</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName">
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
                         </div>
                     </div>
                     <div class="col col-12 col-md-6">
                         <div class="mb-1">
                             <label for="phone" class="form-label">Telefonszám *</label>
-                            <input type="text" class="form-control" id="phone" name="phone" placeholder="például: +36123456789">
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="például: +36123456789" required>
                         </div>
                     </div>
                     <div class="col col-12 col-md-6">
                         <div class="mb-1">
-                            <label for="email" class="form-label">E-mail cím *</label>
+                            <label for="email" class="form-label">E-mail cím</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="például: teszt.elek@domain.hu">
                         </div>
                     </div>
@@ -83,7 +93,19 @@
                     <small>* kötelező</small>
                 </p>
                 <div class="col col-12 text-end">
-                    <button type="button" class="btn btn-outline-dark" onclick="document.getElementById('customerData').style.display='none';document.getElementById('shippingData').style.display='block';">Tovább &raquo;</button>
+                    <!--button type="button" class="btn btn-outline-dark" onclick="document.getElementById('customerData').style.display='none';document.getElementById('shippingData').style.display='block';">Tovább &raquo;</button-->
+                    <button type="button" class="btn btn-outline-dark"
+                            onclick="
+                        document.getElementById('customerData').style.display='none';
+                        if(document.querySelector('input[name=\'options-outlined\']:checked').value==='shipping') {
+                                document.getElementById('shippingData').style.display='block';
+                            }
+                        else {
+                            document.querySelectorAll('[data-type=\'local_pickup\']')[0].click();
+                            document.getElementById('paymentMethods').style.display='block';
+                        }
+                    "
+                    >Tovább &raquo;</button>
                 </div>
             </div>
 
@@ -124,7 +146,7 @@
                     <h2>Szállítási mód</h2>
                 </div>
                 {% for shippingMethod in shippingMethods %}
-                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.name }}" required {% if loop.first %} checked {% endif %} data-fee="{{ shippingMethod.fee }}">
+                    <input type="radio" id="{{ shippingMethod.name }}" name="shippingMethod" value="{{ shippingMethod.name }}" required {% if loop.first %} checked {% endif %} data-fee="{{ shippingMethod.fee }}" data-type="{{ shippingMethod.type }}">
                     <label for="{{ shippingMethod.name }}">{{ shippingMethod.name }}: {{ shippingMethod.fee|format_number(locale='hu') }},- forint</label><br>
                     <i>{{ shippingMethod.description|raw }}</i>
                     <hr>
