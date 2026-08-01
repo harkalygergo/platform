@@ -21,6 +21,7 @@ use App\Repository\OrderRepository;
 use App\Repository\Platform\Webshop\PaymentMethodRepository;
 use App\Service\SaferpayService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -148,6 +149,13 @@ class APIController extends PlatformController
             case 'form':
             {
                 $form = $this->doctrine->getRepository(Form::class)->find($parameters['formID']);
+                $formFields = $form->getFields();
+                $dateTypesFormFields = [];
+                foreach ($formFields as $formField) {
+                    if ($formField->getType() === 'date') {
+                        $dateTypesFormFields[] = $formField->getName();
+                    }
+                }
 
                 $toAddresses = [$form->getNotificationEmail()];
 
@@ -164,8 +172,18 @@ class APIController extends PlatformController
                     // exclude formID, key, action, honeypot
                     if (!in_array($parameterKey, ['formID', 'key', 'action', 'honeypot', 'robotstop'])) {
 
+                        $parameterKey = str_replace('_', ' ', $parameterKey);
+
                         if (is_array($parameterValue)) {
                             $parameterValue = implode(', ', $parameterValue);
+                        }
+
+                        // if $parameterKey in $dateTypesFormFields array, check $parameterValue is a date string
+                        if (in_array($parameterKey, $dateTypesFormFields)) {
+                            $parsedDate = date_parse($parameterValue);
+                            if (!$parsedDate['year'] || !$parsedDate['month'] || !$parsedDate['day']) {
+                                throw new Exception("invalid date format: " . $parameterValue);
+                            }
                         }
 
                         $emailBody .= $parameterKey . ': ' . $parameterValue . "\n";
