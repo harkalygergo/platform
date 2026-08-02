@@ -170,7 +170,7 @@ class APIController extends PlatformController
                     $emailHTMLBody .= '<tr>';
 
                     // exclude formID, key, action, honeypot
-                    if (!in_array($parameterKey, ['formID', 'key', 'action', 'honeypot', 'robotstop'])) {
+                    if (!in_array($parameterKey, ['formID', 'key', 'action', 'honeypot', 'robotstop', 'g-recaptcha-response'])) {
 
                         if (is_array($parameterValue)) {
                             $parameterValue = implode(', ', $parameterValue);
@@ -180,7 +180,7 @@ class APIController extends PlatformController
                         if (in_array($parameterKey, $dateTypesFormFields)) {
                             $parsedDate = date_parse($parameterValue);
                             if (!$parsedDate['year'] || !$parsedDate['month'] || !$parsedDate['day']) {
-                                throw new Exception("invalid date format: " . $parameterValue);
+                                die("ERROR. Invalid date format: " . $parameterValue);
                             }
                         }
 
