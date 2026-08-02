@@ -172,8 +172,6 @@ class APIController extends PlatformController
                     // exclude formID, key, action, honeypot
                     if (!in_array($parameterKey, ['formID', 'key', 'action', 'honeypot', 'robotstop'])) {
 
-                        $parameterKey = str_replace('_', ' ', $parameterKey);
-
                         if (is_array($parameterValue)) {
                             $parameterValue = implode(', ', $parameterValue);
                         }
@@ -185,6 +183,9 @@ class APIController extends PlatformController
                                 throw new Exception("invalid date format: " . $parameterValue);
                             }
                         }
+
+                        $parameterKey = str_replace('_', ' ', $parameterKey);
+
 
                         $emailBody .= $parameterKey . ': ' . $parameterValue . "\n";
                         $emailHTMLBody .= '<td>'.$parameterKey . '</td><th>' . $parameterValue . "</th>";
