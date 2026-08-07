@@ -109,7 +109,7 @@ class PlatformController extends AbstractController
             $email = (new Email())
                 ->from(Address::create($fromAddress))
                 ->to($toAddress)
-                ->replyTo($_ENV['EMAIL_REPLY_TO'])
+                //->replyTo($_ENV['EMAIL_REPLY_TO'])
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject($subject)
                 ->text($emailBody.$emailUniqueBody)
