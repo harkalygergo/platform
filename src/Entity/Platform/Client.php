@@ -2,6 +2,7 @@
 
 namespace App\Entity\Platform;
 
+use App\Entity\Platform\CRM\Customer;
 use App\Repository\Platform\ClientRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -59,6 +60,12 @@ class Client
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private $updatedAt;
+
+    #[ORM\OneToOne(
+        mappedBy: 'client',
+        targetEntity: Customer::class
+    )]
+    private ?Customer $customer = null;
 
     public function __construct()
     {
@@ -252,6 +259,17 @@ class Client
     {
         $this->updatedAt = $updatedAt;
 
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): Client
+    {
+        $this->customer = $customer;
         return $this;
     }
 }
