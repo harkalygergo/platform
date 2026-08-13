@@ -4,6 +4,7 @@ namespace App\Enum\Platform;
 
 enum WidgetTypeEnum: string
 {
+    case InfoPopup    = 'infoPopup';
     case HeaderBanner    = 'headerBanner';
     case SidebarWidget1  = 'sidebarWidget1';
     case SidebarWidget2  = 'sidebarWidget2';
@@ -16,6 +17,7 @@ enum WidgetTypeEnum: string
     public function label(): string
     {
         return match($this) {
+            self::InfoPopup      => 'info popup',
             self::HeaderBanner   => 'header banner',
             self::SidebarWidget1 => 'sidebar widget 1',
             self::SidebarWidget2 => 'sidebar widget 2',

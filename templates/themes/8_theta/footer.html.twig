@@ -36,3 +36,32 @@
 </script>
 
 {{ website.footerHTML|raw }}
+
+{% for widget in website.instance.widgets %}
+    {% if widget.templateCode.value == 'infoPopup' and widget.status == 1 and widget.content is not null %}
+        <div class="modal" id="infoPopup">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ widget.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ widget.content|raw }}
+                    </div>
+                    <!---div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div-->
+                </div>
+            </div>
+        </div>
+        <script>
+            window.addEventListener("load", (event) => {
+                const infoPopup = document.getElementById("infoPopup");
+                const modal = new bootstrap.Modal(infoPopup);
+                modal.show();
+            })
+        </script>
+    {% endif %}
+{% endfor %}
