@@ -6,6 +6,7 @@ use App\Controller\Platform\PlatformController;
 use App\Entity\Platform\Block;
 use App\Entity\Platform\CRM\Form;
 use App\Entity\Platform\Ecom\Product;
+use App\Entity\Platform\Event;
 use App\Entity\Platform\Instance;
 use App\Entity\Platform\User;
 use App\Entity\Platform\Website\CmsPage;
@@ -13,6 +14,7 @@ use App\Entity\Platform\Website\Website;
 use App\Entity\Platform\Website\WebsitePost;
 use App\Form\Platform\Website\WebsiteType;
 use App\Repository\Platform\Website\WebsiteRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -43,6 +45,7 @@ class WebsiteController extends PlatformController
             'actions' => [
                 'new',
                 'edit',
+                'duplicate',
                 'delete',
             ],
             'extraActions' => [
@@ -145,6 +148,21 @@ class WebsiteController extends PlatformController
         //} else {
         //    //$this->addFlash('danger', 'A honlap törlése sikertelen.');
         //}
+
+        return $this->redirectToRoute('admin_v1_home_website_index');
+    }
+
+    #[Route('/duplicate/{id}', name: 'admin_v1_home_website_duplicate')]
+    public function duplicate(Request $request, EntityManagerInterface $em, Website $id): Response
+    {
+        $newEntity = clone $id;
+
+        $newEntity->setName($newEntity->getName() . ' (duplicated)');
+
+        $em->persist($newEntity);
+        $em->flush();
+
+        $this->addFlash('success', $id->getName() . ' website duplicated');
 
         return $this->redirectToRoute('admin_v1_home_website_index');
     }
