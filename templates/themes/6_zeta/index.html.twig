@@ -6,4 +6,13 @@
 
     {{ content|raw }}
 
+    <h2 class="text-center fw-bold py-4">Legutóbbi bejegyzések</h2>
+
+    {% for post in posts %}
+        <h3 class="fw-bold">{{ post.title }}</h3>
+        <p>{{ post.leadDescription }}</p>
+        <p><a class="btn btn-sm btn-primary" href="/{{ post.categories.first.slug }}/{{ post.slug }}/">elolvasom &raquo;</a></p>
+        <hr>
+    {% endfor %}
+
 {% endblock %}
