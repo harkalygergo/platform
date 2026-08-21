@@ -4,12 +4,6 @@
     <header class="py-md-4">
         <div class="row align-items-center fw-bold">
             <div class="col-12 col-lg-4 text-center text-lg-start">
-                <a class="btn btn-light fs-6 fw-bold" href="tel:{{ website.phone|replace({'-': ''}) }}">
-                    <i class="bi bi-telephone fw-bold"></i>
-                    {{ website.phone|raw }}
-                </a>
-            </div>
-            <div class="col-12 col-lg-4 text-center">
                 <a class="text-decoration-none" href="/">
                     <!-- add website.logo -->
                     {% if website.logo %}
@@ -19,25 +13,29 @@
                     {% endif %}
                 </a>
             </div>
-            <div class="col-12 col-lg-4 text-center text-lg-end">
-                <a target="_blank" class="btn btn-light fs-6 fw-bold"  href="https://maps.google.com/maps?q={{ website.address }}">
-                <!--a target="_blank" class="btn btn-outline-light fs-5" href="https://www.google.com/maps?cid=9767394032924822955&hl=hu&_ga=2.37890149.71853044.1498734968-803022388.1496652900"-->
-                    <i class="bi bi-geo-alt fw-bold"></i>
-                    {{ website.address|raw }}
-                </a>
+            <div class="col-12 col-lg-8 text-center text-lg-end">
+                {% for widget in website.instance.widgets %}
+                    {% if widget.templateCode.value == 'headerBanner' and widget.status == 1 and widget.content is not null %}
+                        {{ widget.content|raw }}
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </header>
 </div>
 
-<div class="container-fluid bg-primary-color mb-4">
-    <header class="d-flex justify-content-center py-2">
-        <ul class="nav nav-pills">
-            {% for menu in menus %}
-                <li class="nav-item">
-                    <a href="{{ menu.slug }}" class="nav-link text-white fw-bold" aria-current="page" target="{{ menu.target }}">{{ menu.title|raw }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </header>
-</div>
+<nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample10" aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample10">
+            <ul class="navbar-nav">
+                {% for menu in menus %}
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ menu.slug }}">{{ menu.title|raw }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
