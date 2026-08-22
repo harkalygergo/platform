@@ -5,7 +5,9 @@ namespace App\Form\Platform\Website;
 
 use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\Website\CmsPage;
+use App\Entity\Platform\Website\Website;
 use App\Repository\Platform\Media\MediaRepository;
+use App\Repository\Platform\Website\WebsiteRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -75,19 +77,37 @@ class WebsitePageType extends AbstractType
                 'attr' => [
                     'class' => 'form-check-input',
                 ],
-            ]);
+            ])
+            // add multi select for current instance websites
+            ->add('websites', EntityType::class, [
+                'class' => Website::class,
+                'choice_label' => function (Website $website) {
+                    return $website->getName() . ' (' . $website->getDomain() . ')';
+                },
+                'query_builder' => function (WebsiteRepository $repository) use ($options) {
+                    $qb = $repository->createQueryBuilder('w')
+                        ->where('w.instance = :instance')
+                        ->setParameter('instance', $options['currentInstance']);
+                    return $qb->orderBy('w.name', 'ASC');
+                },
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'required' => true,
+                'label' => 'Weboldalak',
+            ])
+        ;
 
             if(array_key_exists('data', $options)) {
-                $currentWebsite = $options['data']->getWebsite();
-
                 $builder
                     ->add('featuredImage', EntityType::class, [
                         'class' => Media::class,
                         'choice_label' => 'originalName', // Adjust to the property you want to display
-                        'query_builder' => function (MediaRepository $er) use ($currentWebsite) {
+                        'query_builder' => function (MediaRepository $er) use ($options) {
                             return $er->createQueryBuilder('m')
                                 ->where('m.instance = :instance')
-                                ->setParameter('instance', $currentWebsite->getInstance());
+                                ->setParameter('instance', $options['currentInstance']);
                         },
                         'required' => false,
                         'placeholder' => ' - select a featured image - ',
@@ -168,6 +188,7 @@ class WebsitePageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CmsPage::class,
+            'currentInstance' => null,
         ]);
     }
 

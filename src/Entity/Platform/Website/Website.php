@@ -161,6 +161,9 @@ class Website
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?CmsPage $termsAndConditions = null;
 
+    #[ORM\ManyToMany(targetEntity: CmsPage::class, mappedBy: 'websites')]
+    private Collection $pages;
+
     public function __construct()
     {
         $this->status = true;
@@ -742,6 +745,17 @@ class Website
     public function setTermsAndConditions(?CmsPage $page): self
     {
         $this->termsAndConditions = $page;
+        return $this;
+    }
+
+    public function getPages(): Collection
+    {
+        return $this->pages;
+    }
+
+    public function setPages(Collection $pages): Website
+    {
+        $this->pages = $pages;
         return $this;
     }
 }

@@ -82,7 +82,9 @@ class CmsPageController extends PlatformController
     #[Route('/new/', name: 'admin_v1_cms_website_page_new')]
     public function new(Request $request): Response
     {
-        $form = $this->createForm(WebsitePageType::class);
+        $form = $this->createForm(WebsitePageType::class, null, [
+            'currentInstance' => $this->currentInstance,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -122,7 +124,9 @@ class CmsPageController extends PlatformController
     #[Route('/edit/{page}', name: 'admin_v1_cms_website_page_edit')]
     public function edit(Request $request, CmsPage $page): Response
     {
-        $form = $this->createForm(WebsitePageType::class, $page);
+        $form = $this->createForm(WebsitePageType::class, $page, [
+            'currentInstance' => $this->currentInstance,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

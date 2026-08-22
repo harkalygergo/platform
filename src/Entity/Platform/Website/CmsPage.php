@@ -6,6 +6,7 @@ use App\Entity\Platform\Instance;
 use App\Entity\Platform\Media\Media;
 use App\Entity\Platform\User;
 use App\Repository\Platform\Website\CmsPageRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,6 +39,10 @@ class CmsPage
     #[ORM\ManyToOne(targetEntity: Website::class)]
     #[ORM\JoinColumn(name: "website_id")]
     private ?Website $website = null;
+
+    #[ORM\ManyToMany(targetEntity: Website::class, inversedBy: 'pages')]
+    #[ORM\JoinTable(name: 'cms_page_website')]
+    private Collection $websites;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -156,6 +161,17 @@ class CmsPage
     {
         $this->website = $website;
 
+        return $this;
+    }
+
+    public function getWebsites(): Collection
+    {
+        return $this->websites;
+    }
+
+    public function setWebsites(Collection $websites): CmsPage
+    {
+        $this->websites = $websites;
         return $this;
     }
 
