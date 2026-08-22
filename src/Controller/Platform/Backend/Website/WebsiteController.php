@@ -292,7 +292,7 @@ class WebsiteController extends PlatformController
 
     private function getPagesToDeploy(Website $website): array
     {
-        return $this->doctrine->getRepository(CmsPage::class)->findBy(['website' => $website, 'status' => true], ['title' => 'ASC']);
+        return $this->doctrine->getRepository(CmsPage::class)->findByWebsite($website);
     }
 
     private function getMenusToDeploy(Website $website): array
@@ -342,6 +342,7 @@ class WebsiteController extends PlatformController
 
         $categories = $this->getCategoriesToDeploy($website);
         $pages = $this->getPagesToDeploy($website);
+
         $menus = $this->getMenusToDeploy($website);
         $events = $this->getEventsToDeploy($website);
         // get recent 10 posts of the website

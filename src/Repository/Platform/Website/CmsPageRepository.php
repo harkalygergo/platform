@@ -3,6 +3,7 @@
 namespace App\Repository\Platform\Website;
 
 use App\Entity\Platform\Website\CmsPage;
+use App\Entity\Platform\Website\Website;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -28,5 +29,21 @@ class CmsPageRepository extends ServiceEntityRepository
             ->setParameter('websiteId', $websiteId)
             ->getQuery()
             ->getResult();
+    }
+
+
+    public function findByWebsite(Website $website, bool $onlyActive = true): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->andWhere(':website MEMBER OF p.websites')
+            ->setParameter('website', $website)
+            ->orderBy('p.title', 'ASC');
+
+        if ($onlyActive) {
+            $qb->andWhere('p.status = :status')
+                ->setParameter('status', true);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }
