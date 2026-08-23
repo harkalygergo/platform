@@ -62,6 +62,7 @@ class CmsPageController extends PlatformController
                 'slug' => 'Slug',
                 'status' => 'Státusz',
                 'homepage' => 'Főoldal',
+                'websites'=> 'Weboldal',
             ],
             'tableBody' => $pages,
             'actions' => [

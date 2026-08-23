@@ -297,7 +297,8 @@ class WebsiteController extends PlatformController
 
     private function getMenusToDeploy(Website $website): array
     {
-        return $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
+        //return $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['website' => $website, 'status' => true], ['position' => 'ASC']);
+        return $this->doctrine->getRepository('App\Entity\Platform\Website\Menu')->findBy(['instance'=>$website->getInstance(), 'status' => true], ['position' => 'ASC']);
     }
 
     private function getEventsToDeploy(Website $website): array
