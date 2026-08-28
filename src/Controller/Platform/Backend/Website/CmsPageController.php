@@ -9,6 +9,7 @@ use App\Entity\Platform\Website\Website AS web;
 use App\Entity\Platform\Website\CmsPage;
 use App\Form\Platform\Website\WebsitePageType;
 use App\Repository\Platform\Website\CmsPageRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,6 +18,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -24,6 +26,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[Route('/{_locale}/admin/v1/website/pages')]
 class CmsPageController extends PlatformController
 {
+    private const string redirectToRoute = 'admin_v1_cms_website_pages';
+
     #[Route('/view/{id}', name: 'admin_v1_cms_website_pages_view')]
     public function view(CmsPage $id): Response
     {
@@ -70,6 +74,7 @@ class CmsPageController extends PlatformController
                 'view',
                 'edit',
                 'delete',
+                'duplicate',
             ],
             'extraActions' => [
                 'deploy' => [
@@ -176,7 +181,18 @@ class CmsPageController extends PlatformController
         ]);
     }
 
+    #[Route('/duplicate/{id:entity}', name: 'admin_v1_cms_page_duplicate', requirements: ['id' => Requirement::POSITIVE_INT], methods: ['GET'])]
+    public function duplicate(CmsPage $entity, EntityManagerInterface $em): Response
+    {
+        $newEntity = clone $entity;
+        $newEntity->setTitle($entity->getTitle().' (copy)');
+        $newEntity->setViewCount(0);
 
+        $em->persist($newEntity);
+        $em->flush();
+
+        return $this->redirectToRoute(self::redirectToRoute);
+    }
 
 
     private string $title = '';
@@ -204,7 +220,7 @@ class CmsPageController extends PlatformController
 
     // create edit form for Website Page
     #[Route('/{website}/pages/edit/{id}', name: 'admin_website_page_edit')]
-    public function editregi(Request $request, CmsPageRepository $repository, Website $website, int $id): Response
+    public function editregi(Request $request, CmsPageRepository $repository, int $id): Response
     {
         $entity = $repository->find($id);
 

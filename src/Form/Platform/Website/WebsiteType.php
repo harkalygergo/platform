@@ -200,6 +200,18 @@ class WebsiteType extends AbstractType
                 },
             ])
 
+            ->add('homepage', EntityType::class, [
+                'class' => CmsPage::class,
+                'choice_label' => 'title',
+                'required' => false,
+                'label' => 'Kezdőlap',
+                'query_builder' => function (CmsPageRepository $er) use ($currentInstance) {
+                    return $er->createQueryBuilder('wm')
+                        ->where('wm.instance = :instance')
+                        ->setParameter('instance', $currentInstance);
+                },
+
+            ])
 
             ->add('FTPHost', TextType::class, [
                 'label' => 'FTP host',

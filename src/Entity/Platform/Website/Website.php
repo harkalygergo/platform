@@ -164,6 +164,10 @@ class Website
     #[ORM\ManyToMany(targetEntity: CmsPage::class, mappedBy: 'websites')]
     private Collection $pages;
 
+    #[ORM\ManyToOne(targetEntity: CmsPage::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?CmsPage $homepage = null;
+
     public function __construct()
     {
         $this->status = true;
@@ -756,6 +760,17 @@ class Website
     public function setPages(Collection $pages): Website
     {
         $this->pages = $pages;
+        return $this;
+    }
+
+    public function getHomepage(): ?CmsPage
+    {
+        return $this->homepage;
+    }
+
+    public function setHomepage(?CmsPage $homepage): Website
+    {
+        $this->homepage = $homepage;
         return $this;
     }
 }
