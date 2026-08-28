@@ -79,7 +79,7 @@ class Customer implements TimestampableInterface
     // add 1:1 Client connection, but not required}
     #[ORM\OneToOne(
         targetEntity: Client::class,
-        inversedBy: 'Customer',
+        inversedBy: 'customer',
         cascade: ['persist']
     )]
     #[ORM\JoinColumn(

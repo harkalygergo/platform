@@ -3,6 +3,7 @@
 namespace App\Entity\Platform;
 
 use App\Entity\Platform\CMS\Widget;
+use App\Entity\Platform\CRM\Customer;
 use App\Entity\Platform\CRM\Testimonial;
 use App\Entity\Platform\Newsletter\Newsletter;
 use App\Entity\Platform\Popup\Popup;
@@ -113,6 +114,9 @@ class Instance
     #[ORM\OneToMany(targetEntity: Testimonial::class, mappedBy: 'instance')]
     private Collection $testimonials;
 
+    #[ORM\OneToMany(targetEntity: Customer::class, mappedBy: 'instance')]
+    private Collection $customers;
+
     public function __construct()
     {
         $this->status = true;
@@ -131,6 +135,7 @@ class Instance
         $this->emailAccounts = new ArrayCollection();
         $this->widgets = new ArrayCollection();
         $this->testimonials = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -555,5 +560,16 @@ class Instance
     public function setTestimonials(Collection $testimonials): void
     {
         $this->testimonials = $testimonials;
+    }
+
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function setCustomers(Collection $customers): Instance
+    {
+        $this->customers = $customers;
+        return $this;
     }
 }
