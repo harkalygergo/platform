@@ -36,6 +36,7 @@ class WebsiteController extends PlatformController
                 'name' => $this->translator->trans('global.name'),
                 'title' => $this->translator->trans('global.title'),
                 'template' => 'Sablon',
+                'homepage' => 'Kezdőlap',
                 'FTPHost' => 'FTP host',
                 'FTPPath' => 'FTP path',
                 'FTPUser' => 'FTP user',
@@ -877,7 +878,7 @@ class WebsiteController extends PlatformController
             if ($page->getSlug() === '') {
                 $slug = $slugger->slug($page->getTitle());
             } else {
-                if ($page->getSlug() === '/' || $page->isHomepage()) {
+                if ($website->getHomepage()->getId()===$page->getId() ||  $page->getSlug() === '/' || $page->isHomepage()) {
                     $slug = 'index';
                 } else {
                     $slug = $page->getSlug();

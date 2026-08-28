@@ -312,4 +312,9 @@ class CmsPage
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getTitle(). '(#'. $this->getId() . ')';
+    }
 }
