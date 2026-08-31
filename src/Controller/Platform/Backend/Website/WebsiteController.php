@@ -315,7 +315,8 @@ class WebsiteController extends PlatformController
     private function getProductsToDeploy(Website $website): array
     {
         // TODO modify to findBy with array website and status
-        return $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findByWebsiteAndStatus($website, true);;
+        //return $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findByWebsiteAndStatus($website, true);;
+        return $this->doctrine->getRepository('App\Entity\Platform\Ecom\Product')->findBy(['instance'=>$website->getInstance(), 'status' => true]);
     }
 
     #[Route('/deploy/{id}', name: 'admin_v1_home_website_deploy')]
