@@ -847,7 +847,7 @@ class WebsiteController extends PlatformController
                 $templateFile = 'page.html.twig';
             }
 
-            if ($page->isHomepage() && file_exists($projectDir.'/templates/themes/'. $websiteTemplate .'/homepage.html.twig')) {
+            if ($page===$website->getHomePage() && file_exists($projectDir.'/templates/themes/'. $websiteTemplate .'/homepage.html.twig')) {
                 $templateFile = 'homepage.html.twig';
             }
 
@@ -1147,7 +1147,7 @@ Crawl-delay: 10
 
         // Helpful flash for deploy UI
         try {
-            $this->addFlash('success', 'Sitemap (sitemap.xml) FTP OK');
+            $this->addFlash('success', '<strong>'.$website->getTitle().'</strong> sitemap (sitemap.xml) FTP OK');
         } catch (\Exception $e) {
             // silence if called from CLI or outside request context
         }
