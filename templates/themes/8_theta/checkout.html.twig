@@ -99,6 +99,9 @@
                         document.getElementById('customerData').style.display='none';
                         if(document.querySelector('input[name=\'options-outlined\']:checked').value==='shipping') {
                                 document.getElementById('shippingData').style.display='block';
+                                document.getElementById('billingZip').setAttribute('required', 'required');
+                                document.getElementById('billingCity').setAttribute('required', 'required');
+                                document.getElementById('billingAddress').setAttribute('required', 'required');
                             }
                         else {
                             document.querySelectorAll('[data-type=\'local_pickup\']')[0].click();
@@ -190,7 +193,7 @@
                     </label>
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-lg btn-dark btn-block" onclick="deleteCookie('cart');">
+                    <button type="submit" class="btn btn-lg btn-dark btn-block">
                         <i class="bi bi-shield-lock"></i> Biztonságos rendelés
                     </button>
                 </div>
