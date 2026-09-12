@@ -48,6 +48,9 @@ class Form
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $fields;
 
+    #[ORM\OneToMany(targetEntity: FormFill::class, mappedBy: 'form')]
+    private Collection $formFills;
+
     #[ORM\Column(type: 'text')]
     private string $apiKey;
 
@@ -194,6 +197,17 @@ class Form
     public function setApiKey(string $apiKey): Form
     {
         $this->apiKey = $apiKey;
+        return $this;
+    }
+
+    public function getFormFills(): Collection
+    {
+        return $this->formFills;
+    }
+
+    public function setFormFills(Collection $formFills): Form
+    {
+        $this->formFills = $formFills;
         return $this;
     }
 

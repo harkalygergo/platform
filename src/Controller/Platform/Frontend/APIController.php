@@ -21,7 +21,6 @@ use App\Repository\OrderRepository;
 use App\Repository\Platform\Webshop\PaymentMethodRepository;
 use App\Service\SaferpayService;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;

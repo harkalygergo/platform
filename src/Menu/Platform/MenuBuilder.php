@@ -140,6 +140,18 @@ class MenuBuilder
                     "title": "Nyomtatható ültetési rend",
                     "route": "",
                     "children": []
+                },
+                "downloadable_wedding_planner": {
+                    "icon": "bi bi-file-earmark-pdf",
+                    "title": "Letölthető esküvőtervező PDF / ebook",
+                    "route": "",
+                    "children": []
+                },
+                "referral_program": {
+                    "icon": "bi bi-gift",
+                    "title": "Ajánlói program",
+                    "route": "",
+                    "children": []
                 }
             }
         }
