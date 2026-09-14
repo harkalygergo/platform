@@ -1,11 +1,9 @@
-name: GitHub Platform PROD workflow
+name: GitHub Platform DEMO workflow
 
 # Controls when the workflow will run
 on:
     push:
-        branches: [ "main" ]
-    #pull_request:
-        #branches: [ "main" ]
+        branches: [ "develop" ]
 
     # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
@@ -19,7 +17,7 @@ jobs:
 
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
-            -   name: GitHub Platform PROD workflow
+            -   name: GitHub Platform DEMO workflow
                 uses: appleboy/ssh-action@master
                 with:
                     #ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -30,7 +28,7 @@ jobs:
                     script: |
                         # Space- or newline-separated list of project paths (set vars.PATHS in repo settings).
                         # Falls back to the single vars.PATH for backwards compatibility.
-                        PATHS="${{ vars.PATH_MAIN }}"
+                        PATHS="${{ vars.PATH_DEVELOP }}"
 
                         for PROJECT_PATH in $PATHS; do
                             printf "\n\n ======================================================== \n"
