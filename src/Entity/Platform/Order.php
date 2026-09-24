@@ -82,7 +82,7 @@ class Order
     #[ORM\Column(length: 32, nullable: true)]
     private ?string $paymentStatus = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type:'text', nullable: true)]
     private ?string $comment = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
