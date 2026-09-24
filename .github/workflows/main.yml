@@ -54,6 +54,7 @@ jobs:
                             chown -R ${{ vars.USER }}:www-data ./.[^.]*
 
                             printf "\n\n *** composer install *** \n\n"
+                            export COMPOSER_ALLOW_SUPERUSER=1;
                             composer install --no-dev --optimize-autoloader --no-interaction
 
                             printf "\n\n *** composer dump-autoload *** \n\n"
