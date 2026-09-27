@@ -5,7 +5,6 @@ namespace App\Controller\Platform\Backend;
 use App\Controller\Platform\PlatformBackendController;
 use App\Email\Tokens\Platform\OrderEmailTokens;
 use App\Entity\Platform\BillingProfile;
-use App\Entity\Platform\Block;
 use App\Entity\Platform\Order;
 use App\Entity\Platform\Order\OrderEmailTemplate;
 use App\Entity\Platform\Service;
@@ -76,7 +75,7 @@ class OrderController extends PlatformBackendController
 
     // set an order to completed status
     #[Route('/complete/{id}', name: 'admin_v1_shop_order_complete_order')]
-    public function completed(Request $request, Order $order): Response
+    public function completed(EmailTemplateRenderer  $renderer, Order $order): Response
     {
         $this->denyAccessUnlessUserHasInstance();
 
@@ -84,6 +83,8 @@ class OrderController extends PlatformBackendController
         $this->doctrine->getManager()->flush();
 
         $this->addFlash('success', $this->translator->trans('order.status.completed') . ': #' . $order->getId());
+
+        $this->sendOrderStatusEmail($order, $order->getStatus(),  $renderer);
 
         return $this->redirectToRoute(self::redirectToRoute);
     }
@@ -272,12 +273,13 @@ class OrderController extends PlatformBackendController
 
         $htmlBody  = $renderer->render($template->getHtmlContent(), $tokens);
         $textBody  = $renderer->render($template->getPlainTextContent(), $tokens);
+        $fromAddress = $this->currentInstance->getName() . ' <' . $this->currentInstance->getEmail() . '>';
 
         $this->sendMail(
             [$order->getEmail()],
             $template->getSubject(),
             $textBody ?? '',
-            null,
+            $fromAddress,
             $htmlBody ?? ''
         );
     }
