@@ -351,6 +351,11 @@ class APIController extends PlatformController
 
             case 'order':
             {
+                if (!isset($parameters['items']) || empty($parameters['items'])) {
+                    $successPageText = 'HIBA! Termékek megadása kötelező!';
+                    break;
+                }
+
                 /**
                  * @var PaymentMethod $paymentMethod
                  */
@@ -418,12 +423,6 @@ class APIController extends PlatformController
                 if ($paymentMethod->getCode() === 'worldline_novopayment_saferpay') {
                     $order->setPaymentToken(uniqid());
                     $order->setStatus(OrderStatusEnum::PROCESSING);
-
-                    //return $this->initSaferpayPaymentMethod($order, $key, $httpClient, $HTTP_ORIGIN);
-                    //dump($HTTP_ORIGIN);
-
-                    //$HTTP_ORIGIN = $request->getSchemeAndHttpHost();
-                    //dd($HTTP_ORIGIN);
 
                     try {
                         $result = $saferpay->initSaferpayPaymentMethod(
