@@ -45,7 +45,7 @@ class FormField implements TimestampableInterface
     #[ORM\Column(length: 255, nullable: true, options: ['default' => null])]
     private ?string $defaultValue = null;
 
-    #[ORM\Column(length: 255, nullable: true, options: ['default' => null])]
+    #[ORM\Column(length: 512, nullable: true, options: ['default' => null])]
     private ?string $placeholder = null;
 
     #[ORM\Column(length: 255, nullable: true, options: ['default' => null])]
