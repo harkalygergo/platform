@@ -149,10 +149,13 @@ class APIController extends PlatformController
             {
                 $form = $this->doctrine->getRepository(Form::class)->find($parameters['formID']);
                 $formFields = $form->getFields();
-                $dateTypesFormFields = [];
+                $dateTypesFormFields = $numberTypesFormFields = [];
                 foreach ($formFields as $formField) {
                     if ($formField->getType() === 'date') {
                         $dateTypesFormFields[] = $formField->getName();
+                    }
+                    if ($formField->getType() === 'number') {
+                        $numberTypesFormFields[] = $formField->getName();
                     }
                 }
 
@@ -180,6 +183,13 @@ class APIController extends PlatformController
                             $parsedDate = date_parse($parameterValue);
                             if (!$parsedDate['year'] || !$parsedDate['month'] || !$parsedDate['day']) {
                                 die("ERROR. Invalid date format: " . $parameterValue);
+                            }
+                        }
+
+                        // validate "number" formField type if valid
+                        if (in_array($parameterKey, $numberTypesFormFields)) {
+                            if (!is_numeric($parameterValue)) {
+                                die("ERROR. Invalid number format: " . $parameterKey .": " . $parameterValue);
                             }
                         }
 
